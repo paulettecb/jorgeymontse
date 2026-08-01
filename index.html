@@ -36,7 +36,9 @@
 <span id="jm-bars" aria-hidden="true" style="display:flex;align-items:flex-end;gap:2px;height:13px"><i style="display:block;width:2px;height:5px;background:#B8935A"></i><i style="display:block;width:2px;height:11px;background:#B8935A"></i><i style="display:block;width:2px;height:7px;background:#B8935A"></i></span>
 <span id="jm-music-label">música</span>
 </button>
-<audio id="jm-audio" loop preload="none" src="assets/musica.mp3"></audio>
+<!-- El archivo del proyecto de diseño se llamaba musica.mp3 pero es
+     MP4/AAC; servido como audio/mpeg el navegador lo rechaza. -->
+<audio id="jm-audio" loop preload="none" src="assets/musica.m4a" type="audio/mp4"></audio>
 
 <nav id="jm-nav" aria-label="Secciones" style="position:fixed;left:0;right:0;top:0;z-index:60;display:flex;align-items:center;justify-content:space-between;gap:24px;padding:20px clamp(20px,5vw,64px);opacity:0;pointer-events:none;transition:opacity .4s ease">
 <a href="#top" aria-label="Inicio" style="display:block;width:32px;height:36px;background:#631B29;transition:background .35s ease;-webkit-mask:url('assets/monogram-mark.png') center/contain no-repeat;mask:url('assets/monogram-mark.png') center/contain no-repeat"></a>
