@@ -51,12 +51,32 @@ moverlos a clases habría hecho el diff contra el original ilegible.
 
 ```
 index.html                 markup + estilos inline (igual que el diseño)
+site.webmanifest           nombre e iconos para "agregar a inicio"
 assets/css/site.css        @font-face, @keyframes, :hover, responsive
 assets/js/site.js          toda la lógica: sobre, scroll, cuenta, galería, música
 assets/fonts/              las tipografías de marca
+assets/icons/              favicons + icono de app
 assets/*.png / *.jpeg      ilustraciones, ornamentos y fotos
 design/                    el .dc.html original, sin modificar
 ```
+
+## Iconos
+
+Se generan desde `assets/monogram-mark.png` y son el lacre del sobre:
+disco dorado con el monograma en tinta vino. El monograma solo es un
+trazo demasiado fino para 16px — se vuelve un manchón — así que el
+sello dorado es el que carga el reconocimiento y el monograma va
+apareciendo conforme crece el tamaño.
+
+- `favicon.ico` + `favicon-16/32/48.png` — fondo transparente, así se ve
+  bien en pestaña clara y en pestaña oscura.
+- `apple-touch-icon.png` (180px) — opaco, porque iOS pinta de negro la
+  transparencia, y con margen para que el recorte en squircle no muerda
+  el lacre. En la pantalla de inicio dice «Jorge & Montse».
+- `icon-192/512.png` — Android, `maskable`, con la zona segura del 80%.
+
+Para regenerarlos si cambia el monograma, el script está en el mensaje
+del commit que los añadió.
 
 ## Configurar
 
