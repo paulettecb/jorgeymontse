@@ -1,0 +1,25 @@
+[build]
+  publish = "."
+  command = ""
+
+[functions]
+  directory = "netlify/functions"
+  node_bundler = "esbuild"
+
+# El panel de invitados nunca debe indexarse. Los datos igual están
+# detrás de contraseña en la función, pero esto evita que la página
+# siquiera aparezca en buscadores.
+[[headers]]
+  for = "/panel"
+  [headers.values]
+    X-Robots-Tag = "noindex, nofollow"
+
+[[headers]]
+  for = "/panel.html"
+  [headers.values]
+    X-Robots-Tag = "noindex, nofollow"
+
+[[redirects]]
+  from = "/panel"
+  to = "/panel.html"
+  status = 200

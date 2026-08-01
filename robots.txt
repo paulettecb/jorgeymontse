@@ -1,0 +1,7 @@
+# Mientras las sedes y horarios sean de relleno, el sitio no debería
+# salir en buscadores. Cuando los datos sean los definitivos, borra
+# este archivo y el <meta name="robots"> de index.html.
+User-agent: *
+Disallow: /panel
+Disallow: /panel.html
+Disallow: /

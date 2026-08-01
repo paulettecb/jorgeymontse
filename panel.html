@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Invitados · Jorge &amp; Montse</title>
+<link rel="icon" href="assets/favicon.ico" sizes="32x32 16x16">
+<style>
+@font-face { font-family:'Lumiare';     src:url('assets/fonts/Lumiare.otf') format('opentype'); font-display:swap }
+@font-face { font-family:'Farmhouse';   src:url('assets/fonts/Farmhouse.otf') format('opentype'); font-display:swap }
+@font-face { font-family:'NoirEtBlanc'; src:url('assets/fonts/noiretblanc.otf') format('opentype'); font-display:swap }
+
+:root{ --hueso:#EEEBE6; --hueso2:#E5DFD7; --vino:#631B29; --vinod:#551724; --oro:#B8935A; --orod:#9C7638 }
+*{ box-sizing:border-box }
+body{ margin:0; background:var(--hueso); color:var(--vino);
+      font-family:'NoirEtBlanc',Georgia,serif; -webkit-font-smoothing:antialiased }
+h1,h2{ font-family:'Lumiare',sans-serif; font-weight:400; letter-spacing:-.015em; margin:0 }
+.eyebrow{ font-family:'Farmhouse',cursive; font-size:24px; color:var(--orod) }
+button{ font:inherit; cursor:pointer }
+.wrap{ max-width:1180px; margin:0 auto; padding:clamp(24px,5vw,56px) clamp(18px,4vw,44px) 80px }
+
+/* ---- puerta ---- */
+#gate{ min-height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center;
+       gap:20px; background:var(--vinod); color:var(--hueso); text-align:center; padding:24px }
+#gate .sello{ width:96px; height:96px; border-radius:50%;
+  background:radial-gradient(circle at 34% 30%,#D6B47E 0%,#B8935A 46%,#8E6D3C 100%);
+  display:flex; align-items:center; justify-content:center; margin-bottom:6px }
+#gate .sello i{ display:block; width:52%; height:58%; background:#4A1420;
+  -webkit-mask:url('assets/monogram-mark.png') center/contain no-repeat;
+  mask:url('assets/monogram-mark.png') center/contain no-repeat }
+#gate input{ width:min(320px,84vw); padding:12px 4px; text-align:center; color:var(--hueso);
+  background:transparent; border:0; border-bottom:1px solid rgba(238,235,230,.35);
+  font-family:'NoirEtBlanc',serif; font-size:19px }
+#gate input:focus{ outline:0; border-bottom-color:#D8BE8E }
+#gate button{ padding:14px 38px 12px; border:0; border-radius:999px; background:var(--hueso);
+  color:var(--vino); font-family:'Farmhouse',cursive; font-size:27px; line-height:1 }
+#gate .err{ color:#E9A9A9; font-size:16px; min-height:1.4em }
+
+/* ---- números ---- */
+.stats{ display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:14px; margin:28px 0 40px }
+.stat{ border:1px solid rgba(99,27,41,.16); padding:20px 22px }
+.stat b{ display:block; font-family:'Lumiare',sans-serif; font-weight:400; font-size:clamp(30px,4vw,44px); line-height:1 }
+.stat span{ display:block; margin-top:8px; text-transform:uppercase; letter-spacing:.18em; font-size:12px; opacity:.65 }
+
+/* ---- barra ---- */
+.bar{ display:flex; flex-wrap:wrap; gap:12px; align-items:center; margin-bottom:20px }
+.bar input[type=search]{ flex:1 1 240px; padding:11px 14px; border:1px solid rgba(99,27,41,.22);
+  background:#fff; color:var(--vino); font-family:'NoirEtBlanc',serif; font-size:16px }
+.bar input:focus{ outline:0; border-color:var(--oro) }
+.btn{ padding:11px 22px 9px; border:1px solid rgba(99,27,41,.35); border-radius:999px;
+  background:transparent; color:var(--vino); font-family:'Farmhouse',cursive; font-size:22px; line-height:1 }
+.btn:hover{ background:var(--vino); color:var(--hueso) }
+.btn.sm{ padding:7px 15px 6px; font-size:18px }
+
+/* ---- tabla ---- */
+table{ width:100%; border-collapse:collapse; font-size:15px }
+th,td{ text-align:left; padding:12px 10px; border-bottom:1px solid rgba(99,27,41,.13); vertical-align:top }
+th{ text-transform:uppercase; letter-spacing:.14em; font-size:11px; opacity:.6; font-weight:400 }
+tr.no td{ opacity:.5 }
+.tag{ display:inline-block; padding:3px 10px 2px; border-radius:999px; font-size:12px;
+  letter-spacing:.08em; text-transform:uppercase }
+.tag.si{ background:rgba(85,98,74,.16); color:#3F4A34 }
+.tag.no{ background:rgba(99,27,41,.10); color:var(--vino) }
+.scroll{ overflow-x:auto }
+
+/* ---- mesas ---- */
+.mesas{ display:grid; grid-template-columns:repeat(auto-fill,minmax(240px,1fr)); gap:16px; margin-top:18px }
+.mesa{ border:1px solid rgba(99,27,41,.18); padding:16px; min-height:130px; background:#fff }
+.mesa.llena{ border-color:rgba(99,27,41,.4) }
+.mesa.destino{ outline:2px dashed var(--oro); outline-offset:3px }
+.mesa h3{ margin:0 0 4px; font-family:'Farmhouse',cursive; font-size:23px; font-weight:400; color:var(--orod) }
+.mesa .cap{ font-size:12px; letter-spacing:.12em; text-transform:uppercase; opacity:.6 }
+.mesa ul{ list-style:none; margin:12px 0 0; padding:0; display:flex; flex-direction:column; gap:6px }
+.chip{ display:flex; justify-content:space-between; gap:8px; align-items:center; padding:7px 10px;
+  border:1px solid rgba(99,27,41,.18); background:var(--hueso); font-size:14px; cursor:pointer;
+  text-align:left; width:100%; color:inherit }
+.chip:hover{ border-color:var(--oro) }
+.chip.sel{ background:var(--vino); color:var(--hueso); border-color:var(--vino) }
+.chip em{ font-style:normal; opacity:.6; font-size:12px }
+.pool{ border:1px dashed rgba(99,27,41,.3); padding:16px; margin-top:18px; background:var(--hueso2) }
+.hint{ font-size:14px; opacity:.7; margin:6px 0 0 }
+.guardado{ font-size:13px; letter-spacing:.1em; text-transform:uppercase; opacity:.6 }
+section.blk{ margin-top:52px }
+[hidden]{ display:none !important }
+</style>
+</head>
+<body>
+
+<div id="gate">
+  <div class="sello"><i></i></div>
+  <div class="eyebrow" style="color:#D8BE8E">panel de invitados</div>
+  <h1 style="font-size:clamp(28px,4vw,42px)">Jorge &amp; Montse</h1>
+  <form id="gate-form" style="display:flex;flex-direction:column;gap:16px;align-items:center;margin-top:10px">
+    <input type="password" id="clave" placeholder="contraseña" autocomplete="current-password" required>
+    <button type="submit">entrar</button>
+  </form>
+  <p class="err" id="gate-err"></p>
+</div>
+
+<div class="wrap" id="app" hidden>
+  <div class="eyebrow">confirmaciones</div>
+  <h1 style="font-size:clamp(30px,4.4vw,52px);margin-top:6px">Quién viene a la boda</h1>
+
+  <div class="stats" id="stats"></div>
+
+  <div class="bar">
+    <input type="search" id="buscar" placeholder="Buscar por nombre, acompañante o canción…">
+    <button class="btn" id="csv">descargar csv</button>
+    <button class="btn" id="recargar">actualizar</button>
+  </div>
+  <div class="scroll"><table id="tabla"><thead><tr>
+    <th>Nombre</th><th>Asiste</th><th>Personas</th><th>Acompañantes</th>
+    <th>Alergias</th><th>Camión</th><th>Teléfono</th><th>Canción</th><th>Fecha</th><th></th>
+  </tr></thead><tbody id="filas"></tbody></table></div>
+
+  <section class="blk" id="alergias-blk" hidden>
+    <div class="eyebrow">para el banquete</div>
+    <h2 style="font-size:clamp(24px,3vw,34px);margin:6px 0 14px">Alergias y restricciones</h2>
+    <ul id="alergias" style="margin:0;padding-left:1.1em;line-height:1.8"></ul>
+  </section>
+
+  <section class="blk">
+    <div class="eyebrow">acomodo</div>
+    <h2 style="font-size:clamp(24px,3vw,34px);margin:6px 0 4px">Mesas</h2>
+    <p class="hint">Toca un invitado para levantarlo y luego toca la mesa donde va. Se guarda solo.</p>
+    <div class="bar" style="margin-top:16px">
+      <button class="btn sm" id="add-mesa">agregar mesa</button>
+      <span class="guardado" id="guardado"></span>
+    </div>
+    <div class="mesas" id="mesas"></div>
+    <div class="pool">
+      <div class="eyebrow" style="font-size:20px">sin mesa</div>
+      <ul id="pool" style="list-style:none;margin:10px 0 0;padding:0;display:flex;flex-wrap:wrap;gap:8px"></ul>
+    </div>
+  </section>
+</div>
+
+<script>
+(function () {
+  'use strict';
+  var CLAVE = null, DATOS = { rsvps: [], mesas: { mesas: [], asignaciones: {} } }, SEL = null, tSave = null;
+  var $ = function (id) { return document.getElementById(id); };
+  var esc = function (s) { return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) {
+    return { '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;' }[c]; }); };
+
+  function api(accion, extra) {
+    return fetch('/api/panel', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(Object.assign({ clave: CLAVE, accion: accion }, extra || {}))
+    }).then(function (r) {
+      return r.json().then(function (j) {
+        if (!r.ok) throw new Error(j.error || ('error ' + r.status));
+        return j;
+      });
+    });
+  }
+
+  /* ---- entrar ---- */
+  $('gate-form').addEventListener('submit', function (e) {
+    e.preventDefault();
+    CLAVE = $('clave').value;
+    $('gate-err').textContent = 'Entrando…';
+    api('listar').then(function (d) {
+      try { sessionStorage.setItem('jm-clave', CLAVE); } catch (_) {}
+      $('gate').hidden = true; $('app').hidden = false;
+      pintar(d);
+    }).catch(function (err) { $('gate-err').textContent = err.message; CLAVE = null; });
+  });
+
+  try {
+    var g = sessionStorage.getItem('jm-clave');
+    if (g) { CLAVE = g; api('listar').then(function (d) {
+      $('gate').hidden = true; $('app').hidden = false; pintar(d);
+    }).catch(function () { CLAVE = null; }); }
+  } catch (_) {}
+
+  /* ---- pintar ---- */
+  function pintar(d) {
+    DATOS = d;
+    if (!DATOS.mesas || !Array.isArray(DATOS.mesas.mesas)) DATOS.mesas = { mesas: [], asignaciones: {} };
+    stats(); filas(); alergias(); mesas();
+  }
+
+  function stats() {
+    var r = DATOS.rsvps, si = r.filter(function (x) { return x.asiste; });
+    var personas = si.reduce(function (a, x) { return a + (x.personas || 1); }, 0);
+    var camion = si.filter(function (x) { return x.transporte; })
+                   .reduce(function (a, x) { return a + (x.personas || 1); }, 0);
+    var s = [['Confirmados', personas, 'personas'], ['Respuestas', r.length, 'envíos'],
+             ['No asisten', r.length - si.length, 'respuestas'], ['Quieren camión', camion, 'personas']];
+    $('stats').innerHTML = s.map(function (x) {
+      return '<div class="stat"><b>' + x[1] + '</b><span>' + x[0] + ' · ' + x[2] + '</span></div>';
+    }).join('');
+  }
+
+  function filtradas() {
+    var q = $('buscar').value.trim().toLowerCase();
+    if (!q) return DATOS.rsvps;
+    return DATOS.rsvps.filter(function (x) {
+      return [x.nombre, x.acompanantes, x.cancion, x.alergias, x.telefono, x.mensaje]
+        .join(' ').toLowerCase().indexOf(q) !== -1;
+    });
+  }
+
+  function filas() {
+    var f = filtradas();
+    $('filas').innerHTML = f.length ? f.map(function (x) {
+      return '<tr class="' + (x.asiste ? '' : 'no') + '">'
+        + '<td><strong>' + esc(x.nombre) + '</strong>' + (x.mensaje ? '<br><em style="opacity:.65;font-size:13px">' + esc(x.mensaje) + '</em>' : '') + '</td>'
+        + '<td><span class="tag ' + (x.asiste ? 'si">sí' : 'no">no') + '</span></td>'
+        + '<td>' + (x.asiste ? (x.personas || 1) : '—') + '</td>'
+        + '<td>' + esc(x.acompanantes) + '</td>'
+        + '<td>' + esc(x.alergias) + '</td>'
+        + '<td>' + (x.transporte ? 'sí' : '') + '</td>'
+        + '<td>' + esc(x.telefono) + '</td>'
+        + '<td>' + esc(x.cancion) + '</td>'
+        + '<td style="white-space:nowrap;opacity:.6;font-size:13px">' + new Date(x.creado).toLocaleDateString('es-MX', { day: '2-digit', month: 'short' }) + '</td>'
+        + '<td><button class="btn sm" data-borrar="' + esc(x.id) + '">borrar</button></td></tr>';
+    }).join('') : '<tr><td colspan="10" style="opacity:.6;padding:30px 10px">Todavía no llega ninguna confirmación.</td></tr>';
+  }
+
+  function alergias() {
+    var con = DATOS.rsvps.filter(function (x) { return x.asiste && x.alergias; });
+    $('alergias-blk').hidden = !con.length;
+    $('alergias').innerHTML = con.map(function (x) {
+      return '<li><strong>' + esc(x.nombre) + '</strong> — ' + esc(x.alergias) + '</li>';
+    }).join('');
+  }
+
+  /* ---- mesas ---- */
+  function ocupacion(id) {
+    return DATOS.rsvps.filter(function (x) { return x.asiste && DATOS.mesas.asignaciones[x.id] === id; })
+                      .reduce(function (a, x) { return a + (x.personas || 1); }, 0);
+  }
+  function chip(x, sel) {
+    return '<button class="chip' + (sel ? ' sel' : '') + '" data-inv="' + esc(x.id) + '">'
+      + '<span>' + esc(x.nombre) + '</span><em>' + (x.personas || 1) + '</em></button>';
+  }
+  function mesas() {
+    var asign = DATOS.mesas.asignaciones;
+    $('mesas').innerHTML = DATOS.mesas.mesas.map(function (m) {
+      var oc = ocupacion(m.id);
+      var gente = DATOS.rsvps.filter(function (x) { return x.asiste && asign[x.id] === m.id; });
+      return '<div class="mesa' + (oc >= m.capacidad ? ' llena' : '') + '" data-mesa="' + esc(m.id) + '">'
+        + '<h3 contenteditable="plaintext-only" data-nombre="' + esc(m.id) + '">' + esc(m.nombre) + '</h3>'
+        + '<div class="cap">' + oc + ' de ' + m.capacidad + ' lugares'
+        + ' · <button class="btn sm" style="border:0;padding:0;font-size:15px;text-decoration:underline" data-quitar="' + esc(m.id) + '">quitar</button></div>'
+        + '<ul>' + gente.map(function (x) { return '<li>' + chip(x, SEL === x.id) + '</li>'; }).join('') + '</ul></div>';
+    }).join('') || '<p class="hint">Aún no hay mesas. Agrega la primera.</p>';
+
+    var libres = DATOS.rsvps.filter(function (x) { return x.asiste && !asign[x.id]; });
+    $('pool').innerHTML = libres.length
+      ? libres.map(function (x) { return '<li>' + chip(x, SEL === x.id) + '</li>'; }).join('')
+      : '<li class="hint">Todos tienen mesa.</li>';
+  }
+
+  function guardarMesas() {
+    clearTimeout(tSave);
+    $('guardado').textContent = 'guardando…';
+    tSave = setTimeout(function () {
+      api('guardarMesas', { mesas: DATOS.mesas })
+        .then(function () { $('guardado').textContent = 'guardado'; })
+        .catch(function (e) { $('guardado').textContent = 'no se guardó: ' + e.message; });
+    }, 500);
+  }
+
+  /* ---- eventos ---- */
+  document.addEventListener('click', function (e) {
+    var t = e.target.closest('button, [data-mesa]');
+    if (!t) return;
+
+    if (t.dataset.borrar) {
+      if (!confirm('¿Borrar esta confirmación? No se puede deshacer.')) return;
+      api('borrar', { id: t.dataset.borrar }).then(function () { return api('listar'); }).then(pintar);
+      return;
+    }
+    if (t.dataset.quitar) {
+      DATOS.mesas.mesas = DATOS.mesas.mesas.filter(function (m) { return m.id !== t.dataset.quitar; });
+      Object.keys(DATOS.mesas.asignaciones).forEach(function (k) {
+        if (DATOS.mesas.asignaciones[k] === t.dataset.quitar) delete DATOS.mesas.asignaciones[k];
+      });
+      mesas(); guardarMesas(); return;
+    }
+    if (t.dataset.inv) {                      // levantar / soltar invitado
+      SEL = (SEL === t.dataset.inv) ? null : t.dataset.inv;
+      mesas(); return;
+    }
+    var destino = t.closest ? t.closest('[data-mesa]') : null;
+    if (destino && SEL) {
+      DATOS.mesas.asignaciones[SEL] = destino.dataset.mesa;
+      SEL = null; mesas(); guardarMesas(); return;
+    }
+  });
+
+  $('pool').addEventListener('click', function (e) {
+    if (e.target.closest('[data-inv]')) return;
+    if (SEL) { delete DATOS.mesas.asignaciones[SEL]; SEL = null; mesas(); guardarMesas(); }
+  });
+
+  document.addEventListener('blur', function (e) {
+    var h = e.target;
+    if (h && h.dataset && h.dataset.nombre) {
+      var m = DATOS.mesas.mesas.find(function (x) { return x.id === h.dataset.nombre; });
+      if (m && m.nombre !== h.textContent.trim()) { m.nombre = h.textContent.trim() || m.nombre; guardarMesas(); }
+    }
+  }, true);
+
+  $('add-mesa').addEventListener('click', function () {
+    var n = DATOS.mesas.mesas.length + 1;
+    var cap = parseInt(prompt('¿Cuántos lugares tiene la mesa ' + n + '?', '10'), 10);
+    if (!Number.isFinite(cap) || cap < 1) return;
+    DATOS.mesas.mesas.push({ id: 'm' + Date.now().toString(36), nombre: 'Mesa ' + n, capacidad: Math.min(cap, 30) });
+    mesas(); guardarMesas();
+  });
+
+  $('buscar').addEventListener('input', filas);
+  $('recargar').addEventListener('click', function () { api('listar').then(pintar); });
+
+  $('csv').addEventListener('click', function () {
+    var cols = ['nombre','asiste','personas','acompanantes','alergias','transporte','telefono','cancion','mensaje','creado'];
+    var q = function (v) { return '"' + String(v == null ? '' : v).replace(/"/g, '""') + '"'; };
+    var csv = '﻿' + cols.join(',') + '\n' + DATOS.rsvps.map(function (r) {
+      return cols.map(function (c) { return q(c === 'asiste' ? (r.asiste ? 'sí' : 'no') : r[c]); }).join(',');
+    }).join('\n');
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(new Blob([csv], { type: 'text/csv;charset=utf-8' }));
+    a.download = 'invitados-jorge-y-montse.csv';
+    a.click(); URL.revokeObjectURL(a.href);
+  });
+})();
+</script>
+</body>
+</html>

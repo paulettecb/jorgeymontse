@@ -578,6 +578,55 @@
     if (t && t.tagName === 'IMG') handleMissing(t);
   }, true);
 
+  /* ---------- formulario de confirmación ----------
+     Sin JS el <form> hace POST normal y Netlify enseña su propia
+     página de gracias; con JS lo mandamos por fetch para no sacar a
+     nadie del sitio y responder ahí mismo. */
+  function setupForm() {
+    var form = $('jm-rsvp-form');
+    if (!form) return;
+    var estado = $('jm-form-estado');
+    var gracias = $('jm-rsvp-gracias');
+    var detalles = form.querySelector('.jm-solo-si');
+
+    // Si contestan que no vienen, lo que sobra se pliega.
+    function syncDetalles() {
+      var no = form.querySelector('input[name="asiste"][value="no"]');
+      if (detalles) detalles.hidden = !!(no && no.checked);
+    }
+    Array.prototype.forEach.call(form.querySelectorAll('input[name="asiste"]'), function (r) {
+      r.addEventListener('change', syncDetalles);
+    });
+    syncDetalles();
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var btn = form.querySelector('button[type="submit"]');
+      if (btn) { btn.disabled = true; btn.style.opacity = '.6'; }
+      if (estado) { estado.style.color = ''; estado.textContent = 'Enviando…'; }
+
+      fetch('/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams(new FormData(form)).toString()
+      }).then(function (r) {
+        if (!r.ok) throw new Error(r.status);
+        form.hidden = true;
+        if (gracias) {
+          gracias.hidden = false;
+          gracias.scrollIntoView({ block: 'center' });
+        }
+      }).catch(function () {
+        if (btn) { btn.disabled = false; btn.style.opacity = ''; }
+        if (estado) {
+          estado.style.color = '#E0A0A0';
+          estado.textContent = 'No se pudo enviar. Revisa tu conexión e inténtalo otra vez, '
+            + 'o mándanos un WhatsApp y nosotros lo apuntamos.';
+        }
+      });
+    });
+  }
+
   /* ---------- arranque ---------- */
   function mount() {
     renderDrift();
@@ -604,6 +653,7 @@
     syncParallax();
     syncMusicUI();
     setupGallery();
+    setupForm();
 
     if (el.env) {
       el.env.addEventListener('click', openIt);

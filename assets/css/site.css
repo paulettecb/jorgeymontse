@@ -85,6 +85,65 @@ img { max-width: 100%; }
    se queda en su color de fondo (vino oscuro), que es intencional. */
 .jm-missing { visibility: hidden; }
 
+/* --- Formulario de confirmación ---
+   Vive sobre el vino de la sección RSVP: campos sin caja, sólo una
+   línea de oro que se enciende al enfocar. --- */
+.jm-form {
+  width: 100%; max-width: 520px; margin-top: clamp(18px,3vw,32px);
+  display: flex; flex-direction: column; gap: 22px; text-align: left;
+}
+.jm-hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+
+.jm-field { display: flex; flex-direction: column; gap: 8px; border: 0; padding: 0; margin: 0; }
+.jm-field > span, .jm-field > legend {
+  font-family: 'Farmhouse', cursive; font-size: 21px; color: #D8BE8E; padding: 0;
+}
+.jm-form input[type="text"], .jm-form input[type="tel"],
+.jm-form input[type="number"], .jm-form textarea {
+  width: 100%; padding: 9px 2px; color: #EEEBE6; background: transparent;
+  border: 0; border-bottom: 1px solid rgba(238,235,230,.28);
+  font-family: 'NoirEtBlanc', serif; font-size: 18px; line-height: 1.5;
+  border-radius: 0; transition: border-color .25s ease;
+}
+.jm-form textarea { resize: vertical; min-height: 3.4em; }
+.jm-form ::placeholder { color: rgba(238,235,230,.38); }
+.jm-form input:focus, .jm-form textarea:focus { outline: 0; border-bottom-color: #D8BE8E; }
+.jm-form input:user-invalid { border-bottom-color: #E0A0A0; }
+.jm-corto { max-width: 9em; }
+
+.jm-radios { display: flex; flex-direction: column; gap: 8px; }
+.jm-radios label, .jm-check {
+  flex-direction: row; align-items: center; gap: 11px; cursor: pointer;
+  font-family: 'NoirEtBlanc', serif; font-size: 18px; color: #EEEBE6;
+}
+.jm-form input[type="radio"], .jm-form input[type="checkbox"] {
+  appearance: none; width: 19px; height: 19px; flex: 0 0 19px; margin: 0;
+  border: 1px solid rgba(216,190,142,.55); background: transparent; cursor: pointer;
+  transition: background .2s ease, border-color .2s ease;
+}
+.jm-form input[type="radio"] { border-radius: 50%; }
+.jm-form input[type="radio"]:checked, .jm-form input[type="checkbox"]:checked {
+  background: #D8BE8E; border-color: #D8BE8E;
+  box-shadow: inset 0 0 0 3px #551724;
+}
+.jm-form input[type="radio"]:focus-visible, .jm-form input[type="checkbox"]:focus-visible {
+  outline: 2px solid #D8BE8E; outline-offset: 3px;
+}
+
+/* El bloque de detalles sólo aplica si sí viene, así que se pliega
+   cuando contestan que no. */
+.jm-solo-si { display: flex; flex-direction: column; gap: 22px; }
+.jm-solo-si[hidden] { display: none; }
+
+.jm-form-estado {
+  margin: 4px 0 0; min-height: 1.4em;
+  font-family: 'NoirEtBlanc', serif; font-size: 16px; color: #E0A0A0;
+}
+.jm-gracias {
+  display: flex; flex-direction: column; align-items: center; gap: 18px;
+  margin-top: clamp(18px,3vw,32px); text-align: center;
+}
+
 /* --- Sin JavaScript: el sobre no puede abrirse. Se deja lacrado como
        portada, se invita a bajar y todo el contenido queda accesible.
        Los !important compiten contra los `style` inline del template. --- */

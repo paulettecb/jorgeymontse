@@ -5,6 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Jorge &amp; Montse · 30 de enero de 2027</title>
 <meta name="description" content="Jorge y Montse se casan el 30 de enero de 2027 en Morelia, Michoacán. Aquí están todos los detalles para acompañarnos.">
+<!-- Fuera de buscadores mientras las sedes y horarios sean de relleno.
+     Cuando los datos sean los definitivos: borra esta línea y robots.txt. -->
+<meta name="robots" content="noindex, nofollow">
 <meta name="theme-color" content="#551724">
 <meta property="og:title" content="Jorge &amp; Montse · 30 de enero de 2027">
 <meta property="og:description" content="Nos casamos en Morelia. Aquí están todos los detalles para celebrar con nosotros.">
@@ -276,7 +279,67 @@
 <div data-reveal="1" data-swash="1" style="font-family:'Farmhouse',cursive;font-size:27px;color:#D8BE8E">confirma tu asistencia</div>
 <h2 data-reveal="1" style="margin:0;font-family:'Lumiare',sans-serif;font-weight:400;font-size:clamp(28px,3.8vw,50px);line-height:1.08;letter-spacing:-.015em;max-width:16ch;text-wrap:pretty">Nos vemos el 30 de enero</h2>
 <p data-reveal="1" style="margin:0;max-width:44ch;font-family:'NoirEtBlanc',serif;font-size:19px;line-height:1.7;opacity:.8;text-wrap:pretty">Te pedimos confirmar antes del 15 de diciembre de 2026 para poder apartar tu lugar.</p>
-<a class="jm-btn-solid" id="jm-rsvp-cta" data-reveal="1" data-swash="1" style="margin-top:8px;cursor:pointer;padding:17px 44px 15px;background:#EEEBE6;color:#631B29;border-radius:999px;font-family:'Farmhouse',cursive;font-size:32px;white-space:nowrap;line-height:1">confirmar asistencia</a>
+<form id="jm-rsvp-form" class="jm-form" name="rsvp" method="POST" data-netlify="true" netlify-honeypot="bot-field" data-reveal="1">
+<input type="hidden" name="form-name" value="rsvp">
+<p class="jm-hp"><label>No llenes esto: <input name="bot-field"></label></p>
+
+<label class="jm-field">
+<span>¿Cómo te llamas?</span>
+<input type="text" name="nombre" required autocomplete="name" placeholder="Tu nombre completo">
+</label>
+
+<fieldset class="jm-field jm-radios">
+<legend>¿Nos acompañas?</legend>
+<label><input type="radio" name="asiste" value="sí" required><span>Ahí estaré</span></label>
+<label><input type="radio" name="asiste" value="no"><span>No podré ir</span></label>
+</fieldset>
+
+<div class="jm-solo-si">
+<label class="jm-field jm-corto">
+<span>¿Cuántos vienen?</span>
+<input type="number" name="personas" min="1" max="10" value="1" inputmode="numeric">
+</label>
+
+<label class="jm-field">
+<span>¿Quiénes te acompañan?</span>
+<input type="text" name="acompanantes" placeholder="Nombres, para los lugares">
+</label>
+
+<label class="jm-field">
+<span>¿Alguna alergia o algo que no comas?</span>
+<input type="text" name="alergias" placeholder="Para avisarle al banquete">
+</label>
+
+<label class="jm-field jm-check">
+<input type="checkbox" name="transporte" value="sí">
+<span>Me interesa el camión del templo a la hacienda</span>
+</label>
+
+<label class="jm-field">
+<span>¿Qué canción no puede faltar?</span>
+<input type="text" name="cancion" placeholder="Para la fiesta">
+</label>
+</div>
+
+<label class="jm-field">
+<span>Teléfono</span>
+<input type="tel" name="telefono" autocomplete="tel" placeholder="Por si hay algún cambio de última hora">
+</label>
+
+<label class="jm-field">
+<span>¿Les quieres decir algo?</span>
+<textarea name="mensaje" rows="3" placeholder="Opcional"></textarea>
+</label>
+
+<button type="submit" class="jm-btn-solid" data-swash="1" style="margin-top:14px;cursor:pointer;padding:17px 44px 15px;background:#EEEBE6;color:#631B29;border:0;border-radius:999px;font-family:'Farmhouse',cursive;font-size:32px;white-space:nowrap;line-height:1">confirmar asistencia</button>
+<p class="jm-form-estado" id="jm-form-estado" role="status" aria-live="polite"></p>
+</form>
+
+<div id="jm-rsvp-gracias" class="jm-gracias" hidden>
+<img src="assets/orn-heart-lt.png" alt="" style="width:clamp(38px,4vw,54px);opacity:.75;filter:brightness(1.9)">
+<div data-swash="1" style="font-family:'Farmhouse',cursive;font-size:clamp(30px,4.4vw,52px);line-height:1.15;color:#D8BE8E">gracias, ya quedó</div>
+<p style="margin:0;max-width:40ch;font-family:'NoirEtBlanc',serif;font-size:19px;line-height:1.7;opacity:.8">Les va a dar mucho gusto. Nos vemos el 30 de enero en Morelia.</p>
+</div>
 </section>
 
 <footer style="background:#EEEBE6;padding:clamp(56px,7vw,90px) clamp(24px,7vw,110px);display:flex;flex-direction:column;align-items:center;gap:18px">
