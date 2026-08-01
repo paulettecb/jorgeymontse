@@ -535,15 +535,43 @@
      el proyecto de diseño (ver assets/README.md), una imagen rota no
      debe verse como error: se oculta y su hueco queda con el color
      de fondo, que ya es parte del diseño. */
+  var itineraryCollapsed = false;
+  function collapseItinerary() {
+    if (itineraryCollapsed) return;
+    itineraryCollapsed = true;
+    Array.prototype.forEach.call(document.querySelectorAll('.jm-itin-ill'), function (s) {
+      s.style.display = 'none';
+    });
+    Array.prototype.forEach.call(document.querySelectorAll('.jm-itin-row'), function (r) {
+      r.style.gridTemplateColumns = 'minmax(84px,132px) 1fr';
+    });
+  }
+
   function handleMissing(img) {
     img.classList.add('jm-missing');
-    var cell = img.closest ? img.closest('[data-gcell]') : null;
+    if (!img.closest) return;
+
+    // Galería: la celda sale del lightbox y del conteo.
+    var cell = img.closest('[data-gcell]');
     if (cell) {
       cell.dataset.unavailable = '1';
       cell.style.cursor = 'default';
       cell.setAttribute('aria-hidden', 'true');
       cell.tabIndex = -1;
+      return;
     }
+
+    // Itinerario: una lista con unas filas ilustradas y otras no se ve
+    // rota, así que si falta una ilustración se colapsa la columna en
+    // todas las filas y la lista queda pareja. Vuelve sola en cuanto
+    // estén los cinco archivos.
+    if (img.closest('.jm-itin-ill')) { collapseItinerary(); return; }
+
+    // Historia / regalos / RSVP: la ilustración se quita del flujo para
+    // que el texto no quede empujado contra una columna vacía.
+    var holder = img.parentElement;
+    if (holder && holder.children.length === 1) holder.style.display = 'none';
+    else img.style.display = 'none';
   }
   document.addEventListener('error', function (e) {
     var t = e.target;
