@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<!-- @template name="Sitio de boda" description="Sobre lacrado que se abre al hacer click, la invitación sale y al hacer scroll se convierte en el sitio completo." -->
+<helmet>
+<script src="./ds-base.js"></script>
+<script src="./image-slot.js"></script>
+<style>@font-face{font-family:'NoirEtBlanc';src:url('../../assets/fonts/noiretblanc.otf')}</style>
+<style>
+body{margin:0;padding:0;background:#551724;-webkit-font-smoothing:antialiased}
+*{box-sizing:border-box}
+a{color:inherit;text-decoration:none}
+::selection{background:#B8935A;color:#3A0F16}
+@keyframes jmBreathe{0%,100%{transform:translate3d(0,0,0)}50%{transform:translate3d(0,-9px,0)}}
+@keyframes jmPulse{0%,100%{opacity:.45}50%{opacity:1}}
+@keyframes jmDrop{0%{transform:translateY(-100%)}100%{transform:translateY(100%)}}
+@keyframes jmFall{0%{transform:translateY(0)}100%{transform:translateY(116vh)}}@keyframes jmSway{0%{transform:translateX(calc(var(--sway) * -1))}100%{transform:translateX(var(--sway))}}@keyframes jmTwinkle{0%{opacity:.15;transform:scale(.7)}100%{opacity:1;transform:scale(1.15)}}@keyframes jmFloatA{0%,100%{transform:translate3d(0,0,0) rotate(0deg)}50%{transform:translate3d(16px,-30px,0) rotate(7deg)}}
+@keyframes jmFloatB{0%,100%{transform:translate3d(0,0,0) rotate(0deg)}50%{transform:translate3d(-20px,-22px,0) rotate(-9deg)}}
+@keyframes jmFloatC{0%,100%{transform:translate3d(0,0,0) rotate(-5deg)}50%{transform:translate3d(12px,24px,0) rotate(6deg)}}
+@keyframes jmBars{0%,100%{height:4px}50%{height:13px}}
+</style>
+</helmet>
+<div ref="{{ rootRef }}" style="position:relative;background:#551724;font-family:'Lumiare',sans-serif">
+
+<div ref="{{ driftRef }}" style="position:fixed;inset:0;z-index:45;pointer-events:none;overflow:hidden">
+<span style="position:absolute;left:32.56%;top:-6%;animation:jmFall 34.4s linear infinite;animation-delay:-14.4s"><span style="display:block;animation:jmSway 4.3s ease-in-out infinite alternate;--sway:10.5px"><span style="display:block;width:3.4px;height:3.4px;border-radius:50%;background:#C39A55;opacity:0.95;box-shadow:0 0 5.3px rgba(212,175,106,.9);animation:jmTwinkle 4.9s ease-in-out infinite alternate;animation-delay:-0.0s"></span></span></span><span style="position:absolute;left:80.90%;top:-6%;animation:jmFall 21.2s linear infinite;animation-delay:-3.5s"><span style="display:block;animation:jmSway 6.2s ease-in-out infinite alternate;--sway:15.7px"><span style="display:block;width:7.8px;height:7.8px;border-radius:50%;background:#C39A55;opacity:0.51;animation:jmTwinkle 4.6s ease-in-out infinite alternate;animation-delay:-0.4s"></span></span></span><span style="position:absolute;left:72.62%;top:-6%;animation:jmFall 17.3s linear infinite;animation-delay:-7.4s"><span style="display:block;animation:jmSway 4.2s ease-in-out infinite alternate;--sway:10.5px"><span style="display:block;width:7.5px;height:7.5px;border-radius:50%;background:#C39A55;opacity:0.73;animation:jmTwinkle 5.2s ease-in-out infinite alternate;animation-delay:-0.8s"></span></span></span><span style="position:absolute;left:89.47%;top:-6%;animation:jmFall 23.0s linear infinite;animation-delay:-16.9s"><span style="display:block;animation:jmSway 8.4s ease-in-out infinite alternate;--sway:12.9px"><span style="display:block;width:5.6px;height:5.6px;border-radius:50%;background:#C39A55;opacity:0.83;box-shadow:0 0 10.6px rgba(212,175,106,.9);animation:jmTwinkle 3.8s ease-in-out infinite alternate;animation-delay:-1.2s"></span></span></span><span style="position:absolute;left:51.84%;top:-6%;animation:jmFall 33.6s linear infinite;animation-delay:-9.9s"><span style="display:block;animation:jmSway 6.0s ease-in-out infinite alternate;--sway:11.8px"><span style="display:block;width:7.1px;height:7.1px;border-radius:50%;background:#C39A55;opacity:0.93;animation:jmTwinkle 4.9s ease-in-out infinite alternate;animation-delay:-1.6s"></span></span></span><span style="position:absolute;left:54.49%;top:-6%;animation:jmFall 13.3s linear infinite;animation-delay:-17.2s"><span style="display:block;animation:jmSway 7.9s ease-in-out infinite alternate;--sway:6.7px"><span style="display:block;width:5.9px;height:5.9px;border-radius:50%;background:#C39A55;opacity:0.55;animation:jmTwinkle 3.3s ease-in-out infinite alternate;animation-delay:-2.0s"></span></span></span><span style="position:absolute;left:38.11%;top:-6%;animation:jmFall 21.1s linear infinite;animation-delay:-5.0s"><span style="display:block;animation:jmSway 4.3s ease-in-out infinite alternate;--sway:10.3px"><span style="display:block;width:6.0px;height:6.0px;border-radius:50%;background:#C39A55;opacity:0.72;box-shadow:0 0 11.5px rgba(212,175,106,.9);animation:jmTwinkle 4.5s ease-in-out infinite alternate;animation-delay:-2.4s"></span></span></span><span style="position:absolute;left:20.58%;top:-6%;animation:jmFall 34.7s linear infinite;animation-delay:-16.1s"><span style="display:block;animation:jmSway 5.8s ease-in-out infinite alternate;--sway:11.5px"><span style="display:block;width:7.4px;height:7.4px;border-radius:50%;background:#C39A55;opacity:0.80;animation:jmTwinkle 4.1s ease-in-out infinite alternate;animation-delay:-2.8s"></span></span></span><span style="position:absolute;left:23.25%;top:-6%;animation:jmFall 18.3s linear infinite;animation-delay:-9.2s"><span style="display:block;animation:jmSway 8.8s ease-in-out infinite alternate;--sway:12.3px"><span style="display:block;width:5.1px;height:5.1px;border-radius:50%;background:#C39A55;opacity:0.91;animation:jmTwinkle 4.7s ease-in-out infinite alternate;animation-delay:-3.2s"></span></span></span><span style="position:absolute;left:2.62%;top:-6%;animation:jmFall 26.3s linear infinite;animation-delay:-16.5s"><span style="display:block;animation:jmSway 6.8s ease-in-out infinite alternate;--sway:13.4px"><span style="display:block;width:7.7px;height:7.7px;border-radius:50%;background:#C39A55;opacity:0.95;box-shadow:0 0 15.6px rgba(212,175,106,.9);animation:jmTwinkle 4.7s ease-in-out infinite alternate;animation-delay:-3.6s"></span></span></span><span style="position:absolute;left:73.71%;top:-6%;animation:jmFall 23.2s linear infinite;animation-delay:-23.7s"><span style="display:block;animation:jmSway 6.0s ease-in-out infinite alternate;--sway:13.3px"><span style="display:block;width:4.3px;height:4.3px;border-radius:50%;background:#C39A55;opacity:0.94;animation:jmTwinkle 3.2s ease-in-out infinite alternate;animation-delay:-4.0s"></span></span></span><span style="position:absolute;left:34.33%;top:-6%;animation:jmFall 18.2s linear infinite;animation-delay:-7.1s"><span style="display:block;animation:jmSway 6.1s ease-in-out infinite alternate;--sway:9.9px"><span style="display:block;width:5.9px;height:5.9px;border-radius:50%;background:#C39A55;opacity:0.94;animation:jmTwinkle 5.2s ease-in-out infinite alternate;animation-delay:-4.4s"></span></span></span><span style="position:absolute;left:42.42%;top:-6%;animation:jmFall 19.0s linear infinite;animation-delay:-28.4s"><span style="display:block;animation:jmSway 8.4s ease-in-out infinite alternate;--sway:11.9px"><span style="display:block;width:5.5px;height:5.5px;border-radius:50%;background:#C39A55;opacity:0.58;box-shadow:0 0 10.3px rgba(212,175,106,.9);animation:jmTwinkle 5.5s ease-in-out infinite alternate;animation-delay:-4.8s"></span></span></span><span style="position:absolute;left:74.90%;top:-6%;animation:jmFall 32.2s linear infinite;animation-delay:-11.2s"><span style="display:block;animation:jmSway 5.7s ease-in-out infinite alternate;--sway:10.1px"><span style="display:block;width:5.0px;height:5.0px;border-radius:50%;background:#C39A55;opacity:0.85;animation:jmTwinkle 3.7s ease-in-out infinite alternate;animation-delay:-5.2s"></span></span></span><span style="position:absolute;left:93.55%;top:-6%;animation:jmFall 13.9s linear infinite;animation-delay:-31.9s"><span style="display:block;animation:jmSway 8.4s ease-in-out infinite alternate;--sway:14.3px"><span style="display:block;width:3.7px;height:3.7px;border-radius:50%;background:#C39A55;opacity:0.54;animation:jmTwinkle 3.4s ease-in-out infinite alternate;animation-delay:-5.6s"></span></span></span><span style="position:absolute;left:45.23%;top:-6%;animation:jmFall 19.0s linear infinite;animation-delay:-14.8s"><span style="display:block;animation:jmSway 7.4s ease-in-out infinite alternate;--sway:12.9px"><span style="display:block;width:8.1px;height:8.1px;border-radius:50%;background:#C39A55;opacity:0.84;box-shadow:0 0 16.6px rgba(212,175,106,.9);animation:jmTwinkle 2.7s ease-in-out infinite alternate;animation-delay:-6.0s"></span></span></span><span style="position:absolute;left:50.53%;top:-6%;animation:jmFall 20.2s linear infinite;animation-delay:-27.2s"><span style="display:block;animation:jmSway 5.7s ease-in-out infinite alternate;--sway:10.3px"><span style="display:block;width:4.8px;height:4.8px;border-radius:50%;background:#C39A55;opacity:0.87;animation:jmTwinkle 4.2s ease-in-out infinite alternate;animation-delay:-6.4s"></span></span></span><span style="position:absolute;left:74.39%;top:-6%;animation:jmFall 16.3s linear infinite;animation-delay:-28.3s"><span style="display:block;animation:jmSway 6.4s ease-in-out infinite alternate;--sway:14.3px"><span style="display:block;width:8.1px;height:8.1px;border-radius:50%;background:#C39A55;opacity:0.80;animation:jmTwinkle 2.3s ease-in-out infinite alternate;animation-delay:-6.8s"></span></span></span><span style="position:absolute;left:74.00%;top:-6%;animation:jmFall 19.0s linear infinite;animation-delay:-0.5s"><span style="display:block;animation:jmSway 6.0s ease-in-out infinite alternate;--sway:14.3px"><span style="display:block;width:5.8px;height:5.8px;border-radius:50%;background:#C39A55;opacity:0.91;box-shadow:0 0 11.0px rgba(212,175,106,.9);animation:jmTwinkle 3.8s ease-in-out infinite alternate;animation-delay:-7.2s"></span></span></span><span style="position:absolute;left:75.63%;top:-6%;animation:jmFall 28.2s linear infinite;animation-delay:-13.7s"><span style="display:block;animation:jmSway 4.1s ease-in-out infinite alternate;--sway:12.2px"><span style="display:block;width:6.1px;height:6.1px;border-radius:50%;background:#C39A55;opacity:0.80;animation:jmTwinkle 3.0s ease-in-out infinite alternate;animation-delay:-7.6s"></span></span></span><span style="position:absolute;left:28.72%;top:-6%;animation:jmFall 29.8s linear infinite;animation-delay:-19.4s"><span style="display:block;animation:jmSway 8.1s ease-in-out infinite alternate;--sway:7.0px"><span style="display:block;width:7.9px;height:7.9px;border-radius:50%;background:#C39A55;opacity:0.59;animation:jmTwinkle 3.9s ease-in-out infinite alternate;animation-delay:-8.0s"></span></span></span><span style="position:absolute;left:32.64%;top:-6%;animation:jmFall 16.3s linear infinite;animation-delay:-1.4s"><span style="display:block;animation:jmSway 6.8s ease-in-out infinite alternate;--sway:15.1px"><span style="display:block;width:7.6px;height:7.6px;border-radius:50%;background:#C39A55;opacity:0.88;box-shadow:0 0 15.4px rgba(212,175,106,.9);animation:jmTwinkle 5.5s ease-in-out infinite alternate;animation-delay:-8.4s"></span></span></span><span style="position:absolute;left:6.99%;top:-6%;animation:jmFall 25.3s linear infinite;animation-delay:-11.9s"><span style="display:block;animation:jmSway 6.9s ease-in-out infinite alternate;--sway:6.0px"><span style="display:block;width:6.4px;height:6.4px;border-radius:50%;background:#C39A55;opacity:0.71;animation:jmTwinkle 3.3s ease-in-out infinite alternate;animation-delay:-8.8s"></span></span></span><span style="position:absolute;left:94.12%;top:-6%;animation:jmFall 27.1s linear infinite;animation-delay:-3.9s"><span style="display:block;animation:jmSway 7.2s ease-in-out infinite alternate;--sway:11.1px"><span style="display:block;width:6.7px;height:6.7px;border-radius:50%;background:#C39A55;opacity:0.61;animation:jmTwinkle 2.6s ease-in-out infinite alternate;animation-delay:-9.2s"></span></span></span><span style="position:absolute;left:42.17%;top:-6%;animation:jmFall 28.7s linear infinite;animation-delay:-29.4s"><span style="display:block;animation:jmSway 7.5s ease-in-out infinite alternate;--sway:13.5px"><span style="display:block;width:4.4px;height:4.4px;border-radius:50%;background:#C39A55;opacity:0.95;box-shadow:0 0 7.7px rgba(212,175,106,.9);animation:jmTwinkle 4.4s ease-in-out infinite alternate;animation-delay:-9.6s"></span></span></span><span style="position:absolute;left:60.41%;top:-6%;animation:jmFall 22.5s linear infinite;animation-delay:-29.0s"><span style="display:block;animation:jmSway 4.9s ease-in-out infinite alternate;--sway:6.8px"><span style="display:block;width:8.1px;height:8.1px;border-radius:50%;background:#C39A55;opacity:0.78;animation:jmTwinkle 4.0s ease-in-out infinite alternate;animation-delay:-10.0s"></span></span></span><span style="position:absolute;left:13.68%;top:-6%;animation:jmFall 21.0s linear infinite;animation-delay:-11.9s"><span style="display:block;animation:jmSway 5.5s ease-in-out infinite alternate;--sway:10.1px"><span style="display:block;width:8.7px;height:8.7px;border-radius:50%;background:#C39A55;opacity:0.81;animation:jmTwinkle 4.1s ease-in-out infinite alternate;animation-delay:-10.4s"></span></span></span><span style="position:absolute;left:42.54%;top:-6%;animation:jmFall 31.6s linear infinite;animation-delay:-20.5s"><span style="display:block;animation:jmSway 4.9s ease-in-out infinite alternate;--sway:13.8px"><span style="display:block;width:5.3px;height:5.3px;border-radius:50%;background:#C39A55;opacity:0.78;box-shadow:0 0 9.8px rgba(212,175,106,.9);animation:jmTwinkle 4.3s ease-in-out infinite alternate;animation-delay:-10.8s"></span></span></span><span style="position:absolute;left:46.75%;top:-6%;animation:jmFall 21.1s linear infinite;animation-delay:-15.2s"><span style="display:block;animation:jmSway 7.8s ease-in-out infinite alternate;--sway:7.3px"><span style="display:block;width:6.2px;height:6.2px;border-radius:50%;background:#C39A55;opacity:0.89;animation:jmTwinkle 5.5s ease-in-out infinite alternate;animation-delay:-11.2s"></span></span></span><span style="position:absolute;left:79.01%;top:-6%;animation:jmFall 26.0s linear infinite;animation-delay:-34.2s"><span style="display:block;animation:jmSway 6.6s ease-in-out infinite alternate;--sway:9.3px"><span style="display:block;width:3.4px;height:3.4px;border-radius:50%;background:#C39A55;opacity:0.76;animation:jmTwinkle 2.9s ease-in-out infinite alternate;animation-delay:-11.6s"></span></span></span><span style="position:absolute;left:30.91%;top:-6%;animation:jmFall 28.3s linear infinite;animation-delay:-34.7s"><span style="display:block;animation:jmSway 4.9s ease-in-out infinite alternate;--sway:9.1px"><span style="display:block;width:4.8px;height:4.8px;border-radius:50%;background:#C39A55;opacity:0.95;box-shadow:0 0 8.6px rgba(212,175,106,.9);animation:jmTwinkle 3.3s ease-in-out infinite alternate;animation-delay:-12.0s"></span></span></span><span style="position:absolute;left:29.49%;top:-6%;animation:jmFall 17.9s linear infinite;animation-delay:-14.7s"><span style="display:block;animation:jmSway 4.2s ease-in-out infinite alternate;--sway:11.9px"><span style="display:block;width:7.0px;height:7.0px;border-radius:50%;background:#C39A55;opacity:0.57;animation:jmTwinkle 5.0s ease-in-out infinite alternate;animation-delay:-12.4s"></span></span></span><span style="position:absolute;left:73.26%;top:-6%;animation:jmFall 21.4s linear infinite;animation-delay:-2.8s"><span style="display:block;animation:jmSway 6.4s ease-in-out infinite alternate;--sway:14.2px"><span style="display:block;width:3.7px;height:3.7px;border-radius:50%;background:#C39A55;opacity:0.82;animation:jmTwinkle 3.2s ease-in-out infinite alternate;animation-delay:-12.8s"></span></span></span><span style="position:absolute;left:35.50%;top:-6%;animation:jmFall 25.2s linear infinite;animation-delay:-5.7s"><span style="display:block;animation:jmSway 7.9s ease-in-out infinite alternate;--sway:9.9px"><span style="display:block;width:6.3px;height:6.3px;border-radius:50%;background:#C39A55;opacity:0.95;box-shadow:0 0 12.2px rgba(212,175,106,.9);animation:jmTwinkle 3.2s ease-in-out infinite alternate;animation-delay:-13.2s"></span></span></span></div>
+
+<button ref="{{ musicRef }}" onClick="{{ toggleMusic }}" style="position:fixed;right:clamp(16px,4vw,40px);bottom:clamp(16px,4vw,34px);z-index:70;display:none;align-items:center;gap:9px;padding:11px 20px 10px;border:1px solid rgba(184,147,90,.5);border-radius:999px;background:rgba(238,235,230,.9);color:#631B29;cursor:pointer;font-family:'Farmhouse',cursive;font-size:19px;backdrop-filter:blur(6px);transition:background .25s ease" style-hover="background:#EEEBE6">
+<span ref="{{ barsRef }}" style="display:flex;align-items:flex-end;gap:2px;height:13px"><i style="display:block;width:2px;height:5px;background:#B8935A"></i><i style="display:block;width:2px;height:11px;background:#B8935A"></i><i style="display:block;width:2px;height:7px;background:#B8935A"></i></span>
+<span ref="{{ musicLabelRef }}">música</span>
+</button>
+<audio ref="{{ audioRef }}" loop preload="none" src="../../assets/musica.mp3"></audio>
+<nav ref="{{ navRef }}" style="position:fixed;left:0;right:0;top:0;z-index:60;display:flex;align-items:center;justify-content:space-between;gap:24px;padding:20px clamp(20px,5vw,64px);opacity:0;pointer-events:none;transition:opacity .4s ease">
+<a href="#top" style="display:block;width:32px;height:36px;background:#631B29;transition:background .35s ease;-webkit-mask:url('../../assets/monogram-mark.png') center/contain no-repeat;mask:url('../../assets/monogram-mark.png') center/contain no-repeat"></a>
+<div style="display:flex;align-items:center;gap:clamp(14px,2.2vw,32px);font-family:'Farmhouse',cursive;font-size:22px;color:#631B29;transition:color .35s ease">
+<a href="#historia" style="opacity:.78;transition:opacity .25s" style-hover="opacity:1">historia</a>
+<a href="#detalles" style="opacity:.78;transition:opacity .25s" style-hover="opacity:1">la boda</a>
+<a href="#itinerario" style="opacity:.78;transition:opacity .25s" style-hover="opacity:1">itinerario</a>
+<a href="#hospedaje" style="opacity:.78;transition:opacity .25s" style-hover="opacity:1">hospedaje</a>
+<a href="#galeria" style="opacity:.78;transition:opacity .25s" style-hover="opacity:1">galería</a>
+<a href="#rsvp" ref="{{ pillRef }}" style="padding:8px 22px 7px;border:1px solid rgba(99,27,41,.35);border-radius:999px;transition:background .25s,color .25s,border-color .35s ease" style-hover="background:#631B29;color:#EEEBE6">confirmar</a>
+</div>
+</nav>
+
+<section id="top" ref="{{ openingRef }}" style="height:100vh;position:relative">
+<div ref="{{ stageRef }}" style="position:sticky;top:0;height:100vh;overflow:hidden;perspective:1500px;background:#551724">
+
+<div style="position:absolute;left:50%;top:44%;width:120vh;height:120vh;transform:translate(-50%,-50%);background:radial-gradient(circle,rgba(184,147,90,.20) 0%,rgba(184,147,90,.06) 42%,rgba(184,147,90,0) 68%);pointer-events:none"></div>
+<div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.28) 0%,rgba(0,0,0,0) 34%,rgba(0,0,0,.34) 100%);pointer-events:none"></div>
+<div ref="{{ stageOrnRef }}" style="position:absolute;inset:0;pointer-events:none;z-index:2">
+</div>
+
+<div ref="{{ envRef }}" onClick="{{ openIt }}" style="position:absolute;left:50%;top:50%;width:420px;height:290px;transform:translate(-50%,-50%);z-index:6;cursor:pointer">
+<div ref="{{ glowRef }}" style="position:absolute;left:-14%;top:-14%;width:128%;height:128%;border-radius:50%;background:radial-gradient(circle,rgba(216,190,142,.42) 0%,rgba(216,190,142,0) 62%);opacity:0;transition:opacity .55s ease;pointer-events:none;z-index:0"></div>
+<div ref="{{ envInnerRef }}" style="position:absolute;left:0;top:0;width:100%;height:100%;perspective:1500px;animation:jmBreathe 6s ease-in-out infinite">
+<div style="position:absolute;left:6%;right:6%;bottom:-6%;height:14%;background:rgba(0,0,0,.5);filter:blur(26px);border-radius:50%;z-index:0"></div>
+<div style="position:absolute;left:0;top:0;right:0;bottom:0;background:linear-gradient(158deg,#EDE9E3 0%,#DED7CC 100%);border-radius:5px;z-index:1;box-shadow:0 30px 60px rgba(0,0,0,.45)"></div>
+<div style="position:absolute;left:0;top:0;width:100%;height:60%;background:linear-gradient(180deg,#B7AC9C 0%,#D6CFC4 60%,#E4DED5 100%);clip-path:polygon(0 0,100% 0,50% 100%);z-index:2"></div>
+<div style="position:absolute;left:0;bottom:0;width:100%;height:66%;background:linear-gradient(172deg,#EFECE7 0%,#E3DCD2 100%);clip-path:polygon(0 0,50% 26%,100% 0,100% 100%,0 100%);z-index:4;box-shadow:0 -1px 0 rgba(99,27,41,.07)"></div>
+<div ref="{{ flapRef }}" style="position:absolute;left:0;top:0;width:100%;height:60%;background:linear-gradient(180deg,#F2EFEA 0%,#E2DBD1 100%);clip-path:polygon(0 0,100% 0,50% 100%);transform-origin:50% 0%;transform:rotateX(0deg);transition:transform .95s cubic-bezier(.62,.02,.2,1);z-index:5;backface-visibility:hidden"></div>
+<div ref="{{ sealRef }}" style="position:absolute;left:50%;top:56%;width:104px;height:104px;margin:-52px 0 0 -52px;border-radius:50%;background:radial-gradient(circle at 34% 30%,#D6B47E 0%,#B8935A 46%,#8E6D3C 100%);box-shadow:0 6px 18px rgba(0,0,0,.4),inset 0 0 0 1px rgba(58,15,22,.22),inset 0 -4px 10px rgba(58,15,22,.25);z-index:7;display:flex;align-items:center;justify-content:center;transition:opacity .5s ease,transform .6s cubic-bezier(.62,.02,.2,1)">
+<div style="width:52%;height:58%;background:#4A1420;-webkit-mask:url('../../assets/monogram-mark.png') center/contain no-repeat;mask:url('../../assets/monogram-mark.png') center/contain no-repeat"></div>
+</div>
+</div>
+</div>
+
+<div ref="{{ heroRef }}" style="position:absolute;left:50%;top:50%;width:300px;height:420px;transform:translate(-50%,-50%) scale(.55);opacity:0;z-index:5;background:#EEEBE6;color:#631B29;border-radius:4px;font-size:14px;overflow:hidden;box-shadow:0 34px 72px rgba(0,0,0,.5);transition:transform 1s cubic-bezier(.22,1,.36,1),opacity .7s ease">
+<div style="position:absolute;left:50%;top:50%;width:78%;height:78%;transform:translate(-50%,-50%);opacity:.055;background:#631B29;-webkit-mask:url('../../assets/monogram-mark.png') center/contain no-repeat;mask:url('../../assets/monogram-mark.png') center/contain no-repeat"></div>
+<div style="position:absolute;left:1.15em;top:1.15em;right:1.15em;bottom:1.15em;border:1px solid rgba(184,147,90,.42)"></div>
+<div style="position:relative;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.05em;padding:2.6em 1.7em;text-align:center">
+<div data-swash="1" style="font-family:'Farmhouse',cursive;font-size:1.6em;color:#9C7638;white-space:nowrap">nos casamos</div>
+<div style="font-family:'Lumiare',sans-serif;font-size:3.4em;line-height:.95;letter-spacing:-.015em">Jorge<div style="font-family:'Blastine',cursive;color:#B8935A;font-size:.55em;line-height:1;margin:.3em 0 .2em">&</div>Montse</div>
+<div style="width:3.4em;height:1px;background:rgba(184,147,90,.75)"></div>
+<div data-swash="1" style="font-family:'Farmhouse',cursive;font-size:1.6em;white-space:nowrap">30 de enero de 2027</div>
+<div data-swash="1" style="font-family:'Farmhouse',cursive;font-size:1.3em;opacity:.6;white-space:nowrap">morelia, michoacán</div>
+</div>
+</div>
+
+<div ref="{{ hintRef }}" onClick="{{ openIt }}" data-swash="1" style="position:absolute;left:50%;bottom:9%;transform:translateX(-50%);z-index:12;cursor:pointer;font-family:'Farmhouse',cursive;font-size:27px;color:#D8BE8E;animation:jmPulse 3.2s ease-in-out infinite;transition:opacity .5s ease;white-space:nowrap">toca el sobre para abrir</div>
+
+<div ref="{{ scrollHintRef }}" style="position:absolute;left:50%;bottom:6.5%;transform:translateX(-50%);z-index:40;opacity:0;transition:opacity .6s ease;display:flex;flex-direction:column;align-items:center;gap:10px;pointer-events:none">
+<div data-swash="1" style="font-family:'Farmhouse',cursive;font-size:23px;color:#B8935A">desliza</div>
+<div style="width:1px;height:52px;background:rgba(184,147,90,.28);overflow:hidden"><div style="width:100%;height:50%;background:#B8935A;animation:jmDrop 2.1s cubic-bezier(.6,0,.4,1) infinite"></div></div>
+</div>
+
+</div>
+</section>
+
+<main style="position:relative;z-index:30;background:#EEEBE6;color:#631B29">
+
+<section id="bienvenidos" style="padding:clamp(90px,12vw,160px) clamp(24px,7vw,110px);display:flex;flex-direction:column;align-items:center;text-align:center;gap:26px">
+<img data-reveal="1" src="../../assets/orn-divider-lt.png" alt="" style="width:clamp(190px,26vw,320px);opacity:.85">
+<div data-reveal="1" data-swash="1" style="font-family:'Farmhouse',cursive;font-size:27px;color:#9C7638">bienvenidos</div>
+<h2 data-reveal="1" style="margin:0;font-family:'Lumiare',sans-serif;font-weight:400;font-size:clamp(30px,4.4vw,58px);line-height:1.08;letter-spacing:-.015em;max-width:17ch;text-wrap:pretty">Después de siete años, lo hacemos oficial</h2>
+<p data-reveal="1" style="margin:0;max-width:48ch;font-family:'NoirEtBlanc',serif;font-size:19px;line-height:1.7;opacity:.75;text-wrap:pretty">Nos encantaría que nos acompañes el día en que empieza nuestra historia como esposos. Aquí encontrarás todos los detalles para celebrar con nosotros.</p>
+<div data-reveal="1" style="width:34px;height:38px;margin-top:10px;background:#B8935A;-webkit-mask:url('../../assets/monogram-mark.png') center/contain no-repeat;mask:url('../../assets/monogram-mark.png') center/contain no-repeat"></div>
+</section>
+
+<section id="cuenta" style="background:#E5DFD7;padding:clamp(70px,9vw,120px) clamp(24px,7vw,110px);display:flex;flex-direction:column;align-items:center;gap:clamp(42px,5.4vw,68px)">
+<div ref="{{ cuentaLiveRef }}" style="display:flex;flex-direction:column;align-items:center;gap:clamp(42px,5.4vw,68px);width:100%">
+<div data-reveal="1" data-swash="1" style="font-family:'Farmhouse',cursive;font-size:27px;color:#9C7638">faltan</div>
+<div data-reveal="1" style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(14px,4vw,64px);width:100%;max-width:800px;text-align:center">
+<div style="display:flex;flex-direction:column;gap:22px"><div style="font-family:'Blastine',cursive;font-size:clamp(30px,4.6vw,60px);line-height:1.55;color:#631B29" ref="{{ ddRef }}">182</div><div style="font-family:'NoirEtBlanc',serif;text-transform:uppercase;letter-spacing:.06em;letter-spacing:.22em;font-size:clamp(13px,1.35vw,18px);color:#631B29">DÍAS</div></div>
+<div style="display:flex;flex-direction:column;gap:22px"><div style="font-family:'Blastine',cursive;font-size:clamp(30px,4.6vw,60px);line-height:1.55;color:#631B29" ref="{{ hhRef }}">00</div><div style="font-family:'NoirEtBlanc',serif;text-transform:uppercase;letter-spacing:.06em;letter-spacing:.22em;font-size:clamp(13px,1.35vw,18px);color:#631B29">HORAS</div></div>
+<div style="display:flex;flex-direction:column;gap:22px"><div style="font-family:'Blastine',cursive;font-size:clamp(30px,4.6vw,60px);line-height:1.55;color:#631B29" ref="{{ mmRef }}">00</div><div style="font-family:'NoirEtBlanc',serif;text-transform:uppercase;letter-spacing:.06em;letter-spacing:.22em;font-size:clamp(13px,1.35vw,18px);color:#631B29">MINUTOS</div></div>
+<div style="display:flex;flex-direction:column;gap:22px"><div style="font-family:'Blastine',cursive;font-size:clamp(30px,4.6vw,60px);line-height:1.55;color:#631B29" ref="{{ ssRef }}">00</div><div style="font-family:'NoirEtBlanc',serif;text-transform:uppercase;letter-spacing:.06em;letter-spacing:.22em;font-size:clamp(13px,1.35vw,18px);color:#631B29">SEGUNDOS</div></div>
+</div>
+</div>
+<div ref="{{ cuentaDoneRef }}" style="display:none;flex-direction:column;align-items:center;gap:clamp(20px,2.6vw,32px);text-align:center">
+<img src="../../assets/orn-heart-lt.png" alt="" style="width:clamp(38px,4vw,54px);opacity:.55">
+<div data-swash="1" style="font-family:'Farmhouse',cursive;font-size:clamp(34px,5vw,62px);line-height:1.15;color:#631B29">gracias por acompañarnos</div>
+<div style="font-family:'NoirEtBlanc',serif;text-transform:uppercase;letter-spacing:.28em;font-size:clamp(14px,1.4vw,19px);color:#631B29">30 · ENERO · 2027</div>
+<div style="font-family:'NoirEtBlanc',serif;font-size:clamp(16px,1.6vw,20px);line-height:1.7;max-width:44ch;opacity:.72;text-wrap:pretty">Fue el mejor día de nuestra vida y ustedes fueron la razón. Las fotos de la boda estarán aquí muy pronto.</div>
+</div>
+</section>
+
+<section data-dark="1" style="position:relative;height:clamp(340px,60vh,620px);overflow:hidden;background:#3A0F16">
+<div data-parallax="1" style="position:absolute;left:0;right:0;top:-9%;height:118%;will-change:transform"><div data-photo="1" style="position:absolute;inset:0;filter:grayscale(1) contrast(1.04)"><image-slot id="jm-sep-1" shape="rect" fit="cover" src="../../assets/foto-playa.jpeg" placeholder="Foto de compromiso"></image-slot></div></div>
+<div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(58,15,22,.45),rgba(58,15,22,.2) 45%,rgba(58,15,22,.58));pointer-events:none"></div>
+<div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none"><div data-swash="1" style="font-family:'Farmhouse',cursive;font-size:clamp(34px,5.4vw,66px);color:#EEEBE6;text-shadow:0 2px 30px rgba(58,15,22,.6)">donde todo empezó</div></div>
+</section>
+
+<section id="historia" style="background:#EEEBE6;padding:clamp(90px,12vw,160px) clamp(24px,7vw,110px)">
+<div data-reveal="1" data-swash="1" style="font-family:'Farmhouse',cursive;font-size:27px;color:#9C7638;margin-bottom:20px">nuestra historia</div>
+<h2 data-reveal="1" style="margin:0 0 clamp(56px,7vw,96px);font-family:'Lumiare',sans-serif;font-weight:400;font-size:clamp(30px,4.4vw,58px);line-height:1.08;letter-spacing:-.015em;max-width:16ch;text-wrap:pretty">Cómo llegamos hasta aquí</h2>
+<div style="display:flex;flex-direction:column;gap:clamp(64px,8vw,120px)"><div data-reveal="1" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:clamp(28px,5vw,80px);align-items:center"><div style="order:1;display:flex;justify-content:center"><img src="../../assets/ill-couple-smile-lt.png" alt="" style="width:clamp(180px,24vw,300px);height:auto;display:block"></div><div style="order:2;display:flex;flex-direction:column;gap:14px"><div data-swash="1" style="font-family:'Farmhouse',cursive;font-size:23px;color:#9C7638">el principio</div><div style="font-family:'NoirEtBlanc',serif;text-transform:uppercase;letter-spacing:.28em;font-size:clamp(13px,1.35vw,18px);color:#631B29">2019</div><h3 style="margin:0;font-family:'Lumiare',sans-serif;font-weight:400;font-size:clamp(26px,3.4vw,44px);line-height:1.12;letter-spacing:-.015em">Nos conocimos</h3><p style="margin:0;font-family:'NoirEtBlanc',serif;font-size:clamp(16px,1.6vw,19px);line-height:1.72;opacity:.7;max-width:42ch;text-wrap:pretty">[Aquí va cómo se conocieron — dónde fue, quién habló primero, ese detalle que siempre cuentan cuando alguien pregunta.]</p></div></div><div data-reveal="1" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:clamp(28px,5vw,80px);align-items:center"><div style="order:2;display:flex;justify-content:center"><img src="../../assets/ill-couple-lift-lt.png" alt="" style="width:clamp(180px,24vw,300px);height:auto;display:block"></div><div style="order:1;display:flex;flex-direction:column;gap:14px"><div data-swash="1" style="font-family:'Farmhouse',cursive;font-size:23px;color:#9C7638">la pregunta</div><div style="font-family:'NoirEtBlanc',serif;text-transform:uppercase;letter-spacing:.28em;font-size:clamp(13px,1.35vw,18px);color:#631B29">2025</div><h3 style="margin:0;font-family:'Lumiare',sans-serif;font-weight:400;font-size:clamp(26px,3.4vw,44px);line-height:1.12;letter-spacing:-.015em">Me dijo que sí</h3><p style="margin:0;font-family:'NoirEtBlanc',serif;font-size:clamp(16px,1.6vw,19px);line-height:1.72;opacity:.7;max-width:42ch;text-wrap:pretty">[Aquí va la propuesta — el lugar, si lloró alguien, si la perrita se metió a la foto. Los detalles chiquitos son los que la gente recuerda.]</p></div></div><div data-reveal="1" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:clamp(28px,5vw,80px);align-items:center"><div style="order:1;display:flex;justify-content:center"><img src="../../assets/ill-couple-dog-lt.png" alt="" style="width:clamp(180px,24vw,300px);height:auto;display:block"></div><div style="order:2;display:flex;flex-direction:column;gap:14px"><div data-swash="1" style="font-family:'Farmhouse',cursive;font-size:23px;color:#9C7638">la familia</div><div style="font-family:'NoirEtBlanc',serif;text-transform:uppercase;letter-spacing:.28em;font-size:clamp(13px,1.35vw,18px);color:#631B29">hoy</div><h3 style="margin:0;font-family:'Lumiare',sans-serif;font-weight:400;font-size:clamp(26px,3.4vw,44px);line-height:1.12;letter-spacing:-.015em">Y ahora somos tres</h3><p style="margin:0;font-family:'NoirEtBlanc',serif;font-size:clamp(16px,1.6vw,19px);line-height:1.72;opacity:.7;max-width:42ch;text-wrap:pretty">[Aquí va Raava y cómo llegó a la casa — o lo que ustedes quieran contar de la vida juntos antes de la boda.]</p></div></div></div>
+</section>
+
+<section id="detalles" style="padding:clamp(90px,12vw,160px) clamp(24px,7vw,110px)">
+<div data-reveal="1" data-swash="1" style="font-family:'Farmhouse',cursive;font-size:27px;color:#9C7638;margin-bottom:20px">los detalles</div>
+<h2 data-reveal="1" style="margin:0 0 clamp(46px,6vw,80px);font-family:'Lumiare',sans-serif;font-weight:400;font-size:clamp(30px,4.4vw,58px);line-height:1.08;letter-spacing:-.015em;max-width:15ch;text-wrap:pretty">Sábado 30 de enero de 2027</h2>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:clamp(22px,3vw,40px)">
+<div data-reveal="1" style="border:1px solid rgba(99,27,41,.16);padding:clamp(28px,3.4vw,48px);display:flex;flex-direction:column;gap:14px">
+<div data-swash="1" style="font-family:'Farmhouse',cursive;font-size:23px;color:#9C7638">ceremonia</div>
+<div style="font-family:'NoirEtBlanc',serif;text-transform:uppercase;letter-spacing:.06em;font-size:clamp(22px,2.2vw,31px);line-height:1.22">Templo de las Rosas</div>
+<div style="font-family:'Blastine',cursive;font-size:clamp(30px,3.4vw,46px);line-height:1.25;color:#9C7638;margin:14px 0 12px">17:00</div>
+<div style="font-family:'NoirEtBlanc',serif;font-size:17px;line-height:1.65;opacity:.7">Av. Santiago Tapia 334<br>Centro Histórico, Morelia</div>
+<a href="https://maps.google.com/?q=Templo+de+las+Rosas+Morelia" target="_blank" rel="noopener" data-swash="1" style="margin-top:10px;align-self:flex-start;padding:13px 30px 11px;border:1px solid rgba(99,27,41,.35);border-radius:999px;font-family:'Farmhouse',cursive;font-size:27px;line-height:1;white-space:nowrap;transition:background .25s,color .25s" style-hover="background:#631B29;color:#EEEBE6">cómo llegar</a>
+</div>
+<div data-reveal="1" style="border:1px solid rgba(99,27,41,.16);padding:clamp(28px,3.4vw,48px);display:flex;flex-direction:column;gap:14px">
+<div data-swash="1" style="font-family:'Farmhouse',cursive;font-size:23px;color:#9C7638">recepción</div>
+<div style="font-family:'NoirEtBlanc',serif;text-transform:uppercase;letter-spacing:.06em;font-size:clamp(22px,2.2vw,31px);line-height:1.22">Hacienda La Huerta</div>
+<div style="font-family:'Blastine',cursive;font-size:clamp(30px,3.4vw,46px);line-height:1.25;color:#9C7638;margin:14px 0 12px">19:00</div>
+<div style="font-family:'NoirEtBlanc',serif;font-size:17px;line-height:1.65;opacity:.7">Carretera Morelia–Charo km 8<br>Jardín y salón</div>
+<a href="https://maps.google.com/?q=Hacienda+La+Huerta+Morelia" target="_blank" rel="noopener" data-swash="1" style="margin-top:10px;align-self:flex-start;padding:13px 30px 11px;border:1px solid rgba(99,27,41,.35);border-radius:999px;font-family:'Farmhouse',cursive;font-size:27px;line-height:1;white-space:nowrap;transition:background .25s,color .25s" style-hover="background:#631B29;color:#EEEBE6">cómo llegar</a>
+</div>
+</div>
+</section>
+
+<section data-dark="1" style="position:relative;height:clamp(340px,60vh,620px);overflow:hidden;background:#3A0F16">
+<div data-parallax="1" style="position:absolute;left:0;right:0;top:-9%;height:118%;will-change:transform"><div data-photo="1" style="position:absolute;inset:0;filter:grayscale(1) contrast(1.04)"><image-slot id="jm-sep-2" shape="rect" fit="cover" src="../../assets/foto-cerro.jpeg" placeholder="Foto de compromiso"></image-slot></div></div>
+<div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(58,15,22,.45),rgba(58,15,22,.2) 45%,rgba(58,15,22,.58));pointer-events:none"></div>
+<div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none"><div data-swash="1" style="font-family:'Farmhouse',cursive;font-size:clamp(34px,5.4vw,66px);color:#EEEBE6;text-shadow:0 2px 30px rgba(58,15,22,.6)">tú y yo, siempre</div></div>
+</section>
+
+<section id="itinerario" data-dark="1" style="background:#551724;color:#EEEBE6;padding:clamp(90px,12vw,160px) clamp(24px,7vw,110px)">
+<div data-reveal="1" data-swash="1" style="font-family:'Farmhouse',cursive;font-size:27px;color:#D8BE8E;margin-bottom:clamp(40px,5vw,68px)">itinerario</div>
+<div style="display:flex;flex-direction:column;max-width:820px">
+<div data-reveal="1" style="display:grid;grid-template-columns:minmax(84px,132px) clamp(78px,9.5vw,136px) 1fr;gap:clamp(16px,3vw,40px);align-items:center;padding:18px 0;border-top:1px solid rgba(238,235,230,.18)"><div style="font-family:'Blastine',cursive;font-size:clamp(24px,2.7vw,36px);color:#D8BE8E;line-height:1.35">17:00</div><div style="display:flex;align-items:center;justify-content:center;height:clamp(78px,9.5vw,132px)"><img src="../../assets/ill-rings-dk.png" alt="" style="max-width:100%;max-height:100%;width:auto;height:auto;display:block"></div><div style="font-family:'NoirEtBlanc',serif;text-transform:uppercase;letter-spacing:.06em;font-size:clamp(18px,1.8vw,25px)">Ceremonia religiosa</div></div>
+<div data-reveal="1" style="display:grid;grid-template-columns:minmax(84px,132px) clamp(78px,9.5vw,136px) 1fr;gap:clamp(16px,3vw,40px);align-items:center;padding:18px 0;border-top:1px solid rgba(238,235,230,.18)"><div style="font-family:'Blastine',cursive;font-size:clamp(24px,2.7vw,36px);color:#D8BE8E;line-height:1.35">19:00</div><div style="display:flex;align-items:center;justify-content:center;height:clamp(78px,9.5vw,132px)"><img src="../../assets/ill-champagne-dk.png" alt="" style="max-width:100%;max-height:96%;width:auto;height:auto;display:block"></div><div style="font-family:'NoirEtBlanc',serif;text-transform:uppercase;letter-spacing:.06em;font-size:clamp(18px,1.8vw,25px)">Cóctel de bienvenida</div></div>
+<div data-reveal="1" style="display:grid;grid-template-columns:minmax(84px,132px) clamp(78px,9.5vw,136px) 1fr;gap:clamp(16px,3vw,40px);align-items:center;padding:18px 0;border-top:1px solid rgba(238,235,230,.18)"><div style="font-family:'Blastine',cursive;font-size:clamp(24px,2.7vw,36px);color:#D8BE8E;line-height:1.35">20:30</div><div style="display:flex;align-items:center;justify-content:center;height:clamp(78px,9.5vw,132px)"><img src="../../assets/ill-kiss-dk.png" alt="" style="max-width:100%;max-height:100%;width:auto;height:auto;display:block"></div><div style="font-family:'NoirEtBlanc',serif;text-transform:uppercase;letter-spacing:.06em;font-size:clamp(18px,1.8vw,25px)">Cena</div></div>
+<div data-reveal="1" style="display:grid;grid-template-columns:minmax(84px,132px) clamp(78px,9.5vw,136px) 1fr;gap:clamp(16px,3vw,40px);align-items:center;padding:18px 0;border-top:1px solid rgba(238,235,230,.18)"><div style="font-family:'Blastine',cursive;font-size:clamp(24px,2.7vw,36px);color:#D8BE8E;line-height:1.35">22:00</div><div style="display:flex;align-items:center;justify-content:center;height:clamp(78px,9.5vw,132px)"><img src="../../assets/ill-dog-sunglasses-dk.png" alt="" style="max-width:100%;max-height:100%;width:auto;height:auto;display:block"></div><div style="font-family:'NoirEtBlanc',serif;text-transform:uppercase;letter-spacing:.06em;font-size:clamp(18px,1.8vw,25px)">Fiesta</div></div>
+<div data-reveal="1" style="display:grid;grid-template-columns:minmax(84px,132px) clamp(78px,9.5vw,136px) 1fr;gap:clamp(16px,3vw,40px);align-items:center;padding:18px 0;border-top:1px solid rgba(238,235,230,.18);border-bottom:1px solid rgba(238,235,230,.18)"><div style="font-family:'Blastine',cursive;font-size:clamp(24px,2.7vw,36px);color:#D8BE8E;line-height:1.35">02:00</div><div style="display:flex;align-items:center;justify-content:center;height:clamp(78px,9.5vw,132px)"><img src="../../assets/ill-dog-dk.png" alt="" style="max-width:100%;max-height:100%;width:auto;height:auto;display:block"></div><div style="font-family:'NoirEtBlanc',serif;text-transform:uppercase;letter-spacing:.06em;font-size:clamp(18px,1.8vw,25px)">Tornaboda</div></div>
+</div>
+</section>
+
+<section id="vestimenta" style="padding:clamp(90px,12vw,160px) clamp(24px,7vw,110px)">
+<div data-reveal="1" data-swash="1" style="font-family:'Farmhouse',cursive;font-size:27px;color:#9C7638;margin-bottom:20px">código de vestimenta</div>
+<h2 data-reveal="1" style="margin:0 0 clamp(40px,5vw,70px);font-family:'Lumiare',sans-serif;font-weight:400;font-size:clamp(30px,4.4vw,58px);line-height:1.08;letter-spacing:-.015em">Etiqueta rigurosa</h2>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:clamp(24px,4vw,64px);border-top:1px solid rgba(99,27,41,.16);padding-top:clamp(28px,4vw,52px)">
+<div data-reveal="1" style="display:flex;flex-direction:column;gap:12px"><div data-swash="1" style="font-family:'Farmhouse',cursive;font-size:23px;color:#9C7638">ellas</div><div style="font-family:'NoirEtBlanc',serif;text-transform:uppercase;letter-spacing:.06em;font-size:clamp(21px,2.1vw,29px);line-height:1.3">Vestido largo</div><div style="font-family:'NoirEtBlanc',serif;font-size:17px;line-height:1.65;opacity:.7">La recepción es en jardín — te sugerimos tacón bajo o de bloque.</div></div>
+<div data-reveal="1" style="display:flex;flex-direction:column;gap:12px"><div data-swash="1" style="font-family:'Farmhouse',cursive;font-size:23px;color:#9C7638">ellos</div><div style="font-family:'NoirEtBlanc',serif;text-transform:uppercase;letter-spacing:.06em;font-size:clamp(21px,2.1vw,29px);line-height:1.3">Esmoquin</div><div style="font-family:'NoirEtBlanc',serif;font-size:17px;line-height:1.65;opacity:.7">Corbata de moño negra. La noche en Morelia enfría, considera un abrigo.</div></div>
+<div data-reveal="1" style="display:flex;flex-direction:column;gap:12px"><div data-swash="1" style="font-family:'Farmhouse',cursive;font-size:23px;color:#9C7638">por favor</div><div style="font-family:'NoirEtBlanc',serif;text-transform:uppercase;letter-spacing:.06em;font-size:clamp(21px,2.1vw,29px);line-height:1.3">Evita el blanco y el vino</div><div style="font-family:'NoirEtBlanc',serif;font-size:17px;line-height:1.65;opacity:.7">Esos dos los reservamos para la novia y para la paleta de la boda.</div></div>
+</div>
+</section>
+
+<section id="hospedaje" style="background:#E5DFD7;padding:clamp(90px,12vw,160px) clamp(24px,7vw,110px)">
+<div data-reveal="1" data-swash="1" style="font-family:'Farmhouse',cursive;font-size:27px;color:#9C7638;margin-bottom:20px">hospedaje y traslados</div>
+<h2 data-reveal="1" style="margin:0 0 clamp(46px,6vw,80px);font-family:'Lumiare',sans-serif;font-weight:400;font-size:clamp(30px,4.4vw,58px);line-height:1.08;letter-spacing:-.015em;max-width:17ch;text-wrap:pretty">Si vienes de fuera, aquí te quedas</h2>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:clamp(22px,3vw,40px);margin-bottom:clamp(40px,5vw,64px)"><div data-reveal="1" style="border:1px solid rgba(99,27,41,.16);padding:clamp(28px,3.4vw,44px);display:flex;flex-direction:column;gap:12px"><div style="font-family:'NoirEtBlanc',serif;text-transform:uppercase;letter-spacing:.06em;font-size:clamp(20px,2vw,28px);line-height:1.25">Hotel [nombre]</div><div style="font-family:'NoirEtBlanc',serif;font-size:17px;line-height:1.65;opacity:.7">[Zona · a X min del templo]</div><div style="font-family:'NoirEtBlanc',serif;font-size:17px;line-height:1.65;color:#631B29">Tarifa especial [$X] con el código <span style="letter-spacing:.16em">JORGEYMONTSE</span></div><a data-swash="1" style="margin-top:12px;align-self:flex-start;padding:13px 30px 11px;border:1px solid rgba(99,27,41,.35);border-radius:999px;font-family:'Farmhouse',cursive;font-size:27px;line-height:1;white-space:nowrap;transition:background .25s,color .25s" style-hover="background:#631B29;color:#EEEBE6">reservar</a></div><div data-reveal="1" style="border:1px solid rgba(99,27,41,.16);padding:clamp(28px,3.4vw,44px);display:flex;flex-direction:column;gap:12px"><div style="font-family:'NoirEtBlanc',serif;text-transform:uppercase;letter-spacing:.06em;font-size:clamp(20px,2vw,28px);line-height:1.25">Hotel [nombre]</div><div style="font-family:'NoirEtBlanc',serif;font-size:17px;line-height:1.65;opacity:.7">[Zona · a X min de la hacienda]</div><div style="font-family:'NoirEtBlanc',serif;font-size:17px;line-height:1.65;color:#631B29">Tarifa especial [$X] con el código <span style="letter-spacing:.16em">JORGEYMONTSE</span></div><a data-swash="1" style="margin-top:12px;align-self:flex-start;padding:13px 30px 11px;border:1px solid rgba(99,27,41,.35);border-radius:999px;font-family:'Farmhouse',cursive;font-size:27px;line-height:1;white-space:nowrap;transition:background .25s,color .25s" style-hover="background:#631B29;color:#EEEBE6">reservar</a></div></div>
+<div data-reveal="1" style="border-top:1px solid rgba(99,27,41,.16);padding-top:clamp(32px,4vw,48px);display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:clamp(24px,3vw,44px)"><div style="display:flex;flex-direction:column;gap:12px"><div data-swash="1" style="font-family:'Farmhouse',cursive;font-size:23px;color:#9C7638">transporte</div><div style="font-family:'NoirEtBlanc',serif;font-size:17px;line-height:1.7;opacity:.7">[¿Habrá camión del templo a la hacienda? ¿A qué hora sale y de dónde? ¿Y de regreso?]</div></div><div style="display:flex;flex-direction:column;gap:12px"><div data-swash="1" style="font-family:'Farmhouse',cursive;font-size:23px;color:#9C7638">estacionamiento</div><div style="font-family:'NoirEtBlanc',serif;font-size:17px;line-height:1.7;opacity:.7">[¿Hay lugar en la hacienda? ¿Valet? ¿Dónde dejar el coche en el centro?]</div></div><div style="display:flex;flex-direction:column;gap:12px"><div data-swash="1" style="font-family:'Farmhouse',cursive;font-size:23px;color:#9C7638">aeropuerto</div><div style="font-family:'NoirEtBlanc',serif;font-size:17px;line-height:1.7;opacity:.7">[Morelia (MLM) está a X min. Vuelos directos desde CDMX, Tijuana y Houston.]</div></div></div>
+</section>
+
+<section data-dark="1" style="position:relative;height:clamp(340px,60vh,620px);overflow:hidden;background:#3A0F16">
+<div data-parallax="1" style="position:absolute;left:0;right:0;top:-9%;height:118%;will-change:transform"><div data-photo="1" style="position:absolute;inset:0;filter:grayscale(1) contrast(1.04)"><image-slot id="jm-sep-3" shape="rect" fit="cover" src="../../assets/foto-desierto.jpeg" placeholder="Foto de compromiso"></image-slot></div></div>
+<div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(58,15,22,.45),rgba(58,15,22,.2) 45%,rgba(58,15,22,.58));pointer-events:none"></div>
+<div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none"><div data-swash="1" style="font-family:'Farmhouse',cursive;font-size:clamp(34px,5.4vw,66px);color:#EEEBE6;text-shadow:0 2px 30px rgba(58,15,22,.6)">contando los días</div></div>
+</section>
+
+<section id="galeria" style="background:#E5DFD7;padding:clamp(90px,12vw,160px) clamp(24px,7vw,110px)">
+<div data-reveal="1" data-swash="1" style="font-family:'Farmhouse',cursive;font-size:27px;color:#9C7638;margin-bottom:clamp(32px,4vw,56px)">galería</div>
+<div ref="{{ gridRef }}" style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(10px,1.4vw,18px)"><div data-reveal="1"><div data-gcell="0" style="position:relative;aspect-ratio:4/5;overflow:hidden;cursor:pointer;background:#3A0F16;transition:transform .7s cubic-bezier(.22,1,.36,1),box-shadow .7s ease"><div data-photo="1" style="position:absolute;inset:0;filter:grayscale(1) contrast(1.04);transition:filter .8s ease"><image-slot id="jm-g1" shape="rect" fit="cover" src="../../assets/foto-noche.jpeg" placeholder="Foto" style="display:block;width:100%;height:100%;transition:transform 1s cubic-bezier(.22,1,.36,1)"></image-slot></div><div data-veil="1" style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(85,23,36,.16),rgba(58,15,22,.34));transition:opacity .8s ease;pointer-events:none"></div><div data-gframe="1" style="position:absolute;inset:14px;border:1px solid rgba(238,235,230,.8);opacity:0;transform:scale(1.05);transition:opacity .6s ease,transform .7s cubic-bezier(.22,1,.36,1);pointer-events:none"></div></div></div><div data-reveal="1"><div data-gcell="1" style="position:relative;aspect-ratio:4/5;overflow:hidden;cursor:pointer;background:#3A0F16;transition:transform .7s cubic-bezier(.22,1,.36,1),box-shadow .7s ease"><div data-photo="1" style="position:absolute;inset:0;filter:grayscale(1) contrast(1.04);transition:filter .8s ease"><image-slot id="jm-g2" shape="rect" fit="cover" src="../../assets/foto-vinedo.jpeg" placeholder="Foto" style="display:block;width:100%;height:100%;transition:transform 1s cubic-bezier(.22,1,.36,1)"></image-slot></div><div data-veil="1" style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(85,23,36,.16),rgba(58,15,22,.34));transition:opacity .8s ease;pointer-events:none"></div><div data-gframe="1" style="position:absolute;inset:14px;border:1px solid rgba(238,235,230,.8);opacity:0;transform:scale(1.05);transition:opacity .6s ease,transform .7s cubic-bezier(.22,1,.36,1);pointer-events:none"></div></div></div><div data-reveal="1"><div data-gcell="2" style="position:relative;aspect-ratio:4/5;overflow:hidden;cursor:pointer;background:#3A0F16;transition:transform .7s cubic-bezier(.22,1,.36,1),box-shadow .7s ease"><div data-photo="1" style="position:absolute;inset:0;filter:grayscale(1) contrast(1.04);transition:filter .8s ease"><image-slot id="jm-g3" shape="rect" fit="cover" src="../../assets/foto-titulacion.jpeg" placeholder="Foto" style="display:block;width:100%;height:100%;transition:transform 1s cubic-bezier(.22,1,.36,1)"></image-slot></div><div data-veil="1" style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(85,23,36,.16),rgba(58,15,22,.34));transition:opacity .8s ease;pointer-events:none"></div><div data-gframe="1" style="position:absolute;inset:14px;border:1px solid rgba(238,235,230,.8);opacity:0;transform:scale(1.05);transition:opacity .6s ease,transform .7s cubic-bezier(.22,1,.36,1);pointer-events:none"></div></div></div><div data-reveal="1"><div data-gcell="3" style="position:relative;aspect-ratio:4/5;overflow:hidden;cursor:pointer;background:#3A0F16;transition:transform .7s cubic-bezier(.22,1,.36,1),box-shadow .7s ease"><div data-photo="1" style="position:absolute;inset:0;filter:grayscale(1) contrast(1.04);transition:filter .8s ease"><image-slot id="jm-g4" shape="rect" fit="cover" src="../../assets/foto-desierto.jpeg" placeholder="Foto" style="display:block;width:100%;height:100%;transition:transform 1s cubic-bezier(.22,1,.36,1)"></image-slot></div><div data-veil="1" style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(85,23,36,.16),rgba(58,15,22,.34));transition:opacity .8s ease;pointer-events:none"></div><div data-gframe="1" style="position:absolute;inset:14px;border:1px solid rgba(238,235,230,.8);opacity:0;transform:scale(1.05);transition:opacity .6s ease,transform .7s cubic-bezier(.22,1,.36,1);pointer-events:none"></div></div></div><div data-reveal="1"><div data-gcell="4" style="position:relative;aspect-ratio:4/5;overflow:hidden;cursor:pointer;background:#3A0F16;transition:transform .7s cubic-bezier(.22,1,.36,1),box-shadow .7s ease"><div data-photo="1" style="position:absolute;inset:0;filter:grayscale(1) contrast(1.04);transition:filter .8s ease"><image-slot id="jm-g5" shape="rect" fit="cover" src="../../assets/foto-playa.jpeg" placeholder="Foto" style="display:block;width:100%;height:100%;transition:transform 1s cubic-bezier(.22,1,.36,1)"></image-slot></div><div data-veil="1" style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(85,23,36,.16),rgba(58,15,22,.34));transition:opacity .8s ease;pointer-events:none"></div><div data-gframe="1" style="position:absolute;inset:14px;border:1px solid rgba(238,235,230,.8);opacity:0;transform:scale(1.05);transition:opacity .6s ease,transform .7s cubic-bezier(.22,1,.36,1);pointer-events:none"></div></div></div><div data-reveal="1"><div data-gcell="5" style="position:relative;aspect-ratio:4/5;overflow:hidden;cursor:pointer;background:#3A0F16;transition:transform .7s cubic-bezier(.22,1,.36,1),box-shadow .7s ease"><div data-photo="1" style="position:absolute;inset:0;filter:grayscale(1) contrast(1.04);transition:filter .8s ease"><image-slot id="jm-g6" shape="rect" fit="cover" src="../../assets/foto-cerro.jpeg" placeholder="Foto" style="display:block;width:100%;height:100%;transition:transform 1s cubic-bezier(.22,1,.36,1)"></image-slot></div><div data-veil="1" style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(85,23,36,.16),rgba(58,15,22,.34));transition:opacity .8s ease;pointer-events:none"></div><div data-gframe="1" style="position:absolute;inset:14px;border:1px solid rgba(238,235,230,.8);opacity:0;transform:scale(1.05);transition:opacity .6s ease,transform .7s cubic-bezier(.22,1,.36,1);pointer-events:none"></div></div></div></div>
+</section>
+
+<section id="regalos" style="padding:clamp(90px,12vw,160px) clamp(24px,7vw,110px);display:flex;flex-direction:column;align-items:center;text-align:center;gap:24px">
+<img data-reveal="1" src="../../assets/ill-couple-dog-lt.png" alt="" style="width:clamp(170px,20vw,240px);height:auto;display:block;margin-bottom:6px">
+<div data-reveal="1" data-swash="1" style="font-family:'Farmhouse',cursive;font-size:27px;color:#9C7638">mesa de regalos</div>
+<h2 data-reveal="1" style="margin:0;font-family:'Lumiare',sans-serif;font-weight:400;font-size:clamp(28px,3.8vw,50px);line-height:1.08;letter-spacing:-.015em;max-width:18ch;text-wrap:pretty">Tu presencia es el regalo</h2>
+<p data-reveal="1" style="margin:0;max-width:46ch;font-family:'NoirEtBlanc',serif;font-size:19px;line-height:1.7;opacity:.75;text-wrap:pretty">Si además quieres consentirnos, aquí te dejamos algunas opciones.</p>
+<div data-reveal="1" style="display:flex;flex-wrap:wrap;justify-content:center;gap:14px;margin-top:8px">
+<a style="cursor:pointer;padding:14px 32px 12px;border:1px solid rgba(99,27,41,.35);border-radius:999px;font-family:'Farmhouse',cursive;font-size:27px;line-height:1;white-space:nowrap;transition:background .25s,color .25s" data-swash="1" style-hover="background:#631B29;color:#EEEBE6">liverpool</a>
+<a style="cursor:pointer;padding:14px 32px 12px;border:1px solid rgba(99,27,41,.35);border-radius:999px;font-family:'Farmhouse',cursive;font-size:27px;line-height:1;white-space:nowrap;transition:background .25s,color .25s" data-swash="1" style-hover="background:#631B29;color:#EEEBE6">amazon</a>
+<a data-swash="1" style="cursor:pointer;padding:14px 32px 12px;border:1px solid rgba(99,27,41,.35);border-radius:999px;font-family:'Farmhouse',cursive;font-size:27px;line-height:1;white-space:nowrap;transition:background .25s,color .25s" style-hover="background:#631B29;color:#EEEBE6">lluvia de sobres</a>
+</div>
+</section>
+
+<section id="rsvp" data-dark="1" style="background:#551724;color:#EEEBE6;padding:clamp(90px,12vw,160px) clamp(24px,7vw,110px);display:flex;flex-direction:column;align-items:center;text-align:center;gap:24px">
+<img data-reveal="1" src="../../assets/ill-couple-smile-dk.png" alt="Jorge y Montse" style="width:clamp(190px,24vw,300px);height:auto;display:block;margin-bottom:2px">
+<div data-reveal="1" data-swash="1" style="font-family:'Farmhouse',cursive;font-size:27px;color:#D8BE8E">confirma tu asistencia</div>
+<h2 data-reveal="1" style="margin:0;font-family:'Lumiare',sans-serif;font-weight:400;font-size:clamp(28px,3.8vw,50px);line-height:1.08;letter-spacing:-.015em;max-width:16ch;text-wrap:pretty">Nos vemos el 30 de enero</h2>
+<p data-reveal="1" style="margin:0;max-width:44ch;font-family:'NoirEtBlanc',serif;font-size:19px;line-height:1.7;opacity:.8;text-wrap:pretty">Te pedimos confirmar antes del 15 de diciembre de 2026 para poder apartar tu lugar.</p>
+<a data-reveal="1" style="margin-top:8px;cursor:pointer;padding:17px 44px 15px;background:#EEEBE6;color:#631B29;border-radius:999px;font-family:'Farmhouse',cursive;font-size:32px;white-space:nowrap;line-height:1;transition:background .3s ease,transform .3s ease" data-swash="1" style-hover="background:#D8BE8E;transform:translateY(-2px)">confirmar asistencia</a>
+</section>
+
+<footer style="background:#EEEBE6;padding:clamp(56px,7vw,90px) clamp(24px,7vw,110px);display:flex;flex-direction:column;align-items:center;gap:18px">
+<img src="../../assets/orn-divider-lt.png" alt="" style="width:clamp(190px,26vw,320px);opacity:.85;margin-bottom:10px">
+<div style="width:66px;height:74px;background:#631B29;opacity:1;-webkit-mask:url('../../assets/monogram-mark.png') center/contain no-repeat;mask:url('../../assets/monogram-mark.png') center/contain no-repeat"></div>
+<div data-swash="1" style="font-family:'Farmhouse',cursive;font-size:36px;color:#631B29;opacity:.8;white-space:nowrap">jorge y montse</div>
+<div style="font-family:'NoirEtBlanc',serif;text-transform:uppercase;font-size:16px;letter-spacing:.28em;white-space:nowrap;color:#631B29;opacity:.42">MORELIA · 2027</div>
+</footer>
+
+</main>
+
+<div ref="{{ lbRef }}" onClick="{{ closeLB }}" style="position:fixed;inset:0;z-index:90;display:none;align-items:center;justify-content:center;background:rgba(42,16,22,.94);opacity:0;transition:opacity .45s ease;cursor:zoom-out;backdrop-filter:blur(3px)">
+<img ref="{{ lbImgRef }}" onClick="{{ stopClick }}" alt="" style="max-width:86vw;max-height:82vh;object-fit:contain;cursor:default;box-shadow:0 40px 90px rgba(0,0,0,.55);transform:scale(.94);opacity:0;transition:transform .6s cubic-bezier(.22,1,.36,1),opacity .5s ease">
+<button onClick="{{ closeLB }}" aria-label="cerrar" style="position:absolute;right:clamp(12px,3vw,34px);top:clamp(12px,3vw,30px);width:48px;height:48px;border:1px solid rgba(238,235,230,.3);border-radius:50%;background:transparent;color:#EEEBE6;cursor:pointer;font-family:'NoirEtBlanc',serif;font-size:24px;line-height:1;transition:background .25s,border-color .25s" style-hover="background:rgba(238,235,230,.12);border-color:rgba(238,235,230,.6)">×</button>
+<button onClick="{{ prevLB }}" aria-label="anterior" style="position:absolute;left:clamp(10px,3vw,40px);top:50%;transform:translateY(-50%);width:52px;height:52px;border:1px solid rgba(238,235,230,.3);border-radius:50%;background:transparent;color:#EEEBE6;cursor:pointer;font-family:'NoirEtBlanc',serif;font-size:26px;line-height:1;transition:background .25s,border-color .25s" style-hover="background:rgba(238,235,230,.12);border-color:rgba(238,235,230,.6)">‹</button>
+<button onClick="{{ nextLB }}" aria-label="siguiente" style="position:absolute;right:clamp(10px,3vw,40px);top:50%;transform:translateY(-50%);width:52px;height:52px;border:1px solid rgba(238,235,230,.3);border-radius:50%;background:transparent;color:#EEEBE6;cursor:pointer;font-family:'NoirEtBlanc',serif;font-size:26px;line-height:1;transition:background .25s,border-color .25s" style-hover="background:rgba(238,235,230,.12);border-color:rgba(238,235,230,.6)">›</button>
+<div ref="{{ lbCountRef }}" style="position:absolute;left:0;right:0;bottom:clamp(18px,4vh,42px);text-align:center;font-family:'NoirEtBlanc',serif;text-transform:uppercase;letter-spacing:.3em;font-size:13px;color:rgba(238,235,230,.65);pointer-events:none">1 / 6</div>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;sealColor&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;dorado&quot;,&quot;vino&quot;,&quot;verde&quot;],&quot;default&quot;:&quot;dorado&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Sobre&quot;},&quot;openOnLoad&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Sobre&quot;},&quot;backdrop&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;vino&quot;,&quot;tinta&quot;,&quot;verde&quot;],&quot;default&quot;:&quot;vino&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Escena&quot;},&quot;floatingDetails&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Escena&quot;},&quot;photoTone&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;blanco y negro&quot;,&quot;sepia&quot;,&quot;color&quot;],&quot;default&quot;:&quot;blanco y negro&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Fotos&quot;},&quot;musicSrc&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Música&quot;}}">
+class Component extends DCLogic {
+  constructor(p){
+    super(p);
+    this.REFS=['rootRef','stageRef','openingRef','envRef','envInnerRef','flapRef','sealRef','heroRef','navRef','hintRef','scrollHintRef','pillRef','driftRef','stageOrnRef','ddRef','hhRef','mmRef','ssRef','glowRef','musicRef','barsRef','musicLabelRef','audioRef','gridRef','lbRef','lbImgRef','lbCountRef','cuentaLiveRef','cuentaDoneRef'];
+    this.closeLB=this.closeLB.bind(this); this.prevLB=this.prevLB.bind(this); this.nextLB=this.nextLB.bind(this); this.onKey=this.onKey.bind(this);
+    this.lbIndex=0; this.lbOpen=false;
+    this.galSrcs=['foto-noche','foto-vinedo','foto-titulacion','foto-desierto','foto-playa','foto-cerro'].map(s=>'../../assets/'+s+'.jpeg');
+    this.toggleMusic=this.toggleMusic.bind(this);
+    this.REFS.forEach(k=>{ this[k]=React.createRef(); });
+    this.opened=false; this.live=false; this.p=0;
+    this.onScroll=this.onScroll.bind(this);
+    this.onResize=this.onResize.bind(this);
+    this.openIt=this.openIt.bind(this);
+  }
+
+  backdrops(){ return {vino:'#551724', tinta:'#2A1016', verde:'#2F3A28'}; }
+  seals(){ return {
+    dorado:'radial-gradient(circle at 34% 30%,#D6B47E 0%,#B8935A 46%,#8E6D3C 100%)',
+    vino:'radial-gradient(circle at 34% 30%,#8A3243 0%,#631B29 46%,#3A0F16 100%)',
+    verde:'radial-gradient(circle at 34% 30%,#77855F 0%,#55624A 46%,#333C2C 100%)'
+  }; }
+  sealInk(){ return {dorado:'#4A1420', vino:'#EEEBE6', verde:'#EEEBE6'}; }
+  photoFilters(){ return {'blanco y negro':'grayscale(1) contrast(1.04)', 'sepia':'sepia(.55) contrast(1.03) saturate(.85)', 'color':'none'}; }
+
+  measure(){
+    const W=window.innerWidth, H=window.innerHeight;
+    const portrait = W/H < 1.25;
+    const u = portrait ? Math.min(H/118, W/62) : Math.min(H/100, W/172);
+    const cardW = 40*u, cardH = cardW*1.4;
+    const envW = 52*u, envH = envW/1.45;
+    const L = {W,H,u,portrait,cardW,cardH,envW,envH};
+    if (portrait){ L.cardX = 6.5*u; L.cardY = 15*u; L.envX = -6*u; L.envY = -19*u; }
+    else { L.cardX = 30*u; L.cardY = 0; L.envX = -30*u; L.envY = 0; }
+    L.fsRest = cardW/21;
+    L.fsFull = Math.max(L.fsRest*1.85, Math.min(W, H*1.7)/38);
+    L.openH = H*2.6;
+    return L;
+  }
+
+  applyStatic(){
+    const L=this.L, env=this.envRef.current, hero=this.heroRef.current, seal=this.sealRef.current;
+    if(!env||!hero) return;
+    env.style.width=L.envW+'px'; env.style.height=L.envH+'px';
+    const sd = Math.round(L.envW*0.25);
+    seal.style.width=sd+'px'; seal.style.height=sd+'px'; seal.style.margin=(-sd/2)+'px 0 0 '+(-sd/2)+'px';
+    hero.style.width=L.cardW+'px'; hero.style.height=L.cardH+'px'; hero.style.fontSize=L.fsRest+'px';
+    const b=this.backdrops()[this.props.backdrop]||this.backdrops().vino;
+    if(this.stageRef.current) this.stageRef.current.style.background=b;
+    if(this.rootRef.current) this.rootRef.current.style.background=b;
+    document.body.style.background=b;
+    seal.style.background=this.seals()[this.props.sealColor]||this.seals().dorado;
+    const ink=seal.firstElementChild;
+    if(ink) ink.style.background=this.sealInk()[this.props.sealColor]||'#4A1420';
+    const pf=this.photoFilters()[this.props.photoTone]||this.photoFilters()['blanco y negro'];
+    document.querySelectorAll('[data-photo]').forEach(el=>{ el.style.filter=pf; });
+    if(this.driftRef.current) this.driftRef.current.style.display = this.props.floatingDetails===false ? 'none' : '';
+    if(this.stageOrnRef.current) this.stageOrnRef.current.style.display = this.props.floatingDetails===false ? 'none' : '';
+  }
+
+  applySwash(){
+    document.querySelectorAll('[data-swash]').forEach(el=>{
+      if(el.dataset.swashDone==='1') return;
+      const txt=el.textContent;
+      if(!txt) return;
+      const chars=Array.from(txt);
+      const isL=c=>/[a-záéíóúñü]/i.test(c);
+      const first=0, last=chars.length-1;
+      if(last<2||!isL(chars[first])||!isL(chars[last])) { el.dataset.swashDone='1'; return; }
+      const mk=(s,feat)=>{ const sp=document.createElement('span'); sp.textContent=s; sp.style.fontFeatureSettings="'aalt' "+feat; return sp; };
+      el.textContent='';
+      el.appendChild(mk(chars[first],1));
+      el.appendChild(document.createTextNode(chars.slice(1,last).join('')));
+      el.appendChild(mk(chars[last],2));
+      el.dataset.swashDone='1';
+    });
+  }
+
+  setNavInk(dark){
+    if(this.navDark===dark) return;
+    this.navDark=dark;
+    const nav=this.navRef.current; if(!nav) return;
+    const ink = dark ? '#EEEBE6' : '#631B29';
+    const mark = nav.querySelector('a[href="#top"]');
+    if(mark) mark.style.background=ink;
+    const links = nav.querySelector('div');
+    if(links) links.style.color=ink;
+    if(this.pillRef.current) this.pillRef.current.style.borderColor = dark ? 'rgba(238,235,230,.42)' : 'rgba(99,27,41,.35)';
+  }
+
+  watchDarkBands(){
+    this.darkBands = [].slice.call(document.querySelectorAll('[data-dark]'));
+    this.syncNavInk();
+  }
+
+  syncNavInk(){
+    if(!this.darkBands) return;
+    let dark=false;
+    for(const el of this.darkBands){ const r=el.getBoundingClientRect(); if(r.top<74 && r.bottom>8){ dark=true; break; } }
+    this.setNavInk(dark);
+  }
+
+  setupReveal(){
+    const els=[].slice.call(document.querySelectorAll('[data-reveal]'));
+    els.forEach(el=>{
+      if(el.dataset.revealInit==='1') return;
+      el.dataset.revealInit='1';
+      el.style.opacity='0';
+      el.style.transform='translateY(26px)';
+      el.style.transition='opacity .95s cubic-bezier(.22,1,.36,1),transform .95s cubic-bezier(.22,1,.36,1)';
+    });
+    this.pending=els.filter(el=>el.dataset.revealDone!=='1');
+    this.syncReveal(false);
+    [700,2000,5000].forEach(t=>setTimeout(()=>this.syncReveal(false), t));
+  }
+
+  syncReveal(force){
+    if(!this.pending||!this.pending.length) return;
+    const now=Date.now();
+    if(!force && this.lastReveal && now-this.lastReveal<180) return;
+    this.lastReveal=now;
+    const H=window.innerHeight, trigger=force?1e9:H*0.88;
+    const still=[];
+    for(const el of this.pending){
+      const r=el.getBoundingClientRect();
+      if(r.top<trigger && r.bottom>-40){
+        const sibs=[].slice.call(el.parentElement.children).filter(c=>c.hasAttribute('data-reveal'));
+        const idx=Math.max(0,sibs.indexOf(el));
+        el.style.transitionDelay=Math.min(idx*0.09,0.45)+'s';
+        el.style.opacity='1';
+        el.style.transform='none';
+        el.dataset.revealDone='1';
+      } else if(r.top>=trigger){ still.push(el); }
+      else { el.style.opacity='1'; el.style.transform='none'; el.dataset.revealDone='1'; }
+    }
+    this.pending=still;
+  }
+
+  tick(){
+    const target=new Date(2027,0,30,17,0,0).getTime();
+    if(Date.now()>=target){
+      if(this.cuentaLiveRef.current) this.cuentaLiveRef.current.style.display='none';
+      if(this.cuentaDoneRef.current) this.cuentaDoneRef.current.style.display='flex';
+      if(this.timer){ clearInterval(this.timer); this.timer=null; }
+      return;
+    }
+    let d=Math.max(0, target-Date.now());
+    const day=Math.floor(d/86400000); d-=day*86400000;
+    const hr=Math.floor(d/3600000); d-=hr*3600000;
+    const mi=Math.floor(d/60000); d-=mi*60000;
+    const se=Math.floor(d/1000);
+    const pad=n=>String(n).padStart(2,'0');
+    const put=(ref,v)=>{ const el=ref.current; if(el && el.textContent!==v) el.textContent=v; };
+    put(this.ddRef,String(day)); put(this.hhRef,pad(hr)); put(this.mmRef,pad(mi)); put(this.ssRef,pad(se));
+  }
+
+  place(p){
+    const L=this.L, env=this.envRef.current, hero=this.heroRef.current, nav=this.navRef.current;
+    if(!env||!hero) return;
+    const e = p<=0?0:p>=1?1:p*p*(3-2*p);
+    const w = L.cardW+(L.W-L.cardW)*e, h = L.cardH+(L.H-L.cardH)*e;
+    const cx = L.cardX*(1-e), cy = L.cardY*(1-e);
+    hero.style.width=w+'px'; hero.style.height=h+'px';
+    hero.style.fontSize=(L.fsRest+(L.fsFull-L.fsRest)*e)+'px';
+    hero.style.transform='translate(-50%,-50%) translate('+cx+'px,'+cy+'px)';
+    hero.style.borderRadius=(4*(1-e))+'px';
+    hero.style.boxShadow = e>0.985 ? 'none' : '0 '+(34*(1-e))+'px '+(72*(1-e))+'px rgba(0,0,0,'+(0.5*(1-e))+')';
+    hero.style.opacity='1';
+    const ep = Math.min(1, p/0.42);
+    env.style.transform='translate(-50%,-50%) translate('+(L.envX-46*ep*L.u)+'px,'+(L.envY+14*ep*L.u)+'px) rotate('+(-4*ep)+'deg) scale('+(1-0.08*ep)+')';
+    env.style.opacity=String(1-ep);
+    if(this.stageOrnRef.current) this.stageOrnRef.current.style.opacity=String(1-Math.min(1,p/0.55));
+    if(nav){
+      const n = Math.min(1, Math.max(0,(p-0.7)/0.3));
+      nav.style.opacity=String(n);
+      nav.style.pointerEvents = n>0.85 ? 'auto' : 'none';
+    }
+    if(this.scrollHintRef.current) this.scrollHintRef.current.style.opacity=String(Math.max(0,1-p/0.14));
+  }
+
+  syncParallax(){
+    if(!this.plx) return;
+    const H=window.innerHeight;
+    for(const el of this.plx){
+      const p=el.parentElement.getBoundingClientRect();
+      if(p.bottom<-80||p.top>H+80) continue;
+      const t=(p.top+p.height/2-H/2)/H;
+      el.style.transform='translate3d(0,'+(-t*7).toFixed(2)+'%,0)';
+    }
+  }
+
+  setupGallery(){
+    document.querySelectorAll('[data-gcell]').forEach(cell=>{
+      const inner=cell.querySelector('[data-photo]'), slot=cell.querySelector('image-slot');
+      const veil=cell.querySelector('[data-veil]'), frame=cell.querySelector('[data-gframe]');
+      cell.addEventListener('mouseenter',()=>{
+        if(inner) inner.style.filter='none';
+        if(slot) slot.style.transform='scale(1.07)';
+        if(veil) veil.style.opacity='0';
+        if(frame){ frame.style.opacity='1'; frame.style.transform='scale(1)'; }
+        cell.style.transform='translateY(-6px)';
+        cell.style.boxShadow='0 26px 50px rgba(58,15,22,.28)';
+      });
+      cell.addEventListener('mouseleave',()=>{
+        if(inner) inner.style.filter=this.photoFilters()[this.props.photoTone]||this.photoFilters()['blanco y negro'];
+        if(slot) slot.style.transform='none';
+        if(veil) veil.style.opacity='1';
+        if(frame){ frame.style.opacity='0'; frame.style.transform='scale(1.05)'; }
+        cell.style.transform='none';
+        cell.style.boxShadow='none';
+      });
+      cell.addEventListener('click',(e)=>{ e.preventDefault(); e.stopPropagation(); this.openLB(parseInt(cell.getAttribute('data-gcell'),10)||0); }, true);
+    });
+    this.fitGrid();
+  }
+
+  fitGrid(){
+    const g=this.gridRef.current; if(!g) return;
+    const cols = window.innerWidth < 700 ? 2 : 3;
+    g.style.gridTemplateColumns='repeat('+cols+',minmax(0,1fr))';
+  }
+
+  openLB(i){
+    const lb=this.lbRef.current, img=this.lbImgRef.current; if(!lb||!img) return;
+    this.lbIndex=(i+this.galSrcs.length)%this.galSrcs.length;
+    this.lbOpen=true;
+    img.src=this.galSrcs[this.lbIndex];
+    if(this.lbCountRef.current) this.lbCountRef.current.textContent=(this.lbIndex+1)+' / '+this.galSrcs.length;
+    lb.style.display='flex';
+    document.body.style.overflow='hidden';
+    requestAnimationFrame(()=>{ lb.style.opacity='1'; img.style.opacity='1'; img.style.transform='scale(1)'; });
+  }
+
+  closeLB(){
+    const lb=this.lbRef.current, img=this.lbImgRef.current; if(!lb||!this.lbOpen) return;
+    this.lbOpen=false;
+    lb.style.opacity='0'; if(img){ img.style.opacity='0'; img.style.transform='scale(.94)'; }
+    document.body.style.overflow='';
+    setTimeout(()=>{ if(!this.lbOpen) lb.style.display='none'; }, 460);
+  }
+
+  stepLB(d,e){
+    if(e){ e.preventDefault(); e.stopPropagation(); }
+    const img=this.lbImgRef.current; if(!img) return;
+    this.lbIndex=(this.lbIndex+d+this.galSrcs.length)%this.galSrcs.length;
+    img.style.opacity='0'; img.style.transform='scale(.97)';
+    setTimeout(()=>{
+      img.src=this.galSrcs[this.lbIndex];
+      if(this.lbCountRef.current) this.lbCountRef.current.textContent=(this.lbIndex+1)+' / '+this.galSrcs.length;
+      requestAnimationFrame(()=>{ img.style.opacity='1'; img.style.transform='scale(1)'; });
+    }, 220);
+  }
+
+  prevLB(e){ this.stepLB(-1,e); }
+  nextLB(e){ this.stepLB(1,e); }
+
+  onKey(e){
+    if(!this.lbOpen) return;
+    if(e.key==='Escape') this.closeLB();
+    else if(e.key==='ArrowLeft') this.stepLB(-1);
+    else if(e.key==='ArrowRight') this.stepLB(1);
+  }
+
+  toggleMusic(){
+    const a=this.audioRef.current; if(!a) return;
+    const s=(this.props.musicSrc||'').trim(); if(s && a.getAttribute('src')!==s) a.setAttribute('src',s);
+    if(!a.getAttribute('src')) return;
+    if(a.paused){ a.volume=0.35; a.play().catch(()=>{}); } else { a.pause(); }
+    this.syncMusicUI();
+  }
+
+  syncMusicUI(){
+    const a=this.audioRef.current, btn=this.musicRef.current, bars=this.barsRef.current, lbl=this.musicLabelRef.current;
+    if(!a||!btn) return;
+    const src=(this.props.musicSrc||'').trim() || a.getAttribute('src') || '';
+    if(src && a.getAttribute('src')!==src) a.setAttribute('src',src);
+    btn.style.display = src ? 'flex' : 'none';
+    if(!src) return;
+    const on=!a.paused;
+    if(lbl) lbl.textContent = on ? 'pausar' : 'música';
+    if(bars) [].slice.call(bars.children).forEach((b,i)=>{ b.style.animation = on ? 'jmBars '+(0.7+i*0.22)+'s ease-in-out infinite' : 'none'; });
+  }
+
+  afterJump(){
+    if(this.jumpT) this.jumpT.forEach(clearTimeout);
+    this.jumpT=[0,120,320,700,1200].map(t=>setTimeout(()=>{
+      this.syncNavInk(); this.syncReveal(false); this.syncParallax();
+    }, t));
+  }
+
+  onScroll(){
+    this.syncNavInk();
+    this.syncReveal();
+    this.syncParallax();
+    if(!this.live) return;
+    const travel = Math.max(1,(this.L.openH - this.L.H)*0.72);
+    const p = Math.min(1, Math.max(0, window.scrollY/travel));
+    if(Math.abs(p-this.p)<0.0008) return;
+    this.p=p;
+    if(this.raf) return;
+    this.raf = requestAnimationFrame(()=>{ this.raf=null; this.place(this.p); });
+  }
+
+  onResize(){
+    this.L=this.measure();
+    this.applyStatic();
+    this.watchDarkBands();
+    this.fitGrid();
+    if(this.opened){
+      if(this.openingRef.current) this.openingRef.current.style.height=this.L.openH+'px';
+      this.place(this.p);
+    } else {
+      this.envRef.current.style.transform='translate(-50%,-50%)';
+      this.heroRef.current.style.transform='translate(-50%,-50%) scale(.55)';
+    }
+  }
+
+  openIt(){
+    if(this.opened) return;
+    this.opened=true;
+    const L=this.L, env=this.envRef.current, hero=this.heroRef.current;
+    const flap=this.flapRef.current, seal=this.sealRef.current, hint=this.hintRef.current;
+    if(this.envInnerRef.current) this.envInnerRef.current.style.animation='none';
+    env.style.transition='transform 1s cubic-bezier(.22,1,.36,1),opacity .8s ease';
+    hint.style.animation='none'; hint.style.opacity='0'; hint.style.pointerEvents='none';
+    seal.style.opacity='0'; seal.style.transform='scale(.82) rotate(-8deg)';
+    flap.style.transform='rotateX(-168deg)';
+    setTimeout(()=>{ flap.style.zIndex='0'; }, 480);
+    setTimeout(()=>{
+      hero.style.opacity='1';
+      hero.style.transform='translate(-50%,-50%) translate(0px,'+(-0.72*L.envH)+'px)';
+    }, 520);
+    setTimeout(()=>{ hero.style.zIndex='20'; }, 1000);
+    setTimeout(()=>{
+      hero.style.transform='translate(-50%,-50%) translate('+L.cardX+'px,'+L.cardY+'px)';
+      env.style.transform='translate(-50%,-50%) translate('+L.envX+'px,'+L.envY+'px) rotate(-2deg)';
+    }, 1250);
+    setTimeout(()=>{
+      hero.style.transition='none'; env.style.transition='none';
+      if(this.openingRef.current) this.openingRef.current.style.height=this.L.openH+'px';
+      document.documentElement.style.overflow=''; document.body.style.overflow='';
+      if(this.scrollHintRef.current) this.scrollHintRef.current.style.opacity='1';
+      this.live=true;
+      this.place(0);
+      this.setupReveal();
+      if(this.glowRef.current) this.glowRef.current.style.opacity='0';
+    }, 2200);
+  }
+
+  componentDidMount(){
+    this.L=this.measure();
+    this.applyStatic();
+    this.applySwash();
+    window.scrollTo(0,0);
+    document.documentElement.style.overflow='hidden'; document.body.style.overflow='hidden';
+    window.addEventListener('scroll', this.onScroll, {passive:true});
+    window.addEventListener('resize', this.onResize);
+    this.watchDarkBands();
+    this.setupReveal();
+    this.plx=[].slice.call(document.querySelectorAll('[data-parallax]'));
+    this.syncParallax();
+    this.syncMusicUI();
+    const glow=this.glowRef.current, env=this.envRef.current;
+    if(glow&&env){ env.addEventListener('mouseenter',()=>{ if(!this.opened) glow.style.opacity='1'; }); env.addEventListener('mouseleave',()=>{ glow.style.opacity='0'; }); }
+    this.setupGallery();
+    window.addEventListener('keydown', this.onKey);
+    this.tick();
+    this.timer=setInterval(()=>this.tick(), 1000);
+    this.safety=setTimeout(()=>{ this.syncReveal(false); }, 8000);
+    this.afterJump=this.afterJump.bind(this);
+    window.addEventListener('hashchange', this.afterJump);
+    window.addEventListener('scrollend', this.afterJump);
+    this.onAnchorClick=(e)=>{ const a=e.target.closest&&e.target.closest('a[href^="#"]'); if(a) this.afterJump(); };
+    document.addEventListener('click', this.onAnchorClick, true);
+    if(this.props.openOnLoad) setTimeout(this.openIt, 120);
+  }
+
+  componentDidUpdate(prev){
+    if(prev && prev.sealColor===this.props.sealColor && prev.backdrop===this.props.backdrop && prev.photoTone===this.props.photoTone && prev.floatingDetails===this.props.floatingDetails) { this.applySwash(); return; }
+    this.applyStatic(); this.applySwash(); this.syncMusicUI();
+  }
+
+  componentWillUnmount(){
+    window.removeEventListener('scroll', this.onScroll);
+    window.removeEventListener('resize', this.onResize);
+    window.removeEventListener('keydown', this.onKey);
+    if(this.timer) clearInterval(this.timer);
+    if(this.safety) clearTimeout(this.safety);
+    if(this.jumpT) this.jumpT.forEach(clearTimeout);
+    window.removeEventListener('hashchange', this.afterJump);
+    window.removeEventListener('scrollend', this.afterJump);
+    document.removeEventListener('click', this.onAnchorClick, true);
+    document.documentElement.style.overflow=''; document.body.style.overflow='';
+  }
+
+  renderVals(){
+    const r={ openIt:this.openIt, closeLB:this.closeLB, prevLB:this.prevLB, nextLB:this.nextLB, toggleMusic:this.toggleMusic, stopClick:(e)=>e.stopPropagation() };
+    this.REFS.forEach(k=>{ r[k]=this[k]; });
+    return r;
+  }
+}
+</script>
+</body>
+</html>

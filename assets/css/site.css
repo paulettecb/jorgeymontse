@@ -1,0 +1,134 @@
+/* ============================================================
+   Jorge & Montse — sitio de boda
+   Implementación de templates/wedding-site/WeddingSite.dc.html
+   (proyecto Claude Design "Jorge & Montse Wedding").
+
+   El diseño original lleva los estilos inline sobre cada nodo;
+   aquí sólo vive lo que un atributo `style` no puede expresar:
+   @font-face, @keyframes, los `style-hover` del .dc.html
+   convertidos en :hover reales, y los ajustes responsive.
+   ============================================================ */
+
+/* --- Fuentes de marca (tokens/fonts.css del design system) --- */
+@font-face { font-family: 'Lumiare';     src: url('../fonts/Lumiare.otf') format('opentype');                    font-display: swap; }
+@font-face { font-family: 'Farmhouse';   src: url('../fonts/Farmhouse.otf') format('opentype');                  font-display: swap; }
+@font-face { font-family: 'Blastine';    src: url('../fonts/Blastine%20Personal%20Use%20Only.ttf') format('truetype'); font-display: swap; }
+@font-face { font-family: 'NoirEtBlanc'; src: url('../fonts/noiretblanc.otf') format('opentype');                font-display: swap; }
+
+:root {
+  /* tokens/colors.css */
+  --hueso: #EEEBE6;
+  --hueso-2: #E5DFD7;
+  --vino: #631B29;
+  --vino-ink: #4A1420;
+  --vino-deep: #551724;
+  --dorado: #B8935A;
+  --dorado-ink: #3A0F16;
+  --dorado-pale: #D8BE8E;   /* oro claro, sobre vino */
+  --dorado-deep: #9C7638;   /* oro profundo, sobre hueso */
+  --verde: #55624A;
+}
+
+html { scroll-behavior: smooth; }
+body { margin: 0; padding: 0; background: var(--vino-deep); -webkit-font-smoothing: antialiased; }
+* { box-sizing: border-box; }
+a { color: inherit; text-decoration: none; }
+img { max-width: 100%; }
+::selection { background: var(--dorado); color: var(--dorado-ink); }
+
+/* El sobre bloquea el scroll hasta que se abre. Se aplica desde JS
+   para que sin JS la página siga siendo navegable. */
+.jm-locked, .jm-locked body { overflow: hidden; }
+
+/* --- Animaciones --- */
+@keyframes jmBreathe { 0%,100% { transform: translate3d(0,0,0) }        50% { transform: translate3d(0,-9px,0) } }
+@keyframes jmPulse   { 0%,100% { opacity: .45 }                          50% { opacity: 1 } }
+@keyframes jmDrop    { 0%      { transform: translateY(-100%) }         100% { transform: translateY(100%) } }
+@keyframes jmFall    { 0%      { transform: translateY(0) }             100% { transform: translateY(116vh) } }
+@keyframes jmSway    { 0%      { transform: translateX(calc(var(--sway) * -1)) } 100% { transform: translateX(var(--sway)) } }
+@keyframes jmTwinkle { 0%      { opacity: .15; transform: scale(.7) }   100% { opacity: 1; transform: scale(1.15) } }
+@keyframes jmBars    { 0%,100% { height: 4px }                           50% { height: 13px } }
+
+/* --- Hovers (los `style-hover` del .dc.html) --- */
+.jm-navlink { opacity: .78; transition: opacity .25s; }
+.jm-navlink:hover, .jm-navlink:focus-visible { opacity: 1; }
+
+.jm-pill { transition: background .25s, color .25s, border-color .35s ease; }
+.jm-pill:hover, .jm-pill:focus-visible { background: var(--vino); color: var(--hueso); }
+.jm-pill.is-dark:hover, .jm-pill.is-dark:focus-visible { background: var(--hueso); color: var(--vino); }
+
+.jm-btn { transition: background .25s, color .25s; }
+.jm-btn:hover, .jm-btn:focus-visible { background: var(--vino); color: var(--hueso); }
+
+.jm-btn-solid { transition: background .3s ease, transform .3s ease; }
+.jm-btn-solid:hover, .jm-btn-solid:focus-visible { background: var(--dorado-pale); transform: translateY(-2px); }
+
+.jm-music { transition: background .25s ease; }
+.jm-music:hover, .jm-music:focus-visible { background: var(--hueso); }
+
+.jm-lbbtn { transition: background .25s, border-color .25s; }
+.jm-lbbtn:hover, .jm-lbbtn:focus-visible { background: rgba(238,235,230,.12); border-color: rgba(238,235,230,.6); }
+
+:focus-visible { outline: 2px solid var(--dorado); outline-offset: 3px; }
+
+/* --- Galería --- */
+.jm-gcell { transition: transform .7s cubic-bezier(.22,1,.36,1), box-shadow .7s ease; }
+.jm-gcell .jm-photo { transition: filter .8s ease; }
+.jm-gcell img { transition: transform 1s cubic-bezier(.22,1,.36,1); }
+.jm-gcell .jm-veil { transition: opacity .8s ease; }
+.jm-gcell .jm-gframe { transition: opacity .6s ease, transform .7s cubic-bezier(.22,1,.36,1); }
+
+/* --- Fotos: `image-slot` del design system se resuelve a un <img> --- */
+.jm-fill { display: block; width: 100%; height: 100%; object-fit: cover; }
+
+/* Una foto que falte no debe dejar el icono de imagen rota: el bloque
+   se queda en su color de fondo (vino oscuro), que es intencional. */
+.jm-missing { visibility: hidden; }
+
+/* --- Sin JavaScript: el sobre no puede abrirse. Se deja lacrado como
+       portada, se invita a bajar y todo el contenido queda accesible.
+       Los !important compiten contra los `style` inline del template. --- */
+.no-js #jm-nav { opacity: 1 !important; pointer-events: auto !important; }
+.no-js #jm-hint { display: none !important; }
+.no-js #jm-scrollhint { opacity: 1 !important; }
+.no-js #jm-env { cursor: default !important; }
+.no-js [data-reveal] { opacity: 1 !important; transform: none !important; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  #jm-drift { display: none; }
+  *, *::before, *::after {
+    animation-duration: .001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .001ms !important;
+  }
+}
+
+/* --- Responsive ---
+   El .dc.html se diseñó para el lienzo del editor y deja tres textos
+   en `white-space:nowrap` que desbordan por debajo de ~420px. Aquí se
+   corrigen sin tocar el diseño en pantallas grandes. Las reglas llevan
+   !important porque compiten contra los `style` inline del template. */
+@media (max-width: 900px) {
+  /* La nav completa no cabe en móvil: se ocultan las secciones
+     secundarias y se conserva monograma + confirmar. */
+  .jm-navlink.is-secondary { display: none; }
+}
+
+@media (max-width: 620px) {
+  /* La columna de la ilustración se come el ancho de la etiqueta. */
+  .jm-itin-row { grid-template-columns: minmax(64px,92px) 1fr !important; }
+  .jm-itin-ill { display: none !important; }
+}
+
+@media (max-width: 430px) {
+  /* "confirmar asistencia" a 32px en nowrap mide ~436px. */
+  #jm-rsvp-cta { white-space: normal !important; font-size: 27px !important; padding: 15px 30px 13px !important; }
+  #jm-hint { font-size: 22px !important; }
+  #cuenta [style*="letter-spacing:.22em"] { letter-spacing: .1em !important; }
+}
+
+@media print {
+  #jm-drift, #jm-nav, #jm-music, #jm-lightbox, #jm-scrollhint, #jm-hint { display: none !important; }
+  #jm-opening { height: auto !important; }
+}
