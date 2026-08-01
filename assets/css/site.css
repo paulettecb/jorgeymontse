@@ -109,11 +109,13 @@ img { max-width: 100%; }
 .jm-form ::placeholder { color: rgba(238,235,230,.38); }
 .jm-form input:focus, .jm-form textarea:focus { outline: 0; border-bottom-color: #D8BE8E; }
 .jm-form input:user-invalid { border-bottom-color: #E0A0A0; }
-.jm-corto { max-width: 9em; }
+/* Sólo se angosta el campo, no su etiqueta: si no, «¿Cuántos vienen?»
+   se parte en dos renglones. */
+.jm-corto > input { max-width: 8em; }
 
-.jm-radios { display: flex; flex-direction: column; gap: 8px; }
+.jm-radios { display: flex; flex-direction: column; gap: 10px; }
 .jm-radios label, .jm-check {
-  flex-direction: row; align-items: center; gap: 11px; cursor: pointer;
+  display: flex; flex-direction: row; align-items: center; gap: 11px; cursor: pointer;
   font-family: 'NoirEtBlanc', serif; font-size: 18px; color: #EEEBE6;
 }
 .jm-form input[type="radio"], .jm-form input[type="checkbox"] {
