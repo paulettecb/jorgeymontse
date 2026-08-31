@@ -121,9 +121,11 @@ Las ilustraciones, fotos, tipografías y la música ya están en el repo
 tiene la lista de qué se usa dónde. Si algún archivo llegara a faltar, el
 sitio no se rompe: las imágenes que no cargan se ocultan solas.
 
-Los iconos del itinerario (iglesia, Raava en copa de martini, cámara,
-entrada, pastel y acta civil) son SVG dibujados a mano directamente en
-`index.html`, en el mismo trazo crema de las ilustraciones `-dk`.
+Los iconos del itinerario (iglesia, cámara, entrada, pastel y acta civil)
+son SVG dibujados a mano directamente en `index.html`, en el mismo trazo
+crema de las ilustraciones `-dk`. Los dos renglones de Raava —la copa de
+martini a las 19:00 y los lentes a las 21:30— sí son ilustraciones: los
+objetos van como icono de línea y la perra como dibujo.
 
 ## Accesibilidad y degradación
 

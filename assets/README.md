@@ -38,6 +38,7 @@ Todas ✅. Las que usa el sitio hoy:
 | Archivo | Dónde se usa |
 |---|---|
 | `monogram-mark.png` | Sello de lacre, favicon, nav, marca de agua, bienvenidos, footer, modal luna de miel |
+| `ill-dog-martini-dk.png` | Itinerario · 19:00 cóctel (Raava recostada en la copa) |
 | `ill-dog-sunglasses-dk.png` | Itinerario · 21:30 fiesta (Raava se queda de fiesta) |
 | `ill-couple-dog-lt.png` | Mesa de regalos |
 | `ill-couple-smile-dk.png` | RSVP |
@@ -45,11 +46,24 @@ Todas ✅. Las que usa el sitio hoy:
 | `foto-playa/cerro/desierto.jpeg` | Separadores con frase |
 | `foto-noche/vinedo/titulacion/desierto/playa/cerro.jpeg` | Galería |
 
-Los iconos del itinerario (iglesia, Raava recostada en la copa de martini,
-cámara, los novios entrando, pastel y acta civil) son SVG inline en
-`index.html`, no archivos. Los que llevan relleno usan `var(--itin-bg)`,
-el mismo color del fondo del itinerario, para recortar lo que tienen detrás:
-si cambias ese fondo, cámbialo en `site.css` y los SVG siguen.
+Los iconos del itinerario (iglesia, cámara, los novios entrando, pastel y
+acta civil) son SVG inline en `index.html`, no archivos. Los que llevan
+relleno usan `var(--itin-bg)`, el mismo color del fondo del itinerario, para
+recortar lo que tienen detrás: si cambias ese fondo, cámbialo en `site.css`
+y los SVG siguen.
+
+Los dos renglones donde sale Raava no son iconos sino ilustraciones, en el
+mismo trazo detallado: la copa a las 19:00 y los lentes a las 21:30. El
+criterio quedó así: **los objetos son iconos de línea, la perra es
+ilustración**.
+
+`ill-dog-martini-dk.png` se derivó del dibujo que mandaron los novios,
+guardado sin tocar en `savethedatepics/raava.svg`. Ese archivo dice `.svg`
+pero por dentro es un PNG de 1.5 MB envuelto en un `<svg>`: no es vector.
+Para el sitio se le sacó el PNG, se recortó el margen, se repintó del negro
+original al crema `#EEEBE6` (el mismo de la de lentes) y se escaló a 900 px
+de ancho — 158 KB en vez de 1.5 MB. Si el dibujo cambia, el procedimiento se
+repite; el original se queda donde está como respaldo.
 
 Los garigoles (`orn-divider`, `orn-flourish`, `orn-sprig`) y las
 ilustraciones de la sección "Nuestra historia" (`ill-couple-smile-lt`,
