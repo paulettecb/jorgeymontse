@@ -45,8 +45,10 @@ Todas ✅. Las que usa el sitio hoy:
 | `ill-couple-dog-lt.png` | Mesa de regalos |
 | `ill-couple-smile-dk.png` | RSVP |
 | `orn-heart-dk.png` | Estado post-boda de la cuenta regresiva y "gracias" del RSVP |
-| `foto-playa/cerro/desierto.jpeg` | Separadores con frase |
-| `foto-noche/vinedo/titulacion/desierto/playa/cerro.jpeg` | Galería |
+| `foto-playa.jpeg` | Separador «donde todo empezó» — no se cambia, decisión de los novios |
+| `foto-templo-calle.jpeg` | Separador «tú y yo, siempre» |
+| `foto-de-la-mano.jpeg` | Separador «contando los días» |
+| `foto-raava-banca/beso-calle/sentados/caminando/banca-tres/frente-a-frente.jpeg` | Galería |
 
 Los iconos del itinerario (iglesia, cámara, los novios entrando, pastel y
 acta civil) son SVG inline en `index.html`, no archivos. Los que llevan
@@ -90,6 +92,28 @@ el dibujo de Raava, unos 130 MB. **El sitio no sirve esta carpeta**
 —`netlify.toml` la manda a 404— porque son fotos privadas y el `publish`
 del proyecto es la raíz del repo. Es un archivo, no una carpeta de assets:
 lo que el sitio usa sale de aquí procesado y vive en `assets/`.
+
+### Las fotos de la galería y los separadores
+
+Salen de `savethedatepics/`, la sesión del save the date. Los originales
+miden hasta 6240 px y pesan varios MB; las del sitio van a 1200–2000 px de
+ancho y suman 2.5 MB entre las ocho — menos de lo que pesaban las seis que
+había antes.
+
+Las fotos viejas (`foto-cerro`, `foto-desierto`, `foto-noche`,
+`foto-titulacion`, `foto-vinedo`) se quedan en el repo pero ya no se usan.
+`foto-playa` sigue viva: es el separador «donde todo empezó», que los novios
+pidieron no cambiar.
+
+Todas se ven en blanco y negro (`CONFIG.photoTone`) y **las de la galería se
+colorean**: en compu al pasar el mouse, y en celular —donde no hay hover—
+cuando la foto cruza el centro de la pantalla al hacer scroll. Los dos
+disparadores nunca conviven: `setupGaleriaSinMouse` sólo se monta si
+`(hover: hover)` es falso, porque si no, mouse y scroll se pelean por el
+mismo filtro. Con `prefers-reduced-motion` no se monta ninguno.
+
+Los separadores se quedan en blanco y negro fijo: llevan una frase encima y
+el color le quitaría contraste al texto.
 
 ### La foto de fondo de la invitación
 
