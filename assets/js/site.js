@@ -55,7 +55,8 @@
     root: $('jm-root'), drift: $('jm-drift'), stage: $('jm-stage'),
     opening: $('jm-opening'), env: $('jm-env'), envInner: $('jm-env-inner'),
     flap: $('jm-flap'), seal: $('jm-seal'), glow: $('jm-glow'),
-    hero: $('jm-hero'), hint: $('jm-hint'), scrollHint: $('jm-scrollhint'),
+    hero: $('jm-hero'), heroFoto: $('jm-hero-foto'),
+    hint: $('jm-hint'), scrollHint: $('jm-scrollhint'),
     stageOrn: $('jm-stage-orn'), nav: $('jm-nav'), navLinks: $('jm-navlinks'),
     pill: $('jm-pill'), dd: $('jm-dd'), hh: $('jm-hh'), mm: $('jm-mm'), ss: $('jm-ss'),
     cuentaLive: $('jm-cuenta-live'), cuentaDone: $('jm-cuenta-done'),
@@ -262,6 +263,13 @@
     el.hero.style.boxShadow = e > 0.985 ? 'none'
       : '0 ' + (34 * (1 - e)) + 'px ' + (72 * (1 - e)) + 'px rgba(0,0,0,' + (0.5 * (1 - e)) + ')';
     el.hero.style.opacity = '1';
+
+    /* La foto entra sólo al final, cuando la tarjeta ya es la pantalla: de
+       0 en p=0.78 a 1 en p=1. Antes de eso la invitación se ve como siempre,
+       en blanco, que es como sale del sobre. */
+    if (el.heroFoto) {
+      el.heroFoto.style.opacity = String(Math.min(1, Math.max(0, (p - 0.78) / 0.22)));
+    }
 
     var ep = Math.min(1, p / 0.42);
     el.env.style.transform = 'translate(-50%,-50%) translate(' + (L.envX - 46 * ep * L.u) + 'px,' +

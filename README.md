@@ -24,6 +24,12 @@ solo adultos · hospedaje · galería · mesa de regalos · RSVP
 La cuenta regresiva se cambia sola por un mensaje de agradecimiento cuando
 pasa la fecha de la boda.
 
+Cuando la invitación termina de crecer y ocupa toda la pantalla, el fondo
+blanco se cambia por una foto del save the date (los novios desenfocados con
+la iglesia atrás), debajo de un velo crema. Nada del contenido se mueve: el
+monograma, los nombres y la fecha quedan igual. Ver
+[`assets/README.md`](assets/README.md).
+
 ## De dónde viene
 
 Es la implementación de `templates/wedding-site/WeddingSite.dc.html` del

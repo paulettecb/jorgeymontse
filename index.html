@@ -83,6 +83,20 @@
 </div>
 
 <div id="jm-hero" style="position:absolute;left:50%;top:50%;width:300px;height:420px;transform:translate(-50%,-50%) scale(.55);opacity:0;z-index:5;background:#FFFFFF;color:#631B29;border-radius:4px;font-size:14px;overflow:hidden;box-shadow:0 34px 72px rgba(0,0,0,.5);transition:transform 1s cubic-bezier(.22,1,.36,1),opacity .7s ease">
+<!-- Foto de fondo de la invitación (save the date: los novios desenfocados
+     y la cúpula del templo atrás). Sólo aparece cuando la tarjeta ya llenó la
+     pantalla: site.js le sube la opacidad con el scroll, junto con el resto de
+     la coreografía. Nada del contenido cambia, todo esto queda por detrás.
+
+     El velo crema encima es radial a propósito: casi cerrado en el centro,
+     donde vive el texto, y abierto en las orillas, donde la foto se ve. Con
+     un velo parejo el «nos casamos» en verde olivo no alcanzaba contraste
+     AA sobre la foto (necesitaría un fondo casi blanco, y entonces la foto
+     ya no se vería). -->
+<div id="jm-hero-foto" aria-hidden="true" style="position:absolute;inset:0;opacity:0;pointer-events:none">
+<img src="assets/foto-invitacion.jpeg" alt="" style="width:100%;height:100%;object-fit:cover;object-position:center 65%;display:block">
+<div class="jm-hero-velo"></div>
+</div>
 <div aria-hidden="true" style="position:absolute;left:50%;top:50%;width:78%;height:78%;transform:translate(-50%,-50%);opacity:.05;background:#631B29;-webkit-mask:url('assets/monogram-mark.png') center/contain no-repeat;mask:url('assets/monogram-mark.png') center/contain no-repeat"></div>
 <div aria-hidden="true" style="position:absolute;left:1.15em;top:1.15em;right:1.15em;bottom:1.15em;border:1px solid rgba(85,98,74,.4)"></div>
 <div style="position:relative;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.05em;padding:2.6em 1.7em;text-align:center">
@@ -90,7 +104,7 @@
 <h1 style="margin:0;font-family:'Lumiare',sans-serif;font-weight:400;font-size:3.4em;line-height:.95;letter-spacing:-.015em">Jorge<span style="display:block;font-family:'Blastine',cursive;color:#55624A;font-size:.55em;line-height:1;margin:.3em 0 .2em">&amp;</span>Montse</h1>
 <div style="width:3.4em;height:1px;background:rgba(85,98,74,.7)"></div>
 <div style="font-family:'NoirEtBlanc',serif;text-transform:uppercase;font-size:.95em;letter-spacing:.22em;white-space:nowrap">30 de enero de 2027</div>
-<div style="font-family:'NoirEtBlanc',serif;text-transform:uppercase;font-size:.78em;letter-spacing:.26em;opacity:.6;white-space:nowrap">morelia, michoacán</div>
+<div style="font-family:'NoirEtBlanc',serif;text-transform:uppercase;font-size:.78em;letter-spacing:.26em;opacity:.8;white-space:nowrap">morelia, michoacán</div>
 </div>
 </div>
 
