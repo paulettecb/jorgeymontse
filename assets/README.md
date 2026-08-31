@@ -48,7 +48,7 @@ Todas ✅. Las que usa el sitio hoy:
 | `foto-playa.jpeg` | Separador «donde todo empezó» — no se cambia, decisión de los novios |
 | `foto-templo-calle.jpeg` | Separador «tú y yo, siempre» |
 | `foto-de-la-mano.jpeg` | Separador «contando los días» |
-| `foto-raava-banca/beso-calle/sentados/caminando/banca-tres/frente-a-frente.jpeg` | Galería |
+| 12 `foto-*.jpeg` más | Galería (ver abajo) |
 
 Los iconos del itinerario (iglesia, cámara, los novios entrando, pastel y
 acta civil) son SVG inline en `index.html`, no archivos. Los que llevan
@@ -97,8 +97,21 @@ lo que el sitio usa sale de aquí procesado y vive en `assets/`.
 
 Salen de `savethedatepics/`, la sesión del save the date. Los originales
 miden hasta 6240 px y pesan varios MB; las del sitio van a 1200–2000 px de
-ancho y suman 2.5 MB entre las ocho — menos de lo que pesaban las seis que
-había antes.
+ancho.
+
+La galería son **doce**, en rejilla de tres columnas. El orden importa en un
+sitio: `foto-raava-banca` va en la posición 5 —el centro de la segunda
+fila— porque los novios la querían al medio, no abriendo.
+
+    1 beso-calle      2 puerta-templo   3 caminando
+    4 vuelta          5 RAAVA           6 abrazo-calle
+    7 sentados        8 beso-alzada     9 risa
+    10 frente-a-frente 11 cachetes      12 puerta-raava
+
+Los dos separadores llevan `object-position` propio, no el centro: en
+«donde todo empezó» el encuadre centrado salía casi puro cielo (va al 78%,
+anclado abajo) y en «contando los días» les cortaba la cara (va al 18%,
+anclado arriba). Si cambias la foto, vuelve a mirar el encuadre.
 
 Las fotos viejas (`foto-cerro`, `foto-desierto`, `foto-noche`,
 `foto-titulacion`, `foto-vinedo`) se quedan en el repo pero ya no se usan.
