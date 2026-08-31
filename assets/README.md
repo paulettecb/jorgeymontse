@@ -74,6 +74,14 @@ pero los archivos se quedan por si algo regresa.
 Convención del design system: `-lt` = oro profundo (#9C7638) para fondos
 claros, `-dk` = crema pálido (#E3C79B) para fondos vino. No intercambiarlos.
 
+### `savethedatepics/`
+
+Los originales de la sesión, tal como los subieron los novios: 38 fotos y
+el dibujo de Raava, unos 130 MB. **El sitio no sirve esta carpeta**
+—`netlify.toml` la manda a 404— porque son fotos privadas y el `publish`
+del proyecto es la raíz del repo. Es un archivo, no una carpeta de assets:
+lo que el sitio usa sale de aquí procesado y vive en `assets/`.
+
 ### La foto de fondo de la invitación
 
 `foto-invitacion.jpeg` sale de `savethedatepics/M&J-PRE-215.jpeg` (los novios
