@@ -18,13 +18,16 @@
      Editar aquí es lo mismo que mover los controles del panel.
      -------------------------------------------------------- */
   var CONFIG = {
-    sealColor: 'dorado',              // 'dorado' | 'vino' | 'verde'
+    sealColor: 'verde',               // 'dorado' | 'vino' | 'verde'
     backdrop: 'vino',                 // 'vino' | 'tinta' | 'verde'
     photoTone: 'blanco y negro',      // 'blanco y negro' | 'sepia' | 'color'
-    floatingDetails: true,
+    floatingDetails: false,           // los novios pidieron quitar los destellos
     openOnLoad: false,
     musicSrc: '',                     // vacío = usa el src del <audio>
-    weddingDate: new Date(2027, 0, 30, 17, 0, 0)
+    bodaCivil: false,                 // true = el itinerario muestra la ceremonia
+                                      // civil a las 19:30 en lugar de las fotos.
+                                      // Los novios siguen decidiendo.
+    weddingDate: new Date(2027, 0, 30, 16, 0, 0)
   };
 
   var BACKDROPS = { vino: '#551724', tinta: '#2A1016', verde: '#2F3A28' };
@@ -65,6 +68,7 @@
     opened: false, live: false, p: 0, raf: null, L: null,
     navDark: null, pending: [], lastReveal: 0, plx: [],
     lbOpen: false, lbIndex: 0, lbReturnFocus: null,
+    lunaOpen: false, lunaReturnFocus: null,
     locks: {}, timer: null, jumpT: []
   };
 
@@ -141,30 +145,15 @@
     if (el.stageOrn) el.stageOrn.style.display = hideOrn ? 'none' : '';
   }
 
-  /* ---------- swashes de Farmhouse (tabla `aalt`) ----------
-     Primera letra con 'aalt' 1 (trazo de entrada) y última con
-     'aalt' 2 (trazo de cierre). Regla del design system. */
-  function applySwash() {
-    Array.prototype.forEach.call(document.querySelectorAll('[data-swash]'), function (node) {
-      if (node.dataset.swashDone === '1') return;
-      var txt = node.textContent;
-      if (!txt) return;
-      var chars = Array.from(txt);
-      var isL = function (c) { return /[a-záéíóúñü]/i.test(c); };
-      var last = chars.length - 1;
-      if (last < 2 || !isL(chars[0]) || !isL(chars[last])) { node.dataset.swashDone = '1'; return; }
-      var mk = function (s, feat) {
-        var sp = document.createElement('span');
-        sp.textContent = s;
-        sp.style.fontFeatureSettings = "'aalt' " + feat;
-        return sp;
-      };
-      node.textContent = '';
-      node.appendChild(mk(chars[0], 1));
-      node.appendChild(document.createTextNode(chars.slice(1, last).join('')));
-      node.appendChild(mk(chars[last], 2));
-      node.dataset.swashDone = '1';
-    });
+  /* ---------- itinerario: versión con o sin boda civil ----------
+     El HTML trae las dos filas de las 19:30 (fotos y ceremonia civil);
+     aquí se enciende la que toque según CONFIG.bodaCivil. Son estilos
+     inline con display, así que no basta el atributo hidden. */
+  function applyItinerario() {
+    var fotos = $('jm-itin-fotos'), civil = $('jm-itin-civil');
+    if (!fotos || !civil) return;
+    fotos.style.display = CONFIG.bodaCivil ? 'none' : 'grid';
+    civil.style.display = CONFIG.bodaCivil ? 'grid' : 'none';
   }
 
   /* ---------- tinta de la nav sobre bandas oscuras ---------- */
@@ -418,10 +407,37 @@
   }
 
   function onKey(e) {
+    if (state.lunaOpen && e.key === 'Escape') { closeLuna(); return; }
     if (!state.lbOpen) return;
     if (e.key === 'Escape') closeLB();
     else if (e.key === 'ArrowLeft') stepLB(-1);
     else if (e.key === 'ArrowRight') stepLB(1);
+  }
+
+  /* ---------- fondo para la luna de miel ----------
+     El botón de la mesa de regalos abre una tarjeta con los datos de
+     la cuenta. Mismo patrón que el lightbox: overlay, Escape y foco
+     de regreso al botón. */
+  function openLuna() {
+    var m = $('jm-luna');
+    if (!m) return;
+    state.lunaReturnFocus = document.activeElement;
+    state.lunaOpen = true;
+    m.style.display = 'flex';
+    lock('luna', true);
+    requestAnimationFrame(function () { m.style.opacity = '1'; });
+    var close = $('jm-luna-close');
+    if (close) close.focus();
+  }
+
+  function closeLuna() {
+    var m = $('jm-luna');
+    if (!m || !state.lunaOpen) return;
+    state.lunaOpen = false;
+    m.style.opacity = '0';
+    lock('luna', false);
+    setTimeout(function () { if (!state.lunaOpen) m.style.display = 'none'; }, 460);
+    if (state.lunaReturnFocus && state.lunaReturnFocus.focus) state.lunaReturnFocus.focus();
   }
 
   /* ---------- música ---------- */
@@ -632,7 +648,7 @@
     renderDrift();
     state.L = measure();
     applyStatic();
-    applySwash();
+    applyItinerario();
 
     window.scrollTo(0, 0);
     lock('envelope', true);
@@ -678,6 +694,13 @@
     if (lbClose) lbClose.addEventListener('click', function (e) { e.stopPropagation(); closeLB(); });
     if (lbPrev) lbPrev.addEventListener('click', function (e) { e.stopPropagation(); stepLB(-1); });
     if (lbNext) lbNext.addEventListener('click', function (e) { e.stopPropagation(); stepLB(1); });
+
+    var lunaBtn = $('jm-luna-btn'), luna = $('jm-luna'),
+        lunaCard = $('jm-luna-card'), lunaClose = $('jm-luna-close');
+    if (lunaBtn) lunaBtn.addEventListener('click', openLuna);
+    if (luna) luna.addEventListener('click', closeLuna);
+    if (lunaCard) lunaCard.addEventListener('click', function (e) { e.stopPropagation(); });
+    if (lunaClose) lunaClose.addEventListener('click', function (e) { e.stopPropagation(); closeLuna(); });
 
     tick();
     state.timer = setInterval(tick, 1000);

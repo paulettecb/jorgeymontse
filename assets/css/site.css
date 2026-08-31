@@ -1,7 +1,10 @@
 /* ============================================================
    Jorge & Montse — sitio de boda
    Implementación de templates/wedding-site/WeddingSite.dc.html
-   (proyecto Claude Design "Jorge & Montse Wedding").
+   (proyecto Claude Design "Jorge & Montse Wedding"), con los
+   ajustes que pidieron los novios en la revisión de agosto 2026:
+   paleta verde olivo / vino / blanco y Lamoric Rowen en lugar
+   del script Farmhouse.
 
    El diseño original lleva los estilos inline sobre cada nodo;
    aquí sólo vive lo que un atributo `style` no puede expresar:
@@ -9,24 +12,23 @@
    convertidos en :hover reales, y los ajustes responsive.
    ============================================================ */
 
-/* --- Fuentes de marca (tokens/fonts.css del design system) --- */
+/* --- Fuentes de marca --- */
 @font-face { font-family: 'Lumiare';     src: url('../fonts/Lumiare.otf') format('opentype');                    font-display: swap; }
-@font-face { font-family: 'Farmhouse';   src: url('../fonts/Farmhouse.otf') format('opentype');                  font-display: swap; }
+@font-face { font-family: 'Lamoric';     src: url('../fonts/Lamoric%20Rowen%20TTF.ttf') format('truetype');      font-display: swap; }
 @font-face { font-family: 'Blastine';    src: url('../fonts/Blastine%20Personal%20Use%20Only.ttf') format('truetype'); font-display: swap; }
 @font-face { font-family: 'NoirEtBlanc'; src: url('../fonts/noiretblanc.otf') format('opentype');                font-display: swap; }
 
 :root {
-  /* tokens/colors.css */
-  --hueso: #EEEBE6;
-  --hueso-2: #E5DFD7;
+  /* Paleta de los novios: verde olivo, vino y blanco. */
+  --blanco: #FFFFFF;
+  --blanco-2: #F6F4EE;    /* banda alterna, apenas más cálida */
   --vino: #631B29;
   --vino-ink: #4A1420;
   --vino-deep: #551724;
-  --dorado: #B8935A;
-  --dorado-ink: #3A0F16;
-  --dorado-pale: #D8BE8E;   /* oro claro, sobre vino */
-  --dorado-deep: #9C7638;   /* oro profundo, sobre hueso */
-  --verde: #55624A;
+  --foto-bg: #3A0F16;     /* fondo de los separadores de foto */
+  --oliva: #55624A;       /* acento sobre blanco */
+  --oliva-pale: #C9CFB2;  /* acento sobre vino */
+  --oliva-ink: #333C2C;
 }
 
 html { scroll-behavior: smooth; }
@@ -34,7 +36,7 @@ body { margin: 0; padding: 0; background: var(--vino-deep); -webkit-font-smoothi
 * { box-sizing: border-box; }
 a { color: inherit; text-decoration: none; }
 img { max-width: 100%; }
-::selection { background: var(--dorado); color: var(--dorado-ink); }
+::selection { background: var(--oliva); color: var(--blanco); }
 
 /* El sobre bloquea el scroll hasta que se abre. Se aplica desde JS
    para que sin JS la página siga siendo navegable. */
@@ -54,22 +56,22 @@ img { max-width: 100%; }
 .jm-navlink:hover, .jm-navlink:focus-visible { opacity: 1; }
 
 .jm-pill { transition: background .25s, color .25s, border-color .35s ease; }
-.jm-pill:hover, .jm-pill:focus-visible { background: var(--vino); color: var(--hueso); }
-.jm-pill.is-dark:hover, .jm-pill.is-dark:focus-visible { background: var(--hueso); color: var(--vino); }
+.jm-pill:hover, .jm-pill:focus-visible { background: var(--vino); color: var(--blanco); }
+.jm-pill.is-dark:hover, .jm-pill.is-dark:focus-visible { background: var(--blanco); color: var(--vino); }
 
 .jm-btn { transition: background .25s, color .25s; }
-.jm-btn:hover, .jm-btn:focus-visible { background: var(--vino); color: var(--hueso); }
+.jm-btn:hover, .jm-btn:focus-visible { background: var(--vino); color: var(--blanco); }
 
 .jm-btn-solid { transition: background .3s ease, transform .3s ease; }
-.jm-btn-solid:hover, .jm-btn-solid:focus-visible { background: var(--dorado-pale); transform: translateY(-2px); }
+.jm-btn-solid:hover, .jm-btn-solid:focus-visible { background: var(--oliva-pale); transform: translateY(-2px); }
 
 .jm-music { transition: background .25s ease; }
-.jm-music:hover, .jm-music:focus-visible { background: var(--hueso); }
+.jm-music:hover, .jm-music:focus-visible { background: var(--blanco); }
 
 .jm-lbbtn { transition: background .25s, border-color .25s; }
-.jm-lbbtn:hover, .jm-lbbtn:focus-visible { background: rgba(238,235,230,.12); border-color: rgba(238,235,230,.6); }
+.jm-lbbtn:hover, .jm-lbbtn:focus-visible { background: rgba(246,244,238,.12); border-color: rgba(246,244,238,.6); }
 
-:focus-visible { outline: 2px solid var(--dorado); outline-offset: 3px; }
+:focus-visible { outline: 2px solid var(--oliva); outline-offset: 3px; }
 
 /* --- Galería --- */
 .jm-gcell { transition: transform .7s cubic-bezier(.22,1,.36,1), box-shadow .7s ease; }
@@ -87,7 +89,7 @@ img { max-width: 100%; }
 
 /* --- Formulario de confirmación ---
    Vive sobre el vino de la sección RSVP: campos sin caja, sólo una
-   línea de oro que se enciende al enfocar. --- */
+   línea que se enciende al enfocar. --- */
 .jm-form {
   width: 100%; max-width: 520px; margin-top: clamp(18px,3vw,32px);
   display: flex; flex-direction: column; gap: 22px; text-align: left;
@@ -96,18 +98,19 @@ img { max-width: 100%; }
 
 .jm-field { display: flex; flex-direction: column; gap: 8px; border: 0; padding: 0; margin: 0; }
 .jm-field > span, .jm-field > legend {
-  font-family: 'Farmhouse', cursive; font-size: 21px; color: #D8BE8E; padding: 0;
+  font-family: 'Lamoric', serif; font-size: 13px; letter-spacing: .18em;
+  color: var(--oliva-pale); padding: 0;
 }
 .jm-form input[type="text"], .jm-form input[type="tel"],
 .jm-form input[type="number"], .jm-form textarea {
-  width: 100%; padding: 9px 2px; color: #EEEBE6; background: transparent;
-  border: 0; border-bottom: 1px solid rgba(238,235,230,.28);
+  width: 100%; padding: 9px 2px; color: #F6F4EE; background: transparent;
+  border: 0; border-bottom: 1px solid rgba(246,244,238,.28);
   font-family: 'NoirEtBlanc', serif; font-size: 18px; line-height: 1.5;
   border-radius: 0; transition: border-color .25s ease;
 }
 .jm-form textarea { resize: vertical; min-height: 3.4em; }
-.jm-form ::placeholder { color: rgba(238,235,230,.38); }
-.jm-form input:focus, .jm-form textarea:focus { outline: 0; border-bottom-color: #D8BE8E; }
+.jm-form ::placeholder { color: rgba(246,244,238,.38); }
+.jm-form input:focus, .jm-form textarea:focus { outline: 0; border-bottom-color: var(--oliva-pale); }
 .jm-form input:user-invalid { border-bottom-color: #E0A0A0; }
 /* Sólo se angosta el campo, no su etiqueta: si no, «¿Cuántos vienen?»
    se parte en dos renglones. */
@@ -116,20 +119,20 @@ img { max-width: 100%; }
 .jm-radios { display: flex; flex-direction: column; gap: 10px; }
 .jm-radios label, .jm-check {
   display: flex; flex-direction: row; align-items: center; gap: 11px; cursor: pointer;
-  font-family: 'NoirEtBlanc', serif; font-size: 18px; color: #EEEBE6;
+  font-family: 'NoirEtBlanc', serif; font-size: 18px; color: #F6F4EE;
 }
 .jm-form input[type="radio"], .jm-form input[type="checkbox"] {
   appearance: none; width: 19px; height: 19px; flex: 0 0 19px; margin: 0;
-  border: 1px solid rgba(216,190,142,.55); background: transparent; cursor: pointer;
+  border: 1px solid rgba(201,207,178,.55); background: transparent; cursor: pointer;
   transition: background .2s ease, border-color .2s ease;
 }
 .jm-form input[type="radio"] { border-radius: 50%; }
 .jm-form input[type="radio"]:checked, .jm-form input[type="checkbox"]:checked {
-  background: #D8BE8E; border-color: #D8BE8E;
+  background: var(--oliva-pale); border-color: var(--oliva-pale);
   box-shadow: inset 0 0 0 3px #551724;
 }
 .jm-form input[type="radio"]:focus-visible, .jm-form input[type="checkbox"]:focus-visible {
-  outline: 2px solid #D8BE8E; outline-offset: 3px;
+  outline: 2px solid var(--oliva-pale); outline-offset: 3px;
 }
 
 /* El bloque de detalles sólo aplica si sí viene, así que se pliega
@@ -145,6 +148,10 @@ img { max-width: 100%; }
   display: flex; flex-direction: column; align-items: center; gap: 18px;
   margin-top: clamp(18px,3vw,32px); text-align: center;
 }
+/* `display:flex` en .jm-form y .jm-gracias le gana al [hidden] del
+   navegador; sin esto, el "gracias" se ve desde el principio y el
+   formulario no desaparece al enviarse. */
+.jm-form[hidden], .jm-gracias[hidden] { display: none; }
 
 /* --- Sin JavaScript: el sobre no puede abrirse. Se deja lacrado como
        portada, se invita a bajar y todo el contenido queda accesible.
@@ -166,8 +173,8 @@ img { max-width: 100%; }
 }
 
 /* --- Responsive ---
-   El .dc.html se diseñó para el lienzo del editor y deja tres textos
-   en `white-space:nowrap` que desbordan por debajo de ~420px. Aquí se
+   El .dc.html se diseñó para el lienzo del editor y deja varios textos
+   en `white-space:nowrap` que desbordan en pantallas chicas. Aquí se
    corrigen sin tocar el diseño en pantallas grandes. Las reglas llevan
    !important porque compiten contra los `style` inline del template. */
 @media (max-width: 900px) {
@@ -183,13 +190,13 @@ img { max-width: 100%; }
 }
 
 @media (max-width: 430px) {
-  /* "confirmar asistencia" a 32px en nowrap mide ~436px. */
-  #jm-rsvp-cta { white-space: normal !important; font-size: 27px !important; padding: 15px 30px 13px !important; }
-  #jm-hint { font-size: 22px !important; }
+  /* "confirmar asistencia" con letter-spacing ancho desborda en nowrap. */
+  #jm-rsvp-cta { white-space: normal !important; font-size: 14px !important; padding: 16px 28px 14px !important; }
+  #jm-hint { font-size: 12px !important; letter-spacing: .18em !important; }
   #cuenta [style*="letter-spacing:.22em"] { letter-spacing: .1em !important; }
 }
 
 @media print {
-  #jm-drift, #jm-nav, #jm-music, #jm-lightbox, #jm-scrollhint, #jm-hint { display: none !important; }
+  #jm-drift, #jm-nav, #jm-music, #jm-lightbox, #jm-luna, #jm-scrollhint, #jm-hint { display: none !important; }
   #jm-opening { height: auto !important; }
 }

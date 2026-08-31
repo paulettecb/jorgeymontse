@@ -8,15 +8,15 @@
 <link rel="icon" href="assets/favicon.ico" sizes="32x32 16x16">
 <style>
 @font-face { font-family:'Lumiare';     src:url('assets/fonts/Lumiare.otf') format('opentype'); font-display:swap }
-@font-face { font-family:'Farmhouse';   src:url('assets/fonts/Farmhouse.otf') format('opentype'); font-display:swap }
+@font-face { font-family:'Lamoric';     src:url('assets/fonts/Lamoric%20Rowen%20TTF.ttf') format('truetype'); font-display:swap }
 @font-face { font-family:'NoirEtBlanc'; src:url('assets/fonts/noiretblanc.otf') format('opentype'); font-display:swap }
 
-:root{ --hueso:#EEEBE6; --hueso2:#E5DFD7; --vino:#631B29; --vinod:#551724; --oro:#B8935A; --orod:#9C7638 }
+:root{ --hueso:#FFFFFF; --hueso2:#F6F4EE; --vino:#631B29; --vinod:#551724; --oro:#55624A; --orod:#55624A }
 *{ box-sizing:border-box }
 body{ margin:0; background:var(--hueso); color:var(--vino);
       font-family:'NoirEtBlanc',Georgia,serif; -webkit-font-smoothing:antialiased }
 h1,h2{ font-family:'Lumiare',sans-serif; font-weight:400; letter-spacing:-.015em; margin:0 }
-.eyebrow{ font-family:'Farmhouse',cursive; font-size:24px; color:var(--orod) }
+.eyebrow{ font-family:'Lamoric',serif; font-size:14px; letter-spacing:.26em; color:var(--orod) }
 button{ font:inherit; cursor:pointer }
 .wrap{ max-width:1180px; margin:0 auto; padding:clamp(24px,5vw,56px) clamp(18px,4vw,44px) 80px }
 
@@ -24,17 +24,17 @@ button{ font:inherit; cursor:pointer }
 #gate{ min-height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center;
        gap:20px; background:var(--vinod); color:var(--hueso); text-align:center; padding:24px }
 #gate .sello{ width:96px; height:96px; border-radius:50%;
-  background:radial-gradient(circle at 34% 30%,#D6B47E 0%,#B8935A 46%,#8E6D3C 100%);
+  background:radial-gradient(circle at 34% 30%,#77855F 0%,#55624A 46%,#333C2C 100%);
   display:flex; align-items:center; justify-content:center; margin-bottom:6px }
-#gate .sello i{ display:block; width:52%; height:58%; background:#4A1420;
+#gate .sello i{ display:block; width:52%; height:58%; background:#EEEBE6;
   -webkit-mask:url('assets/monogram-mark.png') center/contain no-repeat;
   mask:url('assets/monogram-mark.png') center/contain no-repeat }
 #gate input{ width:min(320px,84vw); padding:12px 4px; text-align:center; color:var(--hueso);
   background:transparent; border:0; border-bottom:1px solid rgba(238,235,230,.35);
   font-family:'NoirEtBlanc',serif; font-size:19px }
 #gate input:focus{ outline:0; border-bottom-color:#D8BE8E }
-#gate button{ padding:14px 38px 12px; border:0; border-radius:999px; background:var(--hueso);
-  color:var(--vino); font-family:'Farmhouse',cursive; font-size:27px; line-height:1 }
+#gate button{ padding:15px 34px 13px; border:0; border-radius:999px; background:#fff;
+  color:var(--vino); font-family:'Lamoric',serif; font-size:14px; letter-spacing:.2em; line-height:1 }
 #gate .err{ color:#E9A9A9; font-size:16px; min-height:1.4em }
 
 /* ---- números ---- */
@@ -48,10 +48,10 @@ button{ font:inherit; cursor:pointer }
 .bar input[type=search]{ flex:1 1 240px; padding:11px 14px; border:1px solid rgba(99,27,41,.22);
   background:#fff; color:var(--vino); font-family:'NoirEtBlanc',serif; font-size:16px }
 .bar input:focus{ outline:0; border-color:var(--oro) }
-.btn{ padding:11px 22px 9px; border:1px solid rgba(99,27,41,.35); border-radius:999px;
-  background:transparent; color:var(--vino); font-family:'Farmhouse',cursive; font-size:22px; line-height:1 }
-.btn:hover{ background:var(--vino); color:var(--hueso) }
-.btn.sm{ padding:7px 15px 6px; font-size:18px }
+.btn{ padding:12px 20px 10px; border:1px solid rgba(99,27,41,.35); border-radius:999px;
+  background:transparent; color:var(--vino); font-family:'Lamoric',serif; font-size:12px; letter-spacing:.16em; line-height:1 }
+.btn:hover{ background:var(--vino); color:#fff }
+.btn.sm{ padding:8px 13px 7px; font-size:11px }
 
 /* ---- tabla ---- */
 table{ width:100%; border-collapse:collapse; font-size:15px }
@@ -69,7 +69,7 @@ tr.no td{ opacity:.5 }
 .mesa{ border:1px solid rgba(99,27,41,.18); padding:16px; min-height:130px; background:#fff }
 .mesa.llena{ border-color:rgba(99,27,41,.4) }
 .mesa.destino{ outline:2px dashed var(--oro); outline-offset:3px }
-.mesa h3{ margin:0 0 4px; font-family:'Farmhouse',cursive; font-size:23px; font-weight:400; color:var(--orod) }
+.mesa h3{ margin:0 0 4px; font-family:'Lamoric',serif; font-size:13px; letter-spacing:.14em; font-weight:400; color:var(--orod) }
 .mesa .cap{ font-size:12px; letter-spacing:.12em; text-transform:uppercase; opacity:.6 }
 .mesa ul{ list-style:none; margin:12px 0 0; padding:0; display:flex; flex-direction:column; gap:6px }
 .chip{ display:flex; justify-content:space-between; gap:8px; align-items:center; padding:7px 10px;
@@ -111,7 +111,7 @@ section.blk{ margin-top:52px }
   </div>
   <div class="scroll"><table id="tabla"><thead><tr>
     <th>Nombre</th><th>Asiste</th><th>Personas</th><th>Acompañantes</th>
-    <th>Alergias</th><th>Camión</th><th>Teléfono</th><th>Canción</th><th>Fecha</th><th></th>
+    <th>Alergias</th><th>Teléfono</th><th>Canción</th><th>Fecha</th><th></th>
   </tr></thead><tbody id="filas"></tbody></table></div>
 
   <section class="blk" id="alergias-blk" hidden>
@@ -186,10 +186,8 @@ section.blk{ margin-top:52px }
   function stats() {
     var r = DATOS.rsvps, si = r.filter(function (x) { return x.asiste; });
     var personas = si.reduce(function (a, x) { return a + (x.personas || 1); }, 0);
-    var camion = si.filter(function (x) { return x.transporte; })
-                   .reduce(function (a, x) { return a + (x.personas || 1); }, 0);
     var s = [['Confirmados', personas, 'personas'], ['Respuestas', r.length, 'envíos'],
-             ['No asisten', r.length - si.length, 'respuestas'], ['Quieren camión', camion, 'personas']];
+             ['No asisten', r.length - si.length, 'respuestas']];
     $('stats').innerHTML = s.map(function (x) {
       return '<div class="stat"><b>' + x[1] + '</b><span>' + x[0] + ' · ' + x[2] + '</span></div>';
     }).join('');
@@ -213,12 +211,11 @@ section.blk{ margin-top:52px }
         + '<td>' + (x.asiste ? (x.personas || 1) : '—') + '</td>'
         + '<td>' + esc(x.acompanantes) + '</td>'
         + '<td>' + esc(x.alergias) + '</td>'
-        + '<td>' + (x.transporte ? 'sí' : '') + '</td>'
         + '<td>' + esc(x.telefono) + '</td>'
         + '<td>' + esc(x.cancion) + '</td>'
         + '<td style="white-space:nowrap;opacity:.6;font-size:13px">' + new Date(x.creado).toLocaleDateString('es-MX', { day: '2-digit', month: 'short' }) + '</td>'
         + '<td><button class="btn sm" data-borrar="' + esc(x.id) + '">borrar</button></td></tr>';
-    }).join('') : '<tr><td colspan="10" style="opacity:.6;padding:30px 10px">Todavía no llega ninguna confirmación.</td></tr>';
+    }).join('') : '<tr><td colspan="9" style="opacity:.6;padding:30px 10px">Todavía no llega ninguna confirmación.</td></tr>';
   }
 
   function alergias() {
@@ -319,7 +316,7 @@ section.blk{ margin-top:52px }
   $('recargar').addEventListener('click', function () { api('listar').then(pintar); });
 
   $('csv').addEventListener('click', function () {
-    var cols = ['nombre','asiste','personas','acompanantes','alergias','transporte','telefono','cancion','mensaje','creado'];
+    var cols = ['nombre','asiste','personas','acompanantes','alergias','telefono','cancion','mensaje','creado'];
     var q = function (v) { return '"' + String(v == null ? '' : v).replace(/"/g, '""') + '"'; };
     var csv = '﻿' + cols.join(',') + '\n' + DATOS.rsvps.map(function (r) {
       return cols.map(function (c) { return q(c === 'asiste' ? (r.asiste ? 'sí' : 'no') : r[c]); }).join(',');
