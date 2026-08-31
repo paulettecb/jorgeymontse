@@ -79,7 +79,7 @@ Dos invitaciones de mentiras para ver las dos versiones del itinerario.
 | 29 | `/gabriela-cambron` | Gabriela y Arturo | 2 | No | Gabriela Cambrón, Arturo García |
 | 30 | `/elsa-cambron` | Elsa | 1 | No | Elsa Cambrón |
 | 31 | `/tania-castro` | Tania | 1 | No | Tania Castro |
-| 32 | `/enia-castro` | Enia, Daniel y Cristopher | 3 | No | Enia Castro, Daniel Reyes, Cristopher |
+| 32 | `/enya-castro` | Enya, Daniel y Cristopher | 3 | No | Enya Castro, Daniel Reyes, Cristopher |
 | 33 | `/marcia` | Marcia | 2 | No | Marcia, Invitado |
 | 34 | `/sebastian-silva` | Sebastián y Esther | 2 | No | Sebastián Silva, Esther Fernández |
 | 35 | `/victor-briseno` | Victor | 2 | No | Victor Briseño, invitado |
@@ -161,6 +161,6 @@ Dos invitaciones de mentiras para ver las dos versiones del itinerario.
 - Correcciones aplicadas: Carmen, esposa de Manuel Tapia, es **Carmen Rodríguez**;
   Sebastián, el acompañante de Paloma, es **Sebastián Vargas Rumbo**; Diego, el
   acompañante de Laura, es **Diego Zepeda Ornelas**; Daniel, el marido de
-  Enia, es **Daniel Reyes**.
+  Enya, es **Daniel Reyes**.
 - La cuenta del Excel (hoja 1) decía 171 entre invitados y extras; aquí salen
   176 porque cada «Invitado» sin nombre se cuenta como pase.

@@ -51,7 +51,8 @@
 <div id="jm-navlinks" style="display:flex;align-items:center;gap:clamp(14px,2.2vw,32px);font-family:'NoirEtBlanc',serif;text-transform:uppercase;font-size:14px;letter-spacing:.18em;color:#631B29;transition:color .35s ease">
 <a class="jm-navlink is-secondary" href="#detalles">la boda</a>
 <a class="jm-navlink is-secondary" href="#itinerario">itinerario</a>
-<a class="jm-navlink is-secondary" href="#hospedaje">hospedaje</a>
+<!-- PENDIENTE · HOSPEDAJE: se enciende junto con la sección -->
+<a class="jm-navlink is-secondary" href="#hospedaje" hidden>hospedaje</a>
 <a class="jm-navlink is-secondary" href="#galeria">galería</a>
 <a class="jm-pill" id="jm-pill" href="#rsvp" style="padding:9px 22px 8px;border:1px solid rgba(99,27,41,.35);border-radius:999px">confirmar</a>
 </div>
@@ -265,7 +266,16 @@
 </section>
 
 <!-- ============================ HOSPEDAJE ============================ -->
-<section id="hospedaje" style="padding:clamp(90px,12vw,160px) clamp(24px,7vw,110px)">
+<!-- PENDIENTE · HOSPEDAJE ================================================
+     Oculta a propósito, NO borrada. Los novios querían mandar las
+     invitaciones sin esperar a los hoteles, y la sección sólo tenía
+     «Hotel [nombre]» y «Tarifa especial [$X]».
+
+     Para volver a encenderla: quitar el `hidden` de aquí y el de su link
+     en la nav (busca «PENDIENTE · HOSPEDAJE» arriba), y llenar los
+     corchetes. Todo el contenido sigue intacto abajo.
+     ====================================================================== -->
+<section id="hospedaje" hidden style="padding:clamp(90px,12vw,160px) clamp(24px,7vw,110px)">
 <div data-reveal="1" style="font-family:'NoirEtBlanc',serif;text-transform:uppercase;font-size:15px;letter-spacing:.3em;color:#55624A;margin-bottom:20px">hospedaje</div>
 <h2 data-reveal="1" style="margin:0 0 clamp(46px,6vw,80px);font-family:'Lumiare',sans-serif;font-weight:400;font-size:clamp(30px,4.4vw,58px);line-height:1.08;letter-spacing:-.015em;max-width:17ch;text-wrap:pretty">Si vienes de fuera, aquí te quedas</h2>
 <!-- Hoteles: los novios siguen cerrando convenios. Los corchetes son
@@ -317,7 +327,9 @@
 <p data-reveal="1" style="margin:0;max-width:46ch;font-family:'NoirEtBlanc',serif;font-size:19px;line-height:1.7;opacity:.88;text-wrap:pretty">Si además quieres consentirnos, aquí te dejamos algunas opciones.</p>
 <div data-reveal="1" style="display:flex;flex-wrap:wrap;justify-content:center;gap:14px;margin-top:8px">
 <a class="jm-btn" href="https://mesaderegalos.liverpool.com.mx/milistaderegalos/60035839" target="_blank" rel="noopener" style="cursor:pointer;padding:15px 30px 13px;border:1px solid rgba(99,27,41,.35);border-radius:999px;font-family:'NoirEtBlanc',serif;text-transform:uppercase;font-size:14px;letter-spacing:.18em;line-height:1;white-space:nowrap">liverpool</a>
-<a class="jm-btn" style="cursor:pointer;padding:15px 30px 13px;border:1px solid rgba(99,27,41,.35);border-radius:999px;font-family:'NoirEtBlanc',serif;text-transform:uppercase;font-size:14px;letter-spacing:.18em;line-height:1;white-space:nowrap">amazon</a>
+<!-- PENDIENTE · AMAZON: oculto porque no tiene link todavía. Cuando
+     llegue, ponerle el href y quitarle el hidden. -->
+<a class="jm-btn" hidden style="cursor:pointer;padding:15px 30px 13px;border:1px solid rgba(99,27,41,.35);border-radius:999px;font-family:'NoirEtBlanc',serif;text-transform:uppercase;font-size:14px;letter-spacing:.18em;line-height:1;white-space:nowrap">amazon</a>
 <button type="button" class="jm-btn" id="jm-luna-btn" style="cursor:pointer;background:transparent;color:inherit;padding:15px 30px 13px;border:1px solid rgba(99,27,41,.35);border-radius:999px;font-family:'NoirEtBlanc',serif;text-transform:uppercase;font-size:14px;letter-spacing:.18em;line-height:1;white-space:nowrap">fondo para la luna de miel</button>
 </div>
 <!-- El número de evento se muestra además del link: si alguien busca la
@@ -393,6 +405,15 @@
 <button type="submit" id="jm-rsvp-cta" class="jm-btn-solid" style="margin-top:14px;cursor:pointer;padding:18px 40px 16px;background:#F6F4EE;color:#631B29;border:0;border-radius:999px;font-family:'NoirEtBlanc',serif;text-transform:uppercase;font-size:16px;letter-spacing:.2em;white-space:nowrap;line-height:1">confirmar asistencia</button>
 <p class="jm-form-estado" id="jm-form-estado" role="status" aria-live="polite"></p>
 </form>
+
+<!-- Lo que ve quien llega SIN link personalizado. Confirmar es sólo con
+     link: los pases los controlan los novios y aquí cualquiera podría
+     inventarse cuántos van. site.js apaga el formulario y enciende esto
+     cuando no hay id, o cuando el id no existe. -->
+<div id="jm-rsvp-aviso" hidden style="display:flex;flex-direction:column;align-items:center;gap:14px;max-width:44ch;margin-top:clamp(18px,3vw,32px)">
+<div style="font-family:'NoirEtBlanc',serif;font-size:19px;line-height:1.7;opacity:.9;text-wrap:pretty">Para confirmar necesitas el link que te llegó con tu invitación. Ahí ya vienen tu nombre y tus lugares apartados.</div>
+<div style="font-family:'NoirEtBlanc',serif;font-size:16px;line-height:1.7;color:#C9CFB2;text-wrap:pretty">¿No lo encuentras? Escríbele a Jorge o a Montse y te lo reenvían.</div>
+</div>
 
 <div id="jm-rsvp-gracias" class="jm-gracias" hidden>
 <img src="assets/orn-heart-dk.png" alt="" style="width:clamp(38px,4vw,54px);opacity:.85">

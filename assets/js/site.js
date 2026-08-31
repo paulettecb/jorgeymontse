@@ -267,8 +267,18 @@
      La lista de invitados no vive en el navegador. Se le pregunta a
      /api/invitacion por un id y sólo contesta esa invitación. */
   function personalizar() {
-    var caja = $('jm-quien'), campo = $('jm-campo-nombre');
-    if (!caja || !campo || !window.fetch) return;
+    var caja = $('jm-quien'), campo = $('jm-campo-nombre'),
+        form = $('jm-rsvp-form'), aviso = $('jm-rsvp-aviso');
+    if (!caja || !campo || !form || !window.fetch) return;
+
+    /* Confirmar es sólo con link personalizado. Los pases los controlan los
+       novios, y en el link genérico cualquiera podría escribir el nombre y
+       los lugares que quisiera. Así que el formulario se apaga y en su
+       lugar sale el aviso; se vuelve a encender únicamente si el id existe. */
+    var apagar = function () {
+      form.hidden = true;
+      if (aviso) aviso.hidden = false;
+    };
 
     /* El id puede llegar de dos formas: como ?i=paloma-cambron, o como
        /paloma-cambron. La segunda es una reescritura de Netlify (status
@@ -281,13 +291,17 @@
         var ruta = window.location.pathname.replace(/^\/+|\/+$/g, '').toLowerCase();
         if (ruta.indexOf('/') === -1 && ruta.indexOf('.') === -1) id = ruta;
       }
-    } catch (e) { return; }
-    if (!id || !/^[a-z0-9-]{1,60}$/.test(id)) return;
+    } catch (e) { apagar(); return; }
+    if (!id || !/^[a-z0-9-]{1,60}$/.test(id)) { apagar(); return; }
 
-    /* Se oculta el campo de una vez: si el id es bueno —el caso normal—
-       nadie alcanza a ver el «¿Cómo te llamas?» aparecer y desaparecer.
-       Si la búsqueda falla, se devuelve. */
+    /* Mientras se resuelve el id, el formulario se queda apagado pero sin
+       el aviso: todavía no se sabe si el link es bueno. Como esto corre al
+       cargar y el RSVP está hasta abajo, se resuelve mucho antes de que
+       nadie llegue. El campo del nombre se oculta desde ya para que, en el
+       caso normal, nadie lo vea aparecer y desaparecer. */
     campo.hidden = true;
+    form.hidden = true;
+    if (aviso) aviso.hidden = true;
 
     fetch('/api/invitacion?i=' + encodeURIComponent(id), { headers: { accept: 'application/json' } })
       .then(function (r) { return r.ok ? r.json() : null; })
@@ -295,9 +309,7 @@
         if (!inv || !inv.saludo) throw new Error('sin invitación');
         aplicar(inv);
       })
-      .catch(function () {
-        campo.hidden = false;      // que confirme a mano, como siempre
-      });
+      .catch(apagar);            // link malo: mismo trato que sin link
 
     function aplicar(inv) {
       $('jm-quien-nombre').textContent = inv.saludo;
@@ -317,6 +329,8 @@
       if (idInput) { idInput.name = 'invitacion'; idInput.value = inv.id; }
 
       caja.hidden = false;
+      form.hidden = false;
+      if (aviso) aviso.hidden = true;
 
       /* A la ceremonia civil sólo va parte de los invitados, así que el
          itinerario se arma según lo que traiga esta invitación. */

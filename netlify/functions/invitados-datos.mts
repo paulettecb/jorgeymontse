@@ -13,7 +13,7 @@
  *   - Carmen, esposa de Manuel Tapia, es Carmen Rodríguez.
  *   - Sebastián, el acompañante de Paloma Cambrón, es Sebastián Vargas Rumbo.
  *   - Diego, el acompañante de Laura Cambrón, es Diego Zepeda Ornelas.
- *   - Daniel, el marido de Enia Castro, es Daniel Reyes.
+ *   - Daniel, el marido de Enya Castro, es Daniel Reyes.
  *
  * Esos dos últimos eran apellidos que faltaban de acompañantes que ya
  * estaban en la lista, no invitaciones nuevas.
@@ -69,7 +69,7 @@ export const INVITACIONES: Invitacion[] = [
   { id: "gabriela-cambron", saludo: "Gabriela y Arturo", pases: 2, invitados: ["Gabriela Cambrón", "Arturo García"] },
   { id: "elsa-cambron", saludo: "Elsa", pases: 1, invitados: ["Elsa Cambrón"] },
   { id: "tania-castro", saludo: "Tania", pases: 1, invitados: ["Tania Castro"] },
-  { id: "enia-castro", saludo: "Enia, Daniel y Cristopher", pases: 3, invitados: ["Enia Castro", "Daniel Reyes", "Cristopher"] },
+  { id: "enya-castro", saludo: "Enya, Daniel y Cristopher", pases: 3, invitados: ["Enya Castro", "Daniel Reyes", "Cristopher"] },
   { id: "marcia", saludo: "Marcia", pases: 2, invitados: ["Marcia", "Invitado"] },
   { id: "sebastian-silva", saludo: "Sebastián y Esther", pases: 2, invitados: ["Sebastián Silva", "Esther Fernández"] },
   { id: "victor-briseno", saludo: "Victor", pases: 2, invitados: ["Victor Briseño", "invitado"] },
