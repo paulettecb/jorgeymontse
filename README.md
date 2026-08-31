@@ -84,6 +84,24 @@ apareciendo conforme crece el tamaño.
 Para regenerarlos si cambia el monograma, el script está en el mensaje
 del commit que los añadió.
 
+## Invitaciones personalizadas
+
+Cada invitación tiene su link: `…/?i=jorge-cambron`. Con él, la sección de
+confirmar ya sabe quién es —lo saluda por su nombre, le dice cuántos pases
+trae y le prellena a sus acompañantes— y la confirmación llega identificada
+sin que nadie escriba su nombre.
+
+Sin el `?i=`, o con un id que no existe, el formulario vuelve a pedir el
+nombre a mano, como antes. Eso es a propósito: un link mal copiado no debe
+dejar a nadie sin poder confirmar.
+
+- La lista vive en [`netlify/functions/invitados-datos.mts`](netlify/functions/invitados-datos.mts),
+  del lado del servidor. **No se publica**: son nombres de gente real, y el
+  sitio nunca descarga la lista completa — le pregunta a `/api/invitacion`
+  por un id y sólo recibe esa invitación.
+- Los links para repartir están en [`INVITACIONES.md`](INVITACIONES.md).
+- Para cambiar la lista se edita el `.mts` y se regenera el `.md`.
+
 ## Configurar
 
 Arriba de `assets/js/site.js` está `CONFIG`, que es el equivalente exacto a

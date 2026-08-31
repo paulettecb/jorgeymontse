@@ -86,6 +86,36 @@ img { max-width: 100%; }
 
 :focus-visible { outline: 2px solid var(--oliva); outline-offset: 3px; }
 
+/* --- Backdrop del menú fijo ---
+   La nav va fija encima del contenido y se revolvía con lo que pasaba
+   por debajo (sobre todo con las ilustraciones y las fotos). Lleva una
+   banda difuminada por detrás: degradado del color de la sección hacia
+   transparente, con blur, y una máscara que apaga el blur al mismo
+   tiempo que el color — si no, se veía el borde recto del desenfoque.
+
+   Se pinta en un ::before con z-index -1: la nav ya crea contexto de
+   apilamiento (position:fixed + z-index:60), así que la banda queda
+   detrás de los links pero encima de la página. --- */
+#jm-nav::before {
+  /* La banda se estira 34px por debajo de la nav: así el degradado se
+     apaga bajo los links y no a media letra. Con `inset:0` los links
+     caían en la zona ya transparente y el contraste se venía abajo
+     sobre la sección del RSVP, donde pasa una ilustración clara. */
+  content: ""; position: absolute; inset: 0 0 -34px 0; z-index: -1; pointer-events: none;
+  background: linear-gradient(to bottom,
+    rgba(255,255,255,.96) 0%, rgba(255,255,255,.93) 55%, rgba(255,255,255,0) 100%);
+  -webkit-backdrop-filter: blur(9px); backdrop-filter: blur(9px);
+  -webkit-mask: linear-gradient(to bottom, #000 0%, #000 55%, transparent 100%);
+  mask: linear-gradient(to bottom, #000 0%, #000 55%, transparent 100%);
+  transition: background .35s ease;
+}
+/* Sobre las secciones vino la banda clara sería un parche: se invierte,
+   igual que ya se invierte la tinta de los links. */
+#jm-nav.is-dark::before {
+  background: linear-gradient(to bottom,
+    rgba(58,15,22,.94) 0%, rgba(58,15,22,.90) 55%, rgba(58,15,22,0) 100%);
+}
+
 /* --- Velo de la foto de fondo de la invitación ---
    Radial a propósito: casi cerrado en el centro, donde vive el texto, y
    abierto en las orillas, donde la foto sí se ve. Con un velo parejo el
@@ -151,6 +181,18 @@ img { max-width: 100%; }
 /* Sólo se angosta el campo, no su etiqueta: si no, «¿Cuántos vienen?»
    se parte en dos renglones. */
 .jm-corto > input { max-width: 8em; }
+
+/* «Confirmas por …» — lo que sustituye a «¿Cómo te llamas?» cuando la
+   invitación llega por link personalizado. */
+.jm-quien-nombre {
+  margin: 0; font-family: 'Lumiare', sans-serif; font-weight: 400;
+  font-size: clamp(26px,3.2vw,34px); line-height: 1.15; color: #F6F4EE;
+}
+.jm-quien-pases {
+  margin: 0; font-family: 'NoirEtBlanc', serif; font-size: 16px;
+  color: var(--oliva-pale);
+}
+.jm-quien[hidden], .jm-field[hidden] { display: none; }
 
 .jm-radios { display: flex; flex-direction: column; gap: 10px; }
 .jm-radios label {

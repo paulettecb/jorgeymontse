@@ -163,6 +163,7 @@
     if (state.navDark === dark || !el.nav) return;
     state.navDark = dark;
     var ink = dark ? '#F6F4EE' : '#631B29';
+    el.nav.classList.toggle('is-dark', dark);   /* el backdrop se invierte con la tinta */
     var mark = el.nav.querySelector('a[href="#top"]');
     if (mark) mark.style.background = ink;
     if (el.navLinks) el.navLinks.style.color = ink;
@@ -246,6 +247,72 @@
     var pad = function (n) { return String(n).padStart(2, '0'); };
     var put = function (node, v) { if (node && node.textContent !== v) node.textContent = v; };
     put(el.dd, String(day)); put(el.hh, pad(hr)); put(el.mm, pad(mi)); put(el.ss, pad(se));
+  }
+
+  /* ---------- link personalizado (?i=…) ----------
+     Los novios reparten un link por invitación. Con él, el RSVP ya sabe
+     quién confirma y no se lo pregunta; sin él —o si el id no existe—
+     el formulario se queda como estaba y pide el nombre a mano. Ese
+     respaldo es a propósito: un link mal copiado no debe dejar a nadie
+     sin poder confirmar.
+
+     La lista de invitados no vive en el navegador. Se le pregunta a
+     /api/invitacion por un id y sólo contesta esa invitación. */
+  function personalizar() {
+    var caja = $('jm-quien'), campo = $('jm-campo-nombre');
+    if (!caja || !campo || !window.fetch) return;
+
+    var id = '';
+    try {
+      id = (new URLSearchParams(window.location.search).get('i') || '').trim().toLowerCase();
+    } catch (e) { return; }
+    if (!id || !/^[a-z0-9-]{1,60}$/.test(id)) return;
+
+    /* Se oculta el campo de una vez: si el id es bueno —el caso normal—
+       nadie alcanza a ver el «¿Cómo te llamas?» aparecer y desaparecer.
+       Si la búsqueda falla, se devuelve. */
+    campo.hidden = true;
+
+    fetch('/api/invitacion?i=' + encodeURIComponent(id), { headers: { accept: 'application/json' } })
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (inv) {
+        if (!inv || !inv.saludo) throw new Error('sin invitación');
+        aplicar(inv);
+      })
+      .catch(function () {
+        campo.hidden = false;      // que confirme a mano, como siempre
+      });
+
+    function aplicar(inv) {
+      $('jm-quien-nombre').textContent = inv.saludo;
+
+      var pases = parseInt(inv.pases, 10) || 1;
+      $('jm-quien-pases').textContent = pases === 1
+        ? 'Tu invitación es para una persona.'
+        : 'Tu invitación es para ' + pases + ' personas.';
+
+      /* El input de texto se desactiva —no sólo se esconde— para que el
+         formulario no mande dos campos «nombre». Y el oculto estrena su
+         `name` justo ahora, por lo mismo. */
+      var texto = $('jm-input-nombre');
+      if (texto) { texto.disabled = true; texto.required = false; }
+      var input = $('jm-quien-nombre-input'), idInput = $('jm-quien-id-input');
+      if (input) { input.name = 'nombre'; input.value = inv.invitados.join(', '); }
+      if (idInput) { idInput.name = 'invitacion'; idInput.value = inv.id; }
+
+      caja.hidden = false;
+
+      /* Los pases ya se saben: el contador arranca completo y no deja
+         pasarse. Los acompañantes con nombre se prellenan. */
+      var cuantos = document.querySelector('#jm-rsvp-form input[name="personas"]');
+      if (cuantos) { cuantos.value = String(pases); cuantos.max = String(pases); }
+      var acomp = document.querySelector('#jm-rsvp-form input[name="acompanantes"]');
+      if (acomp && inv.invitados.length > 1) {
+        acomp.value = inv.invitados.slice(1).filter(function (n) {
+          return !/^invitad[oa]s?$/i.test(n);
+        }).join(', ');
+      }
+    }
   }
 
   /* ---------- la invitación crece con el scroll ---------- */
@@ -709,6 +776,8 @@
     if (luna) luna.addEventListener('click', closeLuna);
     if (lunaCard) lunaCard.addEventListener('click', function (e) { e.stopPropagation(); });
     if (lunaClose) lunaClose.addEventListener('click', function (e) { e.stopPropagation(); closeLuna(); });
+
+    personalizar();
 
     tick();
     state.timer = setInterval(tick, 1000);
