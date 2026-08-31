@@ -148,13 +148,21 @@
 
   /* ---------- itinerario: versión con o sin boda civil ----------
      El HTML trae las dos filas de las 19:30 (fotos y ceremonia civil);
-     aquí se enciende la que toque según CONFIG.bodaCivil. Son estilos
-     inline con display, así que no basta el atributo hidden. */
-  function applyItinerario() {
+     aquí se enciende la que toque. Son estilos inline con display, así
+     que no basta el atributo hidden.
+
+     A la civil no va todo el mundo, así que la decisión es por
+     invitación: si el link personalizado trae `civil: true`, esa
+     persona ve la ceremonia civil. Quien llegue sin link —o sin ese
+     campo— ve lo que diga CONFIG.bodaCivil, que es el valor general. */
+  function applyItinerario(civilParaEsteInvitado) {
     var fotos = $('jm-itin-fotos'), civil = $('jm-itin-civil');
     if (!fotos || !civil) return;
-    fotos.style.display = CONFIG.bodaCivil ? 'none' : 'grid';
-    civil.style.display = CONFIG.bodaCivil ? 'grid' : 'none';
+    var mostrar = typeof civilParaEsteInvitado === 'boolean'
+      ? civilParaEsteInvitado
+      : CONFIG.bodaCivil;
+    fotos.style.display = mostrar ? 'none' : 'grid';
+    civil.style.display = mostrar ? 'grid' : 'none';
   }
 
   /* ---------- tinta de la nav sobre bandas oscuras ---------- */
@@ -301,6 +309,10 @@
       if (idInput) { idInput.name = 'invitacion'; idInput.value = inv.id; }
 
       caja.hidden = false;
+
+      /* A la ceremonia civil sólo va parte de los invitados, así que el
+         itinerario se arma según lo que traiga esta invitación. */
+      if (typeof inv.civil === 'boolean') applyItinerario(inv.civil);
 
       /* Los pases ya se saben: el contador arranca completo y no deja
          pasarse. Los acompañantes con nombre se prellenan. */

@@ -101,6 +101,14 @@ dejar a nadie sin poder confirmar.
   por un id y sólo recibe esa invitación.
 - Los links para repartir están en [`INVITACIONES.md`](INVITACIONES.md).
 - Para cambiar la lista se edita el `.mts` y se regenera el `.md`.
+- **La ceremonia civil se elige invitación por invitación.** A la civil no va
+  todo el mundo, así que cada invitación trae un campo `civil`: si es `true`,
+  esa persona ve la ceremonia civil de las 19:30 en su itinerario; si no, ve
+  las fotos con los novios. Quien entre sin link personalizado ve lo que diga
+  `CONFIG.bodaCivil`.
+- Hay dos invitaciones de prueba, `jane-doe` (civil sí) y `joe-doe` (civil no),
+  para enseñarles a los novios las dos versiones. **Borrarlas antes de
+  publicar de verdad.**
 
 ## Configurar
 
