@@ -10,7 +10,7 @@ import type { Context } from '@netlify/functions';
 
 const CAMPOS = [
   'nombre', 'asiste', 'personas', 'acompanantes',
-  'alergias', 'transporte', 'telefono', 'cancion', 'mensaje'
+  'alergias', 'telefono', 'cancion', 'mensaje'
 ] as const;
 
 export default async (req: Request, _context: Context) => {

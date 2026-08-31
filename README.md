@@ -18,8 +18,8 @@ Abre con un sobre lacrado. Al hacer click, la solapa se abre, la invitación
 sale y se acomoda al lado; al bajar, la invitación crece hasta llenar la
 pantalla y a partir de ahí el sitio es un scroll normal:
 
-bienvenidos · cuenta regresiva · historia · la boda · itinerario ·
-vestimenta · hospedaje · galería · mesa de regalos · RSVP
+bienvenidos · cuenta regresiva · la boda · itinerario · vestimenta ·
+solo adultos · hospedaje · galería · mesa de regalos · RSVP
 
 La cuenta regresiva se cambia sola por un mensaje de agradecimiento cuando
 pasa la fecha de la boda.
@@ -84,36 +84,46 @@ Arriba de `assets/js/site.js` está `CONFIG`, que es el equivalente exacto a
 los controles del panel de edición del diseño:
 
 ```js
-sealColor: 'dorado',           // 'dorado' | 'vino' | 'verde'
+sealColor: 'verde',            // 'dorado' | 'vino' | 'verde'
 backdrop: 'vino',              // 'vino' | 'tinta' | 'verde'
 photoTone: 'blanco y negro',   // 'blanco y negro' | 'sepia' | 'color'
-floatingDetails: true,         // los destellos dorados
+floatingDetails: false,        // los destellos (los novios los quitaron)
 openOnLoad: false,             // saltarse el sobre
 musicSrc: '',                  // vacío = usa el src del <audio>
-weddingDate: new Date(2027, 0, 30, 17, 0, 0)
+bodaCivil: false,              // true = ceremonia civil a las 19:30 en el
+                               // itinerario, en lugar de las fotos
+weddingDate: new Date(2027, 0, 30, 16, 0, 0)
 ```
 
 ## Falta llenar
 
-El diseño llegó con textos de relleno a propósito. Están entre corchetes en
-`index.html`, así que `grep -n '\[' index.html` los lista todos:
+Los datos que faltan están entre corchetes en `index.html`, así que
+`grep -n '\[' index.html` los lista todos:
 
-- **Historia** — las tres viñetas (cómo se conocieron, la propuesta, Raava).
-- **Hospedaje** — nombre, zona, tarifa y link de los dos hoteles; transporte,
-  estacionamiento y aeropuerto.
-- **Mesa de regalos** — los tres botones (`liverpool`, `amazon`,
-  `lluvia de sobres`) todavía no tienen `href`.
-- **RSVP** — el botón «confirmar asistencia» tampoco tiene destino. Falta
-  decidir a qué apunta: un formulario, WhatsApp, un mailto.
-- **Sedes y horarios** — «Templo de las Rosas», «Hacienda La Huerta», las
-  direcciones y las horas vienen del diseño y hay que confirmarlas.
+- **Frase de bienvenida** — está la frase base de los novios; quieren una
+  versión más cursi antes de publicar.
+- **Hospedaje** — nombre, zona, tarifa y link de los dos hoteles; y el
+  bloque del aeropuerto.
+- **Mesa de regalos** — `liverpool` y `amazon` todavía no tienen `href`,
+  y el modal del fondo para la luna de miel espera los datos de la cuenta.
+- **Música** — los novios quieren una canción de Elvis Presley; falta que
+  manden el archivo para reemplazar `assets/musica.m4a`.
+- **Boda civil** — sigue en el aire si la ceremonia civil va en el
+  itinerario; se decide con `CONFIG.bodaCivil`.
 
-## Assets pendientes
+Las sedes y horarios ya son los reales: Templo del Carmen a las 16:00 y
+Jardín Los Magueyes a las 19:00.
 
-Doce ilustraciones, cuatro fotos, la tipografía de lectura y la música todavía
-no están en el repo. **[`assets/README.md`](assets/README.md)** tiene la lista
-exacta, dónde se usa cada una y cómo completarlas. El sitio ya funciona sin
-ellas: las imágenes que faltan se ocultan solas en vez de salir rotas.
+## Assets
+
+Las ilustraciones, fotos, tipografías y la música ya están en el repo
+(subidas desde el proyecto de diseño). **[`assets/README.md`](assets/README.md)**
+tiene la lista de qué se usa dónde. Si algún archivo llegara a faltar, el
+sitio no se rompe: las imágenes que no cargan se ocultan solas.
+
+Los iconos del itinerario (iglesia, Raava en copa de martini, cámara,
+entrada, pastel y acta civil) son SVG dibujados a mano directamente en
+`index.html`, en el mismo trazo crema de las ilustraciones `-dk`.
 
 ## Accesibilidad y degradación
 
