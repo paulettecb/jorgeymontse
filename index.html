@@ -20,11 +20,18 @@
      relativas. Y como se leen del HTML estático, TODAS las invitaciones
      comparten esta misma tarjeta; no se puede saludar a cada quien por su
      nombre sin una Edge Function.
-     PENDIENTE · DOMINIO: si se compra jorgeymontse.com, cambia las tres
-     líneas de abajo y ya. -->
-<meta property="og:url" content="https://jorgeymontse.netlify.app/">
-<meta property="og:image" content="https://jorgeymontse.netlify.app/assets/og-preview.jpg">
-<meta property="og:image:secure_url" content="https://jorgeymontse.netlify.app/assets/og-preview.jpg">
+
+     Van al dominio propio, NO a jorgeymontse.netlify.app. En cuanto se le
+     pone un dominio a un sitio de Netlify, el .netlify.app se convierte en
+     una redirección hacia él; y el robot de WhatsApp, cuando pide la
+     imagen y le contestan «está en otro lado», muchas veces no la sigue y
+     se queda sin tarjeta. Estas URLs tienen que apuntar al dominio que la
+     gente abre, sin brincos de por medio.
+
+     Si algún día cambia el dominio, son estas cuatro líneas. -->
+<meta property="og:url" content="https://jorgeymontse.com/">
+<meta property="og:image" content="https://jorgeymontse.com/assets/og-preview.jpg">
+<meta property="og:image:secure_url" content="https://jorgeymontse.com/assets/og-preview.jpg">
 <meta property="og:image:type" content="image/jpeg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
@@ -32,7 +39,7 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Jorge &amp; Montse · 30 de enero de 2027">
 <meta name="twitter:description" content="Nos casamos en Morelia. Aquí están todos los detalles para celebrar con nosotros.">
-<meta name="twitter:image" content="https://jorgeymontse.netlify.app/assets/og-preview.jpg">
+<meta name="twitter:image" content="https://jorgeymontse.com/assets/og-preview.jpg">
 <!-- Iconos: el lacre del sobre. El monograma solo es un trazo demasiado
      fino para 16px, así que el sello es el que carga el
      reconocimiento y el monograma aparece conforme crece el tamaño. -->

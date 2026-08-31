@@ -10,12 +10,13 @@ El dominio, diagonal, y el id. Nada más:
 
 ```
 https://jorgeymontse.com/paloma-cambron
-https://jorgeymontse.netlify.app/paloma-cambron
 ```
 
-Funciona con cualquier dominio, incluido el de Netlify — no hace falta
-comprar uno para que el link se vea así. La barra de direcciones conserva
-el link bonito: por dentro es una reescritura, no un salto.
+Manda siempre el del dominio propio, no el de `jorgeymontse.netlify.app`.
+Ese sigue existiendo pero ahora redirige, y una redirección de por medio
+es suficiente para que WhatsApp no alcance a armar la tarjeta de la vista
+previa. La barra de direcciones conserva el link bonito: por dentro es una
+reescritura, no un salto.
 
 La forma vieja, `…/?i=paloma-cambron`, sigue funcionando igual.
 
