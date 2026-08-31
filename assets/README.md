@@ -39,6 +39,7 @@ Todas ✅. Las que usa el sitio hoy:
 |---|---|
 | `monogram-mark.png` | Sello de lacre, favicon, nav, marca de agua, bienvenidos, footer, modal luna de miel |
 | `foto-invitacion.jpeg` | Fondo de la invitación cuando llena la pantalla |
+| `ill-couple-entrance-dk.png` | Itinerario · 20:00 entrada de los novios |
 | `ill-dog-martini-dk.png` | Itinerario · 19:00 cóctel (Raava recostada en la copa) |
 | `ill-dog-sunglasses-dk.png` | Itinerario · 21:30 fiesta (Raava se queda de fiesta) |
 | `ill-couple-dog-lt.png` | Mesa de regalos |
@@ -53,10 +54,18 @@ relleno usan `var(--itin-bg)`, el mismo color del fondo del itinerario, para
 recortar lo que tienen detrás: si cambias ese fondo, cámbialo en `site.css`
 y los SVG siguen.
 
-Los dos renglones donde sale Raava no son iconos sino ilustraciones, en el
-mismo trazo detallado: la copa a las 19:00 y los lentes a las 21:30. El
-criterio quedó así: **los objetos son iconos de línea, la perra es
-ilustración**.
+Tres renglones no llevan icono sino **ilustración**, en el mismo trazo
+detallado: Raava en la copa a las 19:00, los novios entrando a las 20:00 y
+Raava con lentes a las 21:30. El criterio quedó así: **los objetos son
+iconos de línea; los novios y la perra son ilustración**.
+
+`ill-couple-entrance-dk.png` es un dibujo de los novios, subido como
+`savethedatepics/WhatsApp Image 2026-08-31 at 10.56.21.jpeg`. Venía en trazo
+vino sobre papel crema: se le quitó el fondo por luminancia (el papel ronda
+237 de luz y el trazo baja de 140, así que separan limpio) y se repintó al
+crema `#EEEBE6`. Antes de reducir se engrosó el trazo dos pasadas: a los
+132&nbsp;px del itinerario, las líneas finas del velo y el vestido se
+perdían y quedaba una mancha.
 
 `ill-dog-martini-dk.png` se derivó del dibujo que mandaron los novios,
 guardado sin tocar en `savethedatepics/raava.svg`. Ese archivo dice `.svg`
