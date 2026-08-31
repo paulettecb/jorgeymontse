@@ -63,7 +63,7 @@
      CONFIG.floatingDetails. -->
 <div id="jm-drift" aria-hidden="true" style="position:fixed;inset:0;z-index:45;pointer-events:none;overflow:hidden"></div>
 
-<button id="jm-music" type="button" aria-pressed="false" style="position:fixed;right:clamp(16px,4vw,40px);bottom:clamp(16px,4vw,34px);z-index:70;display:none;align-items:center;gap:9px;padding:12px 20px 11px;border:1px solid rgba(85,98,74,.5);border-radius:999px;background:rgba(255,255,255,.92);color:#631B29;cursor:pointer;font-family:'NoirEtBlanc',serif;text-transform:uppercase;font-size:13px;letter-spacing:.16em;backdrop-filter:blur(6px)" class="jm-music">
+<button id="jm-music" type="button" aria-pressed="false" aria-label="Música" style="position:fixed;right:clamp(16px,4vw,40px);bottom:clamp(16px,4vw,34px);z-index:70;display:none;align-items:center;gap:9px;padding:12px 20px 11px;border:1px solid rgba(85,98,74,.5);border-radius:999px;background:rgba(255,255,255,.92);color:#631B29;cursor:pointer;font-family:'NoirEtBlanc',serif;text-transform:uppercase;font-size:0.9375rem;letter-spacing:.16em;backdrop-filter:blur(6px)" class="jm-music">
 <span id="jm-bars" aria-hidden="true" style="display:flex;align-items:flex-end;gap:2px;height:13px"><i style="display:block;width:2px;height:5px;background:#55624A"></i><i style="display:block;width:2px;height:11px;background:#55624A"></i><i style="display:block;width:2px;height:7px;background:#55624A"></i></span>
 <span id="jm-music-label">música</span>
 </button>
@@ -74,7 +74,7 @@
 
 <nav id="jm-nav" aria-label="Secciones" style="position:fixed;left:0;right:0;top:0;z-index:60;display:flex;align-items:center;justify-content:space-between;gap:24px;padding:20px clamp(20px,5vw,64px);opacity:0;pointer-events:none;transition:opacity .4s ease">
 <a href="#top" aria-label="Inicio" style="display:block;width:32px;height:36px;background:#631B29;transition:background .35s ease;-webkit-mask:url('assets/monogram-mark.png') center/contain no-repeat;mask:url('assets/monogram-mark.png') center/contain no-repeat"></a>
-<div id="jm-navlinks" style="display:flex;align-items:center;gap:clamp(14px,2.2vw,32px);font-family:'NoirEtBlanc',serif;text-transform:uppercase;font-size:14px;letter-spacing:.18em;color:#631B29;transition:color .35s ease">
+<div id="jm-navlinks" style="display:flex;align-items:center;gap:clamp(14px,2.2vw,32px);font-family:'NoirEtBlanc',serif;text-transform:uppercase;font-size:0.875rem;letter-spacing:.18em;color:#631B29;transition:color .35s ease">
 <a class="jm-navlink is-secondary" href="#detalles">la boda</a>
 <a class="jm-navlink is-secondary" href="#itinerario">itinerario</a>
 <!-- PENDIENTE · HOSPEDAJE: se enciende junto con la sección -->
@@ -109,7 +109,7 @@
 </div>
 </div>
 
-<div id="jm-hero" style="position:absolute;left:50%;top:50%;width:300px;height:420px;transform:translate(-50%,-50%) scale(.55);opacity:0;z-index:5;background:#FFFFFF;color:#631B29;border-radius:4px;font-size:14px;overflow:hidden;box-shadow:0 34px 72px rgba(0,0,0,.5);transition:transform 1s cubic-bezier(.22,1,.36,1),opacity .7s ease">
+<div id="jm-hero" style="position:absolute;left:50%;top:50%;width:300px;height:420px;transform:translate(-50%,-50%) scale(.55);opacity:0;z-index:5;background:#FFFFFF;color:#631B29;border-radius:4px;font-size:0.875rem;overflow:hidden;box-shadow:0 34px 72px rgba(0,0,0,.5);transition:transform 1s cubic-bezier(.22,1,.36,1),opacity .7s ease">
 <!-- Foto de fondo de la invitación (save the date: los novios desenfocados
      y la cúpula del templo atrás). Sólo aparece cuando la tarjeta ya llenó la
      pantalla: site.js le sube la opacidad con el scroll, junto con el resto de
@@ -135,10 +135,10 @@
 </div>
 </div>
 
-<div id="jm-hint" style="position:absolute;left:50%;bottom:9%;transform:translateX(-50%);z-index:12;cursor:pointer;font-family:'NoirEtBlanc',serif;text-transform:uppercase;font-size:15px;letter-spacing:.24em;color:#C9CFB2;animation:jmPulse 3.2s ease-in-out infinite;transition:opacity .5s ease;white-space:nowrap">toca el sobre para abrir</div>
+<div id="jm-hint" style="position:absolute;left:50%;bottom:9%;transform:translateX(-50%);z-index:12;cursor:pointer;font-family:'NoirEtBlanc',serif;text-transform:uppercase;font-size:0.9375rem;letter-spacing:.24em;color:#C9CFB2;animation:jmPulse 3.2s ease-in-out infinite;transition:opacity .5s ease;white-space:nowrap">toca el sobre para abrir</div>
 
 <div id="jm-scrollhint" aria-hidden="true" style="position:absolute;left:50%;bottom:6.5%;transform:translateX(-50%);z-index:40;opacity:0;transition:opacity .6s ease;display:flex;flex-direction:column;align-items:center;gap:10px;pointer-events:none">
-<div style="font-family:'NoirEtBlanc',serif;text-transform:uppercase;font-size:13px;letter-spacing:.3em;color:#C9CFB2">desliza</div>
+<div style="font-family:'NoirEtBlanc',serif;text-transform:uppercase;font-size:0.8125rem;letter-spacing:.3em;color:#C9CFB2">desliza</div>
 <div style="width:1px;height:52px;background:rgba(201,207,178,.28);overflow:hidden"><div style="width:100%;height:50%;background:#C9CFB2;animation:jmDrop 2.1s cubic-bezier(.6,0,.4,1) infinite"></div></div>
 </div>
 
@@ -151,31 +151,31 @@
 <!-- ============================ BIENVENIDOS ============================ -->
 <section id="bienvenidos" style="padding:clamp(90px,12vw,160px) clamp(24px,7vw,110px);display:flex;flex-direction:column;align-items:center;text-align:center;gap:26px">
 <div data-reveal="1" aria-hidden="true" style="width:44px;height:50px;background:#631B29;-webkit-mask:url('assets/monogram-mark.png') center/contain no-repeat;mask:url('assets/monogram-mark.png') center/contain no-repeat"></div>
-<div data-reveal="1" style="font-family:'NoirEtBlanc',serif;text-transform:uppercase;font-size:15px;letter-spacing:.3em;color:#55624A">bienvenidos</div>
+<div data-reveal="1" style="font-family:'NoirEtBlanc',serif;text-transform:uppercase;font-size:0.9375rem;letter-spacing:.3em;color:#55624A">bienvenidos</div>
 <!-- Frase de bienvenida: pendiente la versión final de los novios.
      Esta es la que mandaron como base; hay alternativas más cursis
      propuestas en el plan del proyecto. Sin mención a los años que
      llevan juntos ni titular arriba: los novios pidieron quitar los dos,
      así que la sección abre con el monograma y el «bienvenidos». -->
-<p data-reveal="1" style="margin:0;max-width:48ch;font-family:'NoirEtBlanc',serif;font-size:19px;line-height:1.7;opacity:.88;text-wrap:pretty">Decidimos dar el siguiente paso en nuestra historia y nos encantaría que estés ahí para acompañarnos.</p>
+<p data-reveal="1" style="margin:0;max-width:48ch;font-family:'NoirEtBlanc',serif;font-size:1.1875rem;line-height:1.7;opacity:.88;text-wrap:pretty">Decidimos dar el siguiente paso en nuestra historia y nos encantaría que estés ahí para acompañarnos.</p>
 </section>
 
 <!-- ============================ CUENTA REGRESIVA ============================ -->
 <section id="cuenta" data-dark="1" style="background:#551724;color:#F6F4EE;padding:clamp(70px,9vw,120px) clamp(24px,7vw,110px);display:flex;flex-direction:column;align-items:center;gap:clamp(42px,5.4vw,68px)">
 <div id="jm-cuenta-live" style="display:flex;flex-direction:column;align-items:center;gap:clamp(42px,5.4vw,68px);width:100%">
-<div data-reveal="1" style="font-family:'NoirEtBlanc',serif;text-transform:uppercase;font-size:15px;letter-spacing:.3em;color:#C9CFB2">faltan</div>
+<div data-reveal="1" style="font-family:'NoirEtBlanc',serif;text-transform:uppercase;font-size:0.9375rem;letter-spacing:.3em;color:#C9CFB2">faltan</div>
 <div data-reveal="1" style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(14px,4vw,64px);width:100%;max-width:800px;text-align:center">
-<div style="display:flex;flex-direction:column;gap:22px"><div id="jm-dd" style="font-family:'Blastine',cursive;font-size:clamp(30px,4.6vw,60px);line-height:1.55;color:#FFFFFF">152</div><div style="font-family:'NoirEtBlanc',serif;text-transform:uppercase;letter-spacing:.22em;font-size:clamp(13px,1.35vw,18px);color:#C9CFB2">DÍAS</div></div>
-<div style="display:flex;flex-direction:column;gap:22px"><div id="jm-hh" style="font-family:'Blastine',cursive;font-size:clamp(30px,4.6vw,60px);line-height:1.55;color:#FFFFFF">00</div><div style="font-family:'NoirEtBlanc',serif;text-transform:uppercase;letter-spacing:.22em;font-size:clamp(13px,1.35vw,18px);color:#C9CFB2">HORAS</div></div>
-<div style="display:flex;flex-direction:column;gap:22px"><div id="jm-mm" style="font-family:'Blastine',cursive;font-size:clamp(30px,4.6vw,60px);line-height:1.55;color:#FFFFFF">00</div><div style="font-family:'NoirEtBlanc',serif;text-transform:uppercase;letter-spacing:.22em;font-size:clamp(13px,1.35vw,18px);color:#C9CFB2">MINUTOS</div></div>
-<div style="display:flex;flex-direction:column;gap:22px"><div id="jm-ss" style="font-family:'Blastine',cursive;font-size:clamp(30px,4.6vw,60px);line-height:1.55;color:#FFFFFF">00</div><div style="font-family:'NoirEtBlanc',serif;text-transform:uppercase;letter-spacing:.22em;font-size:clamp(13px,1.35vw,18px);color:#C9CFB2">SEGUNDOS</div></div>
+<div style="display:flex;flex-direction:column;gap:22px"><div id="jm-dd" style="font-family:'Blastine',cursive;font-size:clamp(1.875rem,4.6vw,3.75rem);line-height:1.55;color:#FFFFFF">152</div><div style="font-family:'NoirEtBlanc',serif;text-transform:uppercase;letter-spacing:.22em;font-size:clamp(0.9375rem,1.35vw,1.125rem);color:#C9CFB2">DÍAS</div></div>
+<div style="display:flex;flex-direction:column;gap:22px"><div id="jm-hh" style="font-family:'Blastine',cursive;font-size:clamp(1.875rem,4.6vw,3.75rem);line-height:1.55;color:#FFFFFF">00</div><div style="font-family:'NoirEtBlanc',serif;text-transform:uppercase;letter-spacing:.22em;font-size:clamp(0.9375rem,1.35vw,1.125rem);color:#C9CFB2">HORAS</div></div>
+<div style="display:flex;flex-direction:column;gap:22px"><div id="jm-mm" style="font-family:'Blastine',cursive;font-size:clamp(1.875rem,4.6vw,3.75rem);line-height:1.55;color:#FFFFFF">00</div><div style="font-family:'NoirEtBlanc',serif;text-transform:uppercase;letter-spacing:.22em;font-size:clamp(0.9375rem,1.35vw,1.125rem);color:#C9CFB2">MINUTOS</div></div>
+<div style="display:flex;flex-direction:column;gap:22px"><div id="jm-ss" style="font-family:'Blastine',cursive;font-size:clamp(1.875rem,4.6vw,3.75rem);line-height:1.55;color:#FFFFFF">00</div><div style="font-family:'NoirEtBlanc',serif;text-transform:uppercase;letter-spacing:.22em;font-size:clamp(0.9375rem,1.35vw,1.125rem);color:#C9CFB2">SEGUNDOS</div></div>
 </div>
 </div>
 <div id="jm-cuenta-done" style="display:none;flex-direction:column;align-items:center;gap:clamp(20px,2.6vw,32px);text-align:center">
 <img src="assets/orn-heart-dk.png" alt="" style="width:clamp(38px,4vw,54px);opacity:.8">
-<div style="font-family:'NoirEtBlanc',serif;text-transform:uppercase;font-size:clamp(22px,3.2vw,40px);letter-spacing:.18em;line-height:1.3;color:#C9CFB2">gracias por acompañarnos</div>
-<div style="font-family:'NoirEtBlanc',serif;text-transform:uppercase;letter-spacing:.28em;font-size:clamp(14px,1.4vw,19px);color:#F6F4EE">30 · ENERO · 2027</div>
-<div style="font-family:'NoirEtBlanc',serif;font-size:clamp(16px,1.6vw,20px);line-height:1.7;max-width:44ch;opacity:.8;text-wrap:pretty">Fue el mejor día de nuestra vida y ustedes fueron la razón. Las fotos de la boda estarán aquí muy pronto.</div>
+<div style="font-family:'NoirEtBlanc',serif;text-transform:uppercase;font-size:clamp(1.375rem,3.2vw,2.5rem);letter-spacing:.18em;line-height:1.3;color:#C9CFB2">gracias por acompañarnos</div>
+<div style="font-family:'NoirEtBlanc',serif;text-transform:uppercase;letter-spacing:.28em;font-size:clamp(0.875rem,1.4vw,1.1875rem);color:#F6F4EE">30 · ENERO · 2027</div>
+<div style="font-family:'NoirEtBlanc',serif;font-size:clamp(1rem,1.6vw,1.25rem);line-height:1.7;max-width:44ch;opacity:.8;text-wrap:pretty">Fue el mejor día de nuestra vida y ustedes fueron la razón. Las fotos de la boda estarán aquí muy pronto.</div>
 </div>
 </section>
 
@@ -184,29 +184,29 @@
 <div data-parallax="1" style="position:absolute;left:0;right:0;top:-9%;height:118%;will-change:transform"><div data-photo="1" style="position:absolute;inset:0;filter:grayscale(1) contrast(1.04)"><!-- Anclado abajo: centrado salía casi puro cielo -->
 <img loading="lazy" decoding="async" class="jm-fill" src="assets/foto-playa.jpeg" alt="" style="object-position:center 78%"></div></div>
 <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(58,15,22,.45),rgba(58,15,22,.2) 45%,rgba(58,15,22,.58));pointer-events:none"></div>
-<div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none"><div style="font-family:'NoirEtBlanc',serif;text-transform:uppercase;font-size:clamp(19px,2.8vw,34px);letter-spacing:.34em;color:#F6F4EE;text-shadow:0 2px 30px rgba(58,15,22,.6);text-align:center;padding:0 24px">donde todo empezó</div></div>
+<div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none"><div style="font-family:'NoirEtBlanc',serif;text-transform:uppercase;font-size:clamp(1.1875rem,2.8vw,2.125rem);letter-spacing:.34em;color:#F6F4EE;text-shadow:0 2px 30px rgba(58,15,22,.6);text-align:center;padding:0 24px">donde todo empezó</div></div>
 </section>
 
 <!-- ============================ DETALLES ============================ -->
 <section id="detalles" data-dark="1" style="background:#551724;color:#F6F4EE;padding:clamp(90px,12vw,160px) clamp(24px,7vw,110px)">
-<div data-reveal="1" style="font-family:'NoirEtBlanc',serif;text-transform:uppercase;font-size:15px;letter-spacing:.3em;color:#C9CFB2;margin-bottom:20px">los detalles</div>
-<h2 data-reveal="1" style="margin:0 0 clamp(46px,6vw,80px);font-family:'Lumiare',sans-serif;font-weight:400;font-size:clamp(30px,4.4vw,58px);line-height:1.08;letter-spacing:-.015em;max-width:15ch;text-wrap:pretty">Sábado 30 de enero de 2027</h2>
+<div data-reveal="1" style="font-family:'NoirEtBlanc',serif;text-transform:uppercase;font-size:0.9375rem;letter-spacing:.3em;color:#C9CFB2;margin-bottom:20px">los detalles</div>
+<h2 data-reveal="1" style="margin:0 0 clamp(46px,6vw,80px);font-family:'Lumiare',sans-serif;font-weight:400;font-size:clamp(1.875rem,4.4vw,3.625rem);line-height:1.08;letter-spacing:-.015em;max-width:15ch;text-wrap:pretty">Sábado 30 de enero de 2027</h2>
 <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:clamp(22px,3vw,40px)">
 <div data-reveal="1" style="border:1px solid rgba(246,244,238,.3);padding:clamp(28px,3.4vw,48px);display:flex;flex-direction:column;gap:14px">
-<div style="font-family:'NoirEtBlanc',serif;text-transform:uppercase;font-size:13px;letter-spacing:.26em;color:#C9CFB2">ceremonia religiosa</div>
-<div style="font-family:'NoirEtBlanc',serif;text-transform:uppercase;letter-spacing:.06em;font-size:clamp(22px,2.2vw,31px);line-height:1.22">Templo del Carmen</div>
-<div style="font-family:'Blastine',cursive;font-size:clamp(30px,3.4vw,46px);line-height:1.4;color:#F6F4EE;margin:22px 0 14px">16:00</div>
-<div style="font-family:'NoirEtBlanc',serif;font-size:17px;line-height:1.65;opacity:.86">Calle Eduardo Ruiz 350<br>Centro Histórico, Morelia</div>
-<div style="font-family:'NoirEtBlanc',serif;font-size:15px;line-height:1.65;opacity:.8;border-top:1px solid rgba(246,244,238,.22);padding-top:12px;margin-top:4px">La iglesia no tiene estacionamiento; y al ser zona centro de la ciudad, te recomendamos anticipar tu llegada para evitar contratiempos. Al entrar la novia, cerraremos las puertas para favorecer la dinámica de la ceremonia.</div>
-<a class="jm-btn is-dark" href="https://maps.google.com/?q=Templo+del+Carmen,+Calle+Eduardo+Ruiz+350,+Centro+Hist%C3%B3rico,+Morelia" target="_blank" rel="noopener" style="margin-top:10px;align-self:flex-start;padding:14px 28px 12px;border:1px solid rgba(246,244,238,.45);border-radius:999px;font-family:'NoirEtBlanc',serif;text-transform:uppercase;font-size:14px;letter-spacing:.18em;line-height:1;white-space:nowrap">cómo llegar</a>
+<div style="font-family:'NoirEtBlanc',serif;text-transform:uppercase;font-size:0.9375rem;letter-spacing:.26em;color:#C9CFB2">ceremonia religiosa</div>
+<div style="font-family:'NoirEtBlanc',serif;text-transform:uppercase;letter-spacing:.06em;font-size:clamp(1.375rem,2.2vw,1.9375rem);line-height:1.22">Templo del Carmen</div>
+<div style="font-family:'Blastine',cursive;font-size:clamp(1.875rem,3.4vw,2.875rem);line-height:1.4;color:#F6F4EE;margin:22px 0 14px">16:00</div>
+<div style="font-family:'NoirEtBlanc',serif;font-size:1.0625rem;line-height:1.65;opacity:.86">Calle Eduardo Ruiz 350<br>Centro Histórico, Morelia</div>
+<div style="font-family:'NoirEtBlanc',serif;font-size:0.9375rem;line-height:1.65;opacity:.8;border-top:1px solid rgba(246,244,238,.22);padding-top:12px;margin-top:4px">La iglesia no tiene estacionamiento; y al ser zona centro de la ciudad, te recomendamos anticipar tu llegada para evitar contratiempos. Al entrar la novia, cerraremos las puertas para favorecer la dinámica de la ceremonia.</div>
+<a class="jm-btn is-dark" href="https://maps.google.com/?q=Templo+del+Carmen,+Calle+Eduardo+Ruiz+350,+Centro+Hist%C3%B3rico,+Morelia" target="_blank" rel="noopener" style="margin-top:10px;align-self:flex-start;padding:14px 28px 12px;border:1px solid rgba(246,244,238,.45);border-radius:999px;font-family:'NoirEtBlanc',serif;text-transform:uppercase;font-size:0.875rem;letter-spacing:.18em;line-height:1;white-space:nowrap">cómo llegar</a>
 </div>
 <div data-reveal="1" style="border:1px solid rgba(246,244,238,.3);padding:clamp(28px,3.4vw,48px);display:flex;flex-direction:column;gap:14px">
-<div style="font-family:'NoirEtBlanc',serif;text-transform:uppercase;font-size:13px;letter-spacing:.26em;color:#C9CFB2">recepción</div>
-<div style="font-family:'NoirEtBlanc',serif;text-transform:uppercase;letter-spacing:.06em;font-size:clamp(22px,2.2vw,31px);line-height:1.22">Jardín Los Magueyes</div>
-<div style="font-family:'Blastine',cursive;font-size:clamp(30px,3.4vw,46px);line-height:1.4;color:#F6F4EE;margin:22px 0 14px">19:00</div>
-<div style="font-family:'NoirEtBlanc',serif;font-size:17px;line-height:1.65;opacity:.86">Av. Plan de Ayala 1300<br>Jesús del Monte, Morelia</div>
-<div style="font-family:'NoirEtBlanc',serif;font-size:15px;line-height:1.65;opacity:.8;border-top:1px solid rgba(246,244,238,.22);padding-top:12px;margin-top:4px">El estacionamiento está justo enfrente del salón.</div>
-<a class="jm-btn is-dark" href="https://maps.google.com/?q=Jard%C3%ADn+Los+Magueyes,+Av.+Plan+de+Ayala+1300,+Jes%C3%BAs+del+Monte,+Morelia" target="_blank" rel="noopener" style="margin-top:10px;align-self:flex-start;padding:14px 28px 12px;border:1px solid rgba(246,244,238,.45);border-radius:999px;font-family:'NoirEtBlanc',serif;text-transform:uppercase;font-size:14px;letter-spacing:.18em;line-height:1;white-space:nowrap">cómo llegar</a>
+<div style="font-family:'NoirEtBlanc',serif;text-transform:uppercase;font-size:0.9375rem;letter-spacing:.26em;color:#C9CFB2">recepción</div>
+<div style="font-family:'NoirEtBlanc',serif;text-transform:uppercase;letter-spacing:.06em;font-size:clamp(1.375rem,2.2vw,1.9375rem);line-height:1.22">Jardín Los Magueyes</div>
+<div style="font-family:'Blastine',cursive;font-size:clamp(1.875rem,3.4vw,2.875rem);line-height:1.4;color:#F6F4EE;margin:22px 0 14px">19:00</div>
+<div style="font-family:'NoirEtBlanc',serif;font-size:1.0625rem;line-height:1.65;opacity:.86">Av. Plan de Ayala 1300<br>Jesús del Monte, Morelia</div>
+<div style="font-family:'NoirEtBlanc',serif;font-size:0.9375rem;line-height:1.65;opacity:.8;border-top:1px solid rgba(246,244,238,.22);padding-top:12px;margin-top:4px">El estacionamiento está justo enfrente del salón.</div>
+<a class="jm-btn is-dark" href="https://maps.google.com/?q=Jard%C3%ADn+Los+Magueyes,+Av.+Plan+de+Ayala+1300,+Jes%C3%BAs+del+Monte,+Morelia" target="_blank" rel="noopener" style="margin-top:10px;align-self:flex-start;padding:14px 28px 12px;border:1px solid rgba(246,244,238,.45);border-radius:999px;font-family:'NoirEtBlanc',serif;text-transform:uppercase;font-size:0.875rem;letter-spacing:.18em;line-height:1;white-space:nowrap">cómo llegar</a>
 </div>
 </div>
 </section>
@@ -218,7 +218,7 @@
      les ve hasta la cintura y las letras quedan sobre la zona desenfocada. -->
 <img loading="lazy" decoding="async" class="jm-fill" src="assets/foto-templo-calle.jpeg" alt="" style="object-position:center 60%"></div></div>
 <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(58,15,22,.45),rgba(58,15,22,.2) 45%,rgba(58,15,22,.58));pointer-events:none"></div>
-<div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none"><div style="font-family:'NoirEtBlanc',serif;text-transform:uppercase;font-size:clamp(19px,2.8vw,34px);letter-spacing:.34em;color:#F6F4EE;text-shadow:0 2px 30px rgba(58,15,22,.6);text-align:center;padding:0 24px">tú y yo, siempre</div></div>
+<div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none"><div style="font-family:'NoirEtBlanc',serif;text-transform:uppercase;font-size:clamp(1.1875rem,2.8vw,2.125rem);letter-spacing:.34em;color:#F6F4EE;text-shadow:0 2px 30px rgba(58,15,22,.6);text-align:center;padding:0 24px">tú y yo, siempre</div></div>
 </section>
 
 <!-- ============================ ITINERARIO ============================ -->
@@ -226,37 +226,37 @@
      vecinas: separa los dos bloques vino sin meter un segundo color de
      fondo (el verde junto al vino se leía navideño). -->
 <section id="itinerario" data-dark="1" style="background:var(--itin-bg);color:#F6F4EE;padding:clamp(90px,12vw,160px) clamp(24px,7vw,110px)">
-<div data-reveal="1" style="font-family:'NoirEtBlanc',serif;text-transform:uppercase;font-size:15px;letter-spacing:.3em;color:#C9CFB2;margin-bottom:clamp(40px,5vw,68px)">itinerario</div>
+<div data-reveal="1" style="font-family:'NoirEtBlanc',serif;text-transform:uppercase;font-size:0.9375rem;letter-spacing:.3em;color:#C9CFB2;margin-bottom:clamp(40px,5vw,68px)">itinerario</div>
 <div style="display:flex;flex-direction:column;max-width:820px">
 
-<div class="jm-itin-row" data-reveal="1" style="display:grid;grid-template-columns:minmax(84px,132px) clamp(78px,9.5vw,136px) 1fr;gap:clamp(16px,3vw,40px);align-items:center;padding:18px 0;border-top:1px solid rgba(233,229,219,.3)"><div style="font-family:'Blastine',cursive;font-size:clamp(24px,2.7vw,36px);color:#F6F4EE;line-height:1.35">16:00</div><div class="jm-itin-ill" style="display:flex;align-items:center;justify-content:center;height:clamp(78px,9.5vw,132px)">
+<div class="jm-itin-row" data-reveal="1" style="display:grid;grid-template-columns:minmax(84px,132px) clamp(78px,9.5vw,136px) 1fr;gap:clamp(16px,3vw,40px);align-items:center;padding:18px 0;border-top:1px solid rgba(233,229,219,.3)"><div style="font-family:'Blastine',cursive;font-size:clamp(1.5rem,2.7vw,2.25rem);color:#F6F4EE;line-height:1.35">16:00</div><div class="jm-itin-ill" style="display:flex;align-items:center;justify-content:center;height:clamp(78px,9.5vw,132px)">
 <!-- iglesia -->
 <svg viewBox="0 0 100 100" aria-hidden="true" style="height:88%;width:auto;max-width:100%;display:block"><g fill="none" stroke="#E9E5DB" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M30,91 L30,58"/><path d="M70,91 L70,58"/><path d="M23,91 Q50,89 77,91"/><path d="M26,58 L50,35 L74,58"/><path d="M43,34 L43,24 Q43,22 45,22 L55,22 Q57,22 57,24 L57,34"/><path d="M41,22 L50,13 L59,22"/><path d="M50,11 L50,3 M46,7 L54,7"/><circle cx="50" cy="27.5" r="2.2"/><path d="M42,91 L42,73 Q50,63 58,73 L58,91"/><circle cx="50" cy="48" r="4.6"/><circle cx="50" cy="48" r="1.1"/><path d="M34,68 L34,77 M66,68 L66,77"/></g></svg>
-</div><div style="font-family:'NoirEtBlanc',serif;text-transform:uppercase;letter-spacing:.06em;font-size:clamp(18px,1.8vw,25px)">Ceremonia religiosa</div></div>
+</div><div style="font-family:'NoirEtBlanc',serif;text-transform:uppercase;letter-spacing:.06em;font-size:clamp(1.125rem,1.8vw,1.5625rem)">Ceremonia religiosa</div></div>
 
-<div class="jm-itin-row" data-reveal="1" style="display:grid;grid-template-columns:minmax(84px,132px) clamp(78px,9.5vw,136px) 1fr;gap:clamp(16px,3vw,40px);align-items:center;padding:18px 0;border-top:1px solid rgba(233,229,219,.3)"><div style="font-family:'Blastine',cursive;font-size:clamp(24px,2.7vw,36px);color:#F6F4EE;line-height:1.35">19:00</div><div class="jm-itin-ill" style="display:flex;align-items:center;justify-content:center;height:clamp(78px,9.5vw,132px)">
+<div class="jm-itin-row" data-reveal="1" style="display:grid;grid-template-columns:minmax(84px,132px) clamp(78px,9.5vw,136px) 1fr;gap:clamp(16px,3vw,40px);align-items:center;padding:18px 0;border-top:1px solid rgba(233,229,219,.3)"><div style="font-family:'Blastine',cursive;font-size:clamp(1.5rem,2.7vw,2.25rem);color:#F6F4EE;line-height:1.35">19:00</div><div class="jm-itin-ill" style="display:flex;align-items:center;justify-content:center;height:clamp(78px,9.5vw,132px)">
 <!-- Raava recostada en la copa de martini: el dibujo original de los
      novios, repintado en el crema #EEEBE6 de las demás ilustraciones.
      El vector que mandaron era un PNG envuelto en <svg> (1.5 MB), así
      que aquí va como PNG recortado y a escala. Fuente sin tocar en
      assets/savethedatepics/raava.svg. -->
 <img src="assets/ill-dog-martini-dk.png" alt="" style="max-width:115%;max-height:115%;width:auto;height:auto;display:block">
-</div><div style="font-family:'NoirEtBlanc',serif;text-transform:uppercase;letter-spacing:.06em;font-size:clamp(18px,1.8vw,25px)">Cóctel de bienvenida</div></div>
+</div><div style="font-family:'NoirEtBlanc',serif;text-transform:uppercase;letter-spacing:.06em;font-size:clamp(1.125rem,1.8vw,1.5625rem)">Cóctel de bienvenida</div></div>
 
 <!-- 19:30 tiene dos versiones: fotos con los novios (por defecto) o
      ceremonia civil. Se cambia con CONFIG.bodaCivil en site.js — los
      novios siguen pensando la idea de la boda civil. -->
-<div class="jm-itin-row" id="jm-itin-fotos" data-reveal="1" style="display:grid;grid-template-columns:minmax(84px,132px) clamp(78px,9.5vw,136px) 1fr;gap:clamp(16px,3vw,40px);align-items:center;padding:18px 0;border-top:1px solid rgba(233,229,219,.3)"><div style="font-family:'Blastine',cursive;font-size:clamp(24px,2.7vw,36px);color:#F6F4EE;line-height:1.35">19:30</div><div class="jm-itin-ill" style="display:flex;align-items:center;justify-content:center;height:clamp(78px,9.5vw,132px)">
+<div class="jm-itin-row" id="jm-itin-fotos" data-reveal="1" style="display:grid;grid-template-columns:minmax(84px,132px) clamp(78px,9.5vw,136px) 1fr;gap:clamp(16px,3vw,40px);align-items:center;padding:18px 0;border-top:1px solid rgba(233,229,219,.3)"><div style="font-family:'Blastine',cursive;font-size:clamp(1.5rem,2.7vw,2.25rem);color:#F6F4EE;line-height:1.35">19:30</div><div class="jm-itin-ill" style="display:flex;align-items:center;justify-content:center;height:clamp(78px,9.5vw,132px)">
 <!-- cámara -->
 <svg viewBox="0 0 100 100" aria-hidden="true" style="height:82%;width:auto;max-width:100%;display:block"><g fill="none" stroke="#E9E5DB" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M25,42 Q22,42 22,45 L22,74 Q22,78 26,78 L74,78 Q78,78 78,74 L78,45 Q78,42 75,42 Z"/><path d="M36,42 L38,34 L57,34 L59,42"/><path d="M64,42 L64,37 L71,37 L71,42"/><circle cx="47" cy="60" r="12"/><circle cx="47" cy="60" r="6"/><path d="M41,53 Q44,50 48,51"/><path d="M66,50 L72,50 M66,55 L72,55"/><path d="M82,22 C79.6,18.8 74.8,20.4 74.8,24.4 C74.8,27.6 78,30 82,33.2 C86,30 89.2,27.6 89.2,24.4 C89.2,20.4 84.4,18.8 82,22"/></g></svg>
-</div><div style="font-family:'NoirEtBlanc',serif;text-transform:uppercase;letter-spacing:.06em;font-size:clamp(18px,1.8vw,25px)">Fotos con los novios</div></div>
+</div><div style="font-family:'NoirEtBlanc',serif;text-transform:uppercase;letter-spacing:.06em;font-size:clamp(1.125rem,1.8vw,1.5625rem)">Fotos con los novios</div></div>
 
-<div class="jm-itin-row" id="jm-itin-civil" data-reveal="1" style="display:none;grid-template-columns:minmax(84px,132px) clamp(78px,9.5vw,136px) 1fr;gap:clamp(16px,3vw,40px);align-items:center;padding:18px 0;border-top:1px solid rgba(233,229,219,.3)"><div style="font-family:'Blastine',cursive;font-size:clamp(24px,2.7vw,36px);color:#F6F4EE;line-height:1.35">19:30</div><div class="jm-itin-ill" style="display:flex;align-items:center;justify-content:center;height:clamp(78px,9.5vw,132px)">
+<div class="jm-itin-row" id="jm-itin-civil" data-reveal="1" style="display:none;grid-template-columns:minmax(84px,132px) clamp(78px,9.5vw,136px) 1fr;gap:clamp(16px,3vw,40px);align-items:center;padding:18px 0;border-top:1px solid rgba(233,229,219,.3)"><div style="font-family:'Blastine',cursive;font-size:clamp(1.5rem,2.7vw,2.25rem);color:#F6F4EE;line-height:1.35">19:30</div><div class="jm-itin-ill" style="display:flex;align-items:center;justify-content:center;height:clamp(78px,9.5vw,132px)">
 <!-- acta de la boda civil -->
 <svg viewBox="0 0 100 100" aria-hidden="true" style="height:84%;width:auto;max-width:100%;display:block"><g fill="none" stroke="#E9E5DB" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M33,22 L67,22 L67,72 L59,80 L33,80 Z"/><path d="M67,72 L59,72 L59,80"/><path d="M40,32 Q50,31 60,32 M40,40 Q50,39 60,40 M40,48 Q47,47 54,48"/><path d="M39,60 Q43,55 46,60 Q48,64 52,59 Q54,56 57,58"/><path d="M50,69.5 C48.4,67.4 45.2,68.4 45.2,71 C45.2,73.1 47.4,74.7 50,76.8 C52.6,74.7 54.8,73.1 54.8,71 C54.8,68.4 51.6,67.4 50,69.5"/><path d="M73,46 Q76,34 85,25 Q83,36 75,46 Q74,47 73,46"/><path d="M70,50 L76,42"/></g></svg>
-</div><div style="font-family:'NoirEtBlanc',serif;text-transform:uppercase;letter-spacing:.06em;font-size:clamp(18px,1.8vw,25px)">Ceremonia civil</div></div>
+</div><div style="font-family:'NoirEtBlanc',serif;text-transform:uppercase;letter-spacing:.06em;font-size:clamp(1.125rem,1.8vw,1.5625rem)">Ceremonia civil</div></div>
 
-<div class="jm-itin-row" data-reveal="1" style="display:grid;grid-template-columns:minmax(84px,132px) clamp(78px,9.5vw,136px) 1fr;gap:clamp(16px,3vw,40px);align-items:center;padding:18px 0;border-top:1px solid rgba(233,229,219,.3)"><div style="font-family:'Blastine',cursive;font-size:clamp(24px,2.7vw,36px);color:#F6F4EE;line-height:1.35">20:00</div><div class="jm-itin-ill" style="display:flex;align-items:center;justify-content:center;height:clamp(78px,9.5vw,132px)">
+<div class="jm-itin-row" data-reveal="1" style="display:grid;grid-template-columns:minmax(84px,132px) clamp(78px,9.5vw,136px) 1fr;gap:clamp(16px,3vw,40px);align-items:center;padding:18px 0;border-top:1px solid rgba(233,229,219,.3)"><div style="font-family:'Blastine',cursive;font-size:clamp(1.5rem,2.7vw,2.25rem);color:#F6F4EE;line-height:1.35">20:00</div><div class="jm-itin-ill" style="display:flex;align-items:center;justify-content:center;height:clamp(78px,9.5vw,132px)">
 <!-- La entrada de los novios: el dibujo que hicieron ellos, no un icono.
      Venía en trazo vino sobre papel crema, así que se le quitó el fondo
      por luminancia y se repintó al crema #EEEBE6 de las demás. El trazo
@@ -264,34 +264,34 @@
      se pinta más grande que los demás para que el velo y el vestido se
      alcancen a leer. Original en assets/savethedatepics/. -->
 <img src="assets/ill-couple-entrance-dk.png" alt="" style="max-width:100%;max-height:132%;width:auto;height:auto;display:block">
-</div><div style="font-family:'NoirEtBlanc',serif;text-transform:uppercase;letter-spacing:.06em;font-size:clamp(18px,1.8vw,25px)">Entrada de los novios</div></div>
+</div><div style="font-family:'NoirEtBlanc',serif;text-transform:uppercase;letter-spacing:.06em;font-size:clamp(1.125rem,1.8vw,1.5625rem)">Entrada de los novios</div></div>
 
-<div class="jm-itin-row" data-reveal="1" style="display:grid;grid-template-columns:minmax(84px,132px) clamp(78px,9.5vw,136px) 1fr;gap:clamp(16px,3vw,40px);align-items:center;padding:18px 0;border-top:1px solid rgba(233,229,219,.3)"><div style="font-family:'Blastine',cursive;font-size:clamp(24px,2.7vw,36px);color:#F6F4EE;line-height:1.35">20:30</div><div class="jm-itin-ill" style="display:flex;align-items:center;justify-content:center;height:clamp(78px,9.5vw,132px)">
+<div class="jm-itin-row" data-reveal="1" style="display:grid;grid-template-columns:minmax(84px,132px) clamp(78px,9.5vw,136px) 1fr;gap:clamp(16px,3vw,40px);align-items:center;padding:18px 0;border-top:1px solid rgba(233,229,219,.3)"><div style="font-family:'Blastine',cursive;font-size:clamp(1.5rem,2.7vw,2.25rem);color:#F6F4EE;line-height:1.35">20:30</div><div class="jm-itin-ill" style="display:flex;align-items:center;justify-content:center;height:clamp(78px,9.5vw,132px)">
 <!-- pastel de boda -->
 <svg viewBox="0 0 100 100" aria-hidden="true" style="height:86%;width:auto;max-width:100%;display:block"><g fill="none" stroke="#E9E5DB" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20,92 Q50,96 80,92"/><path d="M28,92 L28,77 M72,92 L72,77"/><path d="M28,77 Q31,73 35,77 Q39,73 43,77 Q47,73 50,77 Q54,73 58,77 Q62,73 65,77 Q69,73 72,77"/><path d="M34,77 L34,62 M66,77 L66,62"/><path d="M34,62 Q38,58 42,62 Q46,58 50,62 Q54,58 58,62 Q62,58 66,62"/><path d="M41,62 L41,48 M59,62 L59,48"/><path d="M41,48 Q45,44 50,48 Q55,44 59,48"/><circle cx="50" cy="85" r="1.2"/><circle cx="42" cy="70" r="1.2"/><circle cx="58" cy="70" r="1.2"/><path d="M46,48 L46,41 M54,48 L54,37"/><path d="M46,38.5 C44.6,36.6 41.8,37.5 41.8,39.9 C41.8,41.8 43.7,43.2 46,45.1 C48.3,43.2 50.2,41.8 50.2,39.9 C50.2,37.5 47.4,36.6 46,38.5"/><path d="M54,34.5 C52.6,32.6 49.8,33.5 49.8,35.9 C49.8,37.8 51.7,39.2 54,41.1 C56.3,39.2 58.2,37.8 58.2,35.9 C58.2,33.5 55.4,32.6 54,34.5"/></g></svg>
-</div><div style="font-family:'NoirEtBlanc',serif;text-transform:uppercase;letter-spacing:.06em;font-size:clamp(18px,1.8vw,25px)">Cena</div></div>
+</div><div style="font-family:'NoirEtBlanc',serif;text-transform:uppercase;letter-spacing:.06em;font-size:clamp(1.125rem,1.8vw,1.5625rem)">Cena</div></div>
 
-<div class="jm-itin-row" data-reveal="1" style="display:grid;grid-template-columns:minmax(84px,132px) clamp(78px,9.5vw,136px) 1fr;gap:clamp(16px,3vw,40px);align-items:center;padding:18px 0;border-top:1px solid rgba(233,229,219,.3);border-bottom:1px solid rgba(233,229,219,.3)"><div style="font-family:'Blastine',cursive;font-size:clamp(24px,2.7vw,36px);color:#F6F4EE;line-height:1.35">21:30</div><div class="jm-itin-ill" style="display:flex;align-items:center;justify-content:center;height:clamp(78px,9.5vw,132px)"><img src="assets/ill-dog-sunglasses-dk.png" alt="" style="max-width:100%;max-height:100%;width:auto;height:auto;display:block"></div><div style="font-family:'NoirEtBlanc',serif;text-transform:uppercase;letter-spacing:.06em;font-size:clamp(18px,1.8vw,25px)">Fiesta</div></div>
+<div class="jm-itin-row" data-reveal="1" style="display:grid;grid-template-columns:minmax(84px,132px) clamp(78px,9.5vw,136px) 1fr;gap:clamp(16px,3vw,40px);align-items:center;padding:18px 0;border-top:1px solid rgba(233,229,219,.3);border-bottom:1px solid rgba(233,229,219,.3)"><div style="font-family:'Blastine',cursive;font-size:clamp(1.5rem,2.7vw,2.25rem);color:#F6F4EE;line-height:1.35">21:30</div><div class="jm-itin-ill" style="display:flex;align-items:center;justify-content:center;height:clamp(78px,9.5vw,132px)"><img src="assets/ill-dog-sunglasses-dk.png" alt="" style="max-width:100%;max-height:100%;width:auto;height:auto;display:block"></div><div style="font-family:'NoirEtBlanc',serif;text-transform:uppercase;letter-spacing:.06em;font-size:clamp(1.125rem,1.8vw,1.5625rem)">Fiesta</div></div>
 
 </div>
 </section>
 
 <!-- ============================ VESTIMENTA ============================ -->
 <section id="vestimenta" data-dark="1" style="background:#551724;color:#F6F4EE;padding:clamp(90px,12vw,160px) clamp(24px,7vw,110px)">
-<div data-reveal="1" style="font-family:'NoirEtBlanc',serif;text-transform:uppercase;font-size:15px;letter-spacing:.3em;color:#C9CFB2;margin-bottom:20px">código de vestimenta</div>
-<h2 data-reveal="1" style="margin:0 0 clamp(40px,5vw,70px);font-family:'Lumiare',sans-serif;font-weight:400;font-size:clamp(30px,4.4vw,58px);line-height:1.08;letter-spacing:-.015em">Etiqueta de noche</h2>
+<div data-reveal="1" style="font-family:'NoirEtBlanc',serif;text-transform:uppercase;font-size:0.9375rem;letter-spacing:.3em;color:#C9CFB2;margin-bottom:20px">código de vestimenta</div>
+<h2 data-reveal="1" style="margin:0 0 clamp(40px,5vw,70px);font-family:'Lumiare',sans-serif;font-weight:400;font-size:clamp(1.875rem,4.4vw,3.625rem);line-height:1.08;letter-spacing:-.015em">Etiqueta de noche</h2>
 <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:clamp(24px,4vw,64px);border-top:1px solid rgba(246,244,238,.28);padding-top:clamp(28px,4vw,52px)">
-<div data-reveal="1" style="display:flex;flex-direction:column;gap:12px"><div style="font-family:'NoirEtBlanc',serif;text-transform:uppercase;font-size:13px;letter-spacing:.26em;color:#C9CFB2">ellas</div><div style="font-family:'NoirEtBlanc',serif;text-transform:uppercase;letter-spacing:.06em;font-size:clamp(21px,2.1vw,29px);line-height:1.3">Vestido largo</div></div>
-<div data-reveal="1" style="display:flex;flex-direction:column;gap:12px"><div style="font-family:'NoirEtBlanc',serif;text-transform:uppercase;font-size:13px;letter-spacing:.26em;color:#C9CFB2">ellos</div><div style="font-family:'NoirEtBlanc',serif;text-transform:uppercase;letter-spacing:.06em;font-size:clamp(21px,2.1vw,29px);line-height:1.3">Esmoquin o traje formal</div><div style="font-family:'NoirEtBlanc',serif;font-size:17px;line-height:1.65;opacity:.86">La noche en Morelia enfría, considera un abrigo.</div></div>
-<div data-reveal="1" style="display:flex;flex-direction:column;gap:12px"><div style="font-family:'NoirEtBlanc',serif;text-transform:uppercase;font-size:13px;letter-spacing:.26em;color:#C9CFB2">por favor</div><div style="font-family:'NoirEtBlanc',serif;text-transform:uppercase;letter-spacing:.06em;font-size:clamp(21px,2.1vw,29px);line-height:1.3">Evita el blanco y el vino</div><div style="font-family:'NoirEtBlanc',serif;font-size:17px;line-height:1.65;opacity:.86">Esos dos los reservamos para la novia y para la paleta de la boda.</div></div>
+<div data-reveal="1" style="display:flex;flex-direction:column;gap:12px"><div style="font-family:'NoirEtBlanc',serif;text-transform:uppercase;font-size:0.9375rem;letter-spacing:.26em;color:#C9CFB2">ellas</div><div style="font-family:'NoirEtBlanc',serif;text-transform:uppercase;letter-spacing:.06em;font-size:clamp(1.3125rem,2.1vw,1.8125rem);line-height:1.3">Vestido largo</div></div>
+<div data-reveal="1" style="display:flex;flex-direction:column;gap:12px"><div style="font-family:'NoirEtBlanc',serif;text-transform:uppercase;font-size:0.9375rem;letter-spacing:.26em;color:#C9CFB2">ellos</div><div style="font-family:'NoirEtBlanc',serif;text-transform:uppercase;letter-spacing:.06em;font-size:clamp(1.3125rem,2.1vw,1.8125rem);line-height:1.3">Esmoquin o traje formal</div><div style="font-family:'NoirEtBlanc',serif;font-size:1.0625rem;line-height:1.65;opacity:.86">La noche en Morelia enfría, considera un abrigo.</div></div>
+<div data-reveal="1" style="display:flex;flex-direction:column;gap:12px"><div style="font-family:'NoirEtBlanc',serif;text-transform:uppercase;font-size:0.9375rem;letter-spacing:.26em;color:#C9CFB2">por favor</div><div style="font-family:'NoirEtBlanc',serif;text-transform:uppercase;letter-spacing:.06em;font-size:clamp(1.3125rem,2.1vw,1.8125rem);line-height:1.3">Evita el blanco y el vino</div><div style="font-family:'NoirEtBlanc',serif;font-size:1.0625rem;line-height:1.65;opacity:.86">Esos dos los reservamos para la novia y para la paleta de la boda.</div></div>
 </div>
 </section>
 
 <!-- ============================ SOLO ADULTOS ============================ -->
 <section id="solo-adultos" style="background:#F6F4EE;padding:clamp(80px,10vw,130px) clamp(24px,7vw,110px);display:flex;flex-direction:column;align-items:center;text-align:center;gap:22px">
-<div data-reveal="1" style="font-family:'NoirEtBlanc',serif;text-transform:uppercase;font-size:15px;letter-spacing:.3em;color:#55624A">solo adultos</div>
-<h2 data-reveal="1" style="margin:0;font-family:'Lumiare',sans-serif;font-weight:400;font-size:clamp(28px,3.8vw,50px);line-height:1.08;letter-spacing:-.015em;max-width:18ch;text-wrap:pretty">Una noche solo para grandes</h2>
-<p data-reveal="1" style="margin:0;max-width:46ch;font-family:'NoirEtBlanc',serif;font-size:19px;line-height:1.7;opacity:.88;text-wrap:pretty">Los peques de la familia son parte de nuestra historia, pero esta noche queremos que papás y mamás la vivan sin pendientes: la celebración será solo para adultos. Gracias por entenderlo.</p>
+<div data-reveal="1" style="font-family:'NoirEtBlanc',serif;text-transform:uppercase;font-size:0.9375rem;letter-spacing:.3em;color:#55624A">solo adultos</div>
+<h2 data-reveal="1" style="margin:0;font-family:'Lumiare',sans-serif;font-weight:400;font-size:clamp(1.75rem,3.8vw,3.125rem);line-height:1.08;letter-spacing:-.015em;max-width:18ch;text-wrap:pretty">Una noche solo para grandes</h2>
+<p data-reveal="1" style="margin:0;max-width:46ch;font-family:'NoirEtBlanc',serif;font-size:1.1875rem;line-height:1.7;opacity:.88;text-wrap:pretty">Los peques de la familia son parte de nuestra historia, pero esta noche queremos que papás y mamás la vivan sin pendientes: la celebración será solo para adultos. Gracias por entenderlo.</p>
 </section>
 
 <!-- ============================ HOSPEDAJE ============================ -->
@@ -305,15 +305,15 @@
      corchetes. Todo el contenido sigue intacto abajo.
      ====================================================================== -->
 <section id="hospedaje" hidden style="padding:clamp(90px,12vw,160px) clamp(24px,7vw,110px)">
-<div data-reveal="1" style="font-family:'NoirEtBlanc',serif;text-transform:uppercase;font-size:15px;letter-spacing:.3em;color:#55624A;margin-bottom:20px">hospedaje</div>
-<h2 data-reveal="1" style="margin:0 0 clamp(46px,6vw,80px);font-family:'Lumiare',sans-serif;font-weight:400;font-size:clamp(30px,4.4vw,58px);line-height:1.08;letter-spacing:-.015em;max-width:17ch;text-wrap:pretty">Si vienes de fuera, aquí te quedas</h2>
+<div data-reveal="1" style="font-family:'NoirEtBlanc',serif;text-transform:uppercase;font-size:0.9375rem;letter-spacing:.3em;color:#55624A;margin-bottom:20px">hospedaje</div>
+<h2 data-reveal="1" style="margin:0 0 clamp(46px,6vw,80px);font-family:'Lumiare',sans-serif;font-weight:400;font-size:clamp(1.875rem,4.4vw,3.625rem);line-height:1.08;letter-spacing:-.015em;max-width:17ch;text-wrap:pretty">Si vienes de fuera, aquí te quedas</h2>
 <!-- Hoteles: los novios siguen cerrando convenios. Los corchetes son
      datos pendientes a propósito. -->
 <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:clamp(22px,3vw,40px);margin-bottom:clamp(40px,5vw,64px)">
-<div data-reveal="1" style="border:1px solid rgba(99,27,41,.16);padding:clamp(28px,3.4vw,44px);display:flex;flex-direction:column;gap:12px"><div style="font-family:'NoirEtBlanc',serif;text-transform:uppercase;letter-spacing:.06em;font-size:clamp(20px,2vw,28px);line-height:1.25">Hotel [nombre]</div><div style="font-family:'NoirEtBlanc',serif;font-size:17px;line-height:1.65;opacity:.84">[Zona · a X min del templo]</div><div style="font-family:'NoirEtBlanc',serif;font-size:17px;line-height:1.65;color:#631B29">Tarifa especial [$X] con el código <span style="letter-spacing:.16em">JORGEYMONTSE</span></div><a class="jm-btn" style="margin-top:12px;align-self:flex-start;padding:14px 28px 12px;border:1px solid rgba(99,27,41,.35);border-radius:999px;font-family:'NoirEtBlanc',serif;text-transform:uppercase;font-size:14px;letter-spacing:.18em;line-height:1;white-space:nowrap">reservar</a></div>
-<div data-reveal="1" style="border:1px solid rgba(99,27,41,.16);padding:clamp(28px,3.4vw,44px);display:flex;flex-direction:column;gap:12px"><div style="font-family:'NoirEtBlanc',serif;text-transform:uppercase;letter-spacing:.06em;font-size:clamp(20px,2vw,28px);line-height:1.25">Hotel [nombre]</div><div style="font-family:'NoirEtBlanc',serif;font-size:17px;line-height:1.65;opacity:.84">[Zona · a X min del jardín]</div><div style="font-family:'NoirEtBlanc',serif;font-size:17px;line-height:1.65;color:#631B29">Tarifa especial [$X] con el código <span style="letter-spacing:.16em">JORGEYMONTSE</span></div><a class="jm-btn" style="margin-top:12px;align-self:flex-start;padding:14px 28px 12px;border:1px solid rgba(99,27,41,.35);border-radius:999px;font-family:'NoirEtBlanc',serif;text-transform:uppercase;font-size:14px;letter-spacing:.18em;line-height:1;white-space:nowrap">reservar</a></div>
+<div data-reveal="1" style="border:1px solid rgba(99,27,41,.16);padding:clamp(28px,3.4vw,44px);display:flex;flex-direction:column;gap:12px"><div style="font-family:'NoirEtBlanc',serif;text-transform:uppercase;letter-spacing:.06em;font-size:clamp(1.25rem,2vw,1.75rem);line-height:1.25">Hotel [nombre]</div><div style="font-family:'NoirEtBlanc',serif;font-size:1.0625rem;line-height:1.65;opacity:.84">[Zona · a X min del templo]</div><div style="font-family:'NoirEtBlanc',serif;font-size:1.0625rem;line-height:1.65;color:#631B29">Tarifa especial [$X] con el código <span style="letter-spacing:.16em">JORGEYMONTSE</span></div><a class="jm-btn" style="margin-top:12px;align-self:flex-start;padding:14px 28px 12px;border:1px solid rgba(99,27,41,.35);border-radius:999px;font-family:'NoirEtBlanc',serif;text-transform:uppercase;font-size:0.875rem;letter-spacing:.18em;line-height:1;white-space:nowrap">reservar</a></div>
+<div data-reveal="1" style="border:1px solid rgba(99,27,41,.16);padding:clamp(28px,3.4vw,44px);display:flex;flex-direction:column;gap:12px"><div style="font-family:'NoirEtBlanc',serif;text-transform:uppercase;letter-spacing:.06em;font-size:clamp(1.25rem,2vw,1.75rem);line-height:1.25">Hotel [nombre]</div><div style="font-family:'NoirEtBlanc',serif;font-size:1.0625rem;line-height:1.65;opacity:.84">[Zona · a X min del jardín]</div><div style="font-family:'NoirEtBlanc',serif;font-size:1.0625rem;line-height:1.65;color:#631B29">Tarifa especial [$X] con el código <span style="letter-spacing:.16em">JORGEYMONTSE</span></div><a class="jm-btn" style="margin-top:12px;align-self:flex-start;padding:14px 28px 12px;border:1px solid rgba(99,27,41,.35);border-radius:999px;font-family:'NoirEtBlanc',serif;text-transform:uppercase;font-size:0.875rem;letter-spacing:.18em;line-height:1;white-space:nowrap">reservar</a></div>
 </div>
-<div data-reveal="1" style="border-top:1px solid rgba(99,27,41,.16);padding-top:clamp(32px,4vw,48px);display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:clamp(24px,3vw,44px)"><div style="display:flex;flex-direction:column;gap:12px"><div style="font-family:'NoirEtBlanc',serif;text-transform:uppercase;font-size:13px;letter-spacing:.26em;color:#55624A">estacionamiento</div><div style="font-family:'NoirEtBlanc',serif;font-size:17px;line-height:1.7;opacity:.84">En la recepción, justo enfrente del salón. Para la ceremonia toma en cuenta que la iglesia no tiene estacionamiento propio.</div></div><div style="display:flex;flex-direction:column;gap:12px"><div style="font-family:'NoirEtBlanc',serif;text-transform:uppercase;font-size:13px;letter-spacing:.26em;color:#55624A">aeropuerto</div><div style="font-family:'NoirEtBlanc',serif;font-size:17px;line-height:1.7;opacity:.84">[Morelia (MLM) está a X min. Vuelos directos desde CDMX, Tijuana y Houston.]</div></div></div>
+<div data-reveal="1" style="border-top:1px solid rgba(99,27,41,.16);padding-top:clamp(32px,4vw,48px);display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:clamp(24px,3vw,44px)"><div style="display:flex;flex-direction:column;gap:12px"><div style="font-family:'NoirEtBlanc',serif;text-transform:uppercase;font-size:0.9375rem;letter-spacing:.26em;color:#55624A">estacionamiento</div><div style="font-family:'NoirEtBlanc',serif;font-size:1.0625rem;line-height:1.7;opacity:.84">En la recepción, justo enfrente del salón. Para la ceremonia toma en cuenta que la iglesia no tiene estacionamiento propio.</div></div><div style="display:flex;flex-direction:column;gap:12px"><div style="font-family:'NoirEtBlanc',serif;text-transform:uppercase;font-size:0.9375rem;letter-spacing:.26em;color:#55624A">aeropuerto</div><div style="font-family:'NoirEtBlanc',serif;font-size:1.0625rem;line-height:1.7;opacity:.84">[Morelia (MLM) está a X min. Vuelos directos desde CDMX, Tijuana y Houston.]</div></div></div>
 </section>
 
 <!-- ============================ SEPARADOR 3 ============================ -->
@@ -322,13 +322,13 @@
      así que a esta foto se le extendió el cielo (ver assets/README.md) -->
 <img loading="lazy" decoding="async" class="jm-fill" src="assets/foto-de-la-mano.jpeg" alt="" style="object-position:center 6%"></div></div>
 <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(58,15,22,.45),rgba(58,15,22,.2) 45%,rgba(58,15,22,.58));pointer-events:none"></div>
-<div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none"><div style="font-family:'NoirEtBlanc',serif;text-transform:uppercase;font-size:clamp(19px,2.8vw,34px);letter-spacing:.34em;color:#F6F4EE;text-shadow:0 2px 30px rgba(58,15,22,.6);text-align:center;padding:0 24px">contando los días</div></div>
+<div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none"><div style="font-family:'NoirEtBlanc',serif;text-transform:uppercase;font-size:clamp(1.1875rem,2.8vw,2.125rem);letter-spacing:.34em;color:#F6F4EE;text-shadow:0 2px 30px rgba(58,15,22,.6);text-align:center;padding:0 24px">contando los días</div></div>
 </section>
 
 <!-- ============================ GALERÍA ============================ -->
 <section id="galeria" style="background:#F6F4EE;padding:clamp(90px,12vw,160px) clamp(24px,7vw,110px);overflow:hidden">
 <div class="jm-gal-cabeza" data-reveal="1">
-<div style="font-family:'NoirEtBlanc',serif;text-transform:uppercase;font-size:15px;letter-spacing:.3em;color:#55624A">galería</div>
+<div style="font-family:'NoirEtBlanc',serif;text-transform:uppercase;font-size:0.9375rem;letter-spacing:.3em;color:#55624A">galería</div>
 <!-- El modo arranca según el aparato (carrusel en celular, mosaico en
      compu) y desde aquí se cambia. Los botones nacen sin `hidden` para
      que funcionen si el JS no carga; site.js marca cuál está activo. -->
@@ -385,19 +385,19 @@
      el trazo tal cual, así que sirve para los dos colores sin duplicar
      el archivo. La proporción es la del dibujo (820x1059). -->
 <div data-reveal="1" aria-hidden="true" style="width:clamp(150px,17vw,205px);aspect-ratio:820/1059;margin-bottom:6px;background:#631B29;-webkit-mask:url('assets/ill-couple-entrance-dk.png') center/contain no-repeat;mask:url('assets/ill-couple-entrance-dk.png') center/contain no-repeat"></div>
-<div data-reveal="1" style="font-family:'NoirEtBlanc',serif;text-transform:uppercase;font-size:15px;letter-spacing:.3em;color:#55624A">mesa de regalos</div>
-<h2 data-reveal="1" style="margin:0;font-family:'Lumiare',sans-serif;font-weight:400;font-size:clamp(28px,3.8vw,50px);line-height:1.08;letter-spacing:-.015em;max-width:18ch;text-wrap:pretty">Tu presencia es el regalo</h2>
-<p data-reveal="1" style="margin:0;max-width:46ch;font-family:'NoirEtBlanc',serif;font-size:19px;line-height:1.7;opacity:.88;text-wrap:pretty">Si además quieres consentirnos, aquí te dejamos algunas opciones.</p>
+<div data-reveal="1" style="font-family:'NoirEtBlanc',serif;text-transform:uppercase;font-size:0.9375rem;letter-spacing:.3em;color:#55624A">mesa de regalos</div>
+<h2 data-reveal="1" style="margin:0;font-family:'Lumiare',sans-serif;font-weight:400;font-size:clamp(1.75rem,3.8vw,3.125rem);line-height:1.08;letter-spacing:-.015em;max-width:18ch;text-wrap:pretty">Tu presencia es el regalo</h2>
+<p data-reveal="1" style="margin:0;max-width:46ch;font-family:'NoirEtBlanc',serif;font-size:1.1875rem;line-height:1.7;opacity:.88;text-wrap:pretty">Si además quieres consentirnos, aquí te dejamos algunas opciones.</p>
 <div data-reveal="1" style="display:flex;flex-wrap:wrap;justify-content:center;gap:14px;margin-top:8px">
-<a class="jm-btn" href="https://mesaderegalos.liverpool.com.mx/milistaderegalos/60035839" target="_blank" rel="noopener" style="cursor:pointer;padding:15px 30px 13px;border:1px solid rgba(99,27,41,.35);border-radius:999px;font-family:'NoirEtBlanc',serif;text-transform:uppercase;font-size:14px;letter-spacing:.18em;line-height:1;white-space:nowrap">liverpool</a>
+<a class="jm-btn" href="https://mesaderegalos.liverpool.com.mx/milistaderegalos/60035839" target="_blank" rel="noopener" style="cursor:pointer;padding:15px 30px 13px;border:1px solid rgba(99,27,41,.35);border-radius:999px;font-family:'NoirEtBlanc',serif;text-transform:uppercase;font-size:0.875rem;letter-spacing:.18em;line-height:1;white-space:nowrap">liverpool</a>
 <!-- PENDIENTE · AMAZON: oculto porque no tiene link todavía. Cuando
      llegue, ponerle el href y quitarle el hidden. -->
-<a class="jm-btn" hidden style="cursor:pointer;padding:15px 30px 13px;border:1px solid rgba(99,27,41,.35);border-radius:999px;font-family:'NoirEtBlanc',serif;text-transform:uppercase;font-size:14px;letter-spacing:.18em;line-height:1;white-space:nowrap">amazon</a>
-<button type="button" class="jm-btn" id="jm-luna-btn" style="cursor:pointer;background:transparent;color:inherit;padding:15px 30px 13px;border:1px solid rgba(99,27,41,.35);border-radius:999px;font-family:'NoirEtBlanc',serif;text-transform:uppercase;font-size:14px;letter-spacing:.18em;line-height:1;white-space:nowrap">fondo para la luna de miel</button>
+<a class="jm-btn" hidden style="cursor:pointer;padding:15px 30px 13px;border:1px solid rgba(99,27,41,.35);border-radius:999px;font-family:'NoirEtBlanc',serif;text-transform:uppercase;font-size:0.875rem;letter-spacing:.18em;line-height:1;white-space:nowrap">amazon</a>
+<button type="button" class="jm-btn" id="jm-luna-btn" style="cursor:pointer;background:transparent;color:inherit;padding:15px 30px 13px;border:1px solid rgba(99,27,41,.35);border-radius:999px;font-family:'NoirEtBlanc',serif;text-transform:uppercase;font-size:0.875rem;letter-spacing:.18em;line-height:1;white-space:nowrap">fondo para la luna de miel</button>
 </div>
 <!-- El número de evento se muestra además del link: si alguien busca la
      mesa desde la app o el mostrador de Liverpool, con esto le basta. -->
-<div data-reveal="1" style="font-family:'NoirEtBlanc',serif;font-size:15px;line-height:1.6;opacity:.8">Liverpool · evento <span style="letter-spacing:.12em">60035839</span></div>
+<div data-reveal="1" style="font-family:'NoirEtBlanc',serif;font-size:0.9375rem;line-height:1.6;opacity:.8">Liverpool · evento <span style="letter-spacing:.12em">60035839</span></div>
 </section>
 
 <!-- ============================ RSVP ============================ -->
@@ -408,9 +408,9 @@
      el archivo, no la página pintada. -->
 <section id="rsvp" data-dark="1" style="background:#551724;color:#F6F4EE;padding:clamp(90px,12vw,160px) clamp(24px,7vw,110px);display:flex;flex-direction:column;align-items:center;text-align:center;gap:24px">
 <img data-reveal="1" src="assets/ill-couple-entrance-dk.png" alt="Jorge y Montse" style="width:clamp(170px,21vw,255px);height:auto;display:block;margin-bottom:2px">
-<div data-reveal="1" style="font-family:'NoirEtBlanc',serif;text-transform:uppercase;font-size:15px;letter-spacing:.3em;color:#C9CFB2">confirma tu asistencia</div>
-<h2 data-reveal="1" style="margin:0;font-family:'Lumiare',sans-serif;font-weight:400;font-size:clamp(28px,3.8vw,50px);line-height:1.08;letter-spacing:-.015em;max-width:16ch;text-wrap:pretty">Nos vemos el 30 de enero</h2>
-<p data-reveal="1" style="margin:0;max-width:44ch;font-family:'NoirEtBlanc',serif;font-size:19px;line-height:1.7;opacity:.8;text-wrap:pretty">Te pedimos confirmar antes del 25 de noviembre de 2026 para poder apartar tu lugar.</p>
+<div data-reveal="1" style="font-family:'NoirEtBlanc',serif;text-transform:uppercase;font-size:0.9375rem;letter-spacing:.3em;color:#C9CFB2">confirma tu asistencia</div>
+<h2 data-reveal="1" style="margin:0;font-family:'Lumiare',sans-serif;font-weight:400;font-size:clamp(1.75rem,3.8vw,3.125rem);line-height:1.08;letter-spacing:-.015em;max-width:16ch;text-wrap:pretty">Nos vemos el 30 de enero</h2>
+<p data-reveal="1" style="margin:0;max-width:44ch;font-family:'NoirEtBlanc',serif;font-size:1.1875rem;line-height:1.7;opacity:.8;text-wrap:pretty">Te pedimos confirmar antes del 25 de noviembre de 2026 para poder apartar tu lugar.</p>
 <form id="jm-rsvp-form" class="jm-form" name="rsvp" method="POST" data-netlify="true" netlify-honeypot="bot-field" data-reveal="1">
 <input type="hidden" name="form-name" value="rsvp">
 <p class="jm-hp"><label>No llenes esto: <input name="bot-field"></label></p>
@@ -498,22 +498,22 @@
 </div>
 </details>
 
-<button type="submit" id="jm-rsvp-cta" class="jm-btn-solid" style="margin-top:14px;cursor:pointer;padding:18px 40px 16px;background:#F6F4EE;color:#631B29;border:0;border-radius:999px;font-family:'NoirEtBlanc',serif;text-transform:uppercase;font-size:16px;letter-spacing:.2em;white-space:nowrap;line-height:1">confirmar</button>
+<button type="submit" id="jm-rsvp-cta" class="jm-btn-solid" style="margin-top:14px;cursor:pointer;padding:18px 40px 16px;background:#F6F4EE;color:#631B29;border:0;border-radius:999px;font-family:'NoirEtBlanc',serif;text-transform:uppercase;font-size:1rem;letter-spacing:.2em;white-space:nowrap;line-height:1">confirmar</button>
 <p class="jm-form-estado" id="jm-form-estado" role="status" aria-live="polite"></p>
 </form>
 
 
 <div id="jm-rsvp-gracias" class="jm-gracias" hidden>
 <img src="assets/orn-heart-dk.png" alt="" style="width:clamp(38px,4vw,54px);opacity:.85">
-<div style="font-family:'NoirEtBlanc',serif;text-transform:uppercase;font-size:clamp(20px,2.8vw,34px);letter-spacing:.2em;line-height:1.3;color:#C9CFB2">gracias, ya quedó</div>
-<p style="margin:0;max-width:40ch;font-family:'NoirEtBlanc',serif;font-size:19px;line-height:1.7;opacity:.8">Nos va a dar mucho gusto verte. Nos vemos el 30 de enero en Morelia.</p>
+<div style="font-family:'NoirEtBlanc',serif;text-transform:uppercase;font-size:clamp(1.25rem,2.8vw,2.125rem);letter-spacing:.2em;line-height:1.3;color:#C9CFB2">gracias, ya quedó</div>
+<p style="margin:0;max-width:40ch;font-family:'NoirEtBlanc',serif;font-size:1.1875rem;line-height:1.7;opacity:.8">Nos va a dar mucho gusto verte. Nos vemos el 30 de enero en Morelia.</p>
 </div>
 </section>
 
 <footer style="background:#FFFFFF;padding:clamp(56px,7vw,90px) clamp(24px,7vw,110px);display:flex;flex-direction:column;align-items:center;gap:18px">
 <div aria-hidden="true" style="width:66px;height:74px;background:#631B29;-webkit-mask:url('assets/monogram-mark.png') center/contain no-repeat;mask:url('assets/monogram-mark.png') center/contain no-repeat"></div>
-<div style="font-family:'NoirEtBlanc',serif;text-transform:uppercase;font-size:17px;letter-spacing:.34em;color:#631B29;opacity:.85;white-space:nowrap">jorge y montse</div>
-<div style="font-family:'NoirEtBlanc',serif;text-transform:uppercase;font-size:16px;letter-spacing:.28em;white-space:nowrap;color:#55624A">MORELIA · 2027</div>
+<div style="font-family:'NoirEtBlanc',serif;text-transform:uppercase;font-size:1.0625rem;letter-spacing:.34em;color:#631B29;opacity:.85;white-space:nowrap">jorge y montse</div>
+<div style="font-family:'NoirEtBlanc',serif;text-transform:uppercase;font-size:1rem;letter-spacing:.28em;white-space:nowrap;color:#55624A">MORELIA · 2027</div>
 </footer>
 
 </main>
@@ -521,10 +521,10 @@
 <!-- ============================ LIGHTBOX ============================ -->
 <div id="jm-lightbox" role="dialog" aria-modal="true" aria-label="Galería" style="position:fixed;inset:0;z-index:90;display:none;align-items:center;justify-content:center;background:rgba(42,16,22,.94);opacity:0;transition:opacity .45s ease;cursor:zoom-out;backdrop-filter:blur(3px)">
 <img id="jm-lb-img" alt="" style="max-width:86vw;max-height:82vh;object-fit:contain;cursor:default;box-shadow:0 40px 90px rgba(0,0,0,.55);transform:scale(.94);opacity:0;transition:transform .6s cubic-bezier(.22,1,.36,1),opacity .5s ease">
-<button class="jm-lbbtn" id="jm-lb-close" type="button" aria-label="Cerrar" style="position:absolute;right:clamp(12px,3vw,34px);top:clamp(12px,3vw,30px);width:48px;height:48px;border:1px solid rgba(246,244,238,.3);border-radius:50%;background:transparent;color:#F6F4EE;cursor:pointer;font-family:'NoirEtBlanc',serif;font-size:24px;line-height:1">×</button>
-<button class="jm-lbbtn" id="jm-lb-prev" type="button" aria-label="Anterior" style="position:absolute;left:clamp(10px,3vw,40px);top:50%;transform:translateY(-50%);width:52px;height:52px;border:1px solid rgba(246,244,238,.3);border-radius:50%;background:transparent;color:#F6F4EE;cursor:pointer;font-family:'NoirEtBlanc',serif;font-size:26px;line-height:1">‹</button>
-<button class="jm-lbbtn" id="jm-lb-next" type="button" aria-label="Siguiente" style="position:absolute;right:clamp(10px,3vw,40px);top:50%;transform:translateY(-50%);width:52px;height:52px;border:1px solid rgba(246,244,238,.3);border-radius:50%;background:transparent;color:#F6F4EE;cursor:pointer;font-family:'NoirEtBlanc',serif;font-size:26px;line-height:1">›</button>
-<div id="jm-lb-count" style="position:absolute;left:0;right:0;bottom:clamp(18px,4vh,42px);text-align:center;font-family:'NoirEtBlanc',serif;text-transform:uppercase;letter-spacing:.3em;font-size:13px;color:rgba(246,244,238,.65);pointer-events:none">1 / 6</div>
+<button class="jm-lbbtn" id="jm-lb-close" type="button" aria-label="Cerrar" style="position:absolute;right:clamp(12px,3vw,34px);top:clamp(12px,3vw,30px);width:48px;height:48px;border:1px solid rgba(246,244,238,.3);border-radius:50%;background:transparent;color:#F6F4EE;cursor:pointer;font-family:'NoirEtBlanc',serif;font-size:1.5rem;line-height:1">×</button>
+<button class="jm-lbbtn" id="jm-lb-prev" type="button" aria-label="Anterior" style="position:absolute;left:clamp(10px,3vw,40px);top:50%;transform:translateY(-50%);width:52px;height:52px;border:1px solid rgba(246,244,238,.3);border-radius:50%;background:transparent;color:#F6F4EE;cursor:pointer;font-family:'NoirEtBlanc',serif;font-size:1.625rem;line-height:1">‹</button>
+<button class="jm-lbbtn" id="jm-lb-next" type="button" aria-label="Siguiente" style="position:absolute;right:clamp(10px,3vw,40px);top:50%;transform:translateY(-50%);width:52px;height:52px;border:1px solid rgba(246,244,238,.3);border-radius:50%;background:transparent;color:#F6F4EE;cursor:pointer;font-family:'NoirEtBlanc',serif;font-size:1.625rem;line-height:1">›</button>
+<div id="jm-lb-count" style="position:absolute;left:0;right:0;bottom:clamp(18px,4vh,42px);text-align:center;font-family:'NoirEtBlanc',serif;text-transform:uppercase;letter-spacing:.3em;font-size:0.8125rem;color:rgba(246,244,238,.65);pointer-events:none">1 / 6</div>
 </div>
 
 <!-- ============================ LUNA DE MIEL ============================ -->
@@ -533,16 +533,16 @@
 <div id="jm-luna" role="dialog" aria-modal="true" aria-label="Fondo para la luna de miel" style="position:fixed;inset:0;z-index:92;display:none;align-items:center;justify-content:center;background:rgba(42,16,22,.94);opacity:0;transition:opacity .45s ease;backdrop-filter:blur(3px);padding:24px">
 <div id="jm-luna-card" style="position:relative;width:min(440px,92vw);max-height:86vh;overflow:auto;background:#FFFFFF;color:#631B29;border-radius:4px;padding:clamp(32px,5vw,48px);text-align:center;box-shadow:0 40px 90px rgba(0,0,0,.55)">
 <div aria-hidden="true" style="width:34px;height:38px;margin:0 auto 16px;background:#55624A;-webkit-mask:url('assets/monogram-mark.png') center/contain no-repeat;mask:url('assets/monogram-mark.png') center/contain no-repeat"></div>
-<div style="font-family:'NoirEtBlanc',serif;text-transform:uppercase;font-size:14px;letter-spacing:.3em;color:#55624A;margin-bottom:12px">luna de miel</div>
-<h3 style="margin:0 0 14px;font-family:'Lumiare',sans-serif;font-weight:400;font-size:clamp(24px,3vw,32px);line-height:1.15;letter-spacing:-.015em">Ayúdanos a empezar la aventura</h3>
-<p style="margin:0 0 22px;font-family:'NoirEtBlanc',serif;font-size:17px;line-height:1.7;opacity:.88">Si prefieres regalarnos un empujón para la luna de miel, puedes depositarlo en esta cuenta:</p>
-<div style="border:1px solid rgba(99,27,41,.16);padding:20px 18px;display:flex;flex-direction:column;gap:12px;text-align:left;font-family:'NoirEtBlanc',serif;font-size:16px;line-height:1.5">
-<div><span style="display:block;font-family:'NoirEtBlanc',serif;text-transform:uppercase;font-size:11px;letter-spacing:.24em;color:#55624A;margin-bottom:3px">banco</span>[pendiente]</div>
-<div><span style="display:block;font-family:'NoirEtBlanc',serif;text-transform:uppercase;font-size:11px;letter-spacing:.24em;color:#55624A;margin-bottom:3px">titular</span>[pendiente]</div>
-<div><span style="display:block;font-family:'NoirEtBlanc',serif;text-transform:uppercase;font-size:11px;letter-spacing:.24em;color:#55624A;margin-bottom:3px">cuenta · clabe</span>[pendiente]</div>
+<div style="font-family:'NoirEtBlanc',serif;text-transform:uppercase;font-size:0.875rem;letter-spacing:.3em;color:#55624A;margin-bottom:12px">luna de miel</div>
+<h3 style="margin:0 0 14px;font-family:'Lumiare',sans-serif;font-weight:400;font-size:clamp(1.5rem,3vw,2rem);line-height:1.15;letter-spacing:-.015em">Ayúdanos a empezar la aventura</h3>
+<p style="margin:0 0 22px;font-family:'NoirEtBlanc',serif;font-size:1.0625rem;line-height:1.7;opacity:.88">Si prefieres regalarnos un empujón para la luna de miel, puedes depositarlo en esta cuenta:</p>
+<div style="border:1px solid rgba(99,27,41,.16);padding:20px 18px;display:flex;flex-direction:column;gap:12px;text-align:left;font-family:'NoirEtBlanc',serif;font-size:1rem;line-height:1.5">
+<div><span style="display:block;font-family:'NoirEtBlanc',serif;text-transform:uppercase;font-size:0.9375rem;letter-spacing:.24em;color:#55624A;margin-bottom:3px">banco</span>[pendiente]</div>
+<div><span style="display:block;font-family:'NoirEtBlanc',serif;text-transform:uppercase;font-size:0.9375rem;letter-spacing:.24em;color:#55624A;margin-bottom:3px">titular</span>[pendiente]</div>
+<div><span style="display:block;font-family:'NoirEtBlanc',serif;text-transform:uppercase;font-size:0.9375rem;letter-spacing:.24em;color:#55624A;margin-bottom:3px">cuenta · clabe</span>[pendiente]</div>
 </div>
-<p style="margin:18px 0 0;font-family:'NoirEtBlanc',serif;font-size:14px;line-height:1.6;opacity:.8">El día de la boda también habrá lluvia de sobres.</p>
-<button class="jm-lbbtn" id="jm-luna-close" type="button" aria-label="Cerrar" style="position:absolute;right:12px;top:12px;width:40px;height:40px;border:1px solid rgba(99,27,41,.25);border-radius:50%;background:transparent;color:#631B29;cursor:pointer;font-family:'NoirEtBlanc',serif;font-size:20px;line-height:1">×</button>
+<p style="margin:18px 0 0;font-family:'NoirEtBlanc',serif;font-size:0.875rem;line-height:1.6;opacity:.8">El día de la boda también habrá lluvia de sobres.</p>
+<button class="jm-lbbtn" id="jm-luna-close" type="button" aria-label="Cerrar" style="position:absolute;right:12px;top:12px;width:40px;height:40px;border:1px solid rgba(99,27,41,.25);border-radius:50%;background:transparent;color:#631B29;cursor:pointer;font-family:'NoirEtBlanc',serif;font-size:1.25rem;line-height:1">×</button>
 </div>
 </div>
 

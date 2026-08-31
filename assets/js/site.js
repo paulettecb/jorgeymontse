@@ -832,6 +832,9 @@
     var on = !a.paused;
     btn.setAttribute('aria-pressed', on ? 'true' : 'false');
     if (el.musicLabel) el.musicLabel.textContent = on ? 'pausar' : 'música';
+    /* En pantallas chicas la palabra se esconde y queda sólo el icono, así
+       que el nombre accesible tiene que decirlo por su cuenta. */
+    if (el.music) el.music.setAttribute('aria-label', on ? 'Pausar la música' : 'Música');
     if (el.bars) {
       Array.prototype.forEach.call(el.bars.children, function (b, i) {
         b.style.animation = on ? 'jmBars ' + (0.7 + i * 0.22) + 's ease-in-out infinite' : 'none';
