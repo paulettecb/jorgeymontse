@@ -196,7 +196,7 @@ section.blk{ margin-top:52px }
     var q = $('buscar').value.trim().toLowerCase();
     if (!q) return DATOS.rsvps;
     return DATOS.rsvps.filter(function (x) {
-      return [x.nombre, x.acompanantes, x.cancion, x.alergias, x.telefono, x.mensaje]
+      return [x.nombre, x.acompanantes, x.cancion, x.alergias, x.telefono, x.mensaje, x.invitacion]
         .join(' ').toLowerCase().indexOf(q) !== -1;
     });
   }

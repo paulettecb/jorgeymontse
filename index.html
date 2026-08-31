@@ -125,11 +125,11 @@
 <section id="bienvenidos" style="padding:clamp(90px,12vw,160px) clamp(24px,7vw,110px);display:flex;flex-direction:column;align-items:center;text-align:center;gap:26px">
 <div data-reveal="1" aria-hidden="true" style="width:44px;height:50px;background:#631B29;-webkit-mask:url('assets/monogram-mark.png') center/contain no-repeat;mask:url('assets/monogram-mark.png') center/contain no-repeat"></div>
 <div data-reveal="1" style="font-family:'NoirEtBlanc',serif;text-transform:uppercase;font-size:15px;letter-spacing:.3em;color:#55624A">bienvenidos</div>
-<h2 data-reveal="1" style="margin:0;font-family:'Lumiare',sans-serif;font-weight:400;font-size:clamp(30px,4.4vw,58px);line-height:1.08;letter-spacing:-.015em;max-width:17ch;text-wrap:pretty">Por fin lo hacemos oficial</h2>
 <!-- Frase de bienvenida: pendiente la versión final de los novios.
      Esta es la que mandaron como base; hay alternativas más cursis
      propuestas en el plan del proyecto. Sin mención a los años que
-     llevan juntos: los novios pidieron quitarla. -->
+     llevan juntos ni titular arriba: los novios pidieron quitar los dos,
+     así que la sección abre con el monograma y el «bienvenidos». -->
 <p data-reveal="1" style="margin:0;max-width:48ch;font-family:'NoirEtBlanc',serif;font-size:19px;line-height:1.7;opacity:.88;text-wrap:pretty">Decidimos dar el siguiente paso en nuestra historia y nos encantaría que estés ahí para acompañarnos.</p>
 </section>
 
@@ -344,9 +344,21 @@
 <input type="hidden" name="form-name" value="rsvp">
 <p class="jm-hp"><label>No llenes esto: <input name="bot-field"></label></p>
 
-<label class="jm-field">
+<!-- Dos caras del mismo dato. Con link personalizado (?i=…) el sitio ya
+     sabe quién es y sólo se lo confirma; sin link, o si el id no existe,
+     vuelve a pedir el nombre a mano, como antes. El input de texto se
+     desactiva al personalizar para que no se manden dos «nombre». -->
+<div class="jm-field jm-quien" id="jm-quien" hidden>
+<span>Confirmas por</span>
+<p class="jm-quien-nombre" id="jm-quien-nombre"></p>
+<p class="jm-quien-pases" id="jm-quien-pases"></p>
+<input type="hidden" id="jm-quien-nombre-input">
+<input type="hidden" id="jm-quien-id-input">
+</div>
+
+<label class="jm-field" id="jm-campo-nombre">
 <span>¿Cómo te llamas?</span>
-<input type="text" name="nombre" required autocomplete="name" placeholder="Tu nombre completo">
+<input type="text" name="nombre" id="jm-input-nombre" required autocomplete="name" placeholder="Tu nombre completo">
 </label>
 
 <fieldset class="jm-field jm-radios">

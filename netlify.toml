@@ -19,6 +19,14 @@
   [headers.values]
     X-Robots-Tag = "noindex, nofollow"
 
+# El `publish` es la raíz del repo, así que sin esto el código de las
+# funciones —y con él la lista de invitados— quedaría descargable como
+# archivo estático. Las funciones de verdad se sirven desde /api/*.
+[[redirects]]
+  from = "/netlify/*"
+  to = "/404.html"
+  status = 404
+
 [[redirects]]
   from = "/panel"
   to = "/panel.html"

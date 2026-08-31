@@ -10,7 +10,8 @@ import type { Context } from '@netlify/functions';
 
 const CAMPOS = [
   'nombre', 'asiste', 'personas', 'acompanantes',
-  'alergias', 'telefono', 'cancion', 'mensaje'
+  'alergias', 'telefono', 'cancion', 'mensaje',
+  'invitacion'   // el id del link personalizado, vacío si confirmaron sin él
 ] as const;
 
 export default async (req: Request, _context: Context) => {
