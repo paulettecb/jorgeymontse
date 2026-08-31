@@ -26,10 +26,16 @@
   --vino-ink: #4A1420;
   --vino-deep: #551724;
   --foto-bg: #3A0F16;     /* fondo de los separadores de foto */
-  --oliva: #55624A;       /* acento sobre blanco */
-  --oliva-pale: #C9CFB2;  /* acento sobre vino */
+  --oliva: #55624A;       /* acento sobre blanco — 6.5:1 */
+  --oliva-pale: #C9CFB2;  /* acento sobre vino y verde — 8.5:1 / 6.6:1 */
+  --oliva-deep: #37422F;  /* fondo del itinerario */
   --oliva-ink: #333C2C;
 }
+
+/* Contraste: cada combinación de texto del sitio se midió contra WCAG 2.1
+   (script en el commit "Subir el contraste de todo el sitio"). El piso es
+   4.5:1 para texto de lectura y 3:1 para titulares y horas. Si cambias una
+   opacidad o un tono, vuelve a medirlo antes de subirlo. */
 
 html { scroll-behavior: smooth; }
 body { margin: 0; padding: 0; background: var(--vino-deep); -webkit-font-smoothing: antialiased; }
@@ -61,6 +67,8 @@ img { max-width: 100%; }
 
 .jm-btn { transition: background .25s, color .25s; }
 .jm-btn:hover, .jm-btn:focus-visible { background: var(--vino); color: var(--blanco); }
+/* Sobre las secciones oscuras el relleno vino sería invisible: se invierte. */
+.jm-btn.is-dark:hover, .jm-btn.is-dark:focus-visible { background: var(--blanco); color: var(--vino); }
 
 .jm-btn-solid { transition: background .3s ease, transform .3s ease; }
 .jm-btn-solid:hover, .jm-btn-solid:focus-visible { background: var(--oliva-pale); transform: translateY(-2px); }
@@ -109,7 +117,8 @@ img { max-width: 100%; }
   border-radius: 0; transition: border-color .25s ease;
 }
 .jm-form textarea { resize: vertical; min-height: 3.4em; }
-.jm-form ::placeholder { color: rgba(246,244,238,.38); }
+/* .38 daba 2.97:1 contra el vino — ilegible. .60 pasa AA (5.4:1). */
+.jm-form ::placeholder { color: rgba(246,244,238,.6); }
 .jm-form input:focus, .jm-form textarea:focus { outline: 0; border-bottom-color: var(--oliva-pale); }
 .jm-form input:user-invalid { border-bottom-color: #E0A0A0; }
 /* Sólo se angosta el campo, no su etiqueta: si no, «¿Cuántos vienen?»
