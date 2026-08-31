@@ -13,7 +13,7 @@ Para cambiar la lista se edita `netlify/functions/invitados-datos.mts` y se
 regenera esta tabla. Los ids son nombre + último apellido; cuando dos
 invitaciones coinciden se desempata con el acompañante.
 
-**107 invitaciones · 178 pases**
+**105 invitaciones · 176 pases**
 
 | # | Link | Se le saluda | Pases | Quiénes |
 |---|---|---|---|---|
@@ -34,10 +34,10 @@ invitaciones coinciden se desempata con el acompañante.
 | 15 | `?i=carlos-suarez` | Carlos y Mayela | 2 | Carlos Suárez, Mayela |
 | 16 | `?i=maria-melena` | María | 1 | María Elena Melena |
 | 17 | `?i=hector-cambron` | Héctor y Blanca | 2 | Héctor Cambrón, Blanca García |
-| 18 | `?i=laura-cambron` | Laura y Diego | 2 | Laura Cambrón, Diego |
+| 18 | `?i=laura-cambron` | Laura y Diego | 2 | Laura Cambrón, Diego Zepeda Ornelas |
 | 19 | `?i=miguel-cambron` | Miguel | 2 | Miguel Cambrón, Invitada |
 | 20 | `?i=pedro-cambron` | Pedro y Olga | 2 | Pedro Cambrón, Olga Villalobos |
-| 21 | `?i=paloma-cambron` | Paloma y Sebastián | 2 | Paloma Cambrón, Sebastián |
+| 21 | `?i=paloma-cambron` | Paloma y Sebastián | 2 | Paloma Cambrón, Sebastián Vargas Rumbo |
 | 22 | `?i=homero-cambron` | Homero | 1 | Homero Cambrón |
 | 23 | `?i=jahir-cambron` | Jahir y Daniela | 2 | Jahir Cambrón, Daniela Villanueva |
 | 24 | `?i=carlos-cambron` | Carlos y Sonia | 2 | Carlos Cambrón, Sonia Picazo |
@@ -122,16 +122,14 @@ invitaciones coinciden se desempata con el acompañante.
 | 103 | `?i=manuel-tapia` | Manuel y Carmen | 2 | Manuel Tapia, Carmen Rodríguez |
 | 104 | `?i=fernanda-mariscal` | Fernanda, Rebeca y Ignacio | 3 | Fernanda Mariscal, Rebeca Pérez, Ignacio Mariscal |
 | 105 | `?i=alexa-carrillo` | Alexa | 2 | Alexa Carrillo, invitado |
-| 106 | `?i=sebastian-rumbo` | Sebastián | 1 | Sebastián Vargas Rumbo |
-| 107 | `?i=diego-ornelas` | Diego | 1 | Diego Zepeda Ornelas |
 
 ## Notas
 
 - «Invitado» / «Invitada» es un acompañante del que todavía no se sabe el
-  nombre: cuenta como pase y se puede llenar después.
+  nombre: cuenta como pase y se puede llenar después. Quedan 18 así.
 - Correcciones ya aplicadas: Carmen, esposa de Manuel Tapia, es **Carmen
-  Rodríguez**; se agregaron **Sebastián Vargas Rumbo** y **Diego Zepeda
-  Ornelas**, los dos con un pase — si les toca acompañante, hay que decirlo.
+  Rodríguez**; Sebastián, el acompañante de Paloma, es **Sebastián Vargas
+  Rumbo**; Diego, el acompañante de Laura, es **Diego Zepeda Ornelas**.
 - La cuenta del Excel (hoja 1) decía 171 entre invitados y extras; aquí salen
-  178 porque cada «Invitado» sin nombre se cuenta como pase. Vale la pena
+  176 porque cada «Invitado» sin nombre se cuenta como pase. Vale la pena
   cotejarlo antes de mandar a imprimir.

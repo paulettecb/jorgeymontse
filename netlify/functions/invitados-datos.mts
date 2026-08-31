@@ -11,7 +11,11 @@
  * Salió de la hoja «Invitaciones» del Excel de los novios, más las
  * correcciones que mandaron después:
  *   - Carmen, esposa de Manuel Tapia, es Carmen Rodríguez.
- *   - Se agregan Sebastián Vargas Rumbo y Diego Zepeda Ornelas.
+ *   - Sebastián, el acompañante de Paloma Cambrón, es Sebastián Vargas Rumbo.
+ *   - Diego, el acompañante de Laura Cambrón, es Diego Zepeda Ornelas.
+ *
+ * Esos dos últimos eran apellidos que faltaban de acompañantes que ya
+ * estaban en la lista, no invitaciones nuevas.
  *
  * «Invitado» / «Invitada» es un acompañante del que todavía no se sabe el
  * nombre: cuenta como pase, pero no se saluda por su nombre.
@@ -45,10 +49,10 @@ export const INVITACIONES: Invitacion[] = [
   { id: "carlos-suarez", saludo: "Carlos y Mayela", pases: 2, invitados: ["Carlos Suárez", "Mayela"] },
   { id: "maria-melena", saludo: "María", pases: 1, invitados: ["María Elena Melena"] },
   { id: "hector-cambron", saludo: "Héctor y Blanca", pases: 2, invitados: ["Héctor Cambrón", "Blanca García"] },
-  { id: "laura-cambron", saludo: "Laura y Diego", pases: 2, invitados: ["Laura Cambrón", "Diego"] },
+  { id: "laura-cambron", saludo: "Laura y Diego", pases: 2, invitados: ["Laura Cambrón", "Diego Zepeda Ornelas"] },
   { id: "miguel-cambron", saludo: "Miguel", pases: 2, invitados: ["Miguel Cambrón", "Invitada"] },
   { id: "pedro-cambron", saludo: "Pedro y Olga", pases: 2, invitados: ["Pedro Cambrón", "Olga Villalobos"] },
-  { id: "paloma-cambron", saludo: "Paloma y Sebastián", pases: 2, invitados: ["Paloma Cambrón", "Sebastián"] },
+  { id: "paloma-cambron", saludo: "Paloma y Sebastián", pases: 2, invitados: ["Paloma Cambrón", "Sebastián Vargas Rumbo"] },
   { id: "homero-cambron", saludo: "Homero", pases: 1, invitados: ["Homero Cambrón"] },
   { id: "jahir-cambron", saludo: "Jahir y Daniela", pases: 2, invitados: ["Jahir Cambrón", "Daniela Villanueva"] },
   { id: "carlos-cambron", saludo: "Carlos y Sonia", pases: 2, invitados: ["Carlos Cambrón", "Sonia Picazo"] },
@@ -132,9 +136,7 @@ export const INVITACIONES: Invitacion[] = [
   { id: "eduardo-diaz", saludo: "Eduardo y Veronica", pases: 2, invitados: ["Eduardo Díaz", "Veronica Alberto"] },
   { id: "manuel-tapia", saludo: "Manuel y Carmen", pases: 2, invitados: ["Manuel Tapia", "Carmen Rodríguez"] },
   { id: "fernanda-mariscal", saludo: "Fernanda, Rebeca y Ignacio", pases: 3, invitados: ["Fernanda Mariscal", "Rebeca Pérez", "Ignacio Mariscal"] },
-  { id: "alexa-carrillo", saludo: "Alexa", pases: 2, invitados: ["Alexa Carrillo", "invitado"] },
-  { id: "sebastian-rumbo", saludo: "Sebastián", pases: 1, invitados: ["Sebastián Vargas Rumbo"] },
-  { id: "diego-ornelas", saludo: "Diego", pases: 1, invitados: ["Diego Zepeda Ornelas"] }
+  { id: "alexa-carrillo", saludo: "Alexa", pases: 2, invitados: ["Alexa Carrillo", "invitado"] }
 ];
 
 export const POR_ID = new Map(INVITACIONES.map(i => [i.id, i]));
