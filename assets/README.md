@@ -21,11 +21,15 @@ quedan fuera del lightbox y del conteo.
 | Archivo | Rol | Estado |
 |---|---|---|
 | `Lumiare.otf` | Titulares y nombres de la pareja | ✅ |
-| `Lamoric Rowen TTF.ttf` | Caps de detalle: eyebrows, botones, nav (reemplazó al script Farmhouse) | ✅ |
+| `Lamoric Rowen TTF.ttf` | Ya no se usa: se parecía demasiado a NoirEtBlanc y los novios pidieron sólo tres tipografías | ✅ |
 | `Blastine Personal Use Only.ttf` | Script: ampersand, horas, cuenta regresiva | ✅ |
-| `noiretblanc.otf` | **Cara de lectura**: párrafos, sedes, horarios | ✅ |
+| `noiretblanc.otf` | **Cara de lectura y de detalle**: párrafos, sedes, horarios y todas las versalitas (eyebrows, botones, nav) | ✅ |
 | `MovesCabse-Regular.ttf` | Alternativa de caps; hoy sin uso | ✅ |
 | `Farmhouse.otf` | Ya no se usa (los novios pidieron quitarla); queda por si acaso | ✅ |
+
+Son tres las que el sitio carga: **Lumiare** (titulares), **NoirEtBlanc** (todo
+el texto, párrafos y versalitas) y **Blastine** (sólo números y símbolos: horas,
+cuenta regresiva y el «&»).
 
 ### Ilustraciones y ornamentos
 
@@ -41,8 +45,11 @@ Todas ✅. Las que usa el sitio hoy:
 | `foto-playa/cerro/desierto.jpeg` | Separadores con frase |
 | `foto-noche/vinedo/titulacion/desierto/playa/cerro.jpeg` | Galería |
 
-Los iconos del itinerario (iglesia, Raava en copa de martini, cámara,
-entrada, pastel, acta civil) son SVG inline en `index.html`, no archivos.
+Los iconos del itinerario (iglesia, Raava recostada en la copa de martini,
+cámara, los novios entrando, pastel y acta civil) son SVG inline en
+`index.html`, no archivos. Los que llevan relleno usan `var(--itin-bg)`,
+el mismo color del fondo del itinerario, para recortar lo que tienen detrás:
+si cambias ese fondo, cámbialo en `site.css` y los SVG siguen.
 
 Los garigoles (`orn-divider`, `orn-flourish`, `orn-sprig`) y las
 ilustraciones de la sección "Nuestra historia" (`ill-couple-smile-lt`,
