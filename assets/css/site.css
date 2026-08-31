@@ -194,6 +194,11 @@ img { max-width: 100%; }
 }
 .jm-quien[hidden], .jm-field[hidden] { display: none; }
 
+/* Secciones y botones apagados a la espera de datos (hospedaje, Amazon).
+   Los `style` inline del template traen su propio display, y eso le gana
+   al [hidden] del navegador — el mismo caso que .jm-form y .jm-field. */
+section[hidden], a[hidden], #jm-rsvp-aviso[hidden] { display: none !important; }
+
 .jm-radios { display: flex; flex-direction: column; gap: 10px; }
 .jm-radios label {
   display: flex; flex-direction: row; align-items: center; gap: 11px; cursor: pointer;

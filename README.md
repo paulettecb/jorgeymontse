@@ -91,9 +91,12 @@ confirmar ya sabe quién es —lo saluda por su nombre, le dice cuántos pases
 trae y le prellena a sus acompañantes— y la confirmación llega identificada
 sin que nadie escriba su nombre.
 
-Sin el `?i=`, o con un id que no existe, el formulario vuelve a pedir el
-nombre a mano, como antes. Eso es a propósito: un link mal copiado no debe
-dejar a nadie sin poder confirmar.
+**Sin link, no hay sección de confirmar.** Los pases los controlan los
+novios, y en un link genérico cualquiera podría escribir el nombre y los
+lugares que quisiera. Así que sin `?i=` —o con un id que no existe— la
+sección entera se oculta, junto con el botón «confirmar» de la nav, que si
+no apuntaría a la nada. El formulario se queda en el HTML aunque no se vea:
+Netlify Forms lo detecta leyendo el archivo, no la página pintada.
 
 - La lista vive en [`netlify/functions/invitados-datos.mts`](netlify/functions/invitados-datos.mts),
   del lado del servidor. **No se publica**: son nombres de gente real, y el
@@ -115,6 +118,20 @@ dejar a nadie sin poder confirmar.
   para enseñarles a los novios las dos versiones. **Borrarlas antes de
   publicar de verdad.**
 
+## El panel
+
+`/panel`, con la contraseña de `PANEL_PASSWORD`. Tres cosas:
+
+- **Invitaciones** — las 105, hayan contestado o no, con su estado
+  (confirmada / sin contestar / no asiste) y un botón para copiar el link
+  de cada una. Sirve para ver quién falta y para reenviarle su link a quien
+  lo pierda.
+- **Confirmaciones** — lo que llega del formulario, con buscador.
+- **Mesas** — el acomodo. Se pueden sentar **todas** las invitaciones, no
+  sólo las que ya confirmaron: los que faltan aparecen con su fondo rayado
+  y sus pases reservados, para poder armar las mesas desde ahora. Los que
+  dijeron que no, no aparecen.
+
 ## Configurar
 
 Arriba de `assets/js/site.js` está `CONFIG`, que es el equivalente exacto a
@@ -131,6 +148,19 @@ bodaCivil: false,              // true = ceremonia civil a las 19:30 en el
                                // itinerario, en lugar de las fotos
 weddingDate: new Date(2027, 0, 30, 16, 0, 0)
 ```
+
+## Apagado a la espera de datos
+
+Dos cosas están **ocultas, no borradas**, para poder mandar las invitaciones
+sin esperarlas. Se encienden quitando el `hidden`; búscalas por el
+comentario `PENDIENTE`.
+
+| Qué | Dónde | Qué falta |
+|---|---|---|
+| Sección de hospedaje (y su link en la nav) | `index.html` | Nombre, zona, tarifa y link de los dos hoteles |
+| Botón de Amazon en mesa de regalos | `index.html` | El link de la mesa |
+
+El botón de Liverpool sí está encendido: su link funciona.
 
 ## Falta llenar
 
