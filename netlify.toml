@@ -27,6 +27,14 @@
   to = "/404.html"
   status = 404
 
+# Las fotos originales del save the date viven en el repo como archivo,
+# pero el sitio sólo usa una (ya procesada, en assets/). Sin esta regla
+# cualquiera que adivine la ruta se baja la sesión completa de los novios.
+[[redirects]]
+  from = "/assets/savethedatepics/*"
+  to = "/404.html"
+  status = 404
+
 [[redirects]]
   from = "/panel"
   to = "/panel.html"
