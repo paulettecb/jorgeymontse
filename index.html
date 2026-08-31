@@ -14,6 +14,25 @@
 <meta property="og:description" content="Nos casamos en Morelia. Aquí están todos los detalles para celebrar con nosotros.">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="es_MX">
+<meta property="og:site_name" content="Jorge &amp; Montse">
+<!-- La vista previa del link (WhatsApp, iMessage, Facebook) exige URLs
+     absolutas: los robots que la leen no ejecutan nada ni resuelven rutas
+     relativas. Y como se leen del HTML estático, TODAS las invitaciones
+     comparten esta misma tarjeta; no se puede saludar a cada quien por su
+     nombre sin una Edge Function.
+     PENDIENTE · DOMINIO: si se compra jorgeymontse.com, cambia las tres
+     líneas de abajo y ya. -->
+<meta property="og:url" content="https://jorgeymontse.netlify.app/">
+<meta property="og:image" content="https://jorgeymontse.netlify.app/assets/og-preview.jpg">
+<meta property="og:image:secure_url" content="https://jorgeymontse.netlify.app/assets/og-preview.jpg">
+<meta property="og:image:type" content="image/jpeg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Jorge y Montse frente al templo, en el centro de Morelia">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Jorge &amp; Montse · 30 de enero de 2027">
+<meta name="twitter:description" content="Nos casamos en Morelia. Aquí están todos los detalles para celebrar con nosotros.">
+<meta name="twitter:image" content="https://jorgeymontse.netlify.app/assets/og-preview.jpg">
 <!-- Iconos: el lacre del sobre. El monograma solo es un trazo demasiado
      fino para 16px, así que el sello es el que carga el
      reconocimiento y el monograma aparece conforme crece el tamaño. -->
@@ -300,21 +319,55 @@
 </section>
 
 <!-- ============================ GALERÍA ============================ -->
-<section id="galeria" style="background:#F6F4EE;padding:clamp(90px,12vw,160px) clamp(24px,7vw,110px)">
-<div data-reveal="1" style="font-family:'NoirEtBlanc',serif;text-transform:uppercase;font-size:15px;letter-spacing:.3em;color:#55624A;margin-bottom:clamp(32px,4vw,56px)">galería</div>
-<div id="jm-grid" style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(10px,1.4vw,18px)">
-<div data-reveal="1"><button type="button" class="jm-gcell" data-gcell="0" aria-label="Ampliar foto 1" style="display:block;width:100%;padding:0;border:0;position:relative;aspect-ratio:4/5;overflow:hidden;cursor:pointer;background:#3A0F16"><div class="jm-photo" data-photo="1" style="position:absolute;inset:0;filter:grayscale(1) contrast(1.04)"><img loading="lazy" decoding="async" class="jm-fill" src="assets/foto-beso-calle.jpeg" alt=""></div><div class="jm-veil" data-veil="1" style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(85,23,36,.16),rgba(58,15,22,.34));pointer-events:none"></div><div class="jm-gframe" data-gframe="1" style="position:absolute;inset:14px;border:1px solid rgba(246,244,238,.8);opacity:0;transform:scale(1.05);pointer-events:none"></div></button></div>
-<div data-reveal="1"><button type="button" class="jm-gcell" data-gcell="1" aria-label="Ampliar foto 2" style="display:block;width:100%;padding:0;border:0;position:relative;aspect-ratio:4/5;overflow:hidden;cursor:pointer;background:#3A0F16"><div class="jm-photo" data-photo="1" style="position:absolute;inset:0;filter:grayscale(1) contrast(1.04)"><img loading="lazy" decoding="async" class="jm-fill" src="assets/foto-puerta-templo.jpeg" alt=""></div><div class="jm-veil" data-veil="1" style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(85,23,36,.16),rgba(58,15,22,.34));pointer-events:none"></div><div class="jm-gframe" data-gframe="1" style="position:absolute;inset:14px;border:1px solid rgba(246,244,238,.8);opacity:0;transform:scale(1.05);pointer-events:none"></div></button></div>
-<div data-reveal="1"><button type="button" class="jm-gcell" data-gcell="2" aria-label="Ampliar foto 3" style="display:block;width:100%;padding:0;border:0;position:relative;aspect-ratio:4/5;overflow:hidden;cursor:pointer;background:#3A0F16"><div class="jm-photo" data-photo="1" style="position:absolute;inset:0;filter:grayscale(1) contrast(1.04)"><img loading="lazy" decoding="async" class="jm-fill" src="assets/foto-caminando.jpeg" alt=""></div><div class="jm-veil" data-veil="1" style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(85,23,36,.16),rgba(58,15,22,.34));pointer-events:none"></div><div class="jm-gframe" data-gframe="1" style="position:absolute;inset:14px;border:1px solid rgba(246,244,238,.8);opacity:0;transform:scale(1.05);pointer-events:none"></div></button></div>
-<div data-reveal="1"><button type="button" class="jm-gcell" data-gcell="3" aria-label="Ampliar foto 4" style="display:block;width:100%;padding:0;border:0;position:relative;aspect-ratio:4/5;overflow:hidden;cursor:pointer;background:#3A0F16"><div class="jm-photo" data-photo="1" style="position:absolute;inset:0;filter:grayscale(1) contrast(1.04)"><img loading="lazy" decoding="async" class="jm-fill" src="assets/foto-vuelta.jpeg" alt=""></div><div class="jm-veil" data-veil="1" style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(85,23,36,.16),rgba(58,15,22,.34));pointer-events:none"></div><div class="jm-gframe" data-gframe="1" style="position:absolute;inset:14px;border:1px solid rgba(246,244,238,.8);opacity:0;transform:scale(1.05);pointer-events:none"></div></button></div>
-<div data-reveal="1"><button type="button" class="jm-gcell" data-gcell="4" aria-label="Ampliar foto 5" style="display:block;width:100%;padding:0;border:0;position:relative;aspect-ratio:4/5;overflow:hidden;cursor:pointer;background:#3A0F16"><div class="jm-photo" data-photo="1" style="position:absolute;inset:0;filter:grayscale(1) contrast(1.04)"><img loading="lazy" decoding="async" class="jm-fill" src="assets/foto-raava-banca.jpeg" alt=""></div><div class="jm-veil" data-veil="1" style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(85,23,36,.16),rgba(58,15,22,.34));pointer-events:none"></div><div class="jm-gframe" data-gframe="1" style="position:absolute;inset:14px;border:1px solid rgba(246,244,238,.8);opacity:0;transform:scale(1.05);pointer-events:none"></div></button></div>
-<div data-reveal="1"><button type="button" class="jm-gcell" data-gcell="5" aria-label="Ampliar foto 6" style="display:block;width:100%;padding:0;border:0;position:relative;aspect-ratio:4/5;overflow:hidden;cursor:pointer;background:#3A0F16"><div class="jm-photo" data-photo="1" style="position:absolute;inset:0;filter:grayscale(1) contrast(1.04)"><img loading="lazy" decoding="async" class="jm-fill" src="assets/foto-abrazo-calle.jpeg" alt=""></div><div class="jm-veil" data-veil="1" style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(85,23,36,.16),rgba(58,15,22,.34));pointer-events:none"></div><div class="jm-gframe" data-gframe="1" style="position:absolute;inset:14px;border:1px solid rgba(246,244,238,.8);opacity:0;transform:scale(1.05);pointer-events:none"></div></button></div>
-<div data-reveal="1"><button type="button" class="jm-gcell" data-gcell="6" aria-label="Ampliar foto 7" style="display:block;width:100%;padding:0;border:0;position:relative;aspect-ratio:4/5;overflow:hidden;cursor:pointer;background:#3A0F16"><div class="jm-photo" data-photo="1" style="position:absolute;inset:0;filter:grayscale(1) contrast(1.04)"><img loading="lazy" decoding="async" class="jm-fill" src="assets/foto-sentados.jpeg" alt=""></div><div class="jm-veil" data-veil="1" style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(85,23,36,.16),rgba(58,15,22,.34));pointer-events:none"></div><div class="jm-gframe" data-gframe="1" style="position:absolute;inset:14px;border:1px solid rgba(246,244,238,.8);opacity:0;transform:scale(1.05);pointer-events:none"></div></button></div>
-<div data-reveal="1"><button type="button" class="jm-gcell" data-gcell="7" aria-label="Ampliar foto 8" style="display:block;width:100%;padding:0;border:0;position:relative;aspect-ratio:4/5;overflow:hidden;cursor:pointer;background:#3A0F16"><div class="jm-photo" data-photo="1" style="position:absolute;inset:0;filter:grayscale(1) contrast(1.04)"><img loading="lazy" decoding="async" class="jm-fill" src="assets/foto-beso-alzada.jpeg" alt=""></div><div class="jm-veil" data-veil="1" style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(85,23,36,.16),rgba(58,15,22,.34));pointer-events:none"></div><div class="jm-gframe" data-gframe="1" style="position:absolute;inset:14px;border:1px solid rgba(246,244,238,.8);opacity:0;transform:scale(1.05);pointer-events:none"></div></button></div>
-<div data-reveal="1"><button type="button" class="jm-gcell" data-gcell="8" aria-label="Ampliar foto 9" style="display:block;width:100%;padding:0;border:0;position:relative;aspect-ratio:4/5;overflow:hidden;cursor:pointer;background:#3A0F16"><div class="jm-photo" data-photo="1" style="position:absolute;inset:0;filter:grayscale(1) contrast(1.04)"><img loading="lazy" decoding="async" class="jm-fill" src="assets/foto-risa.jpeg" alt=""></div><div class="jm-veil" data-veil="1" style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(85,23,36,.16),rgba(58,15,22,.34));pointer-events:none"></div><div class="jm-gframe" data-gframe="1" style="position:absolute;inset:14px;border:1px solid rgba(246,244,238,.8);opacity:0;transform:scale(1.05);pointer-events:none"></div></button></div>
-<div data-reveal="1"><button type="button" class="jm-gcell" data-gcell="9" aria-label="Ampliar foto 10" style="display:block;width:100%;padding:0;border:0;position:relative;aspect-ratio:4/5;overflow:hidden;cursor:pointer;background:#3A0F16"><div class="jm-photo" data-photo="1" style="position:absolute;inset:0;filter:grayscale(1) contrast(1.04)"><img loading="lazy" decoding="async" class="jm-fill" src="assets/foto-frente-a-frente.jpeg" alt=""></div><div class="jm-veil" data-veil="1" style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(85,23,36,.16),rgba(58,15,22,.34));pointer-events:none"></div><div class="jm-gframe" data-gframe="1" style="position:absolute;inset:14px;border:1px solid rgba(246,244,238,.8);opacity:0;transform:scale(1.05);pointer-events:none"></div></button></div>
-<div data-reveal="1"><button type="button" class="jm-gcell" data-gcell="10" aria-label="Ampliar foto 11" style="display:block;width:100%;padding:0;border:0;position:relative;aspect-ratio:4/5;overflow:hidden;cursor:pointer;background:#3A0F16"><div class="jm-photo" data-photo="1" style="position:absolute;inset:0;filter:grayscale(1) contrast(1.04)"><img loading="lazy" decoding="async" class="jm-fill" src="assets/foto-cachetes.jpeg" alt=""></div><div class="jm-veil" data-veil="1" style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(85,23,36,.16),rgba(58,15,22,.34));pointer-events:none"></div><div class="jm-gframe" data-gframe="1" style="position:absolute;inset:14px;border:1px solid rgba(246,244,238,.8);opacity:0;transform:scale(1.05);pointer-events:none"></div></button></div>
-<div data-reveal="1"><button type="button" class="jm-gcell" data-gcell="11" aria-label="Ampliar foto 12" style="display:block;width:100%;padding:0;border:0;position:relative;aspect-ratio:4/5;overflow:hidden;cursor:pointer;background:#3A0F16"><div class="jm-photo" data-photo="1" style="position:absolute;inset:0;filter:grayscale(1) contrast(1.04)"><img loading="lazy" decoding="async" class="jm-fill" src="assets/foto-puerta-raava.jpeg" alt=""></div><div class="jm-veil" data-veil="1" style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(85,23,36,.16),rgba(58,15,22,.34));pointer-events:none"></div><div class="jm-gframe" data-gframe="1" style="position:absolute;inset:14px;border:1px solid rgba(246,244,238,.8);opacity:0;transform:scale(1.05);pointer-events:none"></div></button></div>
+<section id="galeria" style="background:#F6F4EE;padding:clamp(90px,12vw,160px) clamp(24px,7vw,110px);overflow:hidden">
+<div class="jm-gal-cabeza" data-reveal="1">
+<div style="font-family:'NoirEtBlanc',serif;text-transform:uppercase;font-size:15px;letter-spacing:.3em;color:#55624A">galería</div>
+<!-- El modo arranca según el aparato (carrusel en celular, mosaico en
+     compu) y desde aquí se cambia. Los botones nacen sin `hidden` para
+     que funcionen si el JS no carga; site.js marca cuál está activo. -->
+<div class="jm-gal-modos" role="group" aria-label="Cómo ver las fotos">
+<button type="button" id="jm-modo-mosaico" class="jm-modo" aria-pressed="false">mosaico</button>
+<button type="button" id="jm-modo-carrusel" class="jm-modo" aria-pressed="false">carrusel</button>
+</div>
+</div>
+
+<div id="jm-grid" class="jm-gal is-mosaico">
+<div class="jm-gitem" data-reveal="1" style="--jm-prop:3/4"><button type="button" class="jm-gcell" data-gcell="0" aria-label="Ampliar: Jorge y Montse con Raava en la puerta de madera"><div class="jm-photo" data-photo="1" style="filter:grayscale(1) contrast(1.04)"><img loading="lazy" decoding="async" class="jm-fill" src="assets/foto-puerta-raava.jpeg" alt="Jorge y Montse con Raava en la puerta de madera"></div><div class="jm-veil" data-veil="1"></div><div class="jm-gframe" data-gframe="1"></div></button></div>
+<div class="jm-gitem" data-reveal="1" style="--jm-prop:4/5"><button type="button" class="jm-gcell" data-gcell="1" aria-label="Ampliar: Los dos recargados en el portón"><div class="jm-photo" data-photo="1" style="filter:grayscale(1) contrast(1.04)"><img loading="lazy" decoding="async" class="jm-fill" src="assets/foto-puerta-madera.jpeg" alt="Los dos recargados en el portón"></div><div class="jm-veil" data-veil="1"></div><div class="jm-gframe" data-gframe="1"></div></button></div>
+<div class="jm-gitem" data-reveal="1" style="--jm-prop:3/2"><button type="button" class="jm-gcell" data-gcell="2" aria-label="Ampliar: Un beso a media calle del centro"><div class="jm-photo" data-photo="1" style="filter:grayscale(1) contrast(1.04)"><img loading="lazy" decoding="async" class="jm-fill" src="assets/foto-beso-calle.jpeg" alt="Un beso a media calle del centro"></div><div class="jm-veil" data-veil="1"></div><div class="jm-gframe" data-gframe="1"></div></button></div>
+<div class="jm-gitem" data-reveal="1" style="--jm-prop:3/4"><button type="button" class="jm-gcell" data-gcell="3" aria-label="Ampliar: Caminando por el empedrado"><div class="jm-photo" data-photo="1" style="filter:grayscale(1) contrast(1.04)"><img loading="lazy" decoding="async" class="jm-fill" src="assets/foto-caminando.jpeg" alt="Caminando por el empedrado"></div><div class="jm-veil" data-veil="1"></div><div class="jm-gframe" data-gframe="1"></div></button></div>
+<div class="jm-gitem" data-reveal="1" style="--jm-prop:4/5"><button type="button" class="jm-gcell" data-gcell="4" aria-label="Ampliar: Montse dando una vuelta de la mano de Jorge"><div class="jm-photo" data-photo="1" style="filter:grayscale(1) contrast(1.04)"><img loading="lazy" decoding="async" class="jm-fill" src="assets/foto-vuelta.jpeg" alt="Montse dando una vuelta de la mano de Jorge"></div><div class="jm-veil" data-veil="1"></div><div class="jm-gframe" data-gframe="1"></div></button></div>
+<div class="jm-gitem" data-reveal="1" style="--jm-prop:3/2"><button type="button" class="jm-gcell" data-gcell="5" aria-label="Ampliar: Los dos riéndose"><div class="jm-photo" data-photo="1" style="filter:grayscale(1) contrast(1.04)"><img loading="lazy" decoding="async" class="jm-fill" src="assets/foto-risa.jpeg" alt="Los dos riéndose"></div><div class="jm-veil" data-veil="1"></div><div class="jm-gframe" data-gframe="1"></div></button></div>
+<div class="jm-gitem" data-reveal="1" style="--jm-prop:3/4"><button type="button" class="jm-gcell" data-gcell="6" aria-label="Ampliar: Un beso frente a la cantera de la fachada"><div class="jm-photo" data-photo="1" style="filter:grayscale(1) contrast(1.04)"><img loading="lazy" decoding="async" class="jm-fill" src="assets/foto-beso-fachada.jpeg" alt="Un beso frente a la cantera de la fachada"></div><div class="jm-veil" data-veil="1"></div><div class="jm-gframe" data-gframe="1"></div></button></div>
+<div class="jm-gitem" data-reveal="1" style="--jm-prop:4/5"><button type="button" class="jm-gcell" data-gcell="7" aria-label="Ampliar: Abrazados frente a las puertas del templo"><div class="jm-photo" data-photo="1" style="filter:grayscale(1) contrast(1.04)"><img loading="lazy" decoding="async" class="jm-fill" src="assets/foto-puerta-templo.jpeg" alt="Abrazados frente a las puertas del templo"></div><div class="jm-veil" data-veil="1"></div><div class="jm-gframe" data-gframe="1"></div></button></div>
+<div class="jm-gitem" data-reveal="1" style="--jm-prop:1/1"><button type="button" class="jm-gcell" data-gcell="8" aria-label="Ampliar: En el atrio, en blanco y negro"><div class="jm-photo" data-photo="1" style="filter:grayscale(1) contrast(1.04)"><img loading="lazy" decoding="async" class="jm-fill" src="assets/foto-atrio.jpeg" alt="En el atrio, en blanco y negro"></div><div class="jm-veil" data-veil="1"></div><div class="jm-gframe" data-gframe="1"></div></button></div>
+<div class="jm-gitem" data-reveal="1" style="--jm-prop:3/4"><button type="button" class="jm-gcell" data-gcell="9" aria-label="Ampliar: Un abrazo en medio de la calle"><div class="jm-photo" data-photo="1" style="filter:grayscale(1) contrast(1.04)"><img loading="lazy" decoding="async" class="jm-fill" src="assets/foto-abrazo-calle.jpeg" alt="Un abrazo en medio de la calle"></div><div class="jm-veil" data-veil="1"></div><div class="jm-gframe" data-gframe="1"></div></button></div>
+<div class="jm-gitem" data-reveal="1" style="--jm-prop:4/5"><button type="button" class="jm-gcell" data-gcell="10" aria-label="Ampliar: Jorge le da un beso en la mejilla"><div class="jm-photo" data-photo="1" style="filter:grayscale(1) contrast(1.04)"><img loading="lazy" decoding="async" class="jm-fill" src="assets/foto-beso-mejilla.jpeg" alt="Jorge le da un beso en la mejilla"></div><div class="jm-veil" data-veil="1"></div><div class="jm-gframe" data-gframe="1"></div></button></div>
+<div class="jm-gitem" data-reveal="1" style="--jm-prop:1/1"><button type="button" class="jm-gcell" data-gcell="11" aria-label="Ampliar: El anillo de compromiso"><div class="jm-photo" data-photo="1" style="filter:grayscale(1) contrast(1.04)"><img loading="lazy" decoding="async" class="jm-fill" src="assets/foto-anillo.jpeg" alt="El anillo de compromiso"></div><div class="jm-veil" data-veil="1"></div><div class="jm-gframe" data-gframe="1"></div></button></div>
+<div class="jm-gitem" data-reveal="1" style="--jm-prop:3/4"><button type="button" class="jm-gcell" data-gcell="12" aria-label="Ampliar: Frente con frente, nariz con nariz"><div class="jm-photo" data-photo="1" style="filter:grayscale(1) contrast(1.04)"><img loading="lazy" decoding="async" class="jm-fill" src="assets/foto-narices.jpeg" alt="Frente con frente, nariz con nariz"></div><div class="jm-veil" data-veil="1"></div><div class="jm-gframe" data-gframe="1"></div></button></div>
+<div class="jm-gitem" data-reveal="1" style="--jm-prop:4/5"><button type="button" class="jm-gcell" data-gcell="13" aria-label="Ampliar: Montse le aprieta los cachetes a Jorge"><div class="jm-photo" data-photo="1" style="filter:grayscale(1) contrast(1.04)"><img loading="lazy" decoding="async" class="jm-fill" src="assets/foto-cachetes.jpeg" alt="Montse le aprieta los cachetes a Jorge"></div><div class="jm-veil" data-veil="1"></div><div class="jm-gframe" data-gframe="1"></div></button></div>
+<div class="jm-gitem" data-reveal="1" style="--jm-prop:3/4"><button type="button" class="jm-gcell" data-gcell="14" aria-label="Ampliar: Abrazados contra el muro de piedra"><div class="jm-photo" data-photo="1" style="filter:grayscale(1) contrast(1.04)"><img loading="lazy" decoding="async" class="jm-fill" src="assets/foto-abrazo-muro.jpeg" alt="Abrazados contra el muro de piedra"></div><div class="jm-veil" data-veil="1"></div><div class="jm-gframe" data-gframe="1"></div></button></div>
+<div class="jm-gitem" data-reveal="1" style="--jm-prop:4/5"><button type="button" class="jm-gcell" data-gcell="15" aria-label="Ampliar: Los dos de frente, muy juntos"><div class="jm-photo" data-photo="1" style="filter:grayscale(1) contrast(1.04)"><img loading="lazy" decoding="async" class="jm-fill" src="assets/foto-frente-a-frente.jpeg" alt="Los dos de frente, muy juntos"></div><div class="jm-veil" data-veil="1"></div><div class="jm-gframe" data-gframe="1"></div></button></div>
+<div class="jm-gitem" data-reveal="1" style="--jm-prop:3/4"><button type="button" class="jm-gcell" data-gcell="16" aria-label="Ampliar: Un beso con ella de puntitas"><div class="jm-photo" data-photo="1" style="filter:grayscale(1) contrast(1.04)"><img loading="lazy" decoding="async" class="jm-fill" src="assets/foto-beso-alzada.jpeg" alt="Un beso con ella de puntitas"></div><div class="jm-veil" data-veil="1"></div><div class="jm-gframe" data-gframe="1"></div></button></div>
+<div class="jm-gitem" data-reveal="1" style="--jm-prop:4/5"><button type="button" class="jm-gcell" data-gcell="17" aria-label="Ampliar: Sentados, platicando"><div class="jm-photo" data-photo="1" style="filter:grayscale(1) contrast(1.04)"><img loading="lazy" decoding="async" class="jm-fill" src="assets/foto-sentados.jpeg" alt="Sentados, platicando"></div><div class="jm-veil" data-veil="1"></div><div class="jm-gframe" data-gframe="1"></div></button></div>
+<div class="jm-gitem" data-reveal="1" style="--jm-prop:3/2"><button type="button" class="jm-gcell" data-gcell="18" aria-label="Ampliar: Raava en la banca con los dos"><div class="jm-photo" data-photo="1" style="filter:grayscale(1) contrast(1.04)"><img loading="lazy" decoding="async" class="jm-fill" src="assets/foto-raava-banca.jpeg" alt="Raava en la banca con los dos"></div><div class="jm-veil" data-veil="1"></div><div class="jm-gframe" data-gframe="1"></div></button></div>
+<div class="jm-gitem" data-reveal="1" style="--jm-prop:3/4"><button type="button" class="jm-gcell" data-gcell="19" aria-label="Ampliar: Los tres sentados en la banca del jardín"><div class="jm-photo" data-photo="1" style="filter:grayscale(1) contrast(1.04)"><img loading="lazy" decoding="async" class="jm-fill" src="assets/foto-banca.jpeg" alt="Los tres sentados en la banca del jardín"></div><div class="jm-veil" data-veil="1"></div><div class="jm-gframe" data-gframe="1"></div></button></div>
+<div class="jm-gitem" data-reveal="1" style="--jm-prop:4/5"><button type="button" class="jm-gcell" data-gcell="20" aria-label="Ampliar: Raava con la paliacate de save the date"><div class="jm-photo" data-photo="1" style="filter:grayscale(1) contrast(1.04)"><img loading="lazy" decoding="async" class="jm-fill" src="assets/foto-raava-bandana.jpeg" alt="Raava con la paliacate de save the date"></div><div class="jm-veil" data-veil="1"></div><div class="jm-gframe" data-gframe="1"></div></button></div>
+<div class="jm-gitem" data-reveal="1" style="--jm-prop:3/4"><button type="button" class="jm-gcell" data-gcell="21" aria-label="Ampliar: Los tres juntos: Jorge, Montse y Raava"><div class="jm-photo" data-photo="1" style="filter:grayscale(1) contrast(1.04)"><img loading="lazy" decoding="async" class="jm-fill" src="assets/foto-los-tres.jpeg" alt="Los tres juntos: Jorge, Montse y Raava"></div><div class="jm-veil" data-veil="1"></div><div class="jm-gframe" data-gframe="1"></div></button></div>
+</div>
+
+<!-- Pie del carrusel: se enciende sólo en ese modo (site.js). Las flechas
+     son un extra para mouse y teclado; en celular se arrastra y ya. -->
+<div id="jm-gal-pie" class="jm-gal-pie" hidden>
+<button type="button" id="jm-car-prev" class="jm-car-flecha" aria-label="Foto anterior">
+<svg viewBox="0 0 24 24" aria-hidden="true" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M15 4 7 12l8 8"/></svg>
+</button>
+<div id="jm-car-barra" class="jm-car-barra" aria-hidden="true"><span id="jm-car-avance"></span></div>
+<div id="jm-car-cuenta" class="jm-car-cuenta" aria-live="polite" aria-atomic="true">1 / 22</div>
+<button type="button" id="jm-car-next" class="jm-car-flecha" aria-label="Foto siguiente">
+<svg viewBox="0 0 24 24" aria-hidden="true" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.3"><path d="m9 4 8 8-8 8"/></svg>
+</button>
+</div>
 </section>
 
 <!-- ============================ REGALOS ============================ -->
@@ -355,14 +408,13 @@
 <input type="hidden" name="form-name" value="rsvp">
 <p class="jm-hp"><label>No llenes esto: <input name="bot-field"></label></p>
 
-<!-- Dos caras del mismo dato. Con link personalizado (?i=…) el sitio ya
-     sabe quién es y sólo se lo confirma; sin link, o si el id no existe,
-     vuelve a pedir el nombre a mano, como antes. El input de texto se
-     desactiva al personalizar para que no se manden dos «nombre». -->
+<!-- Dos caras del mismo dato. Con link personalizado el sitio ya sabe
+     quién es y sólo se lo confirma; sin link vuelve a pedir el nombre a
+     mano. El input de texto se desactiva al personalizar para que no se
+     manden dos «nombre». -->
 <div class="jm-field jm-quien" id="jm-quien" hidden>
 <span>Confirmas por</span>
 <p class="jm-quien-nombre" id="jm-quien-nombre"></p>
-<p class="jm-quien-pases" id="jm-quien-pases"></p>
 <input type="hidden" id="jm-quien-nombre-input">
 <input type="hidden" id="jm-quien-id-input">
 </div>
@@ -372,22 +424,49 @@
 <input type="text" name="nombre" id="jm-input-nombre" required autocomplete="name" placeholder="Tu nombre completo">
 </label>
 
-<fieldset class="jm-field jm-radios">
+<!-- La decisión. Es lo único que de verdad hay que contestar, así que
+     ocupa el tamaño que le toca: dos tarjetas grandes en vez de dos
+     bolitas de radio perdidas entre campos. Por dentro siguen siendo
+     radios —se navegan con flechas y el lector de pantalla los anuncia
+     como grupo—; lo que cambia es cómo se ven.
+     Los textos van en plural y site.js los pasa a singular cuando la
+     invitación es de un solo pase. -->
+<fieldset class="jm-decision" id="jm-decision">
 <legend>¿Nos acompañas?</legend>
-<label><input type="radio" name="asiste" value="sí" required><span>Ahí estaré</span></label>
-<label><input type="radio" name="asiste" value="no"><span>No podré ir</span></label>
+<label class="jm-opcion">
+<input type="radio" name="asiste" value="sí" required>
+<span class="jm-opcion-caja"><span class="jm-opcion-txt" data-uno="Ahí estaré" data-varios="Ahí estaremos">Ahí estaremos</span></span>
+</label>
+<label class="jm-opcion">
+<input type="radio" name="asiste" value="no">
+<span class="jm-opcion-caja"><span class="jm-opcion-txt" data-uno="No podré ir" data-varios="No podremos ir">No podremos ir</span></span>
+</label>
 </fieldset>
 
-<div class="jm-solo-si">
-<label class="jm-field jm-corto">
-<span>¿Cuántos vienen?</span>
-<input type="number" name="personas" min="1" max="10" value="1" inputmode="numeric">
-</label>
+<!-- Quiénes vienen.
+     Antes esto eran dos preguntas —cuántos y quiénes— que el invitado
+     tenía que escribir aunque el link ya supiera las dos respuestas.
+     Ahora site.js pinta aquí la lista de su invitación, ya palomeada, y
+     si alguien no puede se le quita la palomita. La cuenta se hace sola.
 
-<label class="jm-field">
-<span>¿Quiénes te acompañan?</span>
-<input type="text" name="acompanantes" placeholder="Nombres, para los lugares">
-</label>
+     Las casillas que pinta el JS no llevan `name` a propósito: Netlify
+     Forms descubre los campos leyendo este archivo, no la página pintada,
+     así que nada que nazca en JS llegaría al correo. Lo que se manda son
+     los dos ocultos de abajo, que sí están aquí escritos, y el JS nomás
+     les pone el valor. -->
+<div class="jm-quienes" id="jm-quienes" hidden>
+<span class="jm-quienes-tit">¿Quiénes vienen?</span>
+<div class="jm-quienes-lista" id="jm-quienes-lista"></div>
+<p class="jm-quienes-cuenta" id="jm-quienes-cuenta" role="status" aria-live="polite"></p>
+</div>
+<input type="hidden" name="personas" id="jm-personas" value="1">
+<input type="hidden" name="acompanantes" id="jm-acompanantes" value="">
+
+<!-- Todo lo opcional, plegado. Va en <details> y no en un div con JS
+     para que también se pueda abrir sin JS. -->
+<details class="jm-mas" id="jm-mas">
+<summary><span>¿Algo más que debamos saber?</span></summary>
+<div class="jm-mas-campos">
 
 <label class="jm-field">
 <span>¿Alguna alergia o algo que no comas?</span>
@@ -398,7 +477,6 @@
 <span>¿Qué canción no puede faltar?</span>
 <input type="text" name="cancion" placeholder="Para la fiesta">
 </label>
-</div>
 
 <label class="jm-field">
 <span>Teléfono</span>
@@ -410,7 +488,10 @@
 <textarea name="mensaje" rows="3" placeholder="Opcional"></textarea>
 </label>
 
-<button type="submit" id="jm-rsvp-cta" class="jm-btn-solid" style="margin-top:14px;cursor:pointer;padding:18px 40px 16px;background:#F6F4EE;color:#631B29;border:0;border-radius:999px;font-family:'NoirEtBlanc',serif;text-transform:uppercase;font-size:16px;letter-spacing:.2em;white-space:nowrap;line-height:1">confirmar asistencia</button>
+</div>
+</details>
+
+<button type="submit" id="jm-rsvp-cta" class="jm-btn-solid" style="margin-top:14px;cursor:pointer;padding:18px 40px 16px;background:#F6F4EE;color:#631B29;border:0;border-radius:999px;font-family:'NoirEtBlanc',serif;text-transform:uppercase;font-size:16px;letter-spacing:.2em;white-space:nowrap;line-height:1">confirmar</button>
 <p class="jm-form-estado" id="jm-form-estado" role="status" aria-live="polite"></p>
 </form>
 

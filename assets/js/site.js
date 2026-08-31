@@ -70,7 +70,8 @@
     navDark: null, pending: [], lastReveal: 0, plx: [],
     lbOpen: false, lbIndex: 0, lbReturnFocus: null,
     lunaOpen: false, lunaReturnFocus: null,
-    locks: {}, timer: null, jumpT: []
+    locks: {}, timer: null, jumpT: [],
+    galMode: null, galModeFijo: false, carRaf: 0, carIndex: 0, obsCentro: null
   };
 
   /* ---------- bloqueo de scroll con varios dueños ---------- */
@@ -319,9 +320,6 @@
       $('jm-quien-nombre').textContent = inv.saludo;
 
       var pases = parseInt(inv.pases, 10) || 1;
-      $('jm-quien-pases').textContent = pases === 1
-        ? 'Tu invitación es para una persona.'
-        : 'Tu invitación es para ' + pases + ' personas.';
 
       /* El input de texto se desactiva —no sólo se esconde— para que el
          formulario no mande dos campos «nombre». Y el oculto estrena su
@@ -340,16 +338,92 @@
          itinerario se arma según lo que traiga esta invitación. */
       if (typeof inv.civil === 'boolean') applyItinerario(inv.civil);
 
-      /* Los pases ya se saben: el contador arranca completo y no deja
-         pasarse. Los acompañantes con nombre se prellenan. */
-      var cuantos = document.querySelector('#jm-rsvp-form input[name="personas"]');
-      if (cuantos) { cuantos.value = String(pases); cuantos.max = String(pases); }
-      var acomp = document.querySelector('#jm-rsvp-form input[name="acompanantes"]');
-      if (acomp && inv.invitados.length > 1) {
-        acomp.value = inv.invitados.slice(1).filter(function (n) {
-          return !/^invitad[oa]s?$/i.test(n);
-        }).join(', ');
+      /* Con un solo pase, hablarle de usted en plural suena raro. */
+      if (pases === 1) {
+        Array.prototype.forEach.call(document.querySelectorAll('.jm-opcion-txt'), function (t) {
+          t.textContent = t.getAttribute('data-uno') || t.textContent;
+        });
       }
+
+      pintaPersonas(inv.invitados || []);
+    }
+  }
+
+  /* ---------- quiénes vienen ----------
+     La lista de la invitación, ya palomeada. Antes esto eran dos
+     preguntas que el invitado tenía que escribir —cuántos y quiénes—
+     aunque el link ya supiera las dos respuestas.
+
+     Ojo con lo que se manda: Netlify Forms descubre los campos leyendo
+     index.html, no la página pintada, así que estas casillas no llevan
+     `name` y nunca viajarían solas. Lo que se manda son los dos ocultos
+     que sí están escritos en el HTML (#jm-personas y #jm-acompanantes);
+     aquí nomás se les pone el valor. */
+  function pintaPersonas(invitados) {
+    var caja = $('jm-quienes'), lista = $('jm-quienes-lista');
+    if (!caja || !lista || !invitados.length) return;
+
+    var PALOMA = '<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor"'
+               + ' stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">'
+               + '<path d="M4 12.5 9.5 18 20 6.5"/></svg>';
+
+    lista.innerHTML = '';
+    invitados.forEach(function (nombre, i) {
+      /* Los pases sueltos vienen como «Invitado»/«Invitada» en la lista:
+         no es un nombre, es un lugar sin dueño. A esos se les pregunta
+         cómo se llama, que es justo lo que les falta a los novios para
+         el acomodo de las mesas. */
+      var anonimo = /^invitad[oa]s?$/i.test(nombre.trim());
+      var fila = document.createElement('label');
+      fila.className = 'jm-persona';
+      fila.innerHTML =
+        '<input type="checkbox" checked data-persona="' + i + '">' +
+        '<span class="jm-persona-marca">' + PALOMA + '</span>' +
+        (anonimo
+          ? '<input type="text" class="jm-persona-input" data-nombre="' + i + '"'
+            + ' autocomplete="name" placeholder="¿Cómo se llama tu acompañante?">'
+          : '<span class="jm-persona-nombre"></span>');
+      if (!anonimo) fila.querySelector('.jm-persona-nombre').textContent = nombre;
+      lista.appendChild(fila);
+    });
+
+    /* El texto libre no debe alternar la casilla: quien escribe un nombre
+       está diciendo que sí viene, no lo contrario. */
+    lista.addEventListener('click', function (e) {
+      if (e.target.classList.contains('jm-persona-input')) e.preventDefault();
+    });
+    lista.addEventListener('input', sincronizaPersonas);
+    lista.addEventListener('change', sincronizaPersonas);
+    sincronizaPersonas();
+  }
+
+  function sincronizaPersonas() {
+    var lista = $('jm-quienes-lista');
+    if (!lista) return;
+    var filas = Array.prototype.slice.call(lista.querySelectorAll('.jm-persona'));
+    var vienen = [];
+    filas.forEach(function (fila) {
+      if (!fila.querySelector('input[type="checkbox"]').checked) return;
+      var libre = fila.querySelector('.jm-persona-input');
+      var etiqueta = fila.querySelector('.jm-persona-nombre');
+      var nombre = libre ? libre.value.trim() : (etiqueta ? etiqueta.textContent : '');
+      vienen.push(nombre || 'Acompañante');
+    });
+
+    var personas = $('jm-personas'), acomp = $('jm-acompanantes');
+    if (personas) personas.value = String(vienen.length);
+    /* La lista completa de quienes vienen, no sólo los acompañantes: si
+       alguien se cae de la invitación, con el puro número no se sabría
+       quién. En el panel esa columna se llama «quiénes vienen». */
+    if (acomp) acomp.value = vienen.join(', ');
+
+    var cuenta = $('jm-quienes-cuenta');
+    if (cuenta) {
+      cuenta.textContent = !vienen.length ? 'No viene nadie de esta invitación.'
+        : filas.length === 1 ? ''
+        : vienen.length === filas.length
+          ? (vienen.length === 2 ? 'Vienen los dos.' : 'Vienen los ' + vienen.length + '.')
+          : 'Vienen ' + vienen.length + ' de ' + filas.length + '.';
     }
   }
 
@@ -412,6 +486,7 @@
      prefers-reduced-motion no se monta: el color entraría y saldría solo
      mientras la persona se desplaza. */
   function setupGaleriaSinMouse() {
+    if (state.obsCentro) { state.obsCentro.disconnect(); state.obsCentro = null; }
     if (!window.matchMedia || !window.IntersectionObserver || reduceMotion) return;
     if (window.matchMedia('(hover: hover)').matches) return;
 
@@ -425,6 +500,7 @@
     }, { rootMargin: '-35% 0px -35% 0px', threshold: 0 });   /* la banda central */
 
     cells.forEach(function (c) { obs.observe(c); });
+    state.obsCentro = obs;
   }
 
   /* ---------- galería + lightbox ---------- */
@@ -436,21 +512,26 @@
       var img = cell.querySelector('img');
       var veil = cell.querySelector('[data-veil]');
       var frame = cell.querySelector('[data-gframe]');
+      /* El hover escribe variables y no `transform` directo: en el carrusel
+         la animación del scroll empuja la misma celda, y si las dos
+         escribieran `transform` la última en correr borraría a la otra. */
       var enter = function () {
         if (cell.dataset.unavailable === '1') return;
+        if (state.galMode === 'carrusel') return;   /* ahí manda el scroll */
         if (inner) inner.style.filter = 'none';
-        if (img) img.style.transform = 'scale(1.07)';
-        if (veil) veil.style.opacity = '0';
-        if (frame) { frame.style.opacity = '1'; frame.style.transform = 'scale(1)'; }
-        cell.style.transform = 'translateY(-6px)';
+        if (img) img.style.setProperty('--jm-zoom', '1.07');
+        if (veil) veil.style.setProperty('--jm-velo', '0');
+        if (frame) frame.style.setProperty('--jm-marco', '1');
+        cell.style.setProperty('--jm-lift', '-6px');
         cell.style.boxShadow = '0 26px 50px rgba(58,15,22,.28)';
       };
       var leave = function () {
+        if (state.galMode === 'carrusel') return;
         if (inner) inner.style.filter = PHOTO_FILTERS[CONFIG.photoTone] || PHOTO_FILTERS['blanco y negro'];
-        if (img) img.style.transform = 'none';
-        if (veil) veil.style.opacity = '1';
-        if (frame) { frame.style.opacity = '0'; frame.style.transform = 'scale(1.05)'; }
-        cell.style.transform = 'none';
+        if (img) img.style.setProperty('--jm-zoom', '1');
+        if (veil) veil.style.setProperty('--jm-velo', '1');
+        if (frame) frame.style.setProperty('--jm-marco', '0');
+        cell.style.setProperty('--jm-lift', '0px');
         cell.style.boxShadow = 'none';
       };
       cell.addEventListener('mouseenter', enter);
@@ -463,12 +544,164 @@
         openLB(parseInt(cell.getAttribute('data-gcell'), 10) || 0);
       });
     });
-    fitGrid();
+  }
+
+  /* ==================== galería: mosaico y carrusel ====================
+     Las mismas celdas en los dos modos; sólo cambia la clase del
+     contenedor. Por eso el lightbox y el conteo no se enteran de nada.
+
+     El modo de arranque lo decide el aparato: en celular el carrusel
+     —una foto a la vez, del tamaño de la pantalla— y en compu el mosaico,
+     que es donde se aprovecha el ancho. Se puede cambiar en cualquiera
+     de los dos. */
+  function anchoChico() { return window.innerWidth < 900; }
+
+  function setupModos() {
+    if (!el.grid) return;
+    var mos = $('jm-modo-mosaico'), car = $('jm-modo-carrusel');
+    if (mos) mos.addEventListener('click', function () { setGalMode('mosaico', true); });
+    if (car) car.addEventListener('click', function () { setGalMode('carrusel', true); });
+
+    var prev = $('jm-car-prev'), next = $('jm-car-next');
+    if (prev) prev.addEventListener('click', function () { pasoCarrusel(-1); });
+    if (next) next.addEventListener('click', function () { pasoCarrusel(1); });
+
+    el.grid.addEventListener('scroll', function () {
+      if (state.galMode !== 'carrusel') return;
+      if (state.carRaf) return;
+      state.carRaf = requestAnimationFrame(function () {
+        state.carRaf = 0;
+        pintaCarrusel();
+      });
+    }, { passive: true });
+
+    setGalMode(anchoChico() ? 'carrusel' : 'mosaico', false);
+  }
+
+  function setGalMode(modo, deLaPersona) {
+    if (!el.grid || state.galMode === modo) return;
+    state.galMode = modo;
+    /* Si la persona eligió, se respeta aunque después gire el teléfono;
+       si no, el resize puede volver a decidir. */
+    if (deLaPersona) state.galModeFijo = true;
+
+    el.grid.classList.toggle('is-mosaico', modo === 'mosaico');
+    el.grid.classList.toggle('is-carrusel', modo === 'carrusel');
+
+    var mos = $('jm-modo-mosaico'), car = $('jm-modo-carrusel');
+    if (mos) mos.setAttribute('aria-pressed', String(modo === 'mosaico'));
+    if (car) car.setAttribute('aria-pressed', String(modo === 'carrusel'));
+
+    var pie = $('jm-gal-pie');
+    if (pie) pie.hidden = modo !== 'carrusel';
+
+    /* Cada modo colorea las fotos a su manera y hay que apagar la del
+       otro: si las dos observaran las mismas celdas se pelearían por el
+       mismo filtro. */
+    if (modo === 'carrusel') {
+      if (state.obsCentro) { state.obsCentro.disconnect(); state.obsCentro = null; }
+      el.grid.scrollLeft = 0;
+      pintaCarrusel();
+      /* El layout del carrusel aún no está firme en el mismo frame en que
+         se pone la clase; sin este segundo pase la primera foto arranca
+         apagada. */
+      requestAnimationFrame(pintaCarrusel);
+    } else {
+      limpiaCarrusel();
+      setupGaleriaSinMouse();
+    }
+  }
+
+  /* Deja las celdas como si nadie las hubiera tocado, para que el mosaico
+     no herede el estado a medias del carrusel. */
+  function limpiaCarrusel() {
+    var gris = PHOTO_FILTERS[CONFIG.photoTone] || PHOTO_FILTERS['blanco y negro'];
+    cells.forEach(function (cell) {
+      var inner = cell.querySelector('[data-photo]');
+      var img = cell.querySelector('img');
+      var veil = cell.querySelector('[data-veil]');
+      var frame = cell.querySelector('[data-gframe]');
+      cell.style.setProperty('--jm-esc', '1');
+      cell.style.setProperty('--jm-lift', '0px');
+      cell.style.boxShadow = 'none';
+      if (img) { img.style.setProperty('--jm-px', '0px'); img.style.setProperty('--jm-zoom', '1'); }
+      if (veil) veil.style.setProperty('--jm-velo', '1');
+      if (frame) frame.style.setProperty('--jm-marco', '0');
+      if (inner) inner.style.filter = gris;
+    });
+  }
+
+  /* La animación de cada diapositiva.
+
+     No se usa IntersectionObserver: eso sólo avisa cuándo entra y cuándo
+     sale, y aquí hace falta saber *qué tan* al centro va cada foto para
+     que crezca y se coloree mientras se arrastra. Tampoco
+     `animation-timeline: view()`, que sería lo elegante, porque Safari
+     todavía no lo trae y el carrusel es justamente lo del celular.
+
+     Así que: distancia de cada diapositiva al centro del riel, normalizada
+     a [-1, 1], y de ahí salen la escala, el velo, el marco y el
+     desplazamiento de la foto dentro de su marco —que es lo que da la
+     sensación de profundidad al arrastrar. */
+  function pintaCarrusel() {
+    if (!el.grid || state.galMode !== 'carrusel' || !cells.length) return;
+    var caja = el.grid.getBoundingClientRect();
+    var centro = caja.left + caja.width / 2;
+    var gris = PHOTO_FILTERS[CONFIG.photoTone] || PHOTO_FILTERS['blanco y negro'];
+    var masCerca = 0, mejor = Infinity;
+
+    for (var i = 0; i < cells.length; i++) {
+      var cell = cells[i];
+      var r = cell.getBoundingClientRect();
+      var d = (r.left + r.width / 2) - centro;
+      var t = Math.max(-1, Math.min(1, d / (caja.width / 2 || 1)));
+      var a = Math.abs(t);
+      if (a < mejor) { mejor = a; masCerca = i; }
+
+      var img = cell.querySelector('img');
+      var veil = cell.querySelector('[data-veil]');
+      var frame = cell.querySelector('[data-gframe]');
+      var inner = cell.querySelector('[data-photo]');
+
+      if (reduceMotion) {
+        cell.style.setProperty('--jm-esc', '1');
+        if (img) img.style.setProperty('--jm-px', '0px');
+      } else {
+        cell.style.setProperty('--jm-esc', (1 - a * 0.12).toFixed(4));
+        if (img) img.style.setProperty('--jm-px', (-t * 26).toFixed(1) + 'px');
+        if (img) img.style.setProperty('--jm-zoom', '1.1');
+      }
+      if (veil) veil.style.setProperty('--jm-velo', Math.min(1, a * 1.6).toFixed(3));
+      if (frame) frame.style.setProperty('--jm-marco', Math.max(0, 1 - a * 3).toFixed(3));
+      if (inner) inner.style.filter = a < 0.34 ? 'none' : gris;
+    }
+
+    var cuenta = $('jm-car-cuenta');
+    if (cuenta) cuenta.textContent = (masCerca + 1) + ' / ' + cells.length;
+    var avance = $('jm-car-avance');
+    if (avance) avance.style.width = ((masCerca + 1) / cells.length * 100).toFixed(2) + '%';
+    var prev = $('jm-car-prev'), next = $('jm-car-next');
+    if (prev) prev.disabled = masCerca === 0;
+    if (next) next.disabled = masCerca === cells.length - 1;
+    state.carIndex = masCerca;
+  }
+
+  function pasoCarrusel(dir) {
+    if (!el.grid || !cells.length) return;
+    var i = Math.max(0, Math.min(cells.length - 1, (state.carIndex || 0) + dir));
+    var cell = cells[i];
+    if (!cell) return;
+    var caja = el.grid.getBoundingClientRect();
+    var r = cell.getBoundingClientRect();
+    var salto = (r.left + r.width / 2) - (caja.left + caja.width / 2);
+    el.grid.scrollBy({ left: salto, behavior: reduceMotion ? 'auto' : 'smooth' });
   }
 
   function fitGrid() {
-    if (!el.grid) return;
-    el.grid.style.gridTemplateColumns = 'repeat(' + (window.innerWidth < 700 ? 2 : 3) + ',minmax(0,1fr))';
+    /* El resize sólo re-decide mientras nadie haya elegido a mano. */
+    if (!el.grid || state.galModeFijo) { pintaCarrusel(); return; }
+    setGalMode(anchoChico() ? 'carrusel' : 'mosaico', false);
+    pintaCarrusel();
   }
 
   function cellSrc(i) {
@@ -741,17 +974,30 @@
     if (!form) return;
     var estado = $('jm-form-estado');
     var gracias = $('jm-rsvp-gracias');
-    var detalles = form.querySelector('.jm-solo-si');
+    /* La lista de quiénes vienen sólo tiene sentido si sí vienen, y
+       tampoco antes de contestar: aparece cuando marcan que sí.
 
-    // Si contestan que no vienen, lo que sobra se pliega.
-    function syncDetalles() {
-      var no = form.querySelector('input[name="asiste"][value="no"]');
-      if (detalles) detalles.hidden = !!(no && no.checked);
+       Si contestan que no, `personas` se va a 0 y la lista de nombres se
+       vacía, porque si no el correo diría que no viene nadie y de paso
+       mandaría tres nombres. */
+    var quienes = $('jm-quienes');
+    function syncQuienes() {
+      var si = form.querySelector('input[name="asiste"][value="sí"]');
+      var viene = !!(si && si.checked);
+      /* Con un solo pase la lista sobra: si esa persona no viene, para eso
+         está el botón de «no podré ir». Las filas se pintan igual —de
+         ahí salen `personas` y `acompanantes`— nomás no se enseñan. */
+      var hayLista = !!quienes && quienes.querySelectorAll('.jm-persona').length > 1;
+      if (quienes) quienes.hidden = !(viene && hayLista);
+      if (viene) { sincronizaPersonas(); return; }
+      var personas = $('jm-personas'), acomp = $('jm-acompanantes');
+      if (personas) personas.value = '0';
+      if (acomp) acomp.value = '';
     }
     Array.prototype.forEach.call(form.querySelectorAll('input[name="asiste"]'), function (r) {
-      r.addEventListener('change', syncDetalles);
+      r.addEventListener('change', syncQuienes);
     });
-    syncDetalles();
+    syncQuienes();
 
     form.addEventListener('submit', function (e) {
       e.preventDefault();
@@ -807,7 +1053,7 @@
     syncParallax();
     syncMusicUI();
     setupGallery();
-    setupGaleriaSinMouse();
+    setupModos();          /* decide el modo y, si toca mosaico, monta el color al centrar */
     setupForm();
 
     if (el.env) {
