@@ -320,9 +320,6 @@
       $('jm-quien-nombre').textContent = inv.saludo;
 
       var pases = parseInt(inv.pases, 10) || 1;
-      $('jm-quien-pases').textContent = pases === 1
-        ? 'Tu invitación es para una persona.'
-        : 'Tu invitación es para ' + pases + ' personas.';
 
       /* El input de texto se desactiva —no sólo se esconde— para que el
          formulario no mande dos campos «nombre». Y el oculto estrena su
@@ -341,16 +338,92 @@
          itinerario se arma según lo que traiga esta invitación. */
       if (typeof inv.civil === 'boolean') applyItinerario(inv.civil);
 
-      /* Los pases ya se saben: el contador arranca completo y no deja
-         pasarse. Los acompañantes con nombre se prellenan. */
-      var cuantos = document.querySelector('#jm-rsvp-form input[name="personas"]');
-      if (cuantos) { cuantos.value = String(pases); cuantos.max = String(pases); }
-      var acomp = document.querySelector('#jm-rsvp-form input[name="acompanantes"]');
-      if (acomp && inv.invitados.length > 1) {
-        acomp.value = inv.invitados.slice(1).filter(function (n) {
-          return !/^invitad[oa]s?$/i.test(n);
-        }).join(', ');
+      /* Con un solo pase, hablarle de usted en plural suena raro. */
+      if (pases === 1) {
+        Array.prototype.forEach.call(document.querySelectorAll('.jm-opcion-txt'), function (t) {
+          t.textContent = t.getAttribute('data-uno') || t.textContent;
+        });
       }
+
+      pintaPersonas(inv.invitados || []);
+    }
+  }
+
+  /* ---------- quiénes vienen ----------
+     La lista de la invitación, ya palomeada. Antes esto eran dos
+     preguntas que el invitado tenía que escribir —cuántos y quiénes—
+     aunque el link ya supiera las dos respuestas.
+
+     Ojo con lo que se manda: Netlify Forms descubre los campos leyendo
+     index.html, no la página pintada, así que estas casillas no llevan
+     `name` y nunca viajarían solas. Lo que se manda son los dos ocultos
+     que sí están escritos en el HTML (#jm-personas y #jm-acompanantes);
+     aquí nomás se les pone el valor. */
+  function pintaPersonas(invitados) {
+    var caja = $('jm-quienes'), lista = $('jm-quienes-lista');
+    if (!caja || !lista || !invitados.length) return;
+
+    var PALOMA = '<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor"'
+               + ' stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">'
+               + '<path d="M4 12.5 9.5 18 20 6.5"/></svg>';
+
+    lista.innerHTML = '';
+    invitados.forEach(function (nombre, i) {
+      /* Los pases sueltos vienen como «Invitado»/«Invitada» en la lista:
+         no es un nombre, es un lugar sin dueño. A esos se les pregunta
+         cómo se llama, que es justo lo que les falta a los novios para
+         el acomodo de las mesas. */
+      var anonimo = /^invitad[oa]s?$/i.test(nombre.trim());
+      var fila = document.createElement('label');
+      fila.className = 'jm-persona';
+      fila.innerHTML =
+        '<input type="checkbox" checked data-persona="' + i + '">' +
+        '<span class="jm-persona-marca">' + PALOMA + '</span>' +
+        (anonimo
+          ? '<input type="text" class="jm-persona-input" data-nombre="' + i + '"'
+            + ' autocomplete="name" placeholder="¿Cómo se llama tu acompañante?">'
+          : '<span class="jm-persona-nombre"></span>');
+      if (!anonimo) fila.querySelector('.jm-persona-nombre').textContent = nombre;
+      lista.appendChild(fila);
+    });
+
+    /* El texto libre no debe alternar la casilla: quien escribe un nombre
+       está diciendo que sí viene, no lo contrario. */
+    lista.addEventListener('click', function (e) {
+      if (e.target.classList.contains('jm-persona-input')) e.preventDefault();
+    });
+    lista.addEventListener('input', sincronizaPersonas);
+    lista.addEventListener('change', sincronizaPersonas);
+    sincronizaPersonas();
+  }
+
+  function sincronizaPersonas() {
+    var lista = $('jm-quienes-lista');
+    if (!lista) return;
+    var filas = Array.prototype.slice.call(lista.querySelectorAll('.jm-persona'));
+    var vienen = [];
+    filas.forEach(function (fila) {
+      if (!fila.querySelector('input[type="checkbox"]').checked) return;
+      var libre = fila.querySelector('.jm-persona-input');
+      var etiqueta = fila.querySelector('.jm-persona-nombre');
+      var nombre = libre ? libre.value.trim() : (etiqueta ? etiqueta.textContent : '');
+      vienen.push(nombre || 'Acompañante');
+    });
+
+    var personas = $('jm-personas'), acomp = $('jm-acompanantes');
+    if (personas) personas.value = String(vienen.length);
+    /* La lista completa de quienes vienen, no sólo los acompañantes: si
+       alguien se cae de la invitación, con el puro número no se sabría
+       quién. En el panel esa columna se llama «quiénes vienen». */
+    if (acomp) acomp.value = vienen.join(', ');
+
+    var cuenta = $('jm-quienes-cuenta');
+    if (cuenta) {
+      cuenta.textContent = !vienen.length ? 'No viene nadie de esta invitación.'
+        : filas.length === 1 ? ''
+        : vienen.length === filas.length
+          ? (vienen.length === 2 ? 'Vienen los dos.' : 'Vienen los ' + vienen.length + '.')
+          : 'Vienen ' + vienen.length + ' de ' + filas.length + '.';
     }
   }
 
@@ -901,17 +974,30 @@
     if (!form) return;
     var estado = $('jm-form-estado');
     var gracias = $('jm-rsvp-gracias');
-    var detalles = form.querySelector('.jm-solo-si');
+    /* La lista de quiénes vienen sólo tiene sentido si sí vienen, y
+       tampoco antes de contestar: aparece cuando marcan que sí.
 
-    // Si contestan que no vienen, lo que sobra se pliega.
-    function syncDetalles() {
-      var no = form.querySelector('input[name="asiste"][value="no"]');
-      if (detalles) detalles.hidden = !!(no && no.checked);
+       Si contestan que no, `personas` se va a 0 y la lista de nombres se
+       vacía, porque si no el correo diría que no viene nadie y de paso
+       mandaría tres nombres. */
+    var quienes = $('jm-quienes');
+    function syncQuienes() {
+      var si = form.querySelector('input[name="asiste"][value="sí"]');
+      var viene = !!(si && si.checked);
+      /* Con un solo pase la lista sobra: si esa persona no viene, para eso
+         está el botón de «no podré ir». Las filas se pintan igual —de
+         ahí salen `personas` y `acompanantes`— nomás no se enseñan. */
+      var hayLista = !!quienes && quienes.querySelectorAll('.jm-persona').length > 1;
+      if (quienes) quienes.hidden = !(viene && hayLista);
+      if (viene) { sincronizaPersonas(); return; }
+      var personas = $('jm-personas'), acomp = $('jm-acompanantes');
+      if (personas) personas.value = '0';
+      if (acomp) acomp.value = '';
     }
     Array.prototype.forEach.call(form.querySelectorAll('input[name="asiste"]'), function (r) {
-      r.addEventListener('change', syncDetalles);
+      r.addEventListener('change', syncQuienes);
     });
-    syncDetalles();
+    syncQuienes();
 
     form.addEventListener('submit', function (e) {
       e.preventDefault();

@@ -332,10 +332,6 @@ img { max-width: 100%; }
   margin: 0; font-family: 'Lumiare', sans-serif; font-weight: 400;
   font-size: clamp(26px,3.2vw,34px); line-height: 1.15; color: #F6F4EE;
 }
-.jm-quien-pases {
-  margin: 0; font-family: 'NoirEtBlanc', serif; font-size: 16px;
-  color: var(--oliva-pale);
-}
 .jm-quien[hidden], .jm-field[hidden] { display: none; }
 
 /* Secciones y botones apagados a la espera de datos (hospedaje, Amazon).
@@ -362,10 +358,129 @@ section[hidden], a[hidden], #jm-rsvp-aviso[hidden] { display: none !important; }
   outline: 2px solid var(--oliva-pale); outline-offset: 3px;
 }
 
-/* El bloque de detalles sólo aplica si sí viene, así que se pliega
-   cuando contestan que no. */
-.jm-solo-si { display: flex; flex-direction: column; gap: 22px; }
-.jm-solo-si[hidden] { display: none; }
+/* --- La decisión ---
+   Dos tarjetas grandes en vez de dos bolitas perdidas entre campos: es
+   lo único que de verdad hay que contestar. Por dentro siguen siendo
+   radios (flechas del teclado, anuncio como grupo); el radio se esconde
+   pero no se quita, para que el foco y el teclado sigan funcionando. */
+.jm-decision {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 12px;
+  width: 100%; margin: 6px 0 0; padding: 0; border: 0;
+}
+/* El <legend> es un hijo más de la retícula, así que se le dice que
+   abarque el renglón completo. Flotarlo —el truco de siempre— aquí lo
+   convierte en la primera celda y avienta las dos opciones a las
+   siguientes, que es como quedaban en diagonal. */
+.jm-decision legend {
+  grid-column: 1 / -1; margin: 0 0 2px; padding: 0;
+  font-family: 'NoirEtBlanc', serif; text-transform: uppercase;
+  font-size: 13px; letter-spacing: .2em; color: var(--oliva-pale);
+}
+.jm-opcion { position: relative; display: block; cursor: pointer; }
+/* El radio se queda en el flujo, invisible y sin tamaño, para que
+   :focus-visible siga llegando y se pueda pintar la tarjeta. */
+.jm-opcion input {
+  position: absolute; width: 1px; height: 1px; margin: 0;
+  opacity: 0; pointer-events: none;
+}
+.jm-opcion-caja {
+  display: flex; align-items: center; justify-content: center;
+  min-height: 74px; padding: 18px 20px;
+  border: 1px solid rgba(246,244,238,.34); border-radius: 4px;
+  background: rgba(246,244,238,.04);
+  font-family: 'NoirEtBlanc', serif; text-transform: uppercase;
+  font-size: 15px; letter-spacing: .16em; line-height: 1.3;
+  text-align: center; color: #F6F4EE;
+  transition: background .35s ease, border-color .35s ease, color .35s ease;
+}
+.jm-opcion:hover .jm-opcion-caja { border-color: rgba(246,244,238,.6); }
+.jm-opcion input:checked ~ .jm-opcion-caja {
+  background: var(--oliva-pale); border-color: var(--oliva-pale); color: #3A0F16;
+}
+.jm-opcion input:focus-visible ~ .jm-opcion-caja {
+  outline: 2px solid var(--oliva-pale); outline-offset: 3px;
+}
+@media (max-width: 480px) { .jm-decision { grid-template-columns: 1fr; } }
+
+/* --- Quiénes vienen ---
+   La lista de la invitación, ya palomeada. Se le quita la palomita a
+   quien no pueda y la cuenta se hace sola. */
+.jm-quienes { display: flex; flex-direction: column; gap: 10px; width: 100%; }
+.jm-quienes[hidden] { display: none; }
+.jm-quienes-tit {
+  font-family: 'NoirEtBlanc', serif; text-transform: uppercase;
+  font-size: 13px; letter-spacing: .2em; color: var(--oliva-pale);
+}
+.jm-quienes-lista { display: flex; flex-direction: column; gap: 8px; }
+.jm-persona {
+  display: flex; align-items: center; gap: 13px;
+  padding: 13px 16px; cursor: pointer;
+  border: 1px solid rgba(246,244,238,.2); border-radius: 4px;
+  background: rgba(246,244,238,.03);
+  transition: border-color .3s ease, background .3s ease, opacity .3s ease;
+}
+.jm-persona:hover { border-color: rgba(246,244,238,.42); }
+.jm-persona input { position: absolute; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
+.jm-persona-marca {
+  flex: 0 0 auto; display: grid; place-items: center;
+  width: 21px; height: 21px;
+  border: 1px solid rgba(246,244,238,.5); border-radius: 3px;
+  transition: background .25s ease, border-color .25s ease;
+}
+.jm-persona-marca svg { width: 13px; height: 13px; opacity: 0; transition: opacity .25s ease; }
+.jm-persona input:checked ~ .jm-persona-marca {
+  background: var(--oliva-pale); border-color: var(--oliva-pale);
+}
+.jm-persona input:checked ~ .jm-persona-marca svg { opacity: 1; color: #3A0F16; }
+.jm-persona input:focus-visible ~ .jm-persona-marca {
+  outline: 2px solid var(--oliva-pale); outline-offset: 2px;
+}
+.jm-persona-nombre {
+  font-family: 'NoirEtBlanc', serif; font-size: 18px; line-height: 1.35;
+  color: #F6F4EE; text-align: left;
+}
+/* A quien se le quita la palomita se apaga, para que se vea de un
+   vistazo quién sí y quién no. */
+.jm-persona:not(:has(input:checked)) { opacity: .48; }
+.jm-persona:not(:has(input:checked)) .jm-persona-nombre { text-decoration: line-through; }
+/* El nombre del acompañante sin nombre: sólo para las invitaciones que
+   traen un pase suelto. */
+.jm-persona-input {
+  flex: 1 1 auto; min-width: 0; margin-left: 4px;
+  padding: 5px 0; border: 0; border-bottom: 1px solid rgba(246,244,238,.28);
+  background: transparent; color: #F6F4EE;
+  font-family: 'NoirEtBlanc', serif; font-size: 17px;
+}
+.jm-persona-input::placeholder { color: rgba(246,244,238,.42); }
+.jm-persona-input:focus { outline: none; border-bottom-color: var(--oliva-pale); }
+.jm-quienes-cuenta {
+  margin: 2px 0 0;
+  font-family: 'NoirEtBlanc', serif; font-size: 16px; color: #F6F4EE; opacity: .62;
+}
+.jm-quienes-cuenta:empty { display: none; }
+
+/* --- Lo opcional, plegado ---
+   <details> y no un div con JS: así también se abre sin JS. */
+.jm-mas { width: 100%; margin-top: 4px; }
+.jm-mas summary {
+  list-style: none; cursor: pointer; padding: 14px 0;
+  border-top: 1px solid rgba(246,244,238,.18);
+  border-bottom: 1px solid rgba(246,244,238,.18);
+  display: flex; align-items: center; gap: 10px;
+  font-family: 'NoirEtBlanc', serif; text-transform: uppercase;
+  font-size: 13px; letter-spacing: .18em; color: var(--oliva-pale);
+}
+.jm-mas summary::-webkit-details-marker { display: none; }
+.jm-mas summary::before {
+  content: '+'; flex: 0 0 auto;
+  font-size: 17px; line-height: 1; transition: transform .3s ease;
+}
+.jm-mas[open] summary::before { content: '−'; }
+.jm-mas summary:focus-visible { outline: 2px solid var(--oliva-pale); outline-offset: 3px; }
+.jm-mas-campos {
+  display: flex; flex-direction: column; gap: 22px;
+  padding-top: 26px;
+}
 
 .jm-form-estado {
   margin: 4px 0 0; min-height: 1.4em;

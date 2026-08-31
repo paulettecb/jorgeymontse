@@ -408,14 +408,13 @@
 <input type="hidden" name="form-name" value="rsvp">
 <p class="jm-hp"><label>No llenes esto: <input name="bot-field"></label></p>
 
-<!-- Dos caras del mismo dato. Con link personalizado (?i=…) el sitio ya
-     sabe quién es y sólo se lo confirma; sin link, o si el id no existe,
-     vuelve a pedir el nombre a mano, como antes. El input de texto se
-     desactiva al personalizar para que no se manden dos «nombre». -->
+<!-- Dos caras del mismo dato. Con link personalizado el sitio ya sabe
+     quién es y sólo se lo confirma; sin link vuelve a pedir el nombre a
+     mano. El input de texto se desactiva al personalizar para que no se
+     manden dos «nombre». -->
 <div class="jm-field jm-quien" id="jm-quien" hidden>
 <span>Confirmas por</span>
 <p class="jm-quien-nombre" id="jm-quien-nombre"></p>
-<p class="jm-quien-pases" id="jm-quien-pases"></p>
 <input type="hidden" id="jm-quien-nombre-input">
 <input type="hidden" id="jm-quien-id-input">
 </div>
@@ -425,22 +424,49 @@
 <input type="text" name="nombre" id="jm-input-nombre" required autocomplete="name" placeholder="Tu nombre completo">
 </label>
 
-<fieldset class="jm-field jm-radios">
+<!-- La decisión. Es lo único que de verdad hay que contestar, así que
+     ocupa el tamaño que le toca: dos tarjetas grandes en vez de dos
+     bolitas de radio perdidas entre campos. Por dentro siguen siendo
+     radios —se navegan con flechas y el lector de pantalla los anuncia
+     como grupo—; lo que cambia es cómo se ven.
+     Los textos van en plural y site.js los pasa a singular cuando la
+     invitación es de un solo pase. -->
+<fieldset class="jm-decision" id="jm-decision">
 <legend>¿Nos acompañas?</legend>
-<label><input type="radio" name="asiste" value="sí" required><span>Ahí estaré</span></label>
-<label><input type="radio" name="asiste" value="no"><span>No podré ir</span></label>
+<label class="jm-opcion">
+<input type="radio" name="asiste" value="sí" required>
+<span class="jm-opcion-caja"><span class="jm-opcion-txt" data-uno="Ahí estaré" data-varios="Ahí estaremos">Ahí estaremos</span></span>
+</label>
+<label class="jm-opcion">
+<input type="radio" name="asiste" value="no">
+<span class="jm-opcion-caja"><span class="jm-opcion-txt" data-uno="No podré ir" data-varios="No podremos ir">No podremos ir</span></span>
+</label>
 </fieldset>
 
-<div class="jm-solo-si">
-<label class="jm-field jm-corto">
-<span>¿Cuántos vienen?</span>
-<input type="number" name="personas" min="1" max="10" value="1" inputmode="numeric">
-</label>
+<!-- Quiénes vienen.
+     Antes esto eran dos preguntas —cuántos y quiénes— que el invitado
+     tenía que escribir aunque el link ya supiera las dos respuestas.
+     Ahora site.js pinta aquí la lista de su invitación, ya palomeada, y
+     si alguien no puede se le quita la palomita. La cuenta se hace sola.
 
-<label class="jm-field">
-<span>¿Quiénes te acompañan?</span>
-<input type="text" name="acompanantes" placeholder="Nombres, para los lugares">
-</label>
+     Las casillas que pinta el JS no llevan `name` a propósito: Netlify
+     Forms descubre los campos leyendo este archivo, no la página pintada,
+     así que nada que nazca en JS llegaría al correo. Lo que se manda son
+     los dos ocultos de abajo, que sí están aquí escritos, y el JS nomás
+     les pone el valor. -->
+<div class="jm-quienes" id="jm-quienes" hidden>
+<span class="jm-quienes-tit">¿Quiénes vienen?</span>
+<div class="jm-quienes-lista" id="jm-quienes-lista"></div>
+<p class="jm-quienes-cuenta" id="jm-quienes-cuenta" role="status" aria-live="polite"></p>
+</div>
+<input type="hidden" name="personas" id="jm-personas" value="1">
+<input type="hidden" name="acompanantes" id="jm-acompanantes" value="">
+
+<!-- Todo lo opcional, plegado. Va en <details> y no en un div con JS
+     para que también se pueda abrir sin JS. -->
+<details class="jm-mas" id="jm-mas">
+<summary><span>¿Algo más que debamos saber?</span></summary>
+<div class="jm-mas-campos">
 
 <label class="jm-field">
 <span>¿Alguna alergia o algo que no comas?</span>
@@ -451,7 +477,6 @@
 <span>¿Qué canción no puede faltar?</span>
 <input type="text" name="cancion" placeholder="Para la fiesta">
 </label>
-</div>
 
 <label class="jm-field">
 <span>Teléfono</span>
@@ -463,7 +488,10 @@
 <textarea name="mensaje" rows="3" placeholder="Opcional"></textarea>
 </label>
 
-<button type="submit" id="jm-rsvp-cta" class="jm-btn-solid" style="margin-top:14px;cursor:pointer;padding:18px 40px 16px;background:#F6F4EE;color:#631B29;border:0;border-radius:999px;font-family:'NoirEtBlanc',serif;text-transform:uppercase;font-size:16px;letter-spacing:.2em;white-space:nowrap;line-height:1">confirmar asistencia</button>
+</div>
+</details>
+
+<button type="submit" id="jm-rsvp-cta" class="jm-btn-solid" style="margin-top:14px;cursor:pointer;padding:18px 40px 16px;background:#F6F4EE;color:#631B29;border:0;border-radius:999px;font-family:'NoirEtBlanc',serif;text-transform:uppercase;font-size:16px;letter-spacing:.2em;white-space:nowrap;line-height:1">confirmar</button>
 <p class="jm-form-estado" id="jm-form-estado" role="status" aria-live="polite"></p>
 </form>
 
