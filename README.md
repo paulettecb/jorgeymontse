@@ -86,7 +86,7 @@ del commit que los añadió.
 
 ## Invitaciones personalizadas
 
-Cada invitación tiene su link: `…/?i=jorge-cambron`. Con él, la sección de
+Cada invitación tiene su link: `…/jorge-cambron`. Con él, la sección de
 confirmar ya sabe quién es —lo saluda por su nombre, le dice cuántos pases
 trae y le prellena a sus acompañantes— y la confirmación llega identificada
 sin que nadie escriba su nombre.
@@ -100,6 +100,11 @@ dejar a nadie sin poder confirmar.
   sitio nunca descarga la lista completa — le pregunta a `/api/invitacion`
   por un id y sólo recibe esa invitación.
 - Los links para repartir están en [`INVITACIONES.md`](INVITACIONES.md).
+- El link bonito (`/jorge-cambron`) es una reescritura de Netlify a
+  `/index.html` con status 200, así que la barra de direcciones lo conserva.
+  Como entonces no hay `?i=` que leer, `personalizar()` en `site.js` saca el
+  id de la ruta cuando no viene en la query. La forma vieja sigue sirviendo.
+  Funciona con cualquier dominio, el de Netlify incluido.
 - Para cambiar la lista se edita el `.mts` y se regenera el `.md`.
 - **La ceremonia civil se elige invitación por invitación.** A la civil no va
   todo el mundo, así que cada invitación trae un campo `civil`: si es `true`,

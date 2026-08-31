@@ -270,9 +270,17 @@
     var caja = $('jm-quien'), campo = $('jm-campo-nombre');
     if (!caja || !campo || !window.fetch) return;
 
+    /* El id puede llegar de dos formas: como ?i=paloma-cambron, o como
+       /paloma-cambron. La segunda es una reescritura de Netlify (status
+       200), así que la barra de direcciones conserva el link bonito y no
+       hay query string que leer: el id viene en la ruta. */
     var id = '';
     try {
       id = (new URLSearchParams(window.location.search).get('i') || '').trim().toLowerCase();
+      if (!id) {
+        var ruta = window.location.pathname.replace(/^\/+|\/+$/g, '').toLowerCase();
+        if (ruta.indexOf('/') === -1 && ruta.indexOf('.') === -1) id = ruta;
+      }
     } catch (e) { return; }
     if (!id || !/^[a-z0-9-]{1,60}$/.test(id)) return;
 
@@ -374,6 +382,31 @@
       var t = (p.top + p.height / 2 - H / 2) / H;
       node.style.transform = 'translate3d(0,' + (-t * 7).toFixed(2) + '%,0)';
     }
+  }
+
+  /* ---------- galería: color al centrarse, en pantallas sin mouse ----------
+     En compu la foto pasa de blanco y negro a color al pasar el mouse
+     (ver `enter` más abajo). En celular no hay hover, así que se colorea
+     cuando la foto cruza el centro de la pantalla al hacer scroll.
+
+     Se monta sólo donde NO hay hover: si se montara en las dos, el mouse
+     y el scroll se pelearían por el mismo filtro. Y con
+     prefers-reduced-motion no se monta: el color entraría y saldría solo
+     mientras la persona se desplaza. */
+  function setupGaleriaSinMouse() {
+    if (!window.matchMedia || !window.IntersectionObserver || reduceMotion) return;
+    if (window.matchMedia('(hover: hover)').matches) return;
+
+    var gris = PHOTO_FILTERS[CONFIG.photoTone] || PHOTO_FILTERS['blanco y negro'];
+    var obs = new IntersectionObserver(function (entradas) {
+      entradas.forEach(function (e) {
+        if (e.target.dataset.unavailable === '1') return;
+        var inner = e.target.querySelector('[data-photo]');
+        if (inner) inner.style.filter = e.isIntersecting ? 'none' : gris;
+      });
+    }, { rootMargin: '-35% 0px -35% 0px', threshold: 0 });   /* la banda central */
+
+    cells.forEach(function (c) { obs.observe(c); });
   }
 
   /* ---------- galería + lightbox ---------- */
@@ -756,6 +789,7 @@
     syncParallax();
     syncMusicUI();
     setupGallery();
+    setupGaleriaSinMouse();
     setupForm();
 
     if (el.env) {
