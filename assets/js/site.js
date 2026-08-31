@@ -161,12 +161,12 @@
   function setNavInk(dark) {
     if (state.navDark === dark || !el.nav) return;
     state.navDark = dark;
-    var ink = dark ? '#EEEBE6' : '#631B29';
+    var ink = dark ? '#F6F4EE' : '#631B29';
     var mark = el.nav.querySelector('a[href="#top"]');
     if (mark) mark.style.background = ink;
     if (el.navLinks) el.navLinks.style.color = ink;
     if (el.pill) {
-      el.pill.style.borderColor = dark ? 'rgba(238,235,230,.42)' : 'rgba(99,27,41,.35)';
+      el.pill.style.borderColor = dark ? 'rgba(246,244,238,.42)' : 'rgba(99,27,41,.35)';
       el.pill.classList.toggle('is-dark', dark);
     }
   }
