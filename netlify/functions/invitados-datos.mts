@@ -29,6 +29,11 @@ export type Invitacion = {
   saludo: string;
   pases: number;
   invitados: string[];
+  /** A la ceremonia civil no va todo el mundo. `true` = esta invitación
+   *  ve la civil de las 19:30 en el itinerario; `false` o sin poner, ve
+   *  las fotos con los novios. Quien entre sin link personalizado ve lo
+   *  que diga CONFIG.bodaCivil en site.js. */
+  civil?: boolean;
 };
 
 export const INVITACIONES: Invitacion[] = [
@@ -136,7 +141,13 @@ export const INVITACIONES: Invitacion[] = [
   { id: "eduardo-diaz", saludo: "Eduardo y Veronica", pases: 2, invitados: ["Eduardo Díaz", "Veronica Alberto"] },
   { id: "manuel-tapia", saludo: "Manuel y Carmen", pases: 2, invitados: ["Manuel Tapia", "Carmen Rodríguez"] },
   { id: "fernanda-mariscal", saludo: "Fernanda, Rebeca y Ignacio", pases: 3, invitados: ["Fernanda Mariscal", "Rebeca Pérez", "Ignacio Mariscal"] },
-  { id: "alexa-carrillo", saludo: "Alexa", pases: 2, invitados: ["Alexa Carrillo", "invitado"] }
+  { id: "alexa-carrillo", saludo: "Alexa", pases: 2, invitados: ["Alexa Carrillo", "invitado"] },
+
+  /* Dos invitaciones de mentiras, para que los novios prueben cómo se ve
+     el itinerario con y sin ceremonia civil. Los nombres son obviamente
+     falsos a propósito. Borrar antes de publicar de verdad. */
+  { id: "jane-doe", saludo: "Jane", pases: 2, invitados: ["Jane Doe", "John Doe"], civil: true },
+  { id: "joe-doe", saludo: "Joe", pases: 2, invitados: ["Joe Doe", "Jane Roe"], civil: false }
 ];
 
 export const POR_ID = new Map(INVITACIONES.map(i => [i.id, i]));

@@ -31,7 +31,7 @@ export default async (req: Request, _context: Context) => {
   // Cache corto en el navegador: la lista casi no cambia, pero si los
   // novios corrigen un nombre no queremos que tarde horas en verse.
   return json(
-    { id: inv.id, saludo: inv.saludo, pases: inv.pases, invitados: inv.invitados },
+    { id: inv.id, saludo: inv.saludo, pases: inv.pases, invitados: inv.invitados, civil: inv.civil === true },
     200,
     'private, max-age=300'
   );
