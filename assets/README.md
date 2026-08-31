@@ -108,10 +108,22 @@ fila— porque los novios la querían al medio, no abriendo.
     7 sentados        8 beso-alzada     9 risa
     10 frente-a-frente 11 cachetes      12 puerta-raava
 
-Los dos separadores llevan `object-position` propio, no el centro: en
-«donde todo empezó» el encuadre centrado salía casi puro cielo (va al 78%,
-anclado abajo) y en «contando los días» les cortaba la cara (va al 18%,
-anclado arriba). Si cambias la foto, vuelve a mirar el encuadre.
+Los separadores llevan `object-position` propio, no el centro: en «donde
+todo empezó» el encuadre centrado salía casi puro cielo, así que va al 78%,
+anclado abajo.
+
+**«Contando los días» necesitó más que un anclaje.** El separador mete la
+foto en un contenedor del 118% de alto con `top:-9%`, y el parallax lo
+mueve otro ±7%: entre las dos cosas se puede esconder hasta el 15% de
+arriba. Las cabezas de los novios estaban al 3% de la foto, así que salían
+cortados en cualquier anclaje. La solución fue **extenderle el cielo**:
+`foto-de-la-mano.jpeg` lleva un 16% de alto añadido arriba, estirando la
+banda superior de la propia foto —que está desenfocada y es un degradado
+suave, así que el estirón no se ve— y con eso las cabezas bajan al 16% y
+libran el recorte en todo el recorrido del scroll.
+
+Si cambias una foto de separador, mira el encuadre en los tres momentos del
+parallax (entrando, centrada y saliendo), no sólo con la sección centrada.
 
 Las fotos viejas (`foto-cerro`, `foto-desierto`, `foto-noche`,
 `foto-titulacion`, `foto-vinedo`) se quedan en el repo pero ya no se usan.
