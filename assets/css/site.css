@@ -138,12 +138,156 @@ img { max-width: 100%; }
   }
 }
 
-/* --- Galería --- */
-.jm-gcell { transition: transform .7s cubic-bezier(.22,1,.36,1), box-shadow .7s ease; }
-.jm-gcell .jm-photo { transition: filter .8s ease; }
-.jm-gcell img { transition: transform 1s cubic-bezier(.22,1,.36,1); }
-.jm-gcell .jm-veil { transition: opacity .8s ease; }
-.jm-gcell .jm-gframe { transition: opacity .6s ease, transform .7s cubic-bezier(.22,1,.36,1); }
+/* ================================ Galería ================================
+   Dos formas de ver las mismas 22 fotos: mosaico y carrusel. Cambia la
+   clase del contenedor y ya; las celdas son idénticas en los dos modos,
+   así que el lightbox, el hover y el conteo siguen funcionando sin saber
+   en qué modo están.
+
+   Las transformaciones se escriben en variables (--jm-lift, --jm-esc,
+   --jm-px, --jm-zoom) y no en `transform` directo, porque dos cosas
+   distintas empujan la misma celda al mismo tiempo: el hover del mouse y
+   la animación del carrusel. Escribiendo `transform` cada una pisaría a
+   la otra; con variables se componen. */
+
+.jm-gcell {
+  display: block; width: 100%; padding: 0; border: 0;
+  position: relative; overflow: hidden; cursor: pointer;
+  background: #3A0F16;
+  aspect-ratio: var(--jm-prop, 4 / 5);
+  transform: translateY(var(--jm-lift, 0px)) scale(var(--jm-esc, 1));
+  transition: transform .7s cubic-bezier(.22,1,.36,1), box-shadow .7s ease;
+}
+.jm-gcell .jm-photo { position: absolute; inset: 0; transition: filter .8s ease; }
+.jm-gcell img {
+  transform: translate3d(var(--jm-px, 0px), 0, 0) scale(var(--jm-zoom, 1));
+  transition: transform 1s cubic-bezier(.22,1,.36,1);
+}
+.jm-gcell .jm-veil {
+  position: absolute; inset: 0; pointer-events: none;
+  background: linear-gradient(180deg, rgba(85,23,36,.16), rgba(58,15,22,.34));
+  opacity: var(--jm-velo, 1);
+  transition: opacity .8s ease;
+}
+.jm-gcell .jm-gframe {
+  position: absolute; inset: 14px; pointer-events: none;
+  border: 1px solid rgba(246,244,238,.8);
+  opacity: var(--jm-marco, 0);
+  transform: scale(calc(1 + (1 - var(--jm-marco, 0)) * .05));
+  transition: opacity .6s ease, transform .7s cubic-bezier(.22,1,.36,1);
+}
+
+/* --- Cabecera: título a la izquierda, selector de modo a la derecha --- */
+.jm-gal-cabeza {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 18px; flex-wrap: wrap;
+  margin-bottom: clamp(32px, 4vw, 56px);
+}
+.jm-gal-modos { display: flex; gap: 6px; }
+.jm-modo {
+  padding: 9px 18px 8px; border: 1px solid rgba(99,27,41,.28);
+  border-radius: 999px; background: transparent; color: #631B29;
+  font-family: 'NoirEtBlanc', serif; text-transform: uppercase;
+  font-size: 12px; letter-spacing: .18em; line-height: 1; cursor: pointer;
+  transition: background .35s ease, color .35s ease, border-color .35s ease;
+}
+.jm-modo:hover { border-color: rgba(99,27,41,.55); }
+.jm-modo[aria-pressed="true"] { background: #631B29; border-color: #631B29; color: #F6F4EE; }
+
+/* --- Mosaico ---
+   Columnas CSS y no grid: con grid todas las celdas de una fila miden lo
+   mismo y el resultado es una cuadrícula, no un mosaico. Con columnas
+   cada foto conserva su altura y no quedan huecos. El aspect-ratio va en
+   la celda, así que la altura se sabe antes de que cargue la imagen y la
+   página no da el brinco al ir apareciendo las fotos. */
+.jm-gal.is-mosaico {
+  column-count: 3;
+  column-gap: clamp(10px, 1.4vw, 18px);
+}
+.jm-gal.is-mosaico .jm-gitem {
+  break-inside: avoid;
+  margin-bottom: clamp(10px, 1.4vw, 18px);
+}
+@media (max-width: 900px) { .jm-gal.is-mosaico { column-count: 2; } }
+
+/* --- Carrusel ---
+   Se sale de los márgenes de la sección a propósito (los `margin`
+   negativos) para que la foto de junto se asome hasta la orilla de la
+   pantalla. El padding lateral vuelve a meter la primera y la última
+   adentro, y el `max()` garantiza que ambas puedan quedar centradas
+   cuando el snap las agarra. */
+.jm-gal.is-carrusel {
+  --jm-lado: clamp(24px, 7vw, 110px);   /* el padding lateral de la sección */
+  display: flex;
+  gap: clamp(12px, 2vw, 26px);
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  margin-inline: calc(-1 * var(--jm-lado));
+  padding-block: 10px 4px;
+  /* El padding centra la primera y la última diapositiva. Ojo con el 50%:
+     un porcentaje en padding se mide contra el bloque contenedor —el
+     interior de la sección— y no contra el riel, que por los márgenes
+     negativos es 2×--jm-lado más ancho. De ahí el `+ var(--jm-lado)`:
+     sin él la foto queda descentrada por exactamente esa cantidad. */
+  padding-inline: max(var(--jm-lado), calc(50% + var(--jm-lado) - var(--jm-diapo) / 2));
+  scroll-padding-inline: max(var(--jm-lado), calc(50% + var(--jm-lado) - var(--jm-diapo) / 2));
+}
+.jm-gal.is-carrusel::-webkit-scrollbar { display: none; }
+.jm-gal.is-carrusel .jm-gitem {
+  --jm-diapo: min(76vw, 400px);
+  flex: 0 0 var(--jm-diapo);
+  width: var(--jm-diapo);
+  scroll-snap-align: center;
+}
+.jm-gal.is-carrusel { --jm-diapo: min(76vw, 400px); }
+/* En el carrusel todas las fotos van con la misma proporción: es lo que
+   hace que el ojo siga a la que está al centro y no a la que es más
+   grande. object-fit:cover se encarga del recorte. */
+.jm-gal.is-carrusel .jm-gcell { aspect-ratio: 3 / 4; }
+@media (min-width: 901px) {
+  .jm-gal.is-carrusel { --jm-diapo: min(46vw, 470px); }
+  .jm-gal.is-carrusel .jm-gitem { --jm-diapo: min(46vw, 470px); }
+}
+
+/* --- Pie del carrusel --- */
+.jm-gal-pie {
+  display: flex; align-items: center; gap: 16px;
+  margin-top: clamp(20px, 3vw, 34px);
+}
+.jm-gal-pie[hidden] { display: none; }
+.jm-car-flecha {
+  flex: 0 0 auto; display: grid; place-items: center;
+  width: 42px; height: 42px; padding: 0;
+  border: 1px solid rgba(99,27,41,.28); border-radius: 999px;
+  background: transparent; color: #631B29; cursor: pointer;
+  transition: background .3s ease, border-color .3s ease, color .3s ease, opacity .3s ease;
+}
+.jm-car-flecha:hover { background: #631B29; border-color: #631B29; color: #F6F4EE; }
+.jm-car-flecha[disabled] { opacity: .3; cursor: default; }
+.jm-car-flecha[disabled]:hover { background: transparent; border-color: rgba(99,27,41,.28); color: #631B29; }
+.jm-car-barra {
+  flex: 1 1 auto; height: 1px; background: rgba(99,27,41,.2);
+  position: relative; overflow: hidden;
+}
+.jm-car-barra span {
+  position: absolute; inset: 0 auto 0 0; width: 0;
+  background: #631B29; transition: width .35s cubic-bezier(.22,1,.36,1);
+}
+.jm-car-cuenta {
+  flex: 0 0 auto; min-width: 6ch; text-align: right;
+  font-family: 'NoirEtBlanc', serif; text-transform: uppercase;
+  font-size: 12px; letter-spacing: .18em; color: #631B29; opacity: .75;
+}
+@media (max-width: 560px) {
+  .jm-car-flecha { display: none; }
+  .jm-car-cuenta { text-align: center; }
+}
+
+/* Sin JS el mosaico se ve completo y el selector no estorba. */
+.no-js .jm-gal-modos { display: none; }
 
 /* --- Fotos: `image-slot` del design system se resuelve a un <img> --- */
 .jm-fill { display: block; width: 100%; height: 100%; object-fit: cover; }

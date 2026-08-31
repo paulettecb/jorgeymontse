@@ -70,7 +70,8 @@
     navDark: null, pending: [], lastReveal: 0, plx: [],
     lbOpen: false, lbIndex: 0, lbReturnFocus: null,
     lunaOpen: false, lunaReturnFocus: null,
-    locks: {}, timer: null, jumpT: []
+    locks: {}, timer: null, jumpT: [],
+    galMode: null, galModeFijo: false, carRaf: 0, carIndex: 0, obsCentro: null
   };
 
   /* ---------- bloqueo de scroll con varios dueños ---------- */
@@ -412,6 +413,7 @@
      prefers-reduced-motion no se monta: el color entraría y saldría solo
      mientras la persona se desplaza. */
   function setupGaleriaSinMouse() {
+    if (state.obsCentro) { state.obsCentro.disconnect(); state.obsCentro = null; }
     if (!window.matchMedia || !window.IntersectionObserver || reduceMotion) return;
     if (window.matchMedia('(hover: hover)').matches) return;
 
@@ -425,6 +427,7 @@
     }, { rootMargin: '-35% 0px -35% 0px', threshold: 0 });   /* la banda central */
 
     cells.forEach(function (c) { obs.observe(c); });
+    state.obsCentro = obs;
   }
 
   /* ---------- galería + lightbox ---------- */
@@ -436,21 +439,26 @@
       var img = cell.querySelector('img');
       var veil = cell.querySelector('[data-veil]');
       var frame = cell.querySelector('[data-gframe]');
+      /* El hover escribe variables y no `transform` directo: en el carrusel
+         la animación del scroll empuja la misma celda, y si las dos
+         escribieran `transform` la última en correr borraría a la otra. */
       var enter = function () {
         if (cell.dataset.unavailable === '1') return;
+        if (state.galMode === 'carrusel') return;   /* ahí manda el scroll */
         if (inner) inner.style.filter = 'none';
-        if (img) img.style.transform = 'scale(1.07)';
-        if (veil) veil.style.opacity = '0';
-        if (frame) { frame.style.opacity = '1'; frame.style.transform = 'scale(1)'; }
-        cell.style.transform = 'translateY(-6px)';
+        if (img) img.style.setProperty('--jm-zoom', '1.07');
+        if (veil) veil.style.setProperty('--jm-velo', '0');
+        if (frame) frame.style.setProperty('--jm-marco', '1');
+        cell.style.setProperty('--jm-lift', '-6px');
         cell.style.boxShadow = '0 26px 50px rgba(58,15,22,.28)';
       };
       var leave = function () {
+        if (state.galMode === 'carrusel') return;
         if (inner) inner.style.filter = PHOTO_FILTERS[CONFIG.photoTone] || PHOTO_FILTERS['blanco y negro'];
-        if (img) img.style.transform = 'none';
-        if (veil) veil.style.opacity = '1';
-        if (frame) { frame.style.opacity = '0'; frame.style.transform = 'scale(1.05)'; }
-        cell.style.transform = 'none';
+        if (img) img.style.setProperty('--jm-zoom', '1');
+        if (veil) veil.style.setProperty('--jm-velo', '1');
+        if (frame) frame.style.setProperty('--jm-marco', '0');
+        cell.style.setProperty('--jm-lift', '0px');
         cell.style.boxShadow = 'none';
       };
       cell.addEventListener('mouseenter', enter);
@@ -463,12 +471,164 @@
         openLB(parseInt(cell.getAttribute('data-gcell'), 10) || 0);
       });
     });
-    fitGrid();
+  }
+
+  /* ==================== galería: mosaico y carrusel ====================
+     Las mismas celdas en los dos modos; sólo cambia la clase del
+     contenedor. Por eso el lightbox y el conteo no se enteran de nada.
+
+     El modo de arranque lo decide el aparato: en celular el carrusel
+     —una foto a la vez, del tamaño de la pantalla— y en compu el mosaico,
+     que es donde se aprovecha el ancho. Se puede cambiar en cualquiera
+     de los dos. */
+  function anchoChico() { return window.innerWidth < 900; }
+
+  function setupModos() {
+    if (!el.grid) return;
+    var mos = $('jm-modo-mosaico'), car = $('jm-modo-carrusel');
+    if (mos) mos.addEventListener('click', function () { setGalMode('mosaico', true); });
+    if (car) car.addEventListener('click', function () { setGalMode('carrusel', true); });
+
+    var prev = $('jm-car-prev'), next = $('jm-car-next');
+    if (prev) prev.addEventListener('click', function () { pasoCarrusel(-1); });
+    if (next) next.addEventListener('click', function () { pasoCarrusel(1); });
+
+    el.grid.addEventListener('scroll', function () {
+      if (state.galMode !== 'carrusel') return;
+      if (state.carRaf) return;
+      state.carRaf = requestAnimationFrame(function () {
+        state.carRaf = 0;
+        pintaCarrusel();
+      });
+    }, { passive: true });
+
+    setGalMode(anchoChico() ? 'carrusel' : 'mosaico', false);
+  }
+
+  function setGalMode(modo, deLaPersona) {
+    if (!el.grid || state.galMode === modo) return;
+    state.galMode = modo;
+    /* Si la persona eligió, se respeta aunque después gire el teléfono;
+       si no, el resize puede volver a decidir. */
+    if (deLaPersona) state.galModeFijo = true;
+
+    el.grid.classList.toggle('is-mosaico', modo === 'mosaico');
+    el.grid.classList.toggle('is-carrusel', modo === 'carrusel');
+
+    var mos = $('jm-modo-mosaico'), car = $('jm-modo-carrusel');
+    if (mos) mos.setAttribute('aria-pressed', String(modo === 'mosaico'));
+    if (car) car.setAttribute('aria-pressed', String(modo === 'carrusel'));
+
+    var pie = $('jm-gal-pie');
+    if (pie) pie.hidden = modo !== 'carrusel';
+
+    /* Cada modo colorea las fotos a su manera y hay que apagar la del
+       otro: si las dos observaran las mismas celdas se pelearían por el
+       mismo filtro. */
+    if (modo === 'carrusel') {
+      if (state.obsCentro) { state.obsCentro.disconnect(); state.obsCentro = null; }
+      el.grid.scrollLeft = 0;
+      pintaCarrusel();
+      /* El layout del carrusel aún no está firme en el mismo frame en que
+         se pone la clase; sin este segundo pase la primera foto arranca
+         apagada. */
+      requestAnimationFrame(pintaCarrusel);
+    } else {
+      limpiaCarrusel();
+      setupGaleriaSinMouse();
+    }
+  }
+
+  /* Deja las celdas como si nadie las hubiera tocado, para que el mosaico
+     no herede el estado a medias del carrusel. */
+  function limpiaCarrusel() {
+    var gris = PHOTO_FILTERS[CONFIG.photoTone] || PHOTO_FILTERS['blanco y negro'];
+    cells.forEach(function (cell) {
+      var inner = cell.querySelector('[data-photo]');
+      var img = cell.querySelector('img');
+      var veil = cell.querySelector('[data-veil]');
+      var frame = cell.querySelector('[data-gframe]');
+      cell.style.setProperty('--jm-esc', '1');
+      cell.style.setProperty('--jm-lift', '0px');
+      cell.style.boxShadow = 'none';
+      if (img) { img.style.setProperty('--jm-px', '0px'); img.style.setProperty('--jm-zoom', '1'); }
+      if (veil) veil.style.setProperty('--jm-velo', '1');
+      if (frame) frame.style.setProperty('--jm-marco', '0');
+      if (inner) inner.style.filter = gris;
+    });
+  }
+
+  /* La animación de cada diapositiva.
+
+     No se usa IntersectionObserver: eso sólo avisa cuándo entra y cuándo
+     sale, y aquí hace falta saber *qué tan* al centro va cada foto para
+     que crezca y se coloree mientras se arrastra. Tampoco
+     `animation-timeline: view()`, que sería lo elegante, porque Safari
+     todavía no lo trae y el carrusel es justamente lo del celular.
+
+     Así que: distancia de cada diapositiva al centro del riel, normalizada
+     a [-1, 1], y de ahí salen la escala, el velo, el marco y el
+     desplazamiento de la foto dentro de su marco —que es lo que da la
+     sensación de profundidad al arrastrar. */
+  function pintaCarrusel() {
+    if (!el.grid || state.galMode !== 'carrusel' || !cells.length) return;
+    var caja = el.grid.getBoundingClientRect();
+    var centro = caja.left + caja.width / 2;
+    var gris = PHOTO_FILTERS[CONFIG.photoTone] || PHOTO_FILTERS['blanco y negro'];
+    var masCerca = 0, mejor = Infinity;
+
+    for (var i = 0; i < cells.length; i++) {
+      var cell = cells[i];
+      var r = cell.getBoundingClientRect();
+      var d = (r.left + r.width / 2) - centro;
+      var t = Math.max(-1, Math.min(1, d / (caja.width / 2 || 1)));
+      var a = Math.abs(t);
+      if (a < mejor) { mejor = a; masCerca = i; }
+
+      var img = cell.querySelector('img');
+      var veil = cell.querySelector('[data-veil]');
+      var frame = cell.querySelector('[data-gframe]');
+      var inner = cell.querySelector('[data-photo]');
+
+      if (reduceMotion) {
+        cell.style.setProperty('--jm-esc', '1');
+        if (img) img.style.setProperty('--jm-px', '0px');
+      } else {
+        cell.style.setProperty('--jm-esc', (1 - a * 0.12).toFixed(4));
+        if (img) img.style.setProperty('--jm-px', (-t * 26).toFixed(1) + 'px');
+        if (img) img.style.setProperty('--jm-zoom', '1.1');
+      }
+      if (veil) veil.style.setProperty('--jm-velo', Math.min(1, a * 1.6).toFixed(3));
+      if (frame) frame.style.setProperty('--jm-marco', Math.max(0, 1 - a * 3).toFixed(3));
+      if (inner) inner.style.filter = a < 0.34 ? 'none' : gris;
+    }
+
+    var cuenta = $('jm-car-cuenta');
+    if (cuenta) cuenta.textContent = (masCerca + 1) + ' / ' + cells.length;
+    var avance = $('jm-car-avance');
+    if (avance) avance.style.width = ((masCerca + 1) / cells.length * 100).toFixed(2) + '%';
+    var prev = $('jm-car-prev'), next = $('jm-car-next');
+    if (prev) prev.disabled = masCerca === 0;
+    if (next) next.disabled = masCerca === cells.length - 1;
+    state.carIndex = masCerca;
+  }
+
+  function pasoCarrusel(dir) {
+    if (!el.grid || !cells.length) return;
+    var i = Math.max(0, Math.min(cells.length - 1, (state.carIndex || 0) + dir));
+    var cell = cells[i];
+    if (!cell) return;
+    var caja = el.grid.getBoundingClientRect();
+    var r = cell.getBoundingClientRect();
+    var salto = (r.left + r.width / 2) - (caja.left + caja.width / 2);
+    el.grid.scrollBy({ left: salto, behavior: reduceMotion ? 'auto' : 'smooth' });
   }
 
   function fitGrid() {
-    if (!el.grid) return;
-    el.grid.style.gridTemplateColumns = 'repeat(' + (window.innerWidth < 700 ? 2 : 3) + ',minmax(0,1fr))';
+    /* El resize sólo re-decide mientras nadie haya elegido a mano. */
+    if (!el.grid || state.galModeFijo) { pintaCarrusel(); return; }
+    setGalMode(anchoChico() ? 'carrusel' : 'mosaico', false);
+    pintaCarrusel();
   }
 
   function cellSrc(i) {
@@ -807,7 +967,7 @@
     syncParallax();
     syncMusicUI();
     setupGallery();
-    setupGaleriaSinMouse();
+    setupModos();          /* decide el modo y, si toca mosaico, monta el color al centrar */
     setupForm();
 
     if (el.env) {
