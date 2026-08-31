@@ -39,3 +39,21 @@
   from = "/panel"
   to = "/panel.html"
   status = 200
+
+# Links bonitos: /paloma-cambron en vez de /?i=paloma-cambron.
+#
+# Va al final a propósito: Netlify aplica las reglas en orden y sirve los
+# archivos que existen antes de llegar aquí, así que /panel, /robots.txt,
+# /assets/* y /api/* siguen resolviendo solos. Sólo cae aquí una ruta de un
+# tramo que no corresponde a ningún archivo — que es justo la forma de un id.
+#
+# status 200 y no 301: es una reescritura, la barra de direcciones se queda
+# con el link bonito. Eso significa que en el navegador NO hay `?i=`, así
+# que site.js también lee el id de la ruta (ver `personalizar`).
+#
+# Un id que no exista no rompe nada: la API contesta 404 y el formulario
+# vuelve a pedir el nombre a mano.
+[[redirects]]
+  from = "/:invitacion"
+  to = "/index.html"
+  status = 200

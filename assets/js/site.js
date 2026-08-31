@@ -270,9 +270,17 @@
     var caja = $('jm-quien'), campo = $('jm-campo-nombre');
     if (!caja || !campo || !window.fetch) return;
 
+    /* El id puede llegar de dos formas: como ?i=paloma-cambron, o como
+       /paloma-cambron. La segunda es una reescritura de Netlify (status
+       200), así que la barra de direcciones conserva el link bonito y no
+       hay query string que leer: el id viene en la ruta. */
     var id = '';
     try {
       id = (new URLSearchParams(window.location.search).get('i') || '').trim().toLowerCase();
+      if (!id) {
+        var ruta = window.location.pathname.replace(/^\/+|\/+$/g, '').toLowerCase();
+        if (ruta.indexOf('/') === -1 && ruta.indexOf('.') === -1) id = ruta;
+      }
     } catch (e) { return; }
     if (!id || !/^[a-z0-9-]{1,60}$/.test(id)) return;
 
