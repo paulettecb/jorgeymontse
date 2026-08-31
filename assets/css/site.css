@@ -188,7 +188,7 @@ img { max-width: 100%; }
   padding: 9px 18px 8px; border: 1px solid rgba(99,27,41,.28);
   border-radius: 999px; background: transparent; color: #631B29;
   font-family: 'NoirEtBlanc', serif; text-transform: uppercase;
-  font-size: 12px; letter-spacing: .18em; line-height: 1; cursor: pointer;
+  font-size: 0.9375rem; letter-spacing: .18em; line-height: 1; cursor: pointer;
   transition: background .35s ease, color .35s ease, border-color .35s ease;
 }
 .jm-modo:hover { border-color: rgba(99,27,41,.55); }
@@ -279,7 +279,7 @@ img { max-width: 100%; }
 .jm-car-cuenta {
   flex: 0 0 auto; min-width: 6ch; text-align: right;
   font-family: 'NoirEtBlanc', serif; text-transform: uppercase;
-  font-size: 12px; letter-spacing: .18em; color: #631B29; opacity: .75;
+  font-size: 0.9375rem; letter-spacing: .18em; color: #631B29; opacity: .75;
 }
 @media (max-width: 560px) {
   .jm-car-flecha { display: none; }
@@ -307,14 +307,14 @@ img { max-width: 100%; }
 
 .jm-field { display: flex; flex-direction: column; gap: 8px; border: 0; padding: 0; margin: 0; }
 .jm-field > span, .jm-field > legend {
-  font-family: 'NoirEtBlanc', serif; text-transform: uppercase; font-size: 13px; letter-spacing: .18em;
+  font-family: 'NoirEtBlanc', serif; text-transform: uppercase; font-size: 0.9375rem; letter-spacing: .18em;
   color: var(--oliva-pale); padding: 0;
 }
 .jm-form input[type="text"], .jm-form input[type="tel"],
 .jm-form input[type="number"], .jm-form textarea {
   width: 100%; padding: 9px 2px; color: #F6F4EE; background: transparent;
   border: 0; border-bottom: 1px solid rgba(246,244,238,.28);
-  font-family: 'NoirEtBlanc', serif; font-size: 18px; line-height: 1.5;
+  font-family: 'NoirEtBlanc', serif; font-size: 1.125rem; line-height: 1.5;
   border-radius: 0; transition: border-color .25s ease;
 }
 .jm-form textarea { resize: vertical; min-height: 3.4em; }
@@ -330,7 +330,7 @@ img { max-width: 100%; }
    invitación llega por link personalizado. */
 .jm-quien-nombre {
   margin: 0; font-family: 'Lumiare', sans-serif; font-weight: 400;
-  font-size: clamp(26px,3.2vw,34px); line-height: 1.15; color: #F6F4EE;
+  font-size: clamp(1.625rem,3.2vw,2.125rem); line-height: 1.15; color: #F6F4EE;
 }
 .jm-quien[hidden], .jm-field[hidden] { display: none; }
 
@@ -342,7 +342,7 @@ section[hidden], a[hidden], #jm-rsvp-aviso[hidden] { display: none !important; }
 .jm-radios { display: flex; flex-direction: column; gap: 10px; }
 .jm-radios label {
   display: flex; flex-direction: row; align-items: center; gap: 11px; cursor: pointer;
-  font-family: 'NoirEtBlanc', serif; font-size: 18px; color: #F6F4EE;
+  font-family: 'NoirEtBlanc', serif; font-size: 1.125rem; color: #F6F4EE;
 }
 .jm-form input[type="radio"] {
   appearance: none; width: 19px; height: 19px; flex: 0 0 19px; margin: 0;
@@ -374,7 +374,7 @@ section[hidden], a[hidden], #jm-rsvp-aviso[hidden] { display: none !important; }
 .jm-decision legend {
   grid-column: 1 / -1; margin: 0 0 2px; padding: 0;
   font-family: 'NoirEtBlanc', serif; text-transform: uppercase;
-  font-size: 13px; letter-spacing: .2em; color: var(--oliva-pale);
+  font-size: 0.9375rem; letter-spacing: .2em; color: var(--oliva-pale);
 }
 .jm-opcion { position: relative; display: block; cursor: pointer; }
 /* El radio se queda en el flujo, invisible y sin tamaño, para que
@@ -389,7 +389,7 @@ section[hidden], a[hidden], #jm-rsvp-aviso[hidden] { display: none !important; }
   border: 1px solid rgba(246,244,238,.34); border-radius: 4px;
   background: rgba(246,244,238,.04);
   font-family: 'NoirEtBlanc', serif; text-transform: uppercase;
-  font-size: 15px; letter-spacing: .16em; line-height: 1.3;
+  font-size: 0.9375rem; letter-spacing: .16em; line-height: 1.3;
   text-align: center; color: #F6F4EE;
   transition: background .35s ease, border-color .35s ease, color .35s ease;
 }
@@ -409,7 +409,7 @@ section[hidden], a[hidden], #jm-rsvp-aviso[hidden] { display: none !important; }
 .jm-quienes[hidden] { display: none; }
 .jm-quienes-tit {
   font-family: 'NoirEtBlanc', serif; text-transform: uppercase;
-  font-size: 13px; letter-spacing: .2em; color: var(--oliva-pale);
+  font-size: 0.9375rem; letter-spacing: .2em; color: var(--oliva-pale);
 }
 .jm-quienes-lista { display: flex; flex-direction: column; gap: 8px; }
 .jm-persona {
@@ -436,7 +436,7 @@ section[hidden], a[hidden], #jm-rsvp-aviso[hidden] { display: none !important; }
   outline: 2px solid var(--oliva-pale); outline-offset: 2px;
 }
 .jm-persona-nombre {
-  font-family: 'NoirEtBlanc', serif; font-size: 18px; line-height: 1.35;
+  font-family: 'NoirEtBlanc', serif; font-size: 1.125rem; line-height: 1.35;
   color: #F6F4EE; text-align: left;
 }
 /* A quien se le quita la palomita se apaga, para que se vea de un
@@ -449,13 +449,13 @@ section[hidden], a[hidden], #jm-rsvp-aviso[hidden] { display: none !important; }
   flex: 1 1 auto; min-width: 0; margin-left: 4px;
   padding: 5px 0; border: 0; border-bottom: 1px solid rgba(246,244,238,.28);
   background: transparent; color: #F6F4EE;
-  font-family: 'NoirEtBlanc', serif; font-size: 17px;
+  font-family: 'NoirEtBlanc', serif; font-size: 1.0625rem;
 }
 .jm-persona-input::placeholder { color: rgba(246,244,238,.42); }
 .jm-persona-input:focus { outline: none; border-bottom-color: var(--oliva-pale); }
 .jm-quienes-cuenta {
   margin: 2px 0 0;
-  font-family: 'NoirEtBlanc', serif; font-size: 16px; color: #F6F4EE; opacity: .62;
+  font-family: 'NoirEtBlanc', serif; font-size: 1rem; color: #F6F4EE; opacity: .62;
 }
 .jm-quienes-cuenta:empty { display: none; }
 
@@ -468,12 +468,12 @@ section[hidden], a[hidden], #jm-rsvp-aviso[hidden] { display: none !important; }
   border-bottom: 1px solid rgba(246,244,238,.18);
   display: flex; align-items: center; gap: 10px;
   font-family: 'NoirEtBlanc', serif; text-transform: uppercase;
-  font-size: 13px; letter-spacing: .18em; color: var(--oliva-pale);
+  font-size: 0.9375rem; letter-spacing: .18em; color: var(--oliva-pale);
 }
 .jm-mas summary::-webkit-details-marker { display: none; }
 .jm-mas summary::before {
   content: '+'; flex: 0 0 auto;
-  font-size: 17px; line-height: 1; transition: transform .3s ease;
+  font-size: 1.0625rem; line-height: 1; transition: transform .3s ease;
 }
 .jm-mas[open] summary::before { content: '−'; }
 .jm-mas summary:focus-visible { outline: 2px solid var(--oliva-pale); outline-offset: 3px; }
@@ -484,7 +484,7 @@ section[hidden], a[hidden], #jm-rsvp-aviso[hidden] { display: none !important; }
 
 .jm-form-estado {
   margin: 4px 0 0; min-height: 1.4em;
-  font-family: 'NoirEtBlanc', serif; font-size: 16px; color: #E0A0A0;
+  font-family: 'NoirEtBlanc', serif; font-size: 1rem; color: #E0A0A0;
 }
 .jm-gracias {
   display: flex; flex-direction: column; align-items: center; gap: 18px;
@@ -525,6 +525,58 @@ section[hidden], a[hidden], #jm-rsvp-aviso[hidden] { display: none !important; }
   .jm-navlink.is-secondary { display: none; }
 }
 
+/* Ahora que los tamaños son relativos, quien trae la letra grande hace
+   crecer también el menú y el botón de música — y ésos son fijos, así que
+   no empujan la página: la desbordan. Se les deja envolver y se les
+   recorta el espaciado, que con letra grande es lo primero que sobra. */
+#jm-nav { flex-wrap: wrap; row-gap: 8px; max-width: 100%; }
+#jm-navlinks { flex-wrap: wrap; row-gap: 8px; min-width: 0; }
+.jm-navlink, .jm-pill { max-width: 100%; overflow-wrap: anywhere; }
+.jm-music { max-width: calc(100vw - 32px); }
+.jm-music #jm-music-label { overflow-wrap: anywhere; }
+
+/* La cuenta regresiva son cuatro columnas fijas. Con la letra en grande
+   los números crecen y las cuatro dejan de caber, y la página se
+   desborda a lo ancho.
+
+   `auto-fit` con un mínimo en rem lo resuelve solo: el mínimo de cada
+   columna crece junto con la letra, y cuando ya no caben cuatro, el
+   navegador pone tres o dos. Con letra normal siguen siendo cuatro,
+   exactamente como estaban. */
+#jm-cuenta-live > div[style*="repeat(4"] {
+  grid-template-columns: repeat(auto-fit, minmax(4.5rem, 1fr)) !important;
+  /* Cuando se parte en dos renglones, el hueco entre ellos tiene que
+     crecer con los números; si no, «días» queda pegado al 28 de abajo. */
+  row-gap: 1.6rem;
+}
+
+/* Los botones con el texto en una sola línea forzada: con letra grande
+   miden más que la pantalla. Que envuelvan cuando haga falta; mientras
+   quepan, se quedan en un renglón igual que hoy. */
+#jm-luna-btn, .jm-btn, .jm-btn-solid {
+  white-space: normal !important;
+  max-width: 100%;
+  text-wrap: balance;
+}
+
+/* Los dos de la galería no caben juntos en un renglón con letra grande. */
+.jm-gal-modos { flex-wrap: wrap; }
+
+/* El botón de música flota fijo en la esquina y con letra grande crece
+   tanto que se encima al de «confirmar», que es la única cosa que la
+   página le pide a nadie. En pantalla chica se queda sólo el icono: las
+   barritas ya dicen lo que es, y el nombre accesible lo lleva el
+   aria-label del botón (lo mantiene site.js al prenderlo y apagarlo). */
+@media (max-width: 620px) {
+  #jm-music-label { display: none; }
+  .jm-music { padding: 12px 14px !important; gap: 0 !important; }
+}
+
+/* El pie va en `white-space:nowrap` con mucho espaciado entre letras: al
+   doble de tamaño mide más que la pantalla. Partido en dos renglones se
+   ve bien; desbordado, no. */
+footer > div { white-space: normal !important; max-width: 100%; }
+
 @media (max-width: 620px) {
   /* La columna de la ilustración se come el ancho de la etiqueta. */
   .jm-itin-row { grid-template-columns: minmax(64px,92px) 1fr !important; }
@@ -533,12 +585,50 @@ section[hidden], a[hidden], #jm-rsvp-aviso[hidden] { display: none !important; }
 
 @media (max-width: 430px) {
   /* "confirmar asistencia" con letter-spacing ancho desborda en nowrap. */
-  #jm-rsvp-cta { white-space: normal !important; font-size: 14px !important; padding: 16px 28px 14px !important; }
-  #jm-hint { font-size: 12px !important; letter-spacing: .18em !important; }
+  #jm-rsvp-cta { white-space: normal !important; font-size: 0.875rem !important; padding: 16px 28px 14px !important; }
+  #jm-hint { font-size: 0.8125rem !important; letter-spacing: .16em !important; }
   #cuenta [style*="letter-spacing:.22em"] { letter-spacing: .1em !important; }
 }
 
 @media print {
   #jm-drift, #jm-nav, #jm-music, #jm-lightbox, #jm-luna, #jm-scrollhint, #jm-hint { display: none !important; }
   #jm-opening { height: auto !important; }
+}
+
+/* ===================== Quien necesita más contraste =====================
+   Sin preguntarle nada a nadie. Quien tiene prendido el contraste alto en
+   su iPhone o en Windows ya nos lo está diciendo por aquí; un modal de
+   bienvenida preguntándolo sería una decisión más antes de ver la
+   invitación, y justo quien más lo necesita es quien menos le pica a un
+   aviso que le brinca encima.
+
+   Lo que se sube es lo que la paleta baja a propósito: las opacidades del
+   texto secundario y los velos sobre las fotos, que son bonitos pero le
+   comen legibilidad al texto que va encima. Los colores de marca no se
+   tocan — ya se midieron y pasan. */
+@media (prefers-contrast: more) {
+  /* Texto que el diseño apaga con opacity para que se lea «suave». */
+  #jm-root p[style*="opacity:.8"],
+  #jm-root p[style*="opacity:.88"],
+  #jm-root [style*="opacity:.85"],
+  #jm-root [style*="opacity:.75"] { opacity: 1 !important; }
+
+  .jm-quienes-cuenta, .jm-car-cuenta { opacity: 1; }
+
+  /* Bordes de campos y botones: de insinuados a visibles. */
+  .jm-form input, .jm-form textarea { border-bottom-color: currentColor !important; }
+  .jm-modo, .jm-car-flecha { border-color: #631B29; }
+  .jm-opcion-caja { border-color: #F6F4EE; }
+  .jm-persona { border-color: rgba(246,244,238,.55); }
+  .jm-mas summary { border-color: rgba(246,244,238,.4); }
+
+  /* Los velos vino sobre las fotos de los separadores: la frase blanca que
+     va encima gana contraste si el velo aprieta. */
+  #jm-root section > div[style*="linear-gradient(180deg,rgba(58,15,22"] {
+    background: rgba(58,15,22,.72) !important;
+  }
+  .jm-gcell .jm-veil { background: rgba(58,15,22,.5); }
+
+  /* El difuminado del menú deja de ser difuminado. */
+  #jm-nav::before { -webkit-mask: none !important; mask: none !important; }
 }
