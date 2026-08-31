@@ -2,6 +2,47 @@
 # salir en buscadores. Cuando los datos sean los definitivos, borra
 # este archivo y el <meta name="robots"> de index.html.
 User-agent: *
+Disallow: /
+
+# Pero los robots que arman la vista previa del link SÍ tienen que entrar:
+# leen el <head> y bajan assets/og-preview.jpg. Como en robots.txt cada
+# robot obedece sólo al bloque que lleva su nombre —y si encuentra el suyo
+# ignora por completo el de `*`—, basta con nombrarlos aquí. El
+# <meta name="robots" content="noindex"> de index.html sigue en pie, así
+# que esto no mete el sitio a ningún buscador: sólo destapa la tarjeta.
+#
+# El panel se queda fuera en todos los bloques.
+User-agent: facebookexternalhit
 Disallow: /panel
 Disallow: /panel.html
-Disallow: /
+Allow: /
+
+User-agent: WhatsApp
+Disallow: /panel
+Disallow: /panel.html
+Allow: /
+
+User-agent: Twitterbot
+Disallow: /panel
+Disallow: /panel.html
+Allow: /
+
+User-agent: Slackbot-LinkExpanding
+Disallow: /panel
+Disallow: /panel.html
+Allow: /
+
+User-agent: TelegramBot
+Disallow: /panel
+Disallow: /panel.html
+Allow: /
+
+User-agent: Discordbot
+Disallow: /panel
+Disallow: /panel.html
+Allow: /
+
+User-agent: LinkedInBot
+Disallow: /panel
+Disallow: /panel.html
+Allow: /
