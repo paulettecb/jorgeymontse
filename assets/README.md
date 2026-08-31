@@ -38,6 +38,8 @@ Todas ✅. Las que usa el sitio hoy:
 | Archivo | Dónde se usa |
 |---|---|
 | `monogram-mark.png` | Sello de lacre, favicon, nav, marca de agua, bienvenidos, footer, modal luna de miel |
+| `foto-invitacion.jpeg` | Fondo de la invitación cuando llena la pantalla |
+| `ill-dog-martini-dk.png` | Itinerario · 19:00 cóctel (Raava recostada en la copa) |
 | `ill-dog-sunglasses-dk.png` | Itinerario · 21:30 fiesta (Raava se queda de fiesta) |
 | `ill-couple-dog-lt.png` | Mesa de regalos |
 | `ill-couple-smile-dk.png` | RSVP |
@@ -45,11 +47,24 @@ Todas ✅. Las que usa el sitio hoy:
 | `foto-playa/cerro/desierto.jpeg` | Separadores con frase |
 | `foto-noche/vinedo/titulacion/desierto/playa/cerro.jpeg` | Galería |
 
-Los iconos del itinerario (iglesia, Raava recostada en la copa de martini,
-cámara, los novios entrando, pastel y acta civil) son SVG inline en
-`index.html`, no archivos. Los que llevan relleno usan `var(--itin-bg)`,
-el mismo color del fondo del itinerario, para recortar lo que tienen detrás:
-si cambias ese fondo, cámbialo en `site.css` y los SVG siguen.
+Los iconos del itinerario (iglesia, cámara, los novios entrando, pastel y
+acta civil) son SVG inline en `index.html`, no archivos. Los que llevan
+relleno usan `var(--itin-bg)`, el mismo color del fondo del itinerario, para
+recortar lo que tienen detrás: si cambias ese fondo, cámbialo en `site.css`
+y los SVG siguen.
+
+Los dos renglones donde sale Raava no son iconos sino ilustraciones, en el
+mismo trazo detallado: la copa a las 19:00 y los lentes a las 21:30. El
+criterio quedó así: **los objetos son iconos de línea, la perra es
+ilustración**.
+
+`ill-dog-martini-dk.png` se derivó del dibujo que mandaron los novios,
+guardado sin tocar en `savethedatepics/raava.svg`. Ese archivo dice `.svg`
+pero por dentro es un PNG de 1.5 MB envuelto en un `<svg>`: no es vector.
+Para el sitio se le sacó el PNG, se recortó el margen, se repintó del negro
+original al crema `#EEEBE6` (el mismo de la de lentes) y se escaló a 900 px
+de ancho — 158 KB en vez de 1.5 MB. Si el dibujo cambia, el procedimiento se
+repite; el original se queda donde está como respaldo.
 
 Los garigoles (`orn-divider`, `orn-flourish`, `orn-sprig`) y las
 ilustraciones de la sección "Nuestra historia" (`ill-couple-smile-lt`,
@@ -58,6 +73,33 @@ pero los archivos se quedan por si algo regresa.
 
 Convención del design system: `-lt` = oro profundo (#9C7638) para fondos
 claros, `-dk` = crema pálido (#E3C79B) para fondos vino. No intercambiarlos.
+
+### La foto de fondo de la invitación
+
+`foto-invitacion.jpeg` sale de `savethedatepics/M&J-PRE-215.jpeg` (los novios
+desenfocados al frente, la cúpula del templo nítida atrás). El original mide
+4160×6240 y pesa 5 MB; la del sitio va a 1600 px de ancho y 250 KB, con la
+saturación al 72%, el punto negro subido a 30 y el contraste al 94%: el saco
+oscuro dejaba de ser un agujero y la foto se acerca al tono cálido de la
+paleta sin volverse blanco y negro.
+
+Aparece **sólo cuando la invitación ya llenó la pantalla** — `site.js` le sube
+la opacidad de 0 a 1 entre `p=0.78` y `p=1`. Antes de eso la tarjeta sale
+blanca del sobre, como siempre. Sin JavaScript nunca aparece.
+
+El encuadre es `object-position: center 65%`, no el centro: centrada, la torre
+quedaba justo detrás del nombre y no se veía. Bajando el anclaje, la iglesia
+sube al tercio derecho y libra la columna de texto.
+
+Encima va `.jm-hero-velo` (en `site.css`), un velo crema **radial**: casi
+cerrado en el centro, donde vive el texto, y abierto en las orillas, donde la
+foto se ve. Tiene que ser radial: con un velo parejo el «nos casamos» en verde
+olivo no llega a AA sobre la foto — necesitaría un fondo casi blanco, y
+entonces la foto ya no se vería. En móvil el velo cierra más porque el texto se
+pinta a ~20 px en vez de ~36 px, y el piso de contraste sube de 3:1 a 4.5:1.
+
+Si cambias la foto, **vuelve a medir**: el script que compara cada renglón
+contra su fondo real está en el mensaje del commit que la añadió.
 
 ### Audio
 

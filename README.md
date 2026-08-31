@@ -24,6 +24,12 @@ solo adultos · hospedaje · galería · mesa de regalos · RSVP
 La cuenta regresiva se cambia sola por un mensaje de agradecimiento cuando
 pasa la fecha de la boda.
 
+Cuando la invitación termina de crecer y ocupa toda la pantalla, el fondo
+blanco se cambia por una foto del save the date (los novios desenfocados con
+la iglesia atrás), debajo de un velo crema. Nada del contenido se mueve: el
+monograma, los nombres y la fecha quedan igual. Ver
+[`assets/README.md`](assets/README.md).
+
 ## De dónde viene
 
 Es la implementación de `templates/wedding-site/WeddingSite.dc.html` del
@@ -121,9 +127,11 @@ Las ilustraciones, fotos, tipografías y la música ya están en el repo
 tiene la lista de qué se usa dónde. Si algún archivo llegara a faltar, el
 sitio no se rompe: las imágenes que no cargan se ocultan solas.
 
-Los iconos del itinerario (iglesia, Raava en copa de martini, cámara,
-entrada, pastel y acta civil) son SVG dibujados a mano directamente en
-`index.html`, en el mismo trazo crema de las ilustraciones `-dk`.
+Los iconos del itinerario (iglesia, cámara, entrada, pastel y acta civil)
+son SVG dibujados a mano directamente en `index.html`, en el mismo trazo
+crema de las ilustraciones `-dk`. Los dos renglones de Raava —la copa de
+martini a las 19:00 y los lentes a las 21:30— sí son ilustraciones: los
+objetos van como icono de línea y la perra como dibujo.
 
 ## Accesibilidad y degradación
 
