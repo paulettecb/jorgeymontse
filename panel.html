@@ -87,11 +87,55 @@ tr.no td{ opacity:.5 }
 .est.pendiente{ background:rgba(99,27,41,.07); color:#7A5860 }
 .est.no{ background:rgba(99,27,41,.10); color:var(--vino) }
 .inv-tabla td{ vertical-align:middle }
+
+/* En celular la tabla se vuelve tarjetas.
+   Con cuatro columnas en 390 px el botón de «mandar» queda fuera de
+   pantalla y hay que arrastrar la tabla de lado en cada renglón — y son
+   105 renglones que Jorge y Montse van a recorrer desde el teléfono. */
+@media (max-width: 720px){
+  .inv-tabla, .inv-tabla tbody, .inv-tabla tr, .inv-tabla td{ display:block; width:auto }
+  .inv-tabla tr{ padding:14px 0; border-bottom:1px solid rgba(99,27,41,.10) }
+  .inv-tabla td{ border:0; padding:0 }
+  .inv-tabla td + td{ margin-top:8px }
+  /* estado y pases en el mismo renglón, que son cortos */
+  .inv-tabla td:nth-child(2), .inv-tabla td:nth-child(3){
+    display:inline-block; margin-top:8px; margin-right:12px; text-align:left !important }
+  .inv-tabla td:last-child{ white-space:normal !important }
+  .mandar, .copiar{ padding:11px 16px; font-size:13px }
+  .mandada{ margin-top:8px }
+}
 .copiar{ font-family:inherit; font-size:12px; letter-spacing:.1em; text-transform:uppercase;
          background:none; border:1px solid rgba(99,27,41,.25); padding:5px 10px 4px; cursor:pointer;
          color:var(--vino); white-space:nowrap }
 .copiar:hover{ border-color:var(--vino) }
 .copiar.ok{ background:var(--vino); color:var(--hueso); border-color:var(--vino) }
+.mandar{ font-family:inherit; font-size:12px; letter-spacing:.1em; text-transform:uppercase;
+  padding:7px 13px; border:1px solid var(--oro); border-radius:999px; background:var(--oro);
+  color:#fff; cursor:pointer; white-space:nowrap }
+.mandar:hover{ filter:brightness(1.08) }
+.mandar.otra{ background:transparent; color:var(--oro) }
+.quien-manda{ display:flex; align-items:center; gap:8px; flex-wrap:wrap; margin-bottom:14px;
+  font-size:14px; color:#7A5860 }
+.yo{ font-family:inherit; font-size:12px; letter-spacing:.1em; text-transform:uppercase;
+  padding:6px 14px; border:1px solid rgba(99,27,41,.22); border-radius:999px;
+  background:transparent; color:inherit; cursor:pointer }
+.yo:hover{ border-color:var(--vino) }
+.yo.sel{ background:var(--vino); border-color:var(--vino); color:var(--hueso) }
+.mandada{ display:block; font-size:12px; color:var(--oro); margin-top:5px; white-space:nowrap }
+/* El padding es para el dedo, no para el ojo: sin él el área tocable
+   mide 19 px de alto. El margen negativo se lo devuelve al renglón para
+   que la fila no crezca. */
+.mandada button{ font:inherit; font-size:11px; background:none; border:0;
+  padding:6px 6px 6px 8px; margin:-6px 0 -6px 0;
+  color:#7A5860; text-decoration:underline; cursor:pointer }
+.plantilla-blk{ margin-bottom:16px; padding:16px 18px; background:rgba(99,27,41,.04);
+  border:1px solid rgba(99,27,41,.12) }
+.plantilla-blk[hidden]{ display:none }
+.plantilla-blk label{ display:block; font-size:13px; color:#7A5860; margin-bottom:8px }
+.plantilla-blk textarea{ width:100%; box-sizing:border-box; font-family:inherit; font-size:15px;
+  line-height:1.5; padding:10px 12px; border:1px solid rgba(99,27,41,.22); background:#fff;
+  color:inherit; resize:vertical }
+.plantilla-pie{ display:flex; align-items:center; gap:12px; margin-top:10px }
 .chip em{ font-style:normal; opacity:.6; font-size:12px }
 .pool{ border:1px dashed rgba(99,27,41,.3); padding:16px; margin-top:18px; background:var(--hueso2) }
 .hint{ font-size:14px; opacity:.7; margin:6px 0 0 }
@@ -143,11 +187,36 @@ section.blk{ margin-top:52px }
       <input type="search" id="buscar-inv" placeholder="Buscar invitación…" style="flex:1;min-width:220px">
       <select id="filtro-inv" style="font-family:inherit;font-size:15px;padding:8px 10px;border:1px solid rgba(99,27,41,.22);background:#fff;color:inherit">
         <option value="">Todas</option>
+        <option value="sinmandar">Sin mandar</option>
+        <option value="mandada">Ya mandadas</option>
         <option value="pendiente">Sin contestar</option>
         <option value="viene">Confirmadas</option>
         <option value="no">No asisten</option>
       </select>
     </div>
+
+    <!-- Quién está mandando.
+         El panel es uno solo y no tiene usuarios, así que para saber si una
+         invitación la mandó Jorge o Montse hay que preguntarlo. Se guarda en
+         el navegador de cada quien, así que se elige una vez y ya. Es para
+         que no se dupliquen entre ellos, no un control de acceso. -->
+    <div class="quien-manda">
+      <span>Estás mandando como</span>
+      <button type="button" class="yo" data-yo="Jorge">Jorge</button>
+      <button type="button" class="yo" data-yo="Montse">Montse</button>
+      <button type="button" class="yo" data-yo="otro">otro…</button>
+      <button type="button" id="ver-plantilla" class="copiar" style="margin-left:auto">el mensaje</button>
+    </div>
+
+    <div id="plantilla-blk" hidden class="plantilla-blk">
+      <label for="plantilla">El mensaje que se manda. <code>{nombre}</code> y <code>{link}</code> se cambian solos por los de cada quien.</label>
+      <textarea id="plantilla" rows="6"></textarea>
+      <div class="plantilla-pie">
+        <button type="button" id="guardar-plantilla" class="copiar">guardar</button>
+        <span id="plantilla-estado" class="hint"></span>
+      </div>
+    </div>
+
     <div id="inv-stats" style="display:flex;gap:18px;flex-wrap:wrap;margin-bottom:14px"></div>
     <div style="overflow-x:auto"><table class="inv-tabla"><tbody id="inv-filas"></tbody></table></div>
   </section>
@@ -171,10 +240,25 @@ section.blk{ margin-top:52px }
 <script>
 (function () {
   'use strict';
-  var CLAVE = null, DATOS = { rsvps: [], mesas: { mesas: [], asignaciones: {} } }, SEL = null, tSave = null;
+  var CLAVE = null, DATOS = { rsvps: [], mesas: { mesas: [], asignaciones: {} }, envios: {}, plantilla: '' },
+      SEL = null, tSave = null;
+  /* Quién está mandando. Vive en el navegador de cada quien: se elige una
+     vez y ya. Sirve para que Jorge y Montse no se dupliquen. */
+  var YO = null;
+  try { YO = localStorage.getItem('jm-yo'); } catch (e) {}
   var $ = function (id) { return document.getElementById(id); };
   var esc = function (s) { return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) {
     return { '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;' }[c]; }); };
+
+  /* «2 sep», o «2 sep 2027» si ya cambió el año. Corta, porque va apretada
+     dentro de la celda. */
+  function fecha(iso) {
+    var d = new Date(iso);
+    if (isNaN(d)) return '';
+    var txt = d.toLocaleDateString('es-MX', { day: 'numeric', month: 'short' });
+    if (d.getFullYear() !== new Date().getFullYear()) txt += ' ' + d.getFullYear();
+    return txt;
+  }
 
   function api(accion, extra) {
     return fetch('/api/panel', {
@@ -212,6 +296,8 @@ section.blk{ margin-top:52px }
   function pintar(d) {
     DATOS = d;
     if (!DATOS.mesas || !Array.isArray(DATOS.mesas.mesas)) DATOS.mesas = { mesas: [], asignaciones: {} };
+    if (!DATOS.envios) DATOS.envios = {};
+    $('plantilla').value = DATOS.plantilla || '';
     stats(); filas(); alergias(); invStats(); invFilas(); mesas();
   }
 
@@ -279,6 +365,7 @@ section.blk{ margin-top:52px }
         /* Sin respuesta se cuentan sus pases: para armar mesas conviene
            reservarle el lugar a quien todavía no contesta. */
         personas: r ? (r.asiste ? (r.personas || 1) : 0) : inv.pases,
+        envio: (DATOS.envios || {})[inv.id] || null,
         rsvp: r || null
       };
     });
@@ -299,16 +386,25 @@ section.blk{ margin-top:52px }
 
   function invStats() {
     var l = personas(), c = { viene: 0, pendiente: 0, no: 0 };
-    l.forEach(function (x) { c[x.estado]++; });
-    $('inv-stats').innerHTML = [['viene','confirmadas'],['pendiente','sin contestar'],['no','no asisten']]
+    var conLink = 0, mandadas = 0;
+    l.forEach(function (x) {
+      c[x.estado]++;
+      if (linkDe(x.id)) { conLink++; if (x.envio) mandadas++; }
+    });
+    var html = [['viene','confirmadas'],['pendiente','sin contestar'],['no','no asisten']]
       .map(function (e) { return '<span class="est ' + e[0] + '">' + c[e[0]] + ' ' + e[1] + '</span>'; }).join('');
+    html += '<span class="est ' + (mandadas === conLink ? 'viene' : 'pendiente') + '">'
+          + mandadas + ' de ' + conLink + ' mandadas</span>';
+    $('inv-stats').innerHTML = html;
   }
 
   function invFilas() {
     var q = $('buscar-inv').value.trim().toLowerCase();
     var f = $('filtro-inv').value;
     var l = personas().filter(function (x) {
-      if (f && x.estado !== f) return false;
+      if (f === 'sinmandar') { if (x.envio || !linkDe(x.id)) return false; }
+      else if (f === 'mandada') { if (!x.envio) return false; }
+      else if (f && x.estado !== f) return false;
       if (!q) return true;
       return (x.nombre + ' ' + x.quienes + ' ' + x.id).toLowerCase().indexOf(q) !== -1;
     });
@@ -319,8 +415,14 @@ section.blk{ margin-top:52px }
         + (x.quienes ? '<br><span style="opacity:.6;font-size:13px">' + esc(x.quienes) + '</span>' : '') + '</td>'
         + '<td><span class="est ' + x.estado + '">' + ETIQUETA[x.estado] + '</span></td>'
         + '<td style="text-align:right;white-space:nowrap">' + x.pases + (x.pases === 1 ? ' pase' : ' pases') + '</td>'
-        + '<td>' + (link
-            ? '<button class="copiar" data-link="' + esc(link) + '">copiar link</button>'
+        + '<td style="white-space:nowrap">' + (link
+            ? '<button class="mandar' + (x.envio ? ' otra' : '') + '" data-mandar="' + esc(x.id) + '">'
+              + (x.envio ? 'volver a mandar' : 'mandar') + '</button>'
+              + ' <button class="copiar" data-link="' + esc(link) + '">copiar link</button>'
+              + (x.envio
+                  ? '<span class="mandada">✓ mandada por ' + esc(x.envio.por) + ' · ' + fecha(x.envio.cuando)
+                    + '<button data-desmarcar="' + esc(x.id) + '">deshacer</button></span>'
+                  : '')
             : '<span class="hint" style="font-size:12px">sin link</span>') + '</td>'
         + '</tr>';
     }).join('') : '<tr><td class="hint">Nada con ese filtro.</td></tr>';
@@ -328,7 +430,82 @@ section.blk{ margin-top:52px }
 
   $('buscar-inv').addEventListener('input', invFilas);
   $('filtro-inv').addEventListener('change', invFilas);
+  /* ---- quién está mandando ---- */
+  function pintaYo() {
+    Array.prototype.forEach.call(document.querySelectorAll('.yo'), function (b) {
+      var suyo = b.dataset.yo;
+      b.classList.toggle('sel', YO === suyo || (suyo === 'otro' && YO && YO !== 'Jorge' && YO !== 'Montse'));
+      if (suyo === 'otro' && YO && YO !== 'Jorge' && YO !== 'Montse') b.textContent = YO;
+    });
+  }
+  Array.prototype.forEach.call(document.querySelectorAll('.yo'), function (b) {
+    b.addEventListener('click', function () {
+      var v = b.dataset.yo;
+      if (v === 'otro') {
+        v = (prompt('¿Quién está mandando?', YO && YO !== 'Jorge' && YO !== 'Montse' ? YO : '') || '').trim();
+        if (!v) return;
+      }
+      YO = v.slice(0, 40);
+      try { localStorage.setItem('jm-yo', YO); } catch (e) {}
+      pintaYo();
+    });
+  });
+  pintaYo();
+
+  /* ---- el mensaje que se manda ---- */
+  $('ver-plantilla').addEventListener('click', function () {
+    var blk = $('plantilla-blk');
+    blk.hidden = !blk.hidden;
+    if (!blk.hidden) $('plantilla').focus();
+  });
+  $('guardar-plantilla').addEventListener('click', function () {
+    var t = $('plantilla').value;
+    $('plantilla-estado').textContent = 'Guardando…';
+    api('guardarPlantilla', { plantilla: t }).then(function () {
+      DATOS.plantilla = t;
+      $('plantilla-estado').textContent = 'Guardado.';
+      setTimeout(function () { $('plantilla-estado').textContent = ''; }, 2200);
+    }).catch(function (err) { $('plantilla-estado').textContent = err.message; });
+  });
+
+  /* El mensaje de una invitación, con su nombre y su link puestos. */
+  function mensajeDe(x) {
+    var nombre = String(x.nombre || '').split(/,| y /)[0].trim();
+    return String(DATOS.plantilla || '')
+      .replace(/\{nombre\}/g, nombre)
+      .replace(/\{link\}/g, linkDe(x.id));
+  }
+
+  /* Abre WhatsApp con el mensaje ya escrito.
+     Sin número, wa.me deja escoger el contacto: es un toque más, pero sale
+     del WhatsApp de ellos y con sus palabras. Si algún día la lista trae
+     teléfono, se usa y se ahorra ese toque. */
+  function mandar(x) {
+    var url = 'https://wa.me/' + (x.tel ? String(x.tel).replace(/\D/g, '') : '')
+            + '?text=' + encodeURIComponent(mensajeDe(x));
+    window.open(url, '_blank', 'noopener');
+    api('marcarEnvio', { id: x.id, por: YO || 'alguien' }).then(function (r) {
+      DATOS.envios = r.envios || DATOS.envios;
+      invFilas(); invStats();
+    }).catch(function (err) { alert('Se abrió WhatsApp, pero no se pudo anotar: ' + err.message); });
+  }
+
   $('inv-filas').addEventListener('click', function (e) {
+    var m = e.target.closest('[data-mandar]');
+    if (m) {
+      if (!YO) { alert('Primero dinos quién eres, arriba de la lista.'); return; }
+      var x = personas().filter(function (p) { return p.id === m.dataset.mandar; })[0];
+      if (x) mandar(x);
+      return;
+    }
+    var d = e.target.closest('[data-desmarcar]');
+    if (d) {
+      api('marcarEnvio', { id: d.dataset.desmarcar, deshacer: true }).then(function (r) {
+        DATOS.envios = r.envios || {};
+        invFilas(); invStats();
+      }).catch(function (err) { alert(err.message); });
+      return;
+    }
     var b = e.target.closest('.copiar');
     if (!b) return;
     var txt = b.dataset.link;

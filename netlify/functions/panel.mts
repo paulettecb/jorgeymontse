@@ -34,6 +34,19 @@ const MESAS_POR_DEFECTO = {
   asignaciones: {} as Record<string, string>
 };
 
+/** Quién mandó cada invitación y cuándo. Una sola llave con todo: son 107
+ *  entradas, no vale la pena un blob por invitación. */
+type Envio = { por: string; cuando: string };
+
+/* El mensaje que se manda por WhatsApp. Se guarda para que Jorge y Montse
+   lo escriban con sus palabras desde el panel; esto es sólo el arranque.
+   {nombre} y {link} se sustituyen al momento de mandar. */
+const PLANTILLA_POR_DEFECTO =
+  '¡Nos casamos! 🤍\n\n' +
+  '{nombre}, esta es tu invitación:\n{link}\n\n' +
+  'Ahí viene todo: la iglesia, el salón, el itinerario y dónde confirmarnos. ' +
+  'El link es tuyo y ya trae apartados tus lugares.';
+
 export default async (req: Request, _context: Context) => {
   if (req.method !== 'POST') return json({ error: 'método no permitido' }, 405);
 
@@ -54,6 +67,7 @@ export default async (req: Request, _context: Context) => {
 
   const rsvps = getStore({ name: 'rsvp', consistency: 'strong' });
   const mesas = getStore({ name: 'mesas', consistency: 'strong' });
+  const envios = getStore({ name: 'envios', consistency: 'strong' });
 
   switch (cuerpo.accion) {
     case 'listar': {
@@ -65,9 +79,14 @@ export default async (req: Request, _context: Context) => {
         (a: any, b: any) => String(b.creado).localeCompare(String(a.creado))
       );
       const plano = (await mesas.get('config', { type: 'json' })) || MESAS_POR_DEFECTO;
+      const mandadas = (await envios.get('registro', { type: 'json' })) || {};
+      const plantilla = (await envios.get('plantilla', { type: 'text' })) || PLANTILLA_POR_DEFECTO;
       // La lista completa va también: el panel necesita ver a los que NO han
       // contestado para poder sentarlos, y para poder reenviar su link.
-      return json({ rsvps: limpia, mesas: plano, invitaciones: INVITACIONES });
+      return json({
+        rsvps: limpia, mesas: plano, invitaciones: INVITACIONES,
+        envios: mandadas, plantilla
+      });
     }
 
     case 'guardarMesas': {
@@ -86,6 +105,34 @@ export default async (req: Request, _context: Context) => {
         )
       };
       await mesas.setJSON('config', limpio);
+      return json({ ok: true });
+    }
+
+    /* Marcar (o desmarcar) una invitación como mandada. Se guarda quién la
+       mandó para que Jorge y Montse no se dupliquen: el panel es uno solo y
+       no hay usuarios, así que el nombre viene de quien lo eligió en la
+       pantalla. Es para coordinarse, no un control de acceso. */
+    case 'marcarEnvio': {
+      const id = String(cuerpo.id || '').slice(0, 60);
+      if (!/^[a-z0-9-]{1,60}$/.test(id)) return json({ error: 'id inválido' }, 400);
+
+      const registro = ((await envios.get('registro', { type: 'json' })) || {}) as Record<string, Envio>;
+      if (cuerpo.deshacer) {
+        delete registro[id];
+      } else {
+        registro[id] = {
+          por: String(cuerpo.por || 'alguien').slice(0, 40),
+          cuando: new Date().toISOString()
+        };
+      }
+      await envios.setJSON('registro', registro);
+      return json({ ok: true, envios: registro });
+    }
+
+    case 'guardarPlantilla': {
+      const t = String(cuerpo.plantilla ?? '');
+      if (!t.trim()) return json({ error: 'la plantilla no puede ir vacía' }, 400);
+      await envios.set('plantilla', t.slice(0, 2000));
       return json({ ok: true });
     }
 
