@@ -91,12 +91,12 @@ confirmar ya sabe quién es —lo saluda por su nombre, le dice cuántos pases
 trae y le prellena a sus acompañantes— y la confirmación llega identificada
 sin que nadie escriba su nombre.
 
-**Sin link, no se puede confirmar.** Los pases los controlan los novios, y
-en un link genérico cualquiera podría escribir el nombre y los lugares que
-quisiera. Así que sin `?i=` —o con un id que no existe— el formulario se
-apaga y en su lugar sale un aviso que dice dónde conseguir el link. Sin
-JavaScript el formulario sí aparece, con el campo del nombre, que es el
-comportamiento de antes.
+**Sin link, no hay sección de confirmar.** Los pases los controlan los
+novios, y en un link genérico cualquiera podría escribir el nombre y los
+lugares que quisiera. Así que sin `?i=` —o con un id que no existe— la
+sección entera se oculta, junto con el botón «confirmar» de la nav, que si
+no apuntaría a la nada. El formulario se queda en el HTML aunque no se vea:
+Netlify Forms lo detecta leyendo el archivo, no la página pintada.
 
 - La lista vive en [`netlify/functions/invitados-datos.mts`](netlify/functions/invitados-datos.mts),
   del lado del servidor. **No se publica**: son nombres de gente real, y el
@@ -117,6 +117,20 @@ comportamiento de antes.
 - Hay dos invitaciones de prueba, `jane-doe` (civil sí) y `joe-doe` (civil no),
   para enseñarles a los novios las dos versiones. **Borrarlas antes de
   publicar de verdad.**
+
+## El panel
+
+`/panel`, con la contraseña de `PANEL_PASSWORD`. Tres cosas:
+
+- **Invitaciones** — las 105, hayan contestado o no, con su estado
+  (confirmada / sin contestar / no asiste) y un botón para copiar el link
+  de cada una. Sirve para ver quién falta y para reenviarle su link a quien
+  lo pierda.
+- **Confirmaciones** — lo que llega del formulario, con buscador.
+- **Mesas** — el acomodo. Se pueden sentar **todas** las invitaciones, no
+  sólo las que ya confirmaron: los que faltan aparecen con su fondo rayado
+  y sus pases reservados, para poder armar las mesas desde ahora. Los que
+  dijeron que no, no aparecen.
 
 ## Configurar
 

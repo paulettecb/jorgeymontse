@@ -6,6 +6,7 @@
  * Contraseña en la variable de entorno PANEL_PASSWORD del proyecto.
  */
 import { getStore } from '@netlify/blobs';
+import { INVITACIONES } from './invitados-datos.mts';
 import { timingSafeEqual } from 'node:crypto';
 import type { Context, Config } from '@netlify/functions';
 
@@ -64,7 +65,9 @@ export default async (req: Request, _context: Context) => {
         (a: any, b: any) => String(b.creado).localeCompare(String(a.creado))
       );
       const plano = (await mesas.get('config', { type: 'json' })) || MESAS_POR_DEFECTO;
-      return json({ rsvps: limpia, mesas: plano });
+      // La lista completa va también: el panel necesita ver a los que NO han
+      // contestado para poder sentarlos, y para poder reenviar su link.
+      return json({ rsvps: limpia, mesas: plano, invitaciones: INVITACIONES });
     }
 
     case 'guardarMesas': {

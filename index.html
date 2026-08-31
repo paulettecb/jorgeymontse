@@ -187,7 +187,10 @@
 
 <!-- ============================ SEPARADOR 2 ============================ -->
 <section data-dark="1" aria-hidden="true" style="position:relative;height:clamp(340px,60vh,620px);overflow:hidden;background:#3A0F16">
-<div data-parallax="1" style="position:absolute;left:0;right:0;top:-9%;height:118%;will-change:transform"><div data-photo="1" style="position:absolute;inset:0;filter:grayscale(1) contrast(1.04)"><img loading="lazy" decoding="async" class="jm-fill" src="assets/foto-templo-calle.jpeg" alt=""></div></div>
+<div data-parallax="1" style="position:absolute;left:0;right:0;top:-9%;height:118%;will-change:transform"><div data-photo="1" style="position:absolute;inset:0;filter:grayscale(1) contrast(1.04)"><!-- Anclado abajo: centrado los cortaba a la altura del codo y el texto
+     caía sobre la fachada, que está nítida y llena de detalle. Al 60% se
+     les ve hasta la cintura y las letras quedan sobre la zona desenfocada. -->
+<img loading="lazy" decoding="async" class="jm-fill" src="assets/foto-templo-calle.jpeg" alt="" style="object-position:center 60%"></div></div>
 <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(58,15,22,.45),rgba(58,15,22,.2) 45%,rgba(58,15,22,.58));pointer-events:none"></div>
 <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none"><div style="font-family:'NoirEtBlanc',serif;text-transform:uppercase;font-size:clamp(19px,2.8vw,34px);letter-spacing:.34em;color:#F6F4EE;text-shadow:0 2px 30px rgba(58,15,22,.6);text-align:center;padding:0 24px">tú y yo, siempre</div></div>
 </section>
@@ -338,6 +341,11 @@
 </section>
 
 <!-- ============================ RSVP ============================ -->
+<!-- Confirmar es sólo con link personalizado: los pases los controlan
+     los novios. site.js oculta esta sección entera —y el botón «confirmar»
+     de la nav— cuando no hay id o el id no existe. El formulario se queda
+     en el HTML aunque no se vea, porque Netlify Forms lo detecta leyendo
+     el archivo, no la página pintada. -->
 <section id="rsvp" data-dark="1" style="background:#551724;color:#F6F4EE;padding:clamp(90px,12vw,160px) clamp(24px,7vw,110px);display:flex;flex-direction:column;align-items:center;text-align:center;gap:24px">
 <img data-reveal="1" src="assets/ill-couple-entrance-dk.png" alt="Jorge y Montse" style="width:clamp(170px,21vw,255px);height:auto;display:block;margin-bottom:2px">
 <div data-reveal="1" style="font-family:'NoirEtBlanc',serif;text-transform:uppercase;font-size:15px;letter-spacing:.3em;color:#C9CFB2">confirma tu asistencia</div>
@@ -406,14 +414,6 @@
 <p class="jm-form-estado" id="jm-form-estado" role="status" aria-live="polite"></p>
 </form>
 
-<!-- Lo que ve quien llega SIN link personalizado. Confirmar es sólo con
-     link: los pases los controlan los novios y aquí cualquiera podría
-     inventarse cuántos van. site.js apaga el formulario y enciende esto
-     cuando no hay id, o cuando el id no existe. -->
-<div id="jm-rsvp-aviso" hidden style="display:flex;flex-direction:column;align-items:center;gap:14px;max-width:44ch;margin-top:clamp(18px,3vw,32px)">
-<div style="font-family:'NoirEtBlanc',serif;font-size:19px;line-height:1.7;opacity:.9;text-wrap:pretty">Para confirmar necesitas el link que te llegó con tu invitación. Ahí ya vienen tu nombre y tus lugares apartados.</div>
-<div style="font-family:'NoirEtBlanc',serif;font-size:16px;line-height:1.7;color:#C9CFB2;text-wrap:pretty">¿No lo encuentras? Escríbele a Jorge o a Montse y te lo reenvían.</div>
-</div>
 
 <div id="jm-rsvp-gracias" class="jm-gracias" hidden>
 <img src="assets/orn-heart-dk.png" alt="" style="width:clamp(38px,4vw,54px);opacity:.85">

@@ -76,6 +76,22 @@ tr.no td{ opacity:.5 }
   text-align:left; width:100%; color:inherit }
 .chip:hover{ border-color:var(--oro) }
 .chip.sel{ background:var(--vino); color:var(--hueso); border-color:var(--vino) }
+/* Estado de cada invitación: el color dice de un vistazo quién falta. */
+.chip.viene{ border-left:3px solid #55624A }
+.chip.pendiente{ border-left:3px solid rgba(99,27,41,.25); background:repeating-linear-gradient(135deg,transparent,transparent 6px,rgba(99,27,41,.03) 6px,rgba(99,27,41,.03) 12px) }
+.chip.no{ opacity:.45; text-decoration:line-through }
+.chip.sel{ text-decoration:none }
+.est{ display:inline-block; font-size:11px; letter-spacing:.12em; text-transform:uppercase;
+      padding:3px 8px 2px; border-radius:2px; white-space:nowrap }
+.est.viene{ background:rgba(85,98,74,.14); color:#3F4A36 }
+.est.pendiente{ background:rgba(99,27,41,.07); color:#7A5860 }
+.est.no{ background:rgba(99,27,41,.10); color:var(--vino) }
+.inv-tabla td{ vertical-align:middle }
+.copiar{ font-family:inherit; font-size:12px; letter-spacing:.1em; text-transform:uppercase;
+         background:none; border:1px solid rgba(99,27,41,.25); padding:5px 10px 4px; cursor:pointer;
+         color:var(--vino); white-space:nowrap }
+.copiar:hover{ border-color:var(--vino) }
+.copiar.ok{ background:var(--vino); color:var(--hueso); border-color:var(--vino) }
 .chip em{ font-style:normal; opacity:.6; font-size:12px }
 .pool{ border:1px dashed rgba(99,27,41,.3); padding:16px; margin-top:18px; background:var(--hueso2) }
 .hint{ font-size:14px; opacity:.7; margin:6px 0 0 }
@@ -117,6 +133,23 @@ section.blk{ margin-top:52px }
     <div class="eyebrow">para el banquete</div>
     <h2 style="font-size:clamp(24px,3vw,34px);margin:6px 0 14px">Alergias y restricciones</h2>
     <ul id="alergias" style="margin:0;padding-left:1.1em;line-height:1.8"></ul>
+  </section>
+
+  <section class="blk">
+    <span class="eyebrow">quién falta</span>
+    <h2 style="font-size:clamp(24px,3vw,34px);margin:6px 0 4px">Invitaciones</h2>
+    <p class="hint" style="margin:0 0 14px">Las 105, hayan contestado o no. El link es el que se le manda a cada quien; si alguien lo pierde, aquí se copia otra vez.</p>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px">
+      <input type="search" id="buscar-inv" placeholder="Buscar invitación…" style="flex:1;min-width:220px">
+      <select id="filtro-inv" style="font-family:inherit;font-size:15px;padding:8px 10px;border:1px solid rgba(99,27,41,.22);background:#fff;color:inherit">
+        <option value="">Todas</option>
+        <option value="pendiente">Sin contestar</option>
+        <option value="viene">Confirmadas</option>
+        <option value="no">No asisten</option>
+      </select>
+    </div>
+    <div id="inv-stats" style="display:flex;gap:18px;flex-wrap:wrap;margin-bottom:14px"></div>
+    <div style="overflow-x:auto"><table class="inv-tabla"><tbody id="inv-filas"></tbody></table></div>
   </section>
 
   <section class="blk">
@@ -179,7 +212,7 @@ section.blk{ margin-top:52px }
   function pintar(d) {
     DATOS = d;
     if (!DATOS.mesas || !Array.isArray(DATOS.mesas.mesas)) DATOS.mesas = { mesas: [], asignaciones: {} };
-    stats(); filas(); alergias(); mesas();
+    stats(); filas(); alergias(); invStats(); invFilas(); mesas();
   }
 
   function stats() {
@@ -225,20 +258,105 @@ section.blk{ margin-top:52px }
     }).join('');
   }
 
+  /* ---- invitaciones ----
+     Una entrada por invitación, tenga confirmación o no. Es lo que permite
+     sentar a alguien antes de que conteste, y ver de un vistazo quién falta.
+     Las confirmaciones que llegaran sin id de invitación (por ejemplo sin
+     JavaScript) se agregan al final para que no se pierdan. ---- */
+  function personas() {
+    var porInv = {}, sueltas = [];
+    (DATOS.rsvps || []).forEach(function (r) {
+      if (r.invitacion) porInv[r.invitacion] = r; else sueltas.push(r);
+    });
+    var lista = (DATOS.invitaciones || []).map(function (inv) {
+      var r = porInv[inv.id];
+      return {
+        id: inv.id,
+        nombre: inv.saludo,
+        quienes: (inv.invitados || []).join(', '),
+        pases: inv.pases,
+        estado: !r ? 'pendiente' : (r.asiste ? 'viene' : 'no'),
+        /* Sin respuesta se cuentan sus pases: para armar mesas conviene
+           reservarle el lugar a quien todavía no contesta. */
+        personas: r ? (r.asiste ? (r.personas || 1) : 0) : inv.pases,
+        rsvp: r || null
+      };
+    });
+    sueltas.forEach(function (r) {
+      lista.push({ id: 'suelto:' + r.id, nombre: r.nombre || '(sin nombre)',
+        quienes: r.acompanantes || '', pases: r.personas || 1,
+        estado: r.asiste ? 'viene' : 'no',
+        personas: r.asiste ? (r.personas || 1) : 0, rsvp: r });
+    });
+    return lista;
+  }
+
+  var ETIQUETA = { viene: 'confirmada', pendiente: 'sin contestar', no: 'no asiste' };
+
+  function linkDe(id) {
+    return id.indexOf('suelto:') === 0 ? '' : location.origin + '/' + id;
+  }
+
+  function invStats() {
+    var l = personas(), c = { viene: 0, pendiente: 0, no: 0 };
+    l.forEach(function (x) { c[x.estado]++; });
+    $('inv-stats').innerHTML = [['viene','confirmadas'],['pendiente','sin contestar'],['no','no asisten']]
+      .map(function (e) { return '<span class="est ' + e[0] + '">' + c[e[0]] + ' ' + e[1] + '</span>'; }).join('');
+  }
+
+  function invFilas() {
+    var q = $('buscar-inv').value.trim().toLowerCase();
+    var f = $('filtro-inv').value;
+    var l = personas().filter(function (x) {
+      if (f && x.estado !== f) return false;
+      if (!q) return true;
+      return (x.nombre + ' ' + x.quienes + ' ' + x.id).toLowerCase().indexOf(q) !== -1;
+    });
+    $('inv-filas').innerHTML = l.length ? l.map(function (x) {
+      var link = linkDe(x.id);
+      return '<tr>'
+        + '<td><strong>' + esc(x.nombre) + '</strong>'
+        + (x.quienes ? '<br><span style="opacity:.6;font-size:13px">' + esc(x.quienes) + '</span>' : '') + '</td>'
+        + '<td><span class="est ' + x.estado + '">' + ETIQUETA[x.estado] + '</span></td>'
+        + '<td style="text-align:right;white-space:nowrap">' + x.pases + (x.pases === 1 ? ' pase' : ' pases') + '</td>'
+        + '<td>' + (link
+            ? '<button class="copiar" data-link="' + esc(link) + '">copiar link</button>'
+            : '<span class="hint" style="font-size:12px">sin link</span>') + '</td>'
+        + '</tr>';
+    }).join('') : '<tr><td class="hint">Nada con ese filtro.</td></tr>';
+  }
+
+  $('buscar-inv').addEventListener('input', invFilas);
+  $('filtro-inv').addEventListener('change', invFilas);
+  $('inv-filas').addEventListener('click', function (e) {
+    var b = e.target.closest('.copiar');
+    if (!b) return;
+    var txt = b.dataset.link;
+    var listo = function () {
+      b.textContent = 'copiado'; b.classList.add('ok');
+      setTimeout(function () { b.textContent = 'copiar link'; b.classList.remove('ok'); }, 1600);
+    };
+    /* clipboard falla sin https o sin permiso; el respaldo es el de siempre */
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(txt).then(listo, function () { prompt('Copia el link:', txt); });
+    } else { prompt('Copia el link:', txt); }
+  });
+
   /* ---- mesas ---- */
   function ocupacion(id) {
-    return DATOS.rsvps.filter(function (x) { return x.asiste && DATOS.mesas.asignaciones[x.id] === id; })
-                      .reduce(function (a, x) { return a + (x.personas || 1); }, 0);
+    return personas().filter(function (x) { return DATOS.mesas.asignaciones[x.id] === id; })
+                     .reduce(function (a, x) { return a + x.personas; }, 0);
   }
   function chip(x, sel) {
-    return '<button class="chip' + (sel ? ' sel' : '') + '" data-inv="' + esc(x.id) + '">'
-      + '<span>' + esc(x.nombre) + '</span><em>' + (x.personas || 1) + '</em></button>';
+    return '<button class="chip ' + x.estado + (sel ? ' sel' : '') + '" data-inv="' + esc(x.id) + '"'
+      + ' title="' + ETIQUETA[x.estado] + '">'
+      + '<span>' + esc(x.nombre) + '</span><em>' + x.personas + '</em></button>';
   }
   function mesas() {
-    var asign = DATOS.mesas.asignaciones;
+    var asign = DATOS.mesas.asignaciones, todos = personas();
     $('mesas').innerHTML = DATOS.mesas.mesas.map(function (m) {
       var oc = ocupacion(m.id);
-      var gente = DATOS.rsvps.filter(function (x) { return x.asiste && asign[x.id] === m.id; });
+      var gente = todos.filter(function (x) { return asign[x.id] === m.id; });
       return '<div class="mesa' + (oc >= m.capacidad ? ' llena' : '') + '" data-mesa="' + esc(m.id) + '">'
         + '<h3 contenteditable="plaintext-only" data-nombre="' + esc(m.id) + '">' + esc(m.nombre) + '</h3>'
         + '<div class="cap">' + oc + ' de ' + m.capacidad + ' lugares'
@@ -246,7 +364,9 @@ section.blk{ margin-top:52px }
         + '<ul>' + gente.map(function (x) { return '<li>' + chip(x, SEL === x.id) + '</li>'; }).join('') + '</ul></div>';
     }).join('') || '<p class="hint">Aún no hay mesas. Agrega la primera.</p>';
 
-    var libres = DATOS.rsvps.filter(function (x) { return x.asiste && !asign[x.id]; });
+    /* Los que dijeron que no, ni al pool ni a las mesas. El resto sí,
+       hayan contestado o no: así se pueden armar las mesas desde ahora. */
+    var libres = todos.filter(function (x) { return x.estado !== 'no' && !asign[x.id]; });
     $('pool').innerHTML = libres.length
       ? libres.map(function (x) { return '<li>' + chip(x, SEL === x.id) + '</li>'; }).join('')
       : '<li class="hint">Todos tienen mesa.</li>';

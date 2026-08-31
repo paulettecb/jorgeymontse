@@ -268,16 +268,20 @@
      /api/invitacion por un id y sólo contesta esa invitación. */
   function personalizar() {
     var caja = $('jm-quien'), campo = $('jm-campo-nombre'),
-        form = $('jm-rsvp-form'), aviso = $('jm-rsvp-aviso');
-    if (!caja || !campo || !form || !window.fetch) return;
+        seccion = $('rsvp'), pill = $('jm-pill');
+    if (!caja || !campo || !seccion || !window.fetch) return;
 
     /* Confirmar es sólo con link personalizado. Los pases los controlan los
        novios, y en el link genérico cualquiera podría escribir el nombre y
-       los lugares que quisiera. Así que el formulario se apaga y en su
-       lugar sale el aviso; se vuelve a encender únicamente si el id existe. */
+       los lugares que quisiera. Así que la sección entera se apaga —junto
+       con el botón «confirmar» de la nav, que si no apuntaría a la nada— y
+       se enciende únicamente si el id existe.
+
+       El formulario se queda en el HTML aunque no se vea: Netlify Forms lo
+       detecta leyendo el archivo, no la página pintada. */
     var apagar = function () {
-      form.hidden = true;
-      if (aviso) aviso.hidden = false;
+      seccion.hidden = true;
+      if (pill) pill.hidden = true;
     };
 
     /* El id puede llegar de dos formas: como ?i=paloma-cambron, o como
@@ -300,8 +304,8 @@
        nadie llegue. El campo del nombre se oculta desde ya para que, en el
        caso normal, nadie lo vea aparecer y desaparecer. */
     campo.hidden = true;
-    form.hidden = true;
-    if (aviso) aviso.hidden = true;
+    seccion.hidden = true;
+    if (pill) pill.hidden = true;
 
     fetch('/api/invitacion?i=' + encodeURIComponent(id), { headers: { accept: 'application/json' } })
       .then(function (r) { return r.ok ? r.json() : null; })
@@ -329,8 +333,8 @@
       if (idInput) { idInput.name = 'invitacion'; idInput.value = inv.id; }
 
       caja.hidden = false;
-      form.hidden = false;
-      if (aviso) aviso.hidden = true;
+      seccion.hidden = false;
+      if (pill) pill.hidden = false;
 
       /* A la ceremonia civil sólo va parte de los invitados, así que el
          itinerario se arma según lo que traiga esta invitación. */
