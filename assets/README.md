@@ -47,7 +47,7 @@ Todas ✅. Las que usa el sitio hoy:
 | `ill-dog-martini-dk.png` | Itinerario · 19:00 cóctel (Raava recostada en la copa) |
 | `ill-dog-sunglasses-dk.png` | Itinerario · 21:30 fiesta (Raava se queda de fiesta) |
 | `orn-heart-dk.png` | Estado post-boda de la cuenta regresiva y "gracias" del RSVP |
-| `foto-playa.jpeg` | Separador «donde todo empezó» — no se cambia, decisión de los novios |
+| `foto-propuesta.jpeg` | Separador «donde todo empezó». Es la foto de la propuesta en la playa, recortada a mano a la franja del separador: el original es un vertical de teléfono y con `cover` sólo se veía arena |
 | `foto-templo-calle.jpeg` | Separador «tú y yo, siempre» |
 | `foto-forro-sobre.jpeg` | Forro del sobre de la portada (el rombo: solapa y fondo). Es la M&J-PRE-120 (Raava con el pañuelo del Save the Date) llevada a la proporción del rombo. Una foto vertical metida en el rombo sale enorme y recortada, así que se acomoda sobre un lienzo de la proporción correcta antes de subirla |
 | `foto-de-la-mano.jpeg` | Separador «contando los días» |
