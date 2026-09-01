@@ -211,6 +211,32 @@ img { max-width: 100%; }
    cada foto conserva su altura y no quedan huecos. El aspect-ratio va en
    la celda, así que la altura se sabe antes de que cargue la imagen y la
    página no da el brinco al ir apareciendo las fotos. */
+/* Los títulos de cada momento. En el mosaico atraviesan las columnas con
+   column-span, que es lo que parte la tira en tres bloques legibles sin
+   sacar las fotos de su flujo. En el carrusel estorbarían —serían una
+   diapositiva vacía— así que ahí se esconden y el nombre del momento sale
+   en el pie, junto al contador, y va cambiando conforme se desliza. */
+.jm-gal-grupo {
+  column-span: all;
+  margin: 0 0 clamp(14px, 2vw, 22px);
+  font-family: 'Lumiare', sans-serif; font-weight: 400;
+  font-size: clamp(1.375rem, 2.6vw, 2rem); line-height: 1.1;
+  color: var(--vino); letter-spacing: -.01em;
+}
+.jm-gal-grupo + .jm-gitem { break-before: avoid; }
+.jm-gal-grupo:not(:first-child) { margin-top: clamp(38px, 5vw, 62px); }
+.jm-gal-grupo small {
+  display: block; margin-top: 6px;
+  font-family: 'NoirEtBlanc', serif; font-size: 0.9375rem;
+  letter-spacing: .04em; color: var(--oliva); text-transform: none;
+}
+.jm-gal.is-carrusel .jm-gal-grupo { display: none; }
+.jm-car-grupo {
+  font-family: 'NoirEtBlanc', serif; text-transform: uppercase;
+  font-size: 0.8125rem; letter-spacing: .2em; color: var(--oliva);
+  white-space: nowrap;
+}
+
 .jm-gal.is-mosaico {
   column-count: 3;
   column-gap: clamp(10px, 1.4vw, 18px);
@@ -696,4 +722,14 @@ footer > div { white-space: normal !important; max-width: 100%; }
 
   /* El difuminado del menú deja de ser difuminado. */
   #jm-nav::before { -webkit-mask: none !important; mask: none !important; }
+}
+
+/* El recado a los novios. Va suelto, no dentro del plegable de la logística:
+   es lo único de esa parte que no es trámite, y mezclado ahí la gente lo
+   saltaba. De estos sale el libro de recuerdos. */
+.jm-recado { margin-top: clamp(18px, 2.4vw, 28px); }
+.jm-recado small {
+  display: block; margin-top: 8px;
+  font-family: 'NoirEtBlanc', serif; font-size: 0.8125rem;
+  letter-spacing: .04em; opacity: .62;
 }

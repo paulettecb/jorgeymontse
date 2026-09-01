@@ -744,6 +744,15 @@
 
     var cuenta = $('jm-car-cuenta');
     if (cuenta) cuenta.textContent = (masCerca + 1) + ' / ' + cells.length;
+    /* En el carrusel los títulos de cada momento están escondidos —serían una
+       diapositiva vacía—, así que el nombre sale aquí y cambia conforme se
+       desliza: se sabe en qué momento va sin partir la tira. */
+    var grupo = $('jm-car-grupo');
+    if (grupo) {
+      var g = cells[masCerca] && cells[masCerca].closest('[data-grupo]');
+      var t = g ? g.getAttribute('data-grupo') : '';
+      if (grupo.textContent !== t) grupo.textContent = t;
+    }
     var avance = $('jm-car-avance');
     if (avance) avance.style.width = ((masCerca + 1) / cells.length * 100).toFixed(2) + '%';
     var prev = $('jm-car-prev'), next = $('jm-car-next');
