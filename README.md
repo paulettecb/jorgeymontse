@@ -100,6 +100,10 @@ sección entera se oculta, junto con el botón «confirmar» de la nav, que si
 no apuntaría a la nada. El formulario se queda en el HTML aunque no se vea:
 Netlify Forms lo detecta leyendo el archivo, no la página pintada.
 
+Ese botón de la nav vive sólo en compu. En el teléfono flotaba encima del
+contenido durante todo el scroll y los novios pidieron quitarlo: abajo de
+900 px la nav se queda nada más con el monograma, que regresa arriba.
+
 - La lista vive en [`netlify/functions/invitados-datos.mts`](netlify/functions/invitados-datos.mts),
   del lado del servidor. **No se publica**: son nombres de gente real, y el
   sitio nunca descarga la lista completa — le pregunta a `/api/invitacion`

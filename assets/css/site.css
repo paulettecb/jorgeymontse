@@ -584,9 +584,14 @@ section[hidden], a[hidden], #jm-rsvp-aviso[hidden] { display: none !important; }
    corrigen sin tocar el diseño en pantallas grandes. Las reglas llevan
    !important porque compiten contra los `style` inline del template. */
 @media (max-width: 900px) {
-  /* La nav completa no cabe en móvil: se ocultan las secciones
-     secundarias y se conserva monograma + confirmar. */
-  .jm-navlink.is-secondary { display: none; }
+  /* La nav completa no cabe en móvil, así que en el teléfono se queda
+     nada más el monograma, que regresa arriba.
+
+     El «confirmar» también se va: en la pantalla del teléfono ese botón
+     flotaba encima del contenido todo el scroll, y la sección de confirmar
+     ya está al final de la página con su propio botón grande. Los novios
+     pidieron quitarlo. En compu se queda, que ahí no estorba. */
+  .jm-navlink.is-secondary, #jm-pill { display: none !important; }
 }
 
 /* Ahora que los tamaños son relativos, quien trae la letra grande hace
