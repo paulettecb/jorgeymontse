@@ -122,19 +122,26 @@ img { max-width: 100%; }
    «nos casamos» en verde olivo no llega a AA sobre la foto.
    Los valores salieron de medir el contraste real de cada renglón sobre
    el fondo compuesto (script en el mensaje del commit). --- */
+/* El velo blanco sobre la foto de la portada. Cuanto más cierra, menos se
+   ve la foto y mejor se lee el texto encima; es el único freno.
+
+   Medido contra el pixel más oscuro de la zona central de la foto: al .88
+   el texto oliva da 5.2:1 contra un piso de 3:1, así que hay de sobra para
+   dejar respirar la foto. */
 .jm-hero-velo {
   position: absolute; inset: 0;
   background: radial-gradient(ellipse 52% 46% at 50% 50%,
-    rgba(255,255,255,.94) 0%, rgba(255,255,255,.93) 52%,
-    rgba(255,255,255,.70) 76%, rgba(255,255,255,.46) 100%);
+    rgba(255,255,255,.89) 0%, rgba(255,255,255,.88) 52%,
+    rgba(255,255,255,.62) 76%, rgba(255,255,255,.38) 100%);
 }
 @media (max-width: 900px) {
   /* En móvil la invitación pinta el texto a ~20px en vez de ~36px, así que
-     el piso de contraste sube de 3:1 a 4.5:1 y el velo tiene que cerrar más. */
+     el piso de contraste sube de 3:1 a 4.5:1 y el velo tiene que cerrar más.
+     Al .925 el oliva da 5.6:1, todavía con holgura. */
   .jm-hero-velo {
     background: radial-gradient(ellipse 64% 54% at 50% 50%,
-      rgba(255,255,255,.972) 0%, rgba(255,255,255,.963) 58%,
-      rgba(255,255,255,.80) 80%, rgba(255,255,255,.54) 100%);
+      rgba(255,255,255,.935) 0%, rgba(255,255,255,.925) 58%,
+      rgba(255,255,255,.72) 80%, rgba(255,255,255,.46) 100%);
   }
 }
 
@@ -577,10 +584,37 @@ section[hidden], a[hidden], #jm-rsvp-aviso[hidden] { display: none !important; }
    ve bien; desbordado, no. */
 footer > div { white-space: normal !important; max-width: 100%; }
 
+/* El separador de «contando los días» es el único con la pareja separada a
+   lo ancho: ella al 22% de la foto y él al 78%. En celular, con la sección
+   a 506 px de alto, `cover` escala tanto que sólo enseña del 25% al 75% —
+   es decir, les corta la espalda a los dos. Bajándole el alto se escala
+   menos y entra del 16% al 84%. En compu no hace falta: ahí la proporción
+   de la sección ya es más ancha que la foto y se ve completa. */
 @media (max-width: 620px) {
-  /* La columna de la ilustración se come el ancho de la etiqueta. */
-  .jm-itin-row { grid-template-columns: minmax(64px,92px) 1fr !important; }
-  .jm-itin-ill { display: none !important; }
+  .jm-sep-ancha { height: clamp(300px, 45vh, 400px) !important; }
+}
+
+@media (max-width: 620px) {
+  /* Antes la ilustración se escondía en celular porque su columna se comía
+     el ancho de la etiqueta. Pero los dibujos son la mitad de la gracia del
+     itinerario y en el teléfono es donde casi todos lo van a ver, así que
+     en vez de quitarlos se encogen las tres columnas para que quepan. */
+  .jm-itin-row {
+    /* La hora va en Blastine, que es ancha: «20:00» mide 90 px a 24 px de
+       cuerpo. Con la columna estrecha se salía y se encimaba con el dibujo.
+       `auto` le da exactamente lo que necesita, ni más ni menos.
+
+       Los tamaños llevan tope en vw: crecen con la preferencia de letra del
+       navegador, pero en un teléfono de 390 px hay un punto en el que hora
+       + dibujo + texto simplemente no caben en un renglón. El tope se
+       alcanza como al 180% — antes de eso, escala completo. */
+    grid-template-columns: auto min(2.625rem, 11vw) minmax(0, 1fr) !important;
+    gap: 10px !important;
+  }
+  .jm-itin-row > div:first-child { font-size: min(1.375rem, 8vw) !important; }
+  .jm-itin-row > div:last-child { overflow-wrap: anywhere; }
+  .jm-itin-ill { height: min(2.625rem, 11vw) !important; }
+  .jm-itin-ill img, .jm-itin-ill svg { max-height: 100%; max-width: 100%; width: auto; }
 }
 
 @media (max-width: 430px) {

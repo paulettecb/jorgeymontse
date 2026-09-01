@@ -67,10 +67,10 @@
 <span id="jm-bars" aria-hidden="true" style="display:flex;align-items:flex-end;gap:2px;height:13px"><i style="display:block;width:2px;height:5px;background:#55624A"></i><i style="display:block;width:2px;height:11px;background:#55624A"></i><i style="display:block;width:2px;height:7px;background:#55624A"></i></span>
 <span id="jm-music-label">música</span>
 </button>
-<!-- El archivo del proyecto de diseño se llamaba musica.mp3 pero es
-     MP4/AAC; servido como audio/mpeg el navegador lo rechaza.
-     Pendiente: cambiarlo por la canción de Elvis que elijan los novios. -->
-<audio id="jm-audio" loop preload="none" src="assets/musica.m4a" type="audio/mp4"></audio>
+<!-- «Can't Help Falling in Love», de Elvis: la que eligieron los novios.
+     preload="none" para que no se baje sola — son 2.9 MB y casi nadie le
+     pica al botón. -->
+<audio id="jm-audio" loop preload="none" src="assets/cancion.mp3" type="audio/mpeg"></audio>
 
 <nav id="jm-nav" aria-label="Secciones" style="position:fixed;left:0;right:0;top:0;z-index:60;display:flex;align-items:center;justify-content:space-between;gap:24px;padding:20px clamp(20px,5vw,64px);opacity:0;pointer-events:none;transition:opacity .4s ease">
 <a href="#top" aria-label="Inicio" style="display:block;width:32px;height:36px;background:#631B29;transition:background .35s ease;-webkit-mask:url('assets/monogram-mark.png') center/contain no-repeat;mask:url('assets/monogram-mark.png') center/contain no-repeat"></a>
@@ -274,6 +274,19 @@
 <div class="jm-itin-row" data-reveal="1" style="display:grid;grid-template-columns:minmax(84px,132px) clamp(78px,9.5vw,136px) 1fr;gap:clamp(16px,3vw,40px);align-items:center;padding:18px 0;border-top:1px solid rgba(233,229,219,.3);border-bottom:1px solid rgba(233,229,219,.3)"><div style="font-family:'Blastine',cursive;font-size:clamp(1.5rem,2.7vw,2.25rem);color:#F6F4EE;line-height:1.35">21:30</div><div class="jm-itin-ill" style="display:flex;align-items:center;justify-content:center;height:clamp(78px,9.5vw,132px)"><img src="assets/ill-dog-sunglasses-dk.png" alt="" style="max-width:100%;max-height:100%;width:auto;height:auto;display:block"></div><div style="font-family:'NoirEtBlanc',serif;text-transform:uppercase;letter-spacing:.06em;font-size:clamp(1.125rem,1.8vw,1.5625rem)">Fiesta</div></div>
 
 </div>
+
+<!-- Guardar la fecha en el calendario del teléfono.
+     Es lo primero que busca alguien que recibe una invitación digital, y
+     lo que evita el «¿a qué hora era?» de la semana de la boda. El archivo
+     se arma en el navegador leyendo el itinerario de arriba, así que si la
+     invitación trae ceremonia civil, el evento empieza a esa hora y no a
+     la otra — sin tener que acordarse de cambiarlo en dos lados. -->
+<div data-reveal="1" style="display:flex;justify-content:center;margin-top:clamp(34px,5vw,56px)">
+<button type="button" id="jm-cal" class="jm-btn is-dark" style="cursor:pointer;padding:15px 30px 13px;border:1px solid rgba(233,229,219,.42);border-radius:999px;background:transparent;color:#F6F4EE;font-family:'NoirEtBlanc',serif;text-transform:uppercase;font-size:0.875rem;letter-spacing:.18em;line-height:1;display:inline-flex;align-items:center;gap:10px">
+<svg viewBox="0 0 24 24" aria-hidden="true" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M8 3v4M16 3v4M3 10h18"/></svg>
+<span>agregar al calendario</span>
+</button>
+</div>
 </section>
 
 <!-- ============================ VESTIMENTA ============================ -->
@@ -317,7 +330,11 @@
 </section>
 
 <!-- ============================ SEPARADOR 3 ============================ -->
-<section data-dark="1" aria-hidden="true" style="position:relative;height:clamp(340px,60vh,620px);overflow:hidden;background:#3A0F16">
+<!-- Lleva la clase `jm-sep-ancha` porque es el único separador donde los
+     dos están separados a lo ancho: en celular, `cover` sobre una sección
+     alta sólo alcanza a enseñar la franja central de la foto y los recorta
+     a los dos por fuera. Menos alto = menos escala = más ancho a la vista. -->
+<section class="jm-sep-ancha" data-dark="1" aria-hidden="true" style="position:relative;height:clamp(340px,60vh,620px);overflow:hidden;background:#3A0F16">
 <div data-parallax="1" style="position:absolute;left:0;right:0;top:-9%;height:118%;will-change:transform"><div data-photo="1" style="position:absolute;inset:0;filter:grayscale(1) contrast(1.04)"><!-- El parallax esconde hasta un 15% de arriba y sus cabezas iban al 3%,
      así que a esta foto se le extendió el cielo (ver assets/README.md) -->
 <img loading="lazy" decoding="async" class="jm-fill" src="assets/foto-de-la-mano.jpeg" alt="" style="object-position:center 6%"></div></div>
@@ -397,7 +414,6 @@
 </div>
 <!-- El número de evento se muestra además del link: si alguien busca la
      mesa desde la app o el mostrador de Liverpool, con esto le basta. -->
-<div data-reveal="1" style="font-family:'NoirEtBlanc',serif;font-size:0.9375rem;line-height:1.6;opacity:.8">Liverpool · evento <span style="letter-spacing:.12em">60035839</span></div>
 </section>
 
 <!-- ============================ RSVP ============================ -->

@@ -968,6 +968,108 @@
     if (t && t.tagName === 'IMG') handleMissing(t);
   }, true);
 
+  /* ---------- agregar al calendario ----------
+     Arma un .ics en el navegador y lo entrega como descarga. Sirve en
+     iPhone, Android y compu sin depender de la cuenta de nadie: el
+     teléfono lo abre con su app de calendario y ya.
+
+     Las horas salen del itinerario tal como está pintado, no de una
+     constante aquí: así, si la invitación trae ceremonia civil, el evento
+     empieza a esa hora sin que haya que acordarse de cambiarlo en dos
+     lados. Y si algún día cambia un horario en el HTML, esto lo sigue.
+
+     Morelia es UTC-6 todo el año desde que México dejó el horario de
+     verano en 2022, así que las horas se escriben en UTC y no hace falta
+     cargar una definición de zona horaria en el archivo. */
+  var BODA = { anio: 2027, mes: 1, dia: 30 };   /* 30 de enero de 2027 */
+
+  function filasItinerario() {
+    return Array.prototype.slice.call(document.querySelectorAll('.jm-itin-row'))
+      .filter(function (f) { return f.offsetParent !== null; })   /* la civil puede ir apagada */
+      .map(function (f) {
+        var hora = (f.firstElementChild.textContent || '').trim();
+        var que = (f.lastElementChild.textContent || '').trim();
+        var m = hora.match(/^(\d{1,2}):(\d{2})$/);
+        return m ? { h: parseInt(m[1], 10), m: parseInt(m[2], 10), hora: hora, que: que } : null;
+      })
+      .filter(Boolean);
+  }
+
+  /* Una hora local de Morelia (UTC-6) en el formato del .ics */
+  function eleUTC(dia, h, min) {
+    var d = Date.UTC(BODA.anio, BODA.mes - 1, dia, h + 6, min, 0);
+    return new Date(d).toISOString().replace(/[-:]/g, '').replace(/\.\d{3}/, '');
+  }
+
+  /* Las líneas de un .ics no deben pasar de 75 octetos; se parten con un
+     salto seguido de un espacio. */
+  function dobla(linea) {
+    if (linea.length <= 74) return linea;
+    var out = linea.slice(0, 74), resto = linea.slice(74);
+    while (resto.length) { out += '\r\n ' + resto.slice(0, 73); resto = resto.slice(73); }
+    return out;
+  }
+  function escapa(t) {
+    return String(t).replace(/\\/g, '\\\\').replace(/;/g, '\\;').replace(/,/g, '\\,').replace(/\n/g, '\\n');
+  }
+
+  function armaICS() {
+    var filas = filasItinerario();
+    var inicio = filas.length ? filas[0] : { h: 16, m: 0 };
+    var detalle = filas.map(function (f) { return f.hora + '  ' + f.que; }).join('\n');
+
+    var sede = document.querySelector('#detalles a[href*="maps"]');
+    var lugar = 'Templo del Carmen, Calle Eduardo Ruiz 350, Centro Histórico, Morelia, Michoacán';
+
+    var cuerpo = 'Nos casamos.\n\n' + detalle
+      + '\n\nCeremonia en el Templo del Carmen y fiesta en Jardín Los Magueyes.'
+      + '\n' + location.origin + location.pathname;
+
+    var lineas = [
+      'BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//jorgeymontse//ES', 'CALSCALE:GREGORIAN',
+      'METHOD:PUBLISH', 'BEGIN:VEVENT',
+      'UID:boda-jorge-montse-' + BODA.anio + '@jorgeymontse.com',
+      'DTSTAMP:' + new Date().toISOString().replace(/[-:]/g, '').replace(/\.\d{3}/, ''),
+      'DTSTART:' + eleUTC(BODA.dia, inicio.h, inicio.m),
+      /* Termina a las 2 de la mañana del día siguiente: la fiesta arranca
+         a las 21:30 y nadie se va a las 12. */
+      'DTEND:' + eleUTC(BODA.dia + 1, 2, 0),
+      dobla('SUMMARY:' + escapa('Boda de Jorge y Montse')),
+      dobla('LOCATION:' + escapa(lugar)),
+      dobla('DESCRIPTION:' + escapa(cuerpo)),
+      'BEGIN:VALARM', 'TRIGGER:-P1D', 'ACTION:DISPLAY',
+      dobla('DESCRIPTION:' + escapa('Mañana se casan Jorge y Montse')),
+      'END:VALARM', 'END:VEVENT', 'END:VCALENDAR'
+    ];
+    if (sede) { /* referencia muda: el link de la sede ya vive en el HTML */ }
+    return lineas.join('\r\n');
+  }
+
+  function setupCalendario() {
+    var btn = $('jm-cal');
+    if (!btn) return;
+    btn.addEventListener('click', function () {
+      var blob = new Blob([armaICS()], { type: 'text/calendar;charset=utf-8' });
+      var url = URL.createObjectURL(blob);
+      var a = document.createElement('a');
+      a.href = url;
+      a.download = 'boda-jorge-y-montse.ics';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      /* Safari en iPhone necesita que el blob siga vivo un momento después
+         del click para alcanzar a abrirlo con Calendario. */
+      setTimeout(function () { URL.revokeObjectURL(url); }, 4000);
+
+      var span = btn.querySelector('span');
+      if (span) {
+        var antes = span.textContent;
+        span.textContent = 'listo, revisa tu calendario';
+        setTimeout(function () { span.textContent = antes; }, 3200);
+      }
+    });
+  }
+
   /* ---------- formulario de confirmación ----------
      Sin JS el <form> hace POST normal y Netlify enseña su propia
      página de gracias; con JS lo mandamos por fetch para no sacar a
@@ -1057,6 +1159,7 @@
     syncMusicUI();
     setupGallery();
     setupModos();          /* decide el modo y, si toca mosaico, monta el color al centrar */
+    setupCalendario();
     setupForm();
 
     if (el.env) {
