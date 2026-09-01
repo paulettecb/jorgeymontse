@@ -469,6 +469,16 @@
 <div data-reveal="1" style="font-family:'NoirEtBlanc',serif;text-transform:uppercase;font-size:0.9375rem;letter-spacing:.3em;color:#C9CFB2">confirma tu asistencia</div>
 <h2 data-reveal="1" style="margin:0;font-family:'Lumiare',sans-serif;font-weight:400;font-size:clamp(1.75rem,3.8vw,3.125rem);line-height:1.08;letter-spacing:-.015em;max-width:16ch;text-wrap:pretty">Nos vemos el 30 de enero</h2>
 <p data-reveal="1" style="margin:0;max-width:44ch;font-family:'NoirEtBlanc',serif;font-size:1.1875rem;line-height:1.7;opacity:.8;text-wrap:pretty">Te pedimos confirmar antes del 25 de noviembre de 2026 para poder apartar tu lugar.</p>
+<!-- Lo que ya contestaste. Sale cuando /api/invitacion dice que esta
+     invitación ya tiene respuesta guardada, así que funciona también si
+     confirmaste desde otro teléfono: no es memoria del navegador. -->
+<div id="jm-rsvp-ya" class="jm-gracias" hidden>
+<img src="assets/orn-heart-dk.png" alt="" style="width:clamp(38px,4vw,54px);opacity:.85">
+<div id="jm-ya-titulo" style="font-family:'NoirEtBlanc',serif;text-transform:uppercase;font-size:clamp(1.25rem,2.8vw,2.125rem);letter-spacing:.2em;line-height:1.3;color:#C9CFB2"></div>
+<p id="jm-ya-texto" style="margin:0;max-width:42ch;font-family:'NoirEtBlanc',serif;font-size:1.1875rem;line-height:1.7;opacity:.85"></p>
+<button type="button" class="jm-btn" id="jm-ya-cambiar" style="cursor:pointer;background:transparent;color:inherit;padding:15px 30px 13px;border:1px solid rgba(246,244,238,.4);border-radius:999px;font-family:'NoirEtBlanc',serif;text-transform:uppercase;font-size:0.875rem;letter-spacing:.16em">cambiar mi respuesta</button>
+</div>
+
 <form id="jm-rsvp-form" class="jm-form" name="rsvp" method="POST" data-netlify="true" netlify-honeypot="bot-field" data-reveal="1">
 <input type="hidden" name="form-name" value="rsvp">
 <p class="jm-hp"><label>No llenes esto: <input name="bot-field"></label></p>
@@ -481,7 +491,14 @@
 <span>Confirmas por</span>
 <p class="jm-quien-nombre" id="jm-quien-nombre"></p>
 <input type="hidden" id="jm-quien-nombre-input">
-<input type="hidden" id="jm-quien-id-input">
+<!-- El `name` va aquí, en el HTML, no puesto desde JS: Netlify Forms
+     aprende los campos leyendo este archivo, no la página pintada. Un
+     campo que estrena nombre en tiempo de ejecución sí viaja en el POST,
+     pero Netlify lo tira porque no lo tiene registrado. Eso hacía que la
+     confirmación llegara sin id de invitación y el panel la contara como
+     suelta: el renglón de esa invitación se quedaba en «sin contestar» y
+     además aparecía otra fila en «confirmadas». -->
+<input type="hidden" name="invitacion" id="jm-quien-id-input" value="">
 </div>
 
 <label class="jm-field" id="jm-campo-nombre">

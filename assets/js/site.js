@@ -329,6 +329,30 @@
       })
       .catch(apagar);            // link malo: mismo trato que sin link
 
+    /* Ya contestaron: en vez de un formulario en blanco, lo que quedó
+       apuntado y un botón para cambiarlo. El dato viene del servidor, así
+       que también sale si confirmaron desde otro teléfono. */
+    function yaContesto(r, pases) {
+      var caja = $('jm-rsvp-ya'), form = $('jm-rsvp-form');
+      if (!caja || !form) return;
+      var cuantos = parseInt(r.personas, 10) || 0;
+      $('jm-ya-titulo').textContent = r.asiste ? 'ya confirmaste' : 'ya nos avisaste';
+      $('jm-ya-texto').textContent = r.asiste
+        ? (cuantos > 1
+            ? 'Tenemos apuntado que vienen ' + cuantos + ' personas. Si algo cambia, avísanos aquí mismo.'
+            : 'Tenemos apuntado que sí vienes. Si algo cambia, avísanos aquí mismo.')
+        : 'Tenemos apuntado que no podrán acompañarnos. Si algo cambia, avísanos aquí mismo.';
+      form.hidden = true;
+      caja.hidden = false;
+      var btn = $('jm-ya-cambiar');
+      if (btn) btn.addEventListener('click', function () {
+        caja.hidden = true;
+        form.hidden = false;
+        var primero = form.querySelector('input[name="asiste"]');
+        if (primero) primero.focus();
+      });
+    }
+
     function aplicar(inv) {
       $('jm-quien-nombre').textContent = inv.saludo;
 
@@ -341,7 +365,11 @@
       if (texto) { texto.disabled = true; texto.required = false; }
       var input = $('jm-quien-nombre-input'), idInput = $('jm-quien-id-input');
       if (input) { input.name = 'nombre'; input.value = inv.invitados.join(', '); }
-      if (idInput) { idInput.name = 'invitacion'; idInput.value = inv.id; }
+      // El `name` de este ya viene del HTML: Netlify Forms tira los campos
+      // que no vio ahí. Aquí sólo se le pone el valor.
+      if (idInput) idInput.value = inv.id;
+
+      if (inv.respuesta) yaContesto(inv.respuesta, pases);
 
       caja.hidden = false;
       seccion.hidden = false;
@@ -851,13 +879,51 @@
   }
 
   /* ---------- música ---------- */
+  var VOLUMEN = 0.35;
+
+  function recuerdaMusica(v) {
+    try { localStorage.setItem('jm-musica', v); } catch (e) {}
+  }
+
   function toggleMusic() {
     var a = el.audio;
     if (!a) return;
     var s = (CONFIG.musicSrc || '').trim();
     if (s && a.getAttribute('src') !== s) a.setAttribute('src', s);
     if (!a.getAttribute('src')) return;
-    if (a.paused) { a.volume = 0.35; a.play().catch(function () {}); } else { a.pause(); }
+    if (a.paused) { a.volume = VOLUMEN; a.play().catch(function () {}); recuerdaMusica('si'); }
+    else { a.pause(); recuerdaMusica('no'); }
+    syncMusicUI();
+  }
+
+  /* Autoplay de verdad no existe: ningún navegador deja sonar nada antes de
+     que la persona toque la página, y si se intenta, la promesa de play()
+     se rechaza y ya. Pero abrir el sobre ES tocarla, así que la música
+     arranca justo ahí y se siente automática sin pelearse con nadie.
+
+     Entra con un fundido de dos segundos para que no dé un brinco de
+     volumen encima de la animación. Y si alguien la apagó, no se le vuelve
+     a poner: queda apuntado en el navegador y la siguiente vez el sobre se
+     abre en silencio. El botón de música sigue ahí para las dos cosas, que
+     además es lo que pide la pauta de accesibilidad cuando algo suena solo
+     más de tres segundos. */
+  function arrancaMusica() {
+    var a = el.audio;
+    if (!a) return;
+    try { if (localStorage.getItem('jm-musica') === 'no') return; } catch (e) {}
+    var src = (CONFIG.musicSrc || '').trim() || a.getAttribute('src') || '';
+    if (!src) return;
+    if (a.getAttribute('src') !== src) a.setAttribute('src', src);
+    a.volume = 0;
+    var p = a.play();
+    if (p && p.catch) p.catch(function () { syncMusicUI(); });
+    var t0 = Date.now();
+    (function sube() {
+      if (a.paused) return;
+      var k = Math.min(1, (Date.now() - t0) / 2000);
+      a.volume = VOLUMEN * k;
+      if (k < 1) requestAnimationFrame(sube);
+    })();
     syncMusicUI();
   }
 
@@ -932,6 +998,7 @@
       el.env.style.cursor = 'default';
     }
     if (el.hint) { el.hint.style.animation = 'none'; el.hint.style.opacity = '0'; el.hint.style.pointerEvents = 'none'; }
+    arrancaMusica();
     if (el.seal) { el.seal.style.opacity = '0'; el.seal.style.transform = 'scale(.82) rotate(-8deg)'; }
     // La solapa se dobla hacia atrás hasta quedar parada: ahí aparece el forro
     // y se cierra el rombo con el triángulo del fondo. Las dos capas de adentro

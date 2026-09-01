@@ -240,7 +240,7 @@ section.blk{ margin-top:52px }
 <script>
 (function () {
   'use strict';
-  var CLAVE = null, DATOS = { rsvps: [], mesas: { mesas: [], asignaciones: {} }, envios: {}, plantilla: '' },
+  var CLAVE = null, DATOS = { rsvps: [], mesas: { mesas: [], asignaciones: {} }, envios: {}, plantilla: '', civil: {} },
       SEL = null, tSave = null;
   /* Quién está mandando. Vive en el navegador de cada quien: se elige una
      vez y ya. Sirve para que Jorge y Montse no se dupliquen. */
@@ -351,8 +351,12 @@ section.blk{ margin-top:52px }
      JavaScript) se agregan al final para que no se pierdan. ---- */
   function personas() {
     var porInv = {}, sueltas = [];
+    /* Si alguien contestó dos veces vale la última. La lista viene ordenada
+       de más nueva a más vieja, así que sólo se guarda la primera que se ve
+       de cada invitación. */
     (DATOS.rsvps || []).forEach(function (r) {
-      if (r.invitacion) porInv[r.invitacion] = r; else sueltas.push(r);
+      if (!r.invitacion) { sueltas.push(r); return; }
+      if (!porInv[r.invitacion]) porInv[r.invitacion] = r;
     });
     var lista = (DATOS.invitaciones || []).map(function (inv) {
       var r = porInv[inv.id];
@@ -366,6 +370,9 @@ section.blk{ margin-top:52px }
            reservarle el lugar a quien todavía no contesta. */
         personas: r ? (r.asiste ? (r.personas || 1) : 0) : inv.pases,
         envio: (DATOS.envios || {})[inv.id] || null,
+        /* Lo que diga el panel manda sobre lo que traiga el código. */
+        civil: typeof (DATOS.civil || {})[inv.id] === 'boolean'
+          ? DATOS.civil[inv.id] : inv.civil === true,
         rsvp: r || null
       };
     });
@@ -415,6 +422,9 @@ section.blk{ margin-top:52px }
         + (x.quienes ? '<br><span style="opacity:.6;font-size:13px">' + esc(x.quienes) + '</span>' : '') + '</td>'
         + '<td><span class="est ' + x.estado + '">' + ETIQUETA[x.estado] + '</span></td>'
         + '<td style="text-align:right;white-space:nowrap">' + x.pases + (x.pases === 1 ? ' pase' : ' pases') + '</td>'
+        + '<td style="white-space:nowrap"><label style="display:inline-flex;align-items:center;gap:7px;cursor:pointer;padding:6px 0;font-size:13px">'
+        + '<input type="checkbox" data-civil="' + esc(x.id) + '"' + (x.civil ? ' checked' : '')
+        + ' style="width:17px;height:17px;accent-color:#631B29;cursor:pointer">civil</label></td>'
         + '<td style="white-space:nowrap">' + (link
             ? '<button class="mandar' + (x.envio ? ' otra' : '') + '" data-mandar="' + esc(x.id) + '">'
               + (x.envio ? 'volver a mandar' : 'mandar') + '</button>'
@@ -489,6 +499,22 @@ section.blk{ margin-top:52px }
       invFilas(); invStats();
     }).catch(function (err) { alert('Se abrió WhatsApp, pero no se pudo anotar: ' + err.message); });
   }
+
+  /* La casilla de la boda civil. Se guarda sola al marcarla: no hay botón
+     de guardar porque es un dato por invitación y esperar a un «guardar
+     todo» invita a perderlo. */
+  $('inv-filas').addEventListener('change', function (e) {
+    var c = e.target.closest('[data-civil]');
+    if (!c) return;
+    var id = c.dataset.civil, valor = c.checked;
+    c.disabled = true;
+    api('marcarCivil', { id: id, civil: valor }).then(function (r) {
+      DATOS.civil = r.civil || {};
+      c.disabled = false;
+    }).catch(function (err) {
+      c.checked = !valor; c.disabled = false; alert(err.message);
+    });
+  });
 
   $('inv-filas').addEventListener('click', function (e) {
     var m = e.target.closest('[data-mandar]');
