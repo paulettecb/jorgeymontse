@@ -40,9 +40,10 @@ Todas ✅. Las que usa el sitio hoy:
 | `monogram-mark.png` | Nav, marca de agua de la tarjeta, bienvenidos, footer, modal luna de miel |
 | `sello-vino.svg` (y `-dorado`, `-verde`) | El lacre de la portada. Se generan con `design/sello.py`, no se editan a mano |
 | `foto-invitacion.jpeg` | Fondo de la invitación cuando llena la pantalla |
-| `ill-cargada-raava-dk.png` | Itinerario · 20:00 entrada de los novios |
+| `ill-baile-dk.png` | Itinerario · 20:00 entrada de los novios |
+| `ill-arco-raava-dk.png` | Itinerario · 19:30 ceremonia civil |
 | `ill-bici-raava.png` | Mesa de regalos |
-| `ill-retrato-raava-dk.png` | RSVP |
+| `ill-brindis-raava-dk.png` | RSVP |
 | `ill-dog-martini-dk.png` | Itinerario · 19:00 cóctel (Raava recostada en la copa) |
 | `ill-dog-sunglasses-dk.png` | Itinerario · 21:30 fiesta (Raava se queda de fiesta) |
 | `orn-heart-dk.png` | Estado post-boda de la cuenta regresiva y "gracias" del RSVP |
