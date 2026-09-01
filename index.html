@@ -99,7 +99,7 @@
 <div aria-hidden="true" style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.28) 0%,rgba(0,0,0,0) 34%,rgba(0,0,0,.34) 100%);pointer-events:none"></div>
 <div id="jm-stage-orn" aria-hidden="true" style="position:absolute;inset:0;pointer-events:none;z-index:2"></div>
 
-<div id="jm-env" role="button" tabindex="0" aria-label="Abrir la invitación" style="position:absolute;left:50%;top:50%;width:420px;height:290px;transform:translate(-50%,-50%);z-index:6;cursor:pointer">
+<div id="jm-env" role="button" tabindex="0" aria-label="Abrir la invitación" style="position:absolute;left:50%;top:50%;width:420px;height:290px;transform:translate(-50%,-50%);z-index:4;cursor:pointer">
 <div id="jm-glow" style="position:absolute;left:-14%;top:-14%;width:128%;height:128%;border-radius:50%;background:radial-gradient(circle,rgba(201,207,178,.38) 0%,rgba(201,207,178,0) 62%);opacity:0;transition:opacity .55s ease;pointer-events:none;z-index:0"></div>
 <div id="jm-env-inner" style="position:absolute;left:0;top:0;width:100%;height:100%;perspective:1500px;animation:jmBreathe 6s ease-in-out infinite">
 <div style="position:absolute;left:6%;right:6%;bottom:-6%;height:14%;background:rgba(0,0,0,.5);filter:blur(26px);border-radius:50%;z-index:0"></div>
@@ -115,7 +115,7 @@
 </div>
 </div>
 <div aria-hidden="true" style="position:absolute;left:0;top:0;width:100%;height:2px;background:linear-gradient(180deg,rgba(214,222,190,.42),rgba(214,222,190,0));z-index:6"></div>
-<div style="position:absolute;left:0;bottom:0;width:100%;height:66%;background:linear-gradient(172deg,#5A6849 0%,#424E38 100%);clip-path:polygon(0 0,50% 26%,100% 0,100% 100%,0 100%);z-index:4;box-shadow:0 -1px 0 rgba(0,0,0,.16)"></div>
+
 <!-- La solapa arranca cerrada, con el sello puesto, y al tocarla se dobla
      hacia atrás hasta quedar parada arriba: ahí aparece el forro y se cierra
      el rombo con el triángulo del fondo.
@@ -140,6 +140,23 @@
 </div>
 </div>
 </div>
+
+</div>
+</div>
+
+<!-- El bolsillo de enfrente vive aparte del resto del sobre, y arriba de la
+     tarjeta. Es lo que hace que la invitacion se vea salir de ADENTRO: sube
+     por el hueco entre el fondo del sobre (z 4) y este frente (z 7), con la
+     tarjeta en medio (z 5), asi que mientras sale se le ve solo la mitad de
+     arriba y la de abajo sigue metida. No se puede hacer con un solo
+     elemento: #jm-env lleva transform, y un transform encierra a sus hijos
+     en su propia baraja, asi que ningun hijo puede quedar por encima de un
+     hermano de su papa.
+
+     No recibe clics: los deja pasar al sobre, que es el que abre. -->
+<div id="jm-env-frente" aria-hidden="true" style="position:absolute;left:50%;top:50%;width:420px;height:290px;transform:translate(-50%,-50%);z-index:7;pointer-events:none">
+<div id="jm-env-frente-inner" style="position:absolute;left:0;top:0;width:100%;height:100%;animation:jmBreathe 6s ease-in-out infinite">
+<div style="position:absolute;left:0;bottom:0;width:100%;height:66%;background:linear-gradient(172deg,#5A6849 0%,#424E38 100%);clip-path:polygon(0 0,50% 26%,100% 0,100% 100%,0 100%);z-index:4;box-shadow:0 -1px 0 rgba(0,0,0,.16)"></div>
 <!-- El lacre es la foto del sello de verdad, recortada del papel
      (assets/sello-foto-oro.png). En assets/sello-*.svg quedan los tres
      hechos por código, que sí se recolorean; site.js elige cuál según
@@ -150,7 +167,7 @@
 </div>
 </div>
 
-<div id="jm-hero" style="position:absolute;left:50%;top:50%;width:300px;height:420px;transform:translate(-50%,-50%) scale(.55);opacity:0;z-index:5;background:#FFFFFF;color:#631B29;border-radius:4px;font-size:0.875rem;overflow:hidden;box-shadow:0 34px 72px rgba(0,0,0,.5);transition:transform 1.3s cubic-bezier(.42,.03,.24,1),opacity .55s ease">
+<div id="jm-hero" style="position:absolute;left:50%;top:50%;width:300px;height:420px;transform:translate(-50%,-50%) scale(.55);opacity:0;z-index:5;pointer-events:none;background:#FFFFFF;color:#631B29;border-radius:4px;font-size:0.875rem;overflow:hidden;box-shadow:0 34px 72px rgba(0,0,0,.5);transition:transform 1.3s cubic-bezier(.42,.03,.24,1),opacity .55s ease">
 <!-- Foto de fondo de la invitación (save the date: los novios desenfocados
      y la cúpula del templo atrás). Sólo aparece cuando la tarjeta ya llenó la
      pantalla: site.js le sube la opacidad con el scroll, junto con el resto de
