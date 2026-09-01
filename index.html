@@ -108,29 +108,36 @@
      no se queda en la solapa, baja al fondo del sobre, y entre los dos
      triángulos se arma el rombo que se ve cuando está abierto. Este es el de
      abajo; el bolsillo de enfrente le tapa la punta. -->
-<div aria-hidden="true" style="position:absolute;left:0;top:0;width:100%;height:60%;background:linear-gradient(180deg,#414D37 0%,#4C5842 100%);clip-path:polygon(0 0,100% 0,50% 100%);z-index:2">
-<div style="position:absolute;inset:0;clip-path:polygon(3.76% 0,96.24% 0,50% 92.47%);background:#2C3324">
-<img src="assets/foto-raava-cerca.jpeg" alt="" style="position:absolute;left:0;top:-100%;width:100%;height:200%;object-fit:cover;object-position:center 32%;filter:grayscale(1) contrast(1.06) brightness(.62);display:block">
-<div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(38,44,31,.5) 0%,rgba(38,44,31,.74) 100%)"></div>
+<div aria-hidden="true" style="position:absolute;left:0;top:0;width:100%;height:66%;background:linear-gradient(180deg,#414D37 0%,#4C5842 100%);clip-path:polygon(0 0,100% 0,50% 100%);z-index:2">
+<div style="position:absolute;inset:0;clip-path:polygon(3.57% 0,96.43% 0,50% 92.87%);background:#2C3324">
+<img src="assets/foto-forro-sobre.jpeg" alt="" style="position:absolute;left:0;top:-100%;width:100%;height:200%;object-fit:cover;object-position:center 50%;filter:grayscale(1) contrast(1.06) brightness(.74);display:block">
+<div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(38,44,31,.4) 0%,rgba(38,44,31,.6) 100%)"></div>
 </div>
 </div>
 <div aria-hidden="true" style="position:absolute;left:0;top:0;width:100%;height:2px;background:linear-gradient(180deg,rgba(214,222,190,.42),rgba(214,222,190,0));z-index:6"></div>
 <div style="position:absolute;left:0;bottom:0;width:100%;height:66%;background:linear-gradient(172deg,#5A6849 0%,#424E38 100%);clip-path:polygon(0 0,50% 26%,100% 0,100% 100%,0 100%);z-index:4;box-shadow:0 -1px 0 rgba(0,0,0,.16)"></div>
-<!-- La solapa va abierta, doblada hacia atrás, como los sobres forrados:
-     el triángulo parado que se ve arriba es el forro, y el forro es la foto.
-     La cara de papel oliva queda del otro lado, contra la mesa, y por eso no
-     hace falta dibujarla. Como la solapa gira casi 180° sobre su bisagra, su
-     contenido sale espejeado en vertical: de ahí el scaleY(-1) de la foto.
+<!-- La solapa arranca cerrada, con el sello puesto, y al tocarla se dobla
+     hacia atrás hasta quedar parada arriba: ahí aparece el forro y se cierra
+     el rombo con el triángulo del fondo.
 
-     La foto es UNA, del tamaño del rombo completo (top:-100%, height:200%):
-     este triángulo enseña la mitad de arriba y el del fondo la de abajo. Si
-     cada uno lleva su propio recorte, se ve la misma foto dos veces en vez de
-     una sola doblada; y si los dos llevan el mismo recorte sin este truco, la
-     solapa la refleja y queda como test de Rorschach. -->
-<div id="jm-flap" style="position:absolute;left:0;top:0;width:100%;height:60%;background:linear-gradient(0deg,#54614A 0%,#3E4A34 100%);clip-path:polygon(0 0,100% 0,50% 100%);transform-origin:50% 0%;transform:rotateX(-166deg);transition:transform .95s cubic-bezier(.62,.02,.2,1);z-index:0">
-<div aria-hidden="true" style="position:absolute;inset:0;clip-path:polygon(3.76% 0,96.24% 0,50% 92.47%);background:#2C3324">
-<img src="assets/foto-raava-cerca.jpeg" alt="" style="position:absolute;left:0;top:-100%;width:100%;height:200%;object-fit:cover;object-position:center 32%;transform:scaleY(-1);filter:grayscale(1) contrast(1.06) brightness(.88);display:block">
+     No usa dos caras en 3D sino dos capas que se cruzan: el papel oliva
+     mientras está cerrada y el forro cuando ya se abrió. El cambio ocurre a
+     los .5s, cuando la solapa va pasando por los 90° y está de canto, así que
+     no se ve. Sale más simple y más robusto que pelearse con
+     backface-visibility.
+
+     Girada casi 180°, su contenido sale espejeado en vertical: de ahí el
+     scaleY(-1) del forro. Y la foto es UNA, del tamaño del rombo completo
+     (top:-100%, height:200%): esta mitad es la de arriba y el triángulo del
+     fondo enseña la de abajo. Si cada uno lleva su propio recorte se ve la
+     misma foto dos veces en vez de una sola doblada. -->
+<div id="jm-flap" style="position:absolute;left:0;top:0;width:100%;height:66%;clip-path:polygon(0 0,100% 0,50% 100%);transform-origin:50% 0%;transform:rotateX(0deg);transition:transform .9s cubic-bezier(.62,.02,.2,1);z-index:5">
+<div id="jm-flap-papel" aria-hidden="true" style="position:absolute;inset:0;background:linear-gradient(180deg,#5C6A4B 0%,#44503A 100%);transition:opacity .16s linear .5s"></div>
+<div id="jm-flap-forro" aria-hidden="true" style="position:absolute;inset:0;opacity:0;background:linear-gradient(0deg,#54614A 0%,#3E4A34 100%);transition:opacity .16s linear .5s">
+<div style="position:absolute;inset:0;clip-path:polygon(3.57% 0,96.43% 0,50% 92.87%);background:#2C3324">
+<img src="assets/foto-forro-sobre.jpeg" alt="" style="position:absolute;left:0;top:-100%;width:100%;height:200%;object-fit:cover;object-position:center 50%;transform:scaleY(-1);filter:grayscale(1) contrast(1.06) brightness(.88);display:block">
 <div style="position:absolute;inset:0;background:linear-gradient(0deg,rgba(38,44,31,.10) 0%,rgba(38,44,31,.42) 58%,rgba(38,44,31,.66) 100%)"></div>
+</div>
 </div>
 </div>
 <!-- El sello no es un círculo con el monograma encima: es un SVG donde el

@@ -137,11 +137,6 @@
       if (lacre.getAttribute('src') !== src) lacre.setAttribute('src', src);
     }
 
-    // La solapa abierta se para por encima del sobre, así que el conjunto
-    // crece hacia arriba: se baja el sobre para que lo que se ve quede
-    // centrado en la pantalla y no colgando de la orilla de arriba.
-    el.env.style.marginTop = Math.round(L.envH * 0.29) + 'px';
-
     var pf = PHOTO_FILTERS[CONFIG.photoTone] || PHOTO_FILTERS['blanco y negro'];
     Array.prototype.forEach.call(document.querySelectorAll('[data-photo]'), function (n) {
       n.style.filter = pf;
@@ -927,21 +922,31 @@
     }
     if (el.hint) { el.hint.style.animation = 'none'; el.hint.style.opacity = '0'; el.hint.style.pointerEvents = 'none'; }
     if (el.seal) { el.seal.style.opacity = '0'; el.seal.style.transform = 'scale(.82) rotate(-8deg)'; }
-    // La solapa ya venía abierta: al abrir se acuesta del todo hacia atrás
-    // para dejarle el paso libre a la tarjeta.
-    if (el.flap) el.flap.style.transform = 'rotateX(-181deg)';
+    // La solapa se dobla hacia atrás hasta quedar parada: ahí aparece el forro
+    // y se cierra el rombo con el triángulo del fondo. Las dos capas de adentro
+    // (papel y forro) se cruzan solas a los .5s, cuando la solapa va pasando de
+    // canto por los 90° y no se ve el cambio.
+    if (el.flap) {
+      el.flap.style.transform = 'rotateX(-166deg)';
+      var papel = $('jm-flap-papel'), forro = $('jm-flap-forro');
+      if (papel) papel.style.opacity = '0';
+      if (forro) forro.style.opacity = '1';
+    }
 
-    at(520, function () {
+    // Pasados los 90° la solapa está físicamente detrás del sobre.
+    at(560, function () { if (el.flap) el.flap.style.zIndex = '0'; });
+
+    at(780, function () {
       if (!el.hero) return;
       el.hero.style.opacity = '1';
       el.hero.style.transform = 'translate(-50%,-50%) translate(0px,' + (-0.72 * L.envH) + 'px)';
     });
-    at(1000, function () { if (el.hero) el.hero.style.zIndex = '20'; });
-    at(1250, function () {
+    at(1200, function () { if (el.hero) el.hero.style.zIndex = '20'; });
+    at(1450, function () {
       if (el.hero) el.hero.style.transform = 'translate(-50%,-50%) translate(' + L.cardX + 'px,' + L.cardY + 'px)';
       if (el.env) el.env.style.transform = 'translate(-50%,-50%) translate(' + L.envX + 'px,' + L.envY + 'px) rotate(-2deg)';
     });
-    at(2200, function () {
+    at(2400, function () {
       if (el.hero) el.hero.style.transition = 'none';
       if (el.env) el.env.style.transition = 'none';
       if (el.opening) el.opening.style.height = state.L.openH + 'px';
