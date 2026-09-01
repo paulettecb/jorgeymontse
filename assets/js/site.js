@@ -992,7 +992,7 @@
 
     if (el.envInner) el.envInner.style.animation = 'none';
     if (el.env) {
-      el.env.style.transition = 'transform 1s cubic-bezier(.22,1,.36,1),opacity .8s ease';
+      el.env.style.transition = 'transform 1.3s cubic-bezier(.42,.03,.24,1),opacity .8s ease';
       el.env.removeAttribute('role');
       el.env.removeAttribute('tabindex');
       el.env.style.cursor = 'default';
@@ -1023,14 +1023,22 @@
        crece y se acomoda mientras el sobre se recorre para el otro lado. */
     at(820, function () {
       if (el.hero) {
-        el.hero.style.zIndex = '20';
         el.hero.style.opacity = '1';
         el.hero.style.transform = 'translate(-50%,-50%) translate(' + L.cardX + 'px,' + L.cardY + 'px)';
       }
       if (el.env) el.env.style.transform = 'translate(-50%,-50%) translate(' + L.envX + 'px,' + L.envY + 'px) rotate(-2deg)';
     });
 
-    at(2050, function () {
+    /* La tarjeta empieza DETRÁS del sobre —el sobre está en z 6 y ella en 5—
+       y se adelanta a medio camino. Ese pedacito es todo: si va enfrente desde
+       el primer cuadro parece que aparece al lado en vez de salir de adentro.
+       El momento está medido, no supuesto: a los 1560 la tarjeta ya despejó
+       el sobre en horizontal (en compu lo hace a los 1588) y en celular ya
+       sacó la cabeza por la boca. Antes de eso, cada pedazo que todavía le
+       tapa el sobre es justo lo que hace que se lea como que sale de adentro. */
+    at(1560, function () { if (el.hero) el.hero.style.zIndex = '20'; });
+
+    at(2350, function () {
       if (el.hero) el.hero.style.transition = 'none';
       if (el.env) el.env.style.transition = 'none';
       if (el.opening) el.opening.style.height = state.L.openH + 'px';
