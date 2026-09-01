@@ -176,6 +176,43 @@ tr.no td{ opacity:.5 }
 .hint{ font-size:14px; opacity:.7; margin:6px 0 0 }
 .guardado{ font-size:13px; letter-spacing:.1em; text-transform:uppercase; opacity:.6 }
 section.blk{ margin-top:52px }
+
+/* ---- libro de recuerdos ----
+   Tarjetas y no tabla: un recado es un párrafo, no una celda, y en el
+   celular una tabla de párrafos no se lee. */
+.libro-barra{ display:flex; align-items:center; gap:14px; flex-wrap:wrap;
+  padding:14px 16px; margin:14px 0 18px; background:var(--hueso2);
+  border:1px solid rgba(99,27,41,.14) }
+.libro-barra label{ display:inline-flex; align-items:center; gap:9px; cursor:pointer;
+  font-size:15px }
+.libro-barra input{ width:19px; height:19px; accent-color:var(--vino); cursor:pointer }
+.libro-lista{ display:grid; gap:14px;
+  grid-template-columns:repeat(auto-fill,minmax(300px,1fr)) }
+.recado{ display:flex; flex-direction:column; gap:12px; padding:18px 20px;
+  border:1px solid rgba(99,27,41,.16); background:var(--hueso) }
+.recado.va{ border-color:rgba(85,98,74,.55); background:rgba(85,98,74,.05) }
+.recado-txt{ margin:0; font-size:16px; line-height:1.62; white-space:pre-line }
+.recado-pie{ display:flex; align-items:center; gap:10px; flex-wrap:wrap;
+  padding-top:11px; border-top:1px solid rgba(99,27,41,.12) }
+.recado-de{ font-weight:400; letter-spacing:.02em }
+/* .55 daba 3.3:1 contra la tarjeta y .6 daba 3.9: los dos por debajo de
+   los 4.5 que pide AA. .72 llega a 5.3 y sigue leyéndose como dato
+   secundario. Lo mismo para el renglón de por qué un recado no se puede
+   escoger, que además sube a 13px: 12 quedaba por debajo del mínimo que
+   se respeta en todo el proyecto. */
+.recado-cuando{ font-size:13px; opacity:.72 }
+.recado-pie label{ display:inline-flex; align-items:center; gap:8px; margin-left:auto;
+  cursor:pointer; font-size:13px; letter-spacing:.1em; text-transform:uppercase;
+  padding:8px 0 }
+.recado-pie input{ width:18px; height:18px; accent-color:var(--vino); cursor:pointer }
+.recado-privado{ margin-left:auto; font-size:13px; letter-spacing:.1em;
+  text-transform:uppercase; opacity:.72; text-align:right; max-width:22ch; line-height:1.5 }
+@media (max-width:720px){
+  .libro-lista{ grid-template-columns:1fr }
+  .recado-pie label{ margin-left:0; width:100% }
+  .recado-privado{ margin-left:0; max-width:none; text-align:left }
+}
+
 [hidden]{ display:none !important }
 </style>
 </head>
@@ -270,12 +307,24 @@ section.blk{ margin-top:52px }
       <ul id="pool" style="list-style:none;margin:10px 0 0;padding:0;display:flex;flex-wrap:wrap;gap:8px"></ul>
     </div>
   </section>
+
+  <section class="blk" id="libro-blk">
+    <div class="eyebrow">después de la boda</div>
+    <h2 style="font-size:clamp(24px,3vw,34px);margin:6px 0 4px">Libro de recuerdos</h2>
+    <p class="hint" style="margin:0">Los recados que les dejaron al confirmar. Escojan cuáles se ven en el sitio; los que no escojan se quedan aquí, sólo para ustedes. Nada se publica hasta que prendan el interruptor.</p>
+    <div class="libro-barra">
+      <label><input type="checkbox" id="libro-publico"><span>Publicar el libro en el sitio</span></label>
+      <span class="hint" id="libro-cuenta" style="margin:0"></span>
+    </div>
+    <div class="libro-lista" id="libro-lista"></div>
+  </section>
 </div>
 
 <script>
 (function () {
   'use strict';
-  var CLAVE = null, DATOS = { rsvps: [], mesas: { mesas: [], asignaciones: {} }, envios: {}, plantilla: '', civil: {} },
+  var CLAVE = null, DATOS = { rsvps: [], mesas: { mesas: [], asignaciones: {} }, envios: {}, plantilla: '', civil: {},
+                             libro: {}, libroPublico: false },
       SEL = null, tSave = null;
   /* Quién está mandando. Vive en el navegador de cada quien: se elige una
      vez y ya. Sirve para que Jorge y Montse no se dupliquen. */
@@ -333,7 +382,60 @@ section.blk{ margin-top:52px }
     if (!DATOS.mesas || !Array.isArray(DATOS.mesas.mesas)) DATOS.mesas = { mesas: [], asignaciones: {} };
     if (!DATOS.envios) DATOS.envios = {};
     $('plantilla').value = DATOS.plantilla || '';
-    stats(); filas(); alergias(); invStats(); invFilas(); mesas();
+    if (!DATOS.libro) DATOS.libro = {};
+    stats(); filas(); alergias(); invStats(); invFilas(); mesas(); libroPanel();
+  }
+
+  /* ---- libro de recuerdos ----
+     Todos los recados que llegaron, con quién los escribió, y la casilla
+     para escoger cuáles se ven en el sitio.
+
+     Un recado se puede escoger sólo si su autor dio permiso: la casilla
+     del formulario del sitio guarda `privado`. Aquí se ve la razón escrita
+     en lugar de una casilla apagada sin explicación, pero la regla de
+     verdad la aplica el servidor —esta pantalla se puede editar desde el
+     navegador y esa no. */
+  function quienEscribio(r) {
+    var inv = (DATOS.invitaciones || []).filter(function (i) { return i.id === r.invitacion; })[0];
+    return (inv && inv.saludo) || r.nombre || 'alguien';
+  }
+
+  function libroPanel() {
+    var caja = $('libro-lista'), cuenta = $('libro-cuenta'), sw = $('libro-publico');
+    if (!caja) return;
+    if (sw) sw.checked = DATOS.libroPublico === true;
+
+    var con = (DATOS.rsvps || []).filter(function (r) { return String(r.mensaje || '').trim(); });
+
+    if (!con.length) {
+      caja.innerHTML = '<p class="hint" style="margin:0">Todavía no les han dejado ningún recado.</p>';
+      if (cuenta) cuenta.textContent = '';
+      return;
+    }
+
+    var elegidos = con.filter(function (r) { return DATOS.libro[r.id] === true; }).length;
+    if (cuenta) {
+      cuenta.textContent = elegidos + ' de ' + con.length
+        + (con.length === 1 ? ' recado escogido' : ' recados escogidos');
+    }
+
+    caja.innerHTML = con.map(function (r) {
+      var va = DATOS.libro[r.id] === true;
+      var puede = r.privado === false;
+      var pie = puede
+        ? '<label><input type="checkbox" data-libro="' + esc(r.id) + '"' + (va ? ' checked' : '')
+          + '>va en el libro</label>'
+        : '<span class="recado-privado">' + (r.privado === true
+            ? 'pidió que fuera sólo para ustedes'
+            : 'llegó antes de que se pidiera permiso') + '</span>';
+      return '<article class="recado' + (va ? ' va' : '') + '">'
+        + '<p class="recado-txt">' + esc(r.mensaje) + '</p>'
+        + '<div class="recado-pie">'
+        + '<span class="recado-de">' + esc(quienEscribio(r)) + '</span>'
+        + '<span class="recado-cuando">' + fecha(r.creado) + '</span>'
+        + pie
+        + '</div></article>';
+    }).join('');
   }
 
   function stats() {
@@ -670,6 +772,35 @@ section.blk{ margin-top:52px }
     if (!Number.isFinite(cap) || cap < 1) return;
     DATOS.mesas.mesas.push({ id: 'm' + Date.now().toString(36), nombre: 'Mesa ' + n, capacidad: Math.min(cap, 30) });
     mesas(); guardarMesas();
+  });
+
+  /* Escoger un recado. Se guarda solo, como la casilla de la boda civil.
+     Si el servidor dice que no —porque esa persona pidió privacidad—, la
+     casilla se regresa y se dice por qué. */
+  $('libro-lista').addEventListener('change', function (e) {
+    var c = e.target.closest('[data-libro]');
+    if (!c) return;
+    var id = c.dataset.libro, valor = c.checked;
+    c.disabled = true;
+    api('marcarLibro', { id: id, enLibro: valor }).then(function (r) {
+      DATOS.libro = r.libro || {};
+      libroPanel();
+    }).catch(function (err) {
+      c.checked = !valor; c.disabled = false; alert(err.message);
+    });
+  });
+
+  /* El interruptor del libro entero. Apagado, la sección ni sale en el
+     sitio; prendido, salen los recados escogidos y nada más. */
+  $('libro-publico').addEventListener('change', function (e) {
+    var sw = e.target, valor = sw.checked;
+    sw.disabled = true;
+    api('publicarLibro', { publico: valor }).then(function (r) {
+      DATOS.libroPublico = r.libroPublico === true;
+      sw.disabled = false;
+    }).catch(function (err) {
+      sw.checked = !valor; sw.disabled = false; alert(err.message);
+    });
   });
 
   $('buscar').addEventListener('input', filas);

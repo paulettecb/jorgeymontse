@@ -397,7 +397,8 @@ img { max-width: 100%; }
 }
 .jm-quien[hidden], .jm-field[hidden] { display: none; }
 
-/* Secciones y botones apagados a la espera de datos (hospedaje, Amazon).
+/* Secciones y links apagados: hospedaje, que espera datos, y el libro de
+   recuerdos, que se enciende desde el panel después de la boda.
    Los `style` inline del template traen su propio display, y eso le gana
    al [hidden] del navegador — el mismo caso que .jm-form y .jm-field. */
 section[hidden], a[hidden], #jm-rsvp-aviso[hidden] { display: none !important; }
@@ -615,11 +616,17 @@ section[hidden], a[hidden], #jm-rsvp-aviso[hidden] { display: none !important; }
 
 /* Los botones con el texto en una sola línea forzada: con letra grande
    miden más que la pantalla. Que envuelvan cuando haga falta; mientras
-   quepan, se quedan en un renglón igual que hoy. */
+   quepan, se quedan en un renglón igual que hoy.
+
+   El `line-height` va aquí porque el template los deja en 1, que está
+   bien para un renglón y se encima en cuanto hay dos: «fondo para la luna
+   de miel» se parte en dos abajo de 430 px y los renglones se tocaban. En
+   un solo renglón esto los hace crecer cuatro píxeles y nada más. */
 #jm-luna-btn, .jm-btn, .jm-btn-solid {
   white-space: normal !important;
   max-width: 100%;
   text-wrap: balance;
+  line-height: 1.3 !important;
 }
 
 /* Los dos de la galería no caben juntos en un renglón con letra grande. */
@@ -675,7 +682,7 @@ footer > div { white-space: normal !important; max-width: 100%; }
 
 @media (max-width: 430px) {
   /* "confirmar asistencia" con letter-spacing ancho desborda en nowrap. */
-  #jm-rsvp-cta { white-space: normal !important; font-size: 0.875rem !important; padding: 16px 28px 14px !important; }
+  #jm-rsvp-cta { white-space: normal !important; font-size: 0.875rem !important; padding: 16px 28px 14px !important; line-height: 1.3 !important; }
   #jm-hint { font-size: 0.8125rem !important; letter-spacing: .16em !important; }
   .jm-farolitos { display: none; }
   #cuenta [style*="letter-spacing:.22em"] { letter-spacing: .1em !important; }
@@ -728,8 +735,106 @@ footer > div { white-space: normal !important; max-width: 100%; }
    es lo único de esa parte que no es trámite, y mezclado ahí la gente lo
    saltaba. De estos sale el libro de recuerdos. */
 .jm-recado { margin-top: clamp(18px, 2.4vw, 28px); }
+
+/* --- El permiso para el libro de recuerdos ---
+   Va debajo del recado y usa la misma palomita que la lista de «quiénes
+   vienen», en chico: es la misma idea —palomear algo— y no vale la pena
+   estrenar un control distinto.
+
+   Sin JS se ve siempre. Con JS aparece cuando la persona escribe algo,
+   porque ofrecerle privacidad a un campo vacío no significa nada. Por eso
+   el estado de arranque es «visible» y el JS es el que esconde: si el
+   script no corre, la casilla sigue ahí y se puede palomear. */
+.jm-privado {
+  display: flex; align-items: flex-start; gap: 11px;
+  /* El renglón completo es el área que se toca, y con el puro texto medía
+     23 px de alto: por debajo de los 24 que pide WCAG 2.2. El padding lo
+     sube a 35 sin mover nada de lo que se ve. */
+  width: 100%; margin-top: 8px; padding: 6px 0; cursor: pointer;
+}
+.jm-privado[hidden] { display: none; }
+.jm-privado input {
+  position: absolute; width: 1px; height: 1px; opacity: 0; pointer-events: none;
+}
+.jm-privado-marca {
+  flex: 0 0 auto; display: grid; place-items: center;
+  width: 19px; height: 19px; margin-top: 1px;
+  border: 1px solid rgba(246,244,238,.5); border-radius: 3px;
+  transition: background .25s ease, border-color .25s ease;
+}
+.jm-privado-marca svg { width: 12px; height: 12px; opacity: 0; transition: opacity .25s ease; }
+.jm-privado input:checked ~ .jm-privado-marca {
+  background: var(--oliva-pale); border-color: var(--oliva-pale);
+}
+.jm-privado input:checked ~ .jm-privado-marca svg { opacity: 1; color: #3A0F16; }
+.jm-privado input:focus-visible ~ .jm-privado-marca {
+  outline: 2px solid var(--oliva-pale); outline-offset: 2px;
+}
+.jm-privado-txt {
+  font-family: 'NoirEtBlanc', serif; font-size: 0.9375rem; line-height: 1.5;
+  color: #F6F4EE; opacity: .78; text-align: left;
+}
+.jm-privado input:checked ~ .jm-privado-txt { opacity: 1; }
 .jm-recado small {
   display: block; margin-top: 8px;
   font-family: 'NoirEtBlanc', serif; font-size: 0.8125rem;
   letter-spacing: .04em; opacity: .62;
 }
+
+/* ============================================================
+   EL LIBRO DE RECUERDOS
+   Los recados de la gente, ya pasada la boda.
+
+   Mosaico de columnas, como la galería: los recados no miden lo
+   mismo —hay quien escribe una línea y quien escribe un párrafo—
+   y una retícula los obligaría a todos a la altura del más largo.
+   Con `column-count` cada tarjeta ocupa lo que ocupa.
+
+   La firma va en NoirEtBlanc en versalitas, no en un script de
+   caligrafía. Blastine, la letra manuscrita del sitio, está
+   recortada a números y símbolos para que pese 9 KB: escribir
+   nombres con ella significaría volver a meter la fuente
+   completa, unos 190 KB, y el sitio ya se atoraba en el celular
+   de los novios. Las versalitas son las mismas que firman el
+   resto del sitio, así que tampoco desentona.
+   ============================================================ */
+.jm-libro {
+  width: 100%; max-width: 1180px; margin-top: clamp(18px, 3vw, 36px);
+  column-count: 3; column-gap: clamp(14px, 1.8vw, 26px);
+  text-align: left;
+}
+@media (max-width: 980px) { .jm-libro { column-count: 2; } }
+@media (max-width: 620px) { .jm-libro { column-count: 1; } }
+
+.jm-recuerdo, .jm-recuerdo-foto {
+  break-inside: avoid; -webkit-column-break-inside: avoid;
+  margin: 0 0 clamp(14px, 1.8vw, 26px);
+}
+
+.jm-recuerdo {
+  background: #FFFFFF; border-radius: 3px;
+  padding: clamp(22px, 2.6vw, 32px);
+  box-shadow: 0 1px 2px rgba(74,20,32,.06), 0 12px 30px rgba(74,20,32,.05);
+}
+.jm-recuerdo-txt {
+  margin: 0; font-family: 'NoirEtBlanc', serif;
+  font-size: 1.0625rem; line-height: 1.72; color: var(--vino-ink);
+  white-space: pre-line;      /* respeta los renglones que escribió la persona */
+  text-wrap: pretty;
+}
+.jm-recuerdo-de {
+  margin-top: 16px; padding-top: 13px;
+  border-top: 1px solid rgba(99,27,41,.16);
+  font-family: 'NoirEtBlanc', serif; text-transform: uppercase;
+  font-size: 0.8125rem; letter-spacing: .22em; color: var(--oliva);
+}
+
+.jm-recuerdo-foto { position: relative; overflow: hidden; border-radius: 3px; }
+.jm-recuerdo-foto img {
+  display: block; width: 100%; height: auto;
+  filter: grayscale(1) contrast(1.04);
+}
+
+/* El `hidden` de arranque lo apaga la regla `section[hidden]` de más
+   arriba, que ya lleva el !important que hace falta para ganarle al
+   `display:flex` inline de la sección. Aquí no hay que repetirlo. */

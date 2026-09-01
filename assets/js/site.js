@@ -1188,6 +1188,93 @@
      Sin JS el <form> hace POST normal y Netlify enseña su propia
      página de gracias; con JS lo mandamos por fetch para no sacar a
      nadie del sitio y responder ahí mismo. */
+  /* ---------- el libro de recuerdos ----------
+     Los recados que la gente dejó al confirmar, ya pasada la boda.
+
+     La sección arranca apagada y sólo se prende si /api/libro contesta que
+     el libro está publicado y trae algo que mostrar. Toda la decisión de
+     qué se publica vive en esa función y en el panel; aquí no se filtra
+     nada, se pinta lo que llega. Si la función falla o el libro está
+     apagado, la sección se queda oculta y no pasa nada más: es lo mismo
+     que ver el sitio antes de la boda. */
+  function setupLibro() {
+    var caja = $('jm-libro');
+    if (!caja || !window.fetch) return;
+
+    fetch('/api/libro', { headers: { accept: 'application/json' } })
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (d) {
+        if (!d || d.publico !== true) return;
+        var msjs = Array.isArray(d.mensajes) ? d.mensajes : [];
+        if (!msjs.length) return;
+        pintaLibro(caja, msjs);
+      })
+      .catch(function () {
+        /* Sin conexión o sin función: la sección se queda como estaba.
+           Es un extra al final de la página, no vale un mensaje de error. */
+      });
+  }
+
+  function pintaLibro(caja, msjs) {
+    /* Las fotos que se intercalan vienen del HTML, no de aquí, para que
+       cambiarlas no obligue a tocar el JS. Formato: archivo|texto alterno,
+       separadas por punto y coma. */
+    var fotos = (caja.getAttribute('data-fotos') || '').split(';')
+      .map(function (par) {
+        var p = par.split('|');
+        return p[0] ? { src: 'assets/' + p[0].trim(), alt: (p[1] || '').trim() } : null;
+      })
+      .filter(Boolean);
+
+    /* Una foto cada tantos recados, repartidas parejo: con pocos mensajes
+       no queremos la sección llena de fotos, y con muchos no queremos tres
+       fotos al principio y nada después. El +1 evita que la primera tarjeta
+       del libro sea una foto en vez de un recado. */
+    var cada = fotos.length ? Math.max(3, Math.ceil(msjs.length / fotos.length)) : 0;
+
+    var frag = document.createDocumentFragment();
+    var sig = 0;
+    msjs.forEach(function (m, i) {
+      var art = document.createElement('article');
+      art.className = 'jm-recuerdo';
+
+      var txt = document.createElement('p');
+      txt.className = 'jm-recuerdo-txt';
+      /* textContent y no innerHTML: esto lo escribió alguien más y va a
+         verlo todo el mundo. Aquí se pinta como texto, punto. */
+      txt.textContent = m.texto;
+
+      var de = document.createElement('div');
+      de.className = 'jm-recuerdo-de';
+      de.textContent = m.de;
+
+      art.appendChild(txt);
+      art.appendChild(de);
+      frag.appendChild(art);
+
+      if (cada && sig < fotos.length && (i + 1) % cada === 0) {
+        var f = fotos[sig++];
+        var fig = document.createElement('figure');
+        fig.className = 'jm-recuerdo-foto';
+        var img = document.createElement('img');
+        img.loading = 'lazy'; img.decoding = 'async';
+        img.src = f.src; img.alt = f.alt;
+        fig.appendChild(img);
+        frag.appendChild(fig);
+      }
+    });
+
+    caja.appendChild(frag);
+
+    var sec = $('libro'), link = $('jm-nav-libro');
+    if (sec) sec.hidden = false;
+    if (link) link.hidden = false;
+    /* La sección acaba de nacer, así que sus [data-reveal] todavía no
+       existían cuando corrió setupReveal. Volver a llamarlo los recoge;
+       los que ya estaban traen data-reveal-init y no se tocan. */
+    setupReveal();
+  }
+
   function setupForm() {
     var form = $('jm-rsvp-form');
     if (!form) return;
@@ -1217,6 +1304,25 @@
       r.addEventListener('change', syncQuienes);
     });
     syncQuienes();
+
+    /* La casilla de «que sea sólo para ustedes» aparece cuando hay algo
+       escrito: ofrecerle privacidad a un campo vacío no significa nada, y
+       en blanco nomás es una línea más de formulario.
+
+       El HTML la trae visible y aquí se esconde, no al revés: si el script
+       no corre, la casilla sigue en la página y se puede palomear. Nunca
+       se esconde ya palomeada —eso sí borraría una decisión que la persona
+       ya tomó—, así que una vez marcada se queda. */
+    var recado = $('jm-mensaje'), privado = $('jm-privado');
+    if (recado && privado) {
+      var casilla = privado.querySelector('input');
+      var syncPrivado = function () {
+        if (casilla && casilla.checked) { privado.hidden = false; return; }
+        privado.hidden = !recado.value.trim();
+      };
+      recado.addEventListener('input', syncPrivado);
+      syncPrivado();
+    }
 
     form.addEventListener('submit', function (e) {
       e.preventDefault();
@@ -1275,6 +1381,7 @@
     setupModos();          /* decide el modo y, si toca mosaico, monta el color al centrar */
     setupForm();
     setupClabe();
+    setupLibro();
 
     if (el.env) {
       el.env.addEventListener('click', openIt);
