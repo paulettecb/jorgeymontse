@@ -18,7 +18,7 @@
      Editar aquí es lo mismo que mover los controles del panel.
      -------------------------------------------------------- */
   var CONFIG = {
-    sealColor: 'verde',               // 'dorado' | 'vino' | 'verde'
+    sealColor: 'vino',                // 'dorado' | 'vino' | 'verde'
     backdrop: 'vino',                 // 'vino' | 'tinta' | 'verde'
     photoTone: 'blanco y negro',      // 'blanco y negro' | 'sepia' | 'color'
     floatingDetails: false,           // los novios pidieron quitar los destellos
@@ -36,7 +36,7 @@
     vino:   'radial-gradient(circle at 34% 30%,#8A3243 0%,#631B29 46%,#3A0F16 100%)',
     verde:  'radial-gradient(circle at 34% 30%,#77855F 0%,#55624A 46%,#333C2C 100%)'
   };
-  var SEAL_INK = { dorado: '#4A1420', vino: '#EEEBE6', verde: '#EEEBE6' };
+  var SEAL_INK = { dorado: '#4A1420', vino: '#C9CFB2', verde: '#EEEBE6' };
   var PHOTO_FILTERS = {
     'blanco y negro': 'grayscale(1) contrast(1.04)',
     'sepia': 'sepia(.55) contrast(1.03) saturate(.85)',
