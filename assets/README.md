@@ -51,15 +51,13 @@ Todas ✅. Las que usa el sitio hoy:
 | `foto-templo-calle.jpeg` | Separador «tú y yo, siempre» |
 | `foto-forro-sobre.jpeg` | Forro del sobre de la portada (el rombo: solapa y fondo). Es la M&J-PRE-120 (Raava con el pañuelo del Save the Date) llevada a la proporción del rombo. Una foto vertical metida en el rombo sale enorme y recortada, así que se acomoda sobre un lienzo de la proporción correcta antes de subirla |
 | `foto-de-la-mano.jpeg` | Separador «contando los días» |
-| 13 `foto-*.jpeg` más | Galería (ver abajo) |
+| 33 `foto-*.jpeg` más | Galería (ver abajo) |
 
 ### La galería
 
-Trece fotos, todas de la sesión en el centro de Morelia:
-`esquina-toldo` · `frente-muro` · `vuelta-calle` · `abrazo-cantera` ·
-`anillo-vestido` · `caminando-empedrado` · `raava-calle` · `arcos-beso` ·
-`calle-fuga` · `bn-abrazo` · `plaza-beso` · `sonrisa-puerta` ·
-`abrazo-toldo`.
+Treinta y cinco fotos: las trece de la sesión en el centro de Morelia que
+subió Paulette al final, y las veintidós que ya estaban. No se quitó
+ninguna.
 
 **No se recortan.** Cada celda declara la proporción real del archivo en
 `--jm-prop`, así que la foto se ve completa, como la encuadró Paulette. Lo
@@ -68,9 +66,8 @@ alguna vez hay que cambiar una, hay que cambiar también su `--jm-prop`: si
 no coinciden, el navegador la recorta para llenar la celda y ahí se pierde
 el encuadre.
 
-Las fotos de la galería anterior siguen en el repo y varias se usan todavía
-en los separadores y en el sobre; las que quedaron sin uso no se borraron,
-por si hace falta volver a alguna.
+Treinta y cinco es mucho para una sola tira: la forma de la galería está
+por replantearse.
 
 ### Los dibujos de los novios
 
