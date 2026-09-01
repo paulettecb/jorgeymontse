@@ -208,8 +208,6 @@ Los datos que faltan están entre corchetes en `index.html`, así que
   versión más cursi antes de publicar.
 - **Hospedaje** — nombre, zona, tarifa y link de los dos hoteles; y el
   bloque del aeropuerto.
-- **Música** — los novios quieren una canción de Elvis Presley; falta que
-  manden el archivo para reemplazar `assets/musica.m4a`.
 - **Boda civil** — ya no es un pendiente de código: se prende por invitación
   desde el panel y `CONFIG.bodaCivil` es sólo el valor de fábrica.
 
