@@ -1014,17 +1014,23 @@
     // Pasados los 90° la solapa está físicamente detrás del sobre.
     at(560, function () { if (el.flap) el.flap.style.zIndex = '0'; });
 
-    at(780, function () {
-      if (!el.hero) return;
-      el.hero.style.opacity = '1';
-      el.hero.style.transform = 'translate(-50%,-50%) translate(0px,' + (-0.72 * L.envH) + 'px)';
-    });
-    at(1200, function () { if (el.hero) el.hero.style.zIndex = '20'; });
-    at(1450, function () {
-      if (el.hero) el.hero.style.transform = 'translate(-50%,-50%) translate(' + L.cardX + 'px,' + L.cardY + 'px)';
+    /* La tarjeta sale de un solo trazo. Antes eran dos tiempos —primero
+       subía derecho detrás del sobre y después se hacía a un lado— y eso
+       funcionaba cuando la solapa desaparecía al abrirse. Ahora la solapa se
+       queda parada justo encima del sobre, que es por donde subía la
+       tarjeta: se la tapaba todo el rato y luego aparecía de golpe ya arriba,
+       como si se teletransportara. En un solo movimiento sale por enfrente,
+       crece y se acomoda mientras el sobre se recorre para el otro lado. */
+    at(820, function () {
+      if (el.hero) {
+        el.hero.style.zIndex = '20';
+        el.hero.style.opacity = '1';
+        el.hero.style.transform = 'translate(-50%,-50%) translate(' + L.cardX + 'px,' + L.cardY + 'px)';
+      }
       if (el.env) el.env.style.transform = 'translate(-50%,-50%) translate(' + L.envX + 'px,' + L.envY + 'px) rotate(-2deg)';
     });
-    at(2400, function () {
+
+    at(2050, function () {
       if (el.hero) el.hero.style.transition = 'none';
       if (el.env) el.env.style.transition = 'none';
       if (el.opening) el.opening.style.height = state.L.openH + 'px';

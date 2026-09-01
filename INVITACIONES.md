@@ -45,7 +45,7 @@ Dos invitaciones de mentiras para ver las dos versiones del itinerario.
 
 ## Las de verdad
 
-**105 invitaciones · 176 pases**
+**106 invitaciones · 178 pases**
 
 | # | Link | Se le saluda | Pases | Civil | Quiénes |
 |---|---|---|---|---|---|
@@ -154,6 +154,7 @@ Dos invitaciones de mentiras para ver las dos versiones del itinerario.
 | 103 | `/manuel-tapia` | Manuel y Carmen | 2 | No | Manuel Tapia, Carmen Rodríguez |
 | 104 | `/fernanda-mariscal` | Fernanda, Rebeca y Ignacio | 3 | No | Fernanda Mariscal, Rebeca Pérez, Ignacio Mariscal |
 | 105 | `/alexa-carrillo` | Alexa | 2 | No | Alexa Carrillo, invitado |
+| 106 | `/fernanda-martinez` | Fer y Óscar | 2 | No | Fernanda Martínez, Óscar Rodríguez |
 
 ## Notas
 

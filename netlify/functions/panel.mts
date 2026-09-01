@@ -34,7 +34,7 @@ const MESAS_POR_DEFECTO = {
   asignaciones: {} as Record<string, string>
 };
 
-/** Quién mandó cada invitación y cuándo. Una sola llave con todo: son 107
+/** Quién mandó cada invitación y cuándo. Una sola llave con todo: son 108
  *  entradas, no vale la pena un blob por invitación. */
 type Envio = { por: string; cuando: string };
 

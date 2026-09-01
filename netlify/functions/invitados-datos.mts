@@ -143,6 +143,7 @@ export const INVITACIONES: Invitacion[] = [
   { id: "manuel-tapia", saludo: "Manuel y Carmen", pases: 2, invitados: ["Manuel Tapia", "Carmen Rodríguez"] },
   { id: "fernanda-mariscal", saludo: "Fernanda, Rebeca y Ignacio", pases: 3, invitados: ["Fernanda Mariscal", "Rebeca Pérez", "Ignacio Mariscal"] },
   { id: "alexa-carrillo", saludo: "Alexa", pases: 2, invitados: ["Alexa Carrillo", "invitado"] },
+  { id: "fernanda-martinez", saludo: "Fer y Óscar", pases: 2, invitados: ["Fernanda Martínez", "Óscar Rodríguez"] },
 
   /* Dos invitaciones de mentiras, para que los novios prueben cómo se ve
      el itinerario con y sin ceremonia civil. Los nombres son obviamente
