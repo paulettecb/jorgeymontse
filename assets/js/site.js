@@ -602,12 +602,20 @@
        mismo filtro. */
     if (modo === 'carrusel') {
       if (state.obsCentro) { state.obsCentro.disconnect(); state.obsCentro = null; }
+      /* No basta con scrollLeft = 0: como cada diapositiva mide lo que le
+         pide su foto, el padding de los lados está calculado para la más
+         ancha y en el cero la primera queda descentrada. Hay que llevarla
+         a su sitio, igual que hacen las flechas. */
+      state.carIndex = 0;
       el.grid.scrollLeft = 0;
-      pintaCarrusel();
       /* El layout del carrusel aún no está firme en el mismo frame en que
-         se pone la clase; sin este segundo pase la primera foto arranca
-         apagada. */
-      requestAnimationFrame(pintaCarrusel);
+         se pone la clase: medir aquí devolvería la geometría del mosaico.
+         Por eso el centrado y el primer pintado van hasta el cuadro
+         siguiente, cuando las diapositivas ya tienen su ancho. */
+      requestAnimationFrame(function () {
+        centraDiapo(0, 'auto');
+        pintaCarrusel();
+      });
     } else {
       limpiaCarrusel();
       setupGaleriaSinMouse();
@@ -651,15 +659,25 @@
     var centro = caja.left + caja.width / 2;
     var gris = PHOTO_FILTERS[CONFIG.photoTone] || PHOTO_FILTERS['blanco y negro'];
     var masCerca = 0, mejor = Infinity;
+    var i, cell;
 
-    for (var i = 0; i < cells.length; i++) {
-      var cell = cells[i];
-      var r = cell.getBoundingClientRect();
+    /* Primero se mide TODO y después se escribe TODO.
+       Mezclarlo —medir una celda, escribirle, medir la siguiente— obliga al
+       navegador a recalcular la página entre una y otra: 22 recálculos por
+       cuadro, y de ahí venía el temblor al arrastrar. */
+    var t = [];
+    for (i = 0; i < cells.length; i++) {
+      var r = cells[i].getBoundingClientRect();
       var d = (r.left + r.width / 2) - centro;
-      var t = Math.max(-1, Math.min(1, d / (caja.width / 2 || 1)));
-      var a = Math.abs(t);
-      if (a < mejor) { mejor = a; masCerca = i; }
+      var v = Math.max(-1, Math.min(1, d / (caja.width / 2 || 1)));
+      t.push(v);
+      var a0 = Math.abs(v);
+      if (a0 < mejor) { mejor = a0; masCerca = i; }
+    }
 
+    for (i = 0; i < cells.length; i++) {
+      cell = cells[i];
+      var a = Math.abs(t[i]);
       var img = cell.querySelector('img');
       var veil = cell.querySelector('[data-veil]');
       var frame = cell.querySelector('[data-gframe]');
@@ -670,11 +688,13 @@
         if (img) img.style.setProperty('--jm-px', '0px');
       } else {
         cell.style.setProperty('--jm-esc', (1 - a * 0.12).toFixed(4));
-        if (img) img.style.setProperty('--jm-px', (-t * 26).toFixed(1) + 'px');
+        if (img) img.style.setProperty('--jm-px', (-t[i] * 26).toFixed(1) + 'px');
         if (img) img.style.setProperty('--jm-zoom', '1.1');
       }
       if (veil) veil.style.setProperty('--jm-velo', Math.min(1, a * 1.6).toFixed(3));
       if (frame) frame.style.setProperty('--jm-marco', Math.max(0, 1 - a * 3).toFixed(3));
+      /* El blanco y negro sí lleva transición: es un cambio de golpe, no un
+         valor que se recalcula cuadro a cuadro. */
       if (inner) inner.style.filter = a < 0.34 ? 'none' : gris;
     }
 
@@ -688,15 +708,21 @@
     state.carIndex = masCerca;
   }
 
-  function pasoCarrusel(dir) {
-    if (!el.grid || !cells.length) return;
-    var i = Math.max(0, Math.min(cells.length - 1, (state.carIndex || 0) + dir));
+  /* Deja la diapositiva `i` en el centro del riel. */
+  function centraDiapo(i, comportamiento) {
     var cell = cells[i];
-    if (!cell) return;
+    if (!el.grid || !cell) return;
     var caja = el.grid.getBoundingClientRect();
     var r = cell.getBoundingClientRect();
     var salto = (r.left + r.width / 2) - (caja.left + caja.width / 2);
-    el.grid.scrollBy({ left: salto, behavior: reduceMotion ? 'auto' : 'smooth' });
+    if (Math.abs(salto) < 1) return;
+    el.grid.scrollBy({ left: salto, behavior: comportamiento || 'auto' });
+  }
+
+  function pasoCarrusel(dir) {
+    if (!el.grid || !cells.length) return;
+    var i = Math.max(0, Math.min(cells.length - 1, (state.carIndex || 0) + dir));
+    centraDiapo(i, reduceMotion ? 'auto' : 'smooth');
   }
 
   function fitGrid() {
