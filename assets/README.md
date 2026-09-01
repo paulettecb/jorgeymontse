@@ -48,7 +48,7 @@ Todas ✅. Las que usa el sitio hoy:
 | `orn-heart-dk.png` | Estado post-boda de la cuenta regresiva y "gracias" del RSVP |
 | `foto-playa.jpeg` | Separador «donde todo empezó» — no se cambia, decisión de los novios |
 | `foto-templo-calle.jpeg` | Separador «tú y yo, siempre» |
-| `foto-forro-sobre.jpeg` | Forro del sobre de la portada (el rombo: solapa y fondo). Es la M&J-PRE-278 con el lienzo ensanchado a la proporción del rombo, porque una foto vertical dentro del rombo sale enorme y recortada |
+| `foto-forro-sobre.jpeg` | Forro del sobre de la portada (el rombo: solapa y fondo). Es la M&J-PRE-120 (Raava con el pañuelo del Save the Date) llevada a la proporción del rombo. Una foto vertical metida en el rombo sale enorme y recortada, así que se acomoda sobre un lienzo de la proporción correcta antes de subirla |
 | `foto-de-la-mano.jpeg` | Separador «contando los días» |
 | 12 `foto-*.jpeg` más | Galería (ver abajo) |
 
