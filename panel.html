@@ -5,7 +5,21 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
 <title>Invitados · Jorge &amp; Montse</title>
-<link rel="icon" href="assets/favicon.ico" sizes="32x32 16x16">
+<meta name="theme-color" content="#631B29">
+<!-- Los mismos iconos del sitio. El panel no se comparte ni se indexa, pero
+     Jorge y Montse lo van a traer en la pantalla de inicio del teléfono:
+     ahí es donde importa el icono de Apple y el nombre corto. -->
+<link rel="icon" type="image/svg+xml" href="assets/icons/favicon.svg">
+<link rel="icon" href="assets/favicon.ico" sizes="48x48 32x32 16x16">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/icons/favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="assets/icons/favicon-16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="assets/icons/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-title" content="Invitados">
+<meta name="mobile-web-app-capable" content="yes">
+<meta property="og:title" content="Invitados · Jorge &amp; Montse">
+<meta property="og:description" content="Quién confirmó, quién falta y a quién le toca su link.">
+<meta property="og:image" content="https://jorgeymontse.com/assets/og/panel.jpg">
+<meta name="twitter:card" content="summary_large_image">
 <style>
 @font-face { font-family:'Lumiare';     src:url('assets/fonts/Lumiare.otf') format('opentype'); font-display:swap }
 @font-face { font-family:'NoirEtBlanc'; src:url('assets/fonts/noiretblanc.otf') format('opentype'); font-display:swap }
@@ -93,16 +107,37 @@ tr.no td{ opacity:.5 }
    pantalla y hay que arrastrar la tabla de lado en cada renglón — y son
    106 renglones que Jorge y Montse van a recorrer desde el teléfono. */
 @media (max-width: 720px){
+  /* Son 106 renglones y se recorren con el pulgar: cada uno tiene que caber
+     en tres líneas, no en seis. El estado se sube a la esquina, al lado del
+     nombre, y pases y civil comparten renglón. Antes cada invitación medía
+     unos 230px de alto; así mide como 120, o sea el doble de gente por
+     pantallazo. */
   .inv-tabla, .inv-tabla tbody, .inv-tabla tr, .inv-tabla td{ display:block; width:auto }
-  .inv-tabla tr{ padding:14px 0; border-bottom:1px solid rgba(99,27,41,.10) }
+  .inv-tabla tr{ position:relative; padding:12px 0 13px; padding-right:112px;
+    border-bottom:1px solid rgba(99,27,41,.10) }
   .inv-tabla td{ border:0; padding:0 }
-  .inv-tabla td + td{ margin-top:8px }
-  /* estado y pases en el mismo renglón, que son cortos */
-  .inv-tabla td:nth-child(2), .inv-tabla td:nth-child(3){
-    display:inline-block; margin-top:8px; margin-right:12px; text-align:left !important }
-  .inv-tabla td:last-child{ white-space:normal !important }
-  .mandar, .copiar{ padding:11px 16px; font-size:13px }
-  .mandada{ margin-top:8px }
+  .inv-tabla td:nth-child(1){ font-size:15.5px; line-height:1.28 }
+  /* el estado, arriba a la derecha, a la altura del nombre */
+  .inv-tabla td:nth-child(2){ position:absolute; top:12px; right:0; margin:0 }
+  /* pases, civil y los botones, todos en el mismo renglón: es lo que baja el
+     alto de la fila de 156 a poco más de 100 */
+  .inv-tabla td:nth-child(3), .inv-tabla td:nth-child(4), .inv-tabla td:nth-child(5){
+    display:inline-block; vertical-align:middle; margin:8px 10px 0 0;
+    text-align:left !important; font-size:14px; color:#7A5860 }
+  /* los botones salen del padding-right, que es sólo para el chip de estado */
+  .inv-tabla td:nth-child(5){ margin-right:-112px; white-space:normal !important }
+  /* 44px de alto es el mínimo cómodo para el pulgar; con menos, la fila cabe
+     mejor pero se le pica al de junto. El renglón crece de 111 a 120px y aun
+     así queda a la mitad de los 230 que medía antes. */
+  .inv-tabla .mandar, .inv-tabla .copiar{ padding:14px 15px 13px; font-size:12px }
+  .inv-tabla td:nth-child(4) label{ padding:12px 0 !important }
+  .mandada{ margin-top:7px; white-space:normal }
+  /* La barra de buscar y filtrar se queda pegada arriba: con 106 renglones,
+     tener que subir hasta el principio para filtrar es el peor momento del
+     panel en el teléfono. */
+  .barra-inv{ position:sticky; top:0; z-index:5; background:var(--hueso);
+    padding:10px 0 12px; margin:0 0 4px;
+    box-shadow:0 10px 12px -10px rgba(99,27,41,.22) }
 }
 .copiar{ font-family:inherit; font-size:12px; letter-spacing:.1em; text-transform:uppercase;
          background:none; border:1px solid rgba(99,27,41,.25); padding:5px 10px 4px; cursor:pointer;
@@ -182,8 +217,8 @@ section.blk{ margin-top:52px }
   <section class="blk">
     <span class="eyebrow">quién falta</span>
     <h2 style="font-size:clamp(24px,3vw,34px);margin:6px 0 4px">Invitaciones</h2>
-    <p class="hint" style="margin:0 0 14px">Las 106, hayan contestado o no. El link es el que se le manda a cada quien; si alguien lo pierde, aquí se copia otra vez.</p>
-    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px">
+    <p class="hint" style="margin:0 0 14px">Las <span id="inv-cuantas">…</span>, hayan contestado o no. El link es el que se le manda a cada quien; si alguien lo pierde, aquí se copia otra vez.</p>
+    <div class="barra-inv" style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px">
       <input type="search" id="buscar-inv" placeholder="Buscar invitación…" style="flex:1;min-width:220px">
       <select id="filtro-inv" style="font-family:inherit;font-size:15px;padding:8px 10px;border:1px solid rgba(99,27,41,.22);background:#fff;color:inherit">
         <option value="">Todas</option>
@@ -403,6 +438,8 @@ section.blk{ margin-top:52px }
     html += '<span class="est ' + (mandadas === conLink ? 'viene' : 'pendiente') + '">'
           + mandadas + ' de ' + conLink + ' mandadas</span>';
     $('inv-stats').innerHTML = html;
+    var cuantas = $('inv-cuantas');
+    if (cuantas) cuantas.textContent = (DATOS.invitaciones || []).length;
   }
 
   function invFilas() {
@@ -427,8 +464,9 @@ section.blk{ margin-top:52px }
         + ' style="width:17px;height:17px;accent-color:#631B29;cursor:pointer">civil</label></td>'
         + '<td style="white-space:nowrap">' + (link
             ? '<button class="mandar' + (x.envio ? ' otra' : '') + '" data-mandar="' + esc(x.id) + '">'
-              + (x.envio ? 'volver a mandar' : 'mandar') + '</button>'
-              + ' <button class="copiar" data-link="' + esc(link) + '">copiar link</button>'
+              + (x.envio ? 'reenviar' : 'mandar') + '</button>'
+              + ' <button class="copiar" aria-label="Copiar el link de esta invitación"'
+              + ' data-link="' + esc(link) + '">copiar</button>'
               + (x.envio
                   ? '<span class="mandada">✓ mandada por ' + esc(x.envio.por) + ' · ' + fecha(x.envio.cuando)
                     + '<button data-desmarcar="' + esc(x.id) + '">deshacer</button></span>'
@@ -537,7 +575,7 @@ section.blk{ margin-top:52px }
     var txt = b.dataset.link;
     var listo = function () {
       b.textContent = 'copiado'; b.classList.add('ok');
-      setTimeout(function () { b.textContent = 'copiar link'; b.classList.remove('ok'); }, 1600);
+      setTimeout(function () { b.textContent = 'copiar'; b.classList.remove('ok'); }, 1600);
     };
     /* clipboard falla sin https o sin permiso; el respaldo es el de siempre */
     if (navigator.clipboard && navigator.clipboard.writeText) {

@@ -82,6 +82,30 @@ export default async (req: Request, _context: Context) => {
       const limpia = lista.filter(Boolean).sort(
         (a: any, b: any) => String(b.creado).localeCompare(String(a.creado))
       );
+      /* Reparación de una sola vez. Las confirmaciones que llegaron antes de
+         que el campo del id de invitación se registrara bien en el HTML se
+         guardaron sin dueño: salían como fila suelta en «confirmadas» y el
+         renglón de esa persona se quedaba en «sin contestar». Si el nombre
+         coincide exacto con los invitados de una invitación, se les pone el
+         id y se escribe también el índice que el sitio usa para decir «ya
+         confirmaste». Sólo mira las que no traen id, así que una vez
+         reparadas no vuelve a tocarlas. */
+      const porNombre = new Map(
+        INVITACIONES.map(i => [i.invitados.join(', ').trim().toLowerCase(), i.id])
+      );
+      const yaAtendidas = new Set<string>();
+      for (const r of limpia as any[]) {
+        if (r.invitacion) { yaAtendidas.add(r.invitacion); continue; }
+        const id = porNombre.get(String(r.nombre || '').trim().toLowerCase());
+        // La lista viene de más nueva a más vieja: si esa invitación ya tiene
+        // respuesta, esta es más vieja y no debe pisarla.
+        if (!id || yaAtendidas.has(id)) continue;
+        r.invitacion = id;
+        yaAtendidas.add(id);
+        await rsvps.setJSON(`envio/${r.id}`, r);
+        await rsvps.setJSON(`porInvitacion/${id}`, r);
+      }
+
       const plano = (await mesas.get('config', { type: 'json' })) || MESAS_POR_DEFECTO;
       const mandadas = (await envios.get('registro', { type: 'json' })) || {};
       const plantilla = (await envios.get('plantilla', { type: 'text' })) || PLANTILLA_POR_DEFECTO;
