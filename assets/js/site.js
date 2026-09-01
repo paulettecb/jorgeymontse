@@ -154,7 +154,10 @@
     }
 
     var pf = PHOTO_FILTERS[CONFIG.photoTone] || PHOTO_FILTERS['blanco y negro'];
+    /* data-tono lleva un filtro propio escrito en el HTML: esa foto se manda sola
+       y no obedece a CONFIG.photoTone. Hoy sólo lo usa «donde todo empezó». */
     Array.prototype.forEach.call(document.querySelectorAll('[data-photo]'), function (n) {
+      if (n.dataset.tono) { n.style.filter = n.dataset.tono; return; }
       n.style.filter = pf;
     });
 
@@ -541,7 +544,7 @@
       entradas.forEach(function (e) {
         if (e.target.dataset.unavailable === '1') return;
         var inner = e.target.querySelector('[data-photo]');
-        if (inner) inner.style.filter = e.isIntersecting ? 'none' : gris;
+        if (inner) inner.style.filter = e.isIntersecting ? 'none' : (inner.dataset.tono || gris);
       });
     }, { rootMargin: '-35% 0px -35% 0px', threshold: 0 });   /* la banda central */
 
