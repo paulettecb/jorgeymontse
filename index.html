@@ -249,26 +249,41 @@
 </section>
 
 <!-- ============================ DETALLES ============================ -->
-<section id="detalles" data-dark="1" style="background:#551724;color:#F6F4EE;padding:clamp(90px,12vw,160px) clamp(24px,7vw,110px)">
-<div data-reveal="1" style="font-family:'NoirEtBlanc',serif;text-transform:uppercase;font-size:0.9375rem;letter-spacing:.3em;color:#C9CFB2;margin-bottom:20px">los detalles</div>
-<h2 data-reveal="1" style="margin:0 0 clamp(46px,6vw,80px);font-family:'Lumiare',sans-serif;font-weight:400;font-size:clamp(1.875rem,4.4vw,3.625rem);line-height:1.08;letter-spacing:-.015em;max-width:15ch;text-wrap:pretty">Sábado 30 de enero de 2027</h2>
-<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:clamp(22px,3vw,40px)">
-<div data-reveal="1" style="border:1px solid rgba(246,244,238,.3);padding:clamp(28px,3.4vw,48px);display:flex;flex-direction:column;gap:14px">
-<div style="font-family:'NoirEtBlanc',serif;text-transform:uppercase;font-size:0.9375rem;letter-spacing:.26em;color:#C9CFB2">ceremonia religiosa</div>
-<div style="font-family:'NoirEtBlanc',serif;text-transform:uppercase;letter-spacing:.06em;font-size:clamp(1.375rem,2.2vw,1.9375rem);line-height:1.22">Templo del Carmen</div>
-<div style="font-family:'Blastine',cursive;font-size:clamp(1.875rem,3.4vw,2.875rem);line-height:1.4;color:#F6F4EE;margin:22px 0 14px">16:00</div>
-<div style="font-family:'NoirEtBlanc',serif;font-size:1.0625rem;line-height:1.65;opacity:.86">Calle Eduardo Ruiz 350<br>Centro Histórico, Morelia</div>
-<div style="font-family:'NoirEtBlanc',serif;font-size:0.9375rem;line-height:1.65;opacity:.8;border-top:1px solid rgba(246,244,238,.22);padding-top:12px;margin-top:4px">La iglesia no tiene estacionamiento; y al ser zona centro de la ciudad, te recomendamos anticipar tu llegada para evitar contratiempos. Al entrar la novia, cerraremos las puertas para favorecer la dinámica de la ceremonia.</div>
-<a class="jm-btn is-dark" href="https://maps.google.com/?q=Templo+del+Carmen,+Calle+Eduardo+Ruiz+350,+Centro+Hist%C3%B3rico,+Morelia" target="_blank" rel="noopener" style="margin-top:10px;align-self:flex-start;padding:14px 28px 12px;border:1px solid rgba(246,244,238,.45);border-radius:999px;font-family:'NoirEtBlanc',serif;text-transform:uppercase;font-size:0.875rem;letter-spacing:.18em;line-height:1;white-space:nowrap">cómo llegar</a>
-</div>
-<div data-reveal="1" style="border:1px solid rgba(246,244,238,.3);padding:clamp(28px,3.4vw,48px);display:flex;flex-direction:column;gap:14px">
-<div style="font-family:'NoirEtBlanc',serif;text-transform:uppercase;font-size:0.9375rem;letter-spacing:.26em;color:#C9CFB2">recepción</div>
-<div style="font-family:'NoirEtBlanc',serif;text-transform:uppercase;letter-spacing:.06em;font-size:clamp(1.375rem,2.2vw,1.9375rem);line-height:1.22">Jardín Los Magueyes</div>
-<div style="font-family:'Blastine',cursive;font-size:clamp(1.875rem,3.4vw,2.875rem);line-height:1.4;color:#F6F4EE;margin:22px 0 14px">19:00</div>
-<div style="font-family:'NoirEtBlanc',serif;font-size:1.0625rem;line-height:1.65;opacity:.86">Av. Plan de Ayala 1300<br>Jesús del Monte, Morelia</div>
-<div style="font-family:'NoirEtBlanc',serif;font-size:0.9375rem;line-height:1.65;opacity:.8;border-top:1px solid rgba(246,244,238,.22);padding-top:12px;margin-top:4px">El estacionamiento está justo enfrente del salón.</div>
-<a class="jm-btn is-dark" href="https://maps.google.com/?q=Jard%C3%ADn+Los+Magueyes,+Av.+Plan+de+Ayala+1300,+Jes%C3%BAs+del+Monte,+Morelia" target="_blank" rel="noopener" style="margin-top:10px;align-self:flex-start;padding:14px 28px 12px;border:1px solid rgba(246,244,238,.45);border-radius:999px;font-family:'NoirEtBlanc',serif;text-transform:uppercase;font-size:0.875rem;letter-spacing:.18em;line-height:1;white-space:nowrap">cómo llegar</a>
-</div>
+<!-- ============================ LOS DETALLES ============================
+     Dos tarjetas de papel sobre un lino, como las invitaciones impresas
+     que pasaron los novios. El fondo tiene dos tonos —beige y verde— y se
+     cambia con el atributo data-fondo de aquí abajo, que también obedece a
+     CONFIG.detallesFondo en site.js.
+
+     La textura es CSS, no una imagen: dos tramas de rayas cruzadas para
+     el tejido y una mancha de ruido SVG para el grano. Pesa unos cientos
+     de bytes en vez de los cientos de kilobytes de una foto de lino, y
+     esta sección va arriba del todo.
+
+     Esta sección es clara, así que NO lleva data-dark: la nav se pone en
+     tinta vino encima de ella. -->
+<section id="detalles" data-fondo="beige" style="padding:clamp(90px,12vw,160px) clamp(24px,7vw,110px)">
+<div data-reveal="1" class="jm-det-eyebrow">los detalles</div>
+<h2 data-reveal="1" class="jm-det-tit">Sábado 30 de enero de 2027</h2>
+<div class="jm-sedes">
+<article class="jm-sede" data-reveal="1">
+<div class="jm-sede-tit">ceremonia religiosa</div>
+<div class="jm-sede-dibujo" aria-hidden="true"><svg viewBox="0 0 100 100" aria-hidden="true" ><g fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M30,91 L30,58"/><path d="M70,91 L70,58"/><path d="M23,91 Q50,89 77,91"/><path d="M26,58 L50,35 L74,58"/><path d="M43,34 L43,24 Q43,22 45,22 L55,22 Q57,22 57,24 L57,34"/><path d="M41,22 L50,13 L59,22"/><path d="M50,11 L50,3 M46,7 L54,7"/><circle cx="50" cy="27.5" r="2.2"/><path d="M42,91 L42,73 Q50,63 58,73 L58,91"/><circle cx="50" cy="48" r="4.6"/><circle cx="50" cy="48" r="1.1"/><path d="M34,68 L34,77 M66,68 L66,77"/></g></svg></div>
+<div class="jm-sede-hora">16:00</div>
+<div class="jm-sede-nombre">Templo del Carmen</div>
+<address class="jm-sede-dir">Calle Eduardo Ruiz 350<br>Centro Histórico, Morelia</address>
+<p class="jm-sede-nota">La iglesia no tiene estacionamiento; y al ser zona centro de la ciudad, te recomendamos anticipar tu llegada para evitar contratiempos. Al entrar la novia, cerraremos las puertas para favorecer la dinámica de la ceremonia.</p>
+<a class="jm-btn jm-sede-btn" href="https://maps.google.com/?q=Templo+del+Carmen,+Calle+Eduardo+Ruiz+350,+Centro+Hist%C3%B3rico,+Morelia" target="_blank" rel="noopener">ubicación</a>
+</article>
+<article class="jm-sede" data-reveal="1">
+<div class="jm-sede-tit">recepción</div>
+<div class="jm-sede-dibujo" aria-hidden="true"><svg viewBox="0 0 100 100" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M50.0,89.0 Q34.0,93.8 19.2,80.2 Q37.6,81.3 50.0,89.0"/><path d="M50.0,89.0 Q62.4,81.3 80.8,80.2 Q66.0,93.8 50.0,89.0"/><path d="M50.0,89.0 Q25.8,84.5 10.1,58.9 Q36.0,71.0 50.0,89.0"/><path d="M50.0,89.0 Q64.0,71.0 89.9,58.9 Q74.2,84.5 50.0,89.0"/><path d="M50.0,89.0 Q25.3,70.2 15.0,33.0 Q40.5,60.7 50.0,89.0"/><path d="M50.0,89.0 Q59.5,60.7 85.0,33.0 Q74.7,70.2 50.0,89.0"/><path d="M50.0,89.0 Q33.4,56.5 33.4,10.7 Q50.0,53.0 50.0,89.0"/><path d="M50.0,89.0 Q50.0,53.0 66.6,10.7 Q66.6,56.5 50.0,89.0"/><path d="M31,95 Q50,92 69,95"/></g></svg></div>
+<div class="jm-sede-hora">19:00</div>
+<div class="jm-sede-nombre">Jardín Los Magueyes</div>
+<address class="jm-sede-dir">Av. Plan de Ayala 1300<br>Jesús del Monte, Morelia</address>
+<p class="jm-sede-nota">El estacionamiento está justo enfrente del salón.</p>
+<a class="jm-btn jm-sede-btn" href="https://maps.google.com/?q=Jard%C3%ADn+Los+Magueyes,+Av.+Plan+de+Ayala+1300,+Jes%C3%BAs+del+Monte,+Morelia" target="_blank" rel="noopener">ubicación</a>
+</article>
 </div>
 </section>
 
@@ -300,6 +315,13 @@
 <svg viewBox="0 0 100 100" aria-hidden="true" style="height:88%;width:auto;max-width:100%;display:block"><g fill="none" stroke="#E9E5DB" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M30,91 L30,58"/><path d="M70,91 L70,58"/><path d="M23,91 Q50,89 77,91"/><path d="M26,58 L50,35 L74,58"/><path d="M43,34 L43,24 Q43,22 45,22 L55,22 Q57,22 57,24 L57,34"/><path d="M41,22 L50,13 L59,22"/><path d="M50,11 L50,3 M46,7 L54,7"/><circle cx="50" cy="27.5" r="2.2"/><path d="M42,91 L42,73 Q50,63 58,73 L58,91"/><circle cx="50" cy="48" r="4.6"/><circle cx="50" cy="48" r="1.1"/><path d="M34,68 L34,77 M66,68 L66,77"/></g></svg>
 </div><div style="font-family:'NoirEtBlanc',serif;text-transform:uppercase;letter-spacing:.06em;font-size:clamp(1.125rem,1.8vw,1.5625rem)">Ceremonia religiosa</div></div>
 
+<!-- La ceremonia civil sólo la ven los invitados que van a ella: arranca
+     oculta y la enciende el id de la invitación (ver applyItinerario). A
+     las 18:20, entre la iglesia y la llegada al jardín. -->
+<div class="jm-itin-row" id="jm-itin-civil" data-reveal="1" style="display:none;grid-template-columns:minmax(84px,132px) clamp(78px,9.5vw,136px) 1fr;gap:clamp(16px,3vw,40px);align-items:center;padding:18px 0;border-top:1px solid rgba(233,229,219,.3)"><div style="font-family:'Blastine',cursive;font-size:clamp(1.5rem,2.7vw,2.25rem);color:#F6F4EE;line-height:1.35">18:20</div><div class="jm-itin-ill" style="display:flex;align-items:center;justify-content:center;height:clamp(78px,9.5vw,132px)">
+<img loading="lazy" decoding="async" src="assets/ill-arco-raava-dk.png" alt="" style="max-width:100%;max-height:118%;width:auto;height:auto;display:block">
+</div><div style="font-family:'NoirEtBlanc',serif;text-transform:uppercase;letter-spacing:.06em;font-size:clamp(1.125rem,1.8vw,1.5625rem)">Ceremonia civil</div></div>
+
 <div class="jm-itin-row" data-reveal="1" style="display:grid;grid-template-columns:minmax(84px,132px) clamp(78px,9.5vw,136px) 1fr;gap:clamp(16px,3vw,40px);align-items:center;padding:18px 0;border-top:1px solid rgba(233,229,219,.3)"><div style="font-family:'Blastine',cursive;font-size:clamp(1.5rem,2.7vw,2.25rem);color:#F6F4EE;line-height:1.35">19:00</div><div class="jm-itin-ill" style="display:flex;align-items:center;justify-content:center;height:clamp(78px,9.5vw,132px)">
 <!-- Raava recostada en la copa de martini: el dibujo original de los
      novios, repintado en el crema #EEEBE6 de las demás ilustraciones.
@@ -309,17 +331,11 @@
 <img loading="lazy" decoding="async" src="assets/ill-dog-martini-dk.png" alt="" style="max-width:115%;max-height:115%;width:auto;height:auto;display:block">
 </div><div style="font-family:'NoirEtBlanc',serif;text-transform:uppercase;letter-spacing:.06em;font-size:clamp(1.125rem,1.8vw,1.5625rem)">Cóctel de bienvenida</div></div>
 
-<!-- 19:30 tiene dos versiones: fotos con los novios (por defecto) o
-     ceremonia civil. Se cambia con CONFIG.bodaCivil en site.js — los
-     novios siguen pensando la idea de la boda civil. -->
-<div class="jm-itin-row" id="jm-itin-fotos" data-reveal="1" style="display:grid;grid-template-columns:minmax(84px,132px) clamp(78px,9.5vw,136px) 1fr;gap:clamp(16px,3vw,40px);align-items:center;padding:18px 0;border-top:1px solid rgba(233,229,219,.3)"><div style="font-family:'Blastine',cursive;font-size:clamp(1.5rem,2.7vw,2.25rem);color:#F6F4EE;line-height:1.35">19:30</div><div class="jm-itin-ill" style="display:flex;align-items:center;justify-content:center;height:clamp(78px,9.5vw,132px)">
+<div class="jm-itin-row" data-reveal="1" style="display:grid;grid-template-columns:minmax(84px,132px) clamp(78px,9.5vw,136px) 1fr;gap:clamp(16px,3vw,40px);align-items:center;padding:18px 0;border-top:1px solid rgba(233,229,219,.3)"><div style="font-family:'Blastine',cursive;font-size:clamp(1.5rem,2.7vw,2.25rem);color:#F6F4EE;line-height:1.35">19:30</div><div class="jm-itin-ill" style="display:flex;align-items:center;justify-content:center;height:clamp(78px,9.5vw,132px)">
 <!-- cámara -->
 <svg viewBox="0 0 100 100" aria-hidden="true" style="height:82%;width:auto;max-width:100%;display:block"><g fill="none" stroke="#E9E5DB" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M25,42 Q22,42 22,45 L22,74 Q22,78 26,78 L74,78 Q78,78 78,74 L78,45 Q78,42 75,42 Z"/><path d="M36,42 L38,34 L57,34 L59,42"/><path d="M64,42 L64,37 L71,37 L71,42"/><circle cx="47" cy="60" r="12"/><circle cx="47" cy="60" r="6"/><path d="M41,53 Q44,50 48,51"/><path d="M66,50 L72,50 M66,55 L72,55"/><path d="M82,22 C79.6,18.8 74.8,20.4 74.8,24.4 C74.8,27.6 78,30 82,33.2 C86,30 89.2,27.6 89.2,24.4 C89.2,20.4 84.4,18.8 82,22"/></g></svg>
 </div><div style="font-family:'NoirEtBlanc',serif;text-transform:uppercase;letter-spacing:.06em;font-size:clamp(1.125rem,1.8vw,1.5625rem)">Fotos con los novios</div></div>
 
-<div class="jm-itin-row" id="jm-itin-civil" data-reveal="1" style="display:none;grid-template-columns:minmax(84px,132px) clamp(78px,9.5vw,136px) 1fr;gap:clamp(16px,3vw,40px);align-items:center;padding:18px 0;border-top:1px solid rgba(233,229,219,.3)"><div style="font-family:'Blastine',cursive;font-size:clamp(1.5rem,2.7vw,2.25rem);color:#F6F4EE;line-height:1.35">19:30</div><div class="jm-itin-ill" style="display:flex;align-items:center;justify-content:center;height:clamp(78px,9.5vw,132px)">
-<img loading="lazy" decoding="async" src="assets/ill-arco-raava-dk.png" alt="" style="max-width:100%;max-height:118%;width:auto;height:auto;display:block">
-</div><div style="font-family:'NoirEtBlanc',serif;text-transform:uppercase;letter-spacing:.06em;font-size:clamp(1.125rem,1.8vw,1.5625rem)">Ceremonia civil</div></div>
 
 <div class="jm-itin-row" data-reveal="1" style="display:grid;grid-template-columns:minmax(84px,132px) clamp(78px,9.5vw,136px) 1fr;gap:clamp(16px,3vw,40px);align-items:center;padding:18px 0;border-top:1px solid rgba(233,229,219,.3)"><div style="font-family:'Blastine',cursive;font-size:clamp(1.5rem,2.7vw,2.25rem);color:#F6F4EE;line-height:1.35">20:00</div><div class="jm-itin-ill" style="display:flex;align-items:center;justify-content:center;height:clamp(78px,9.5vw,132px)">
 <!-- La entrada de los novios: el dibujo que hicieron ellos, no un icono.

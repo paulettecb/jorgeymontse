@@ -24,9 +24,11 @@
     floatingDetails: false,           // los novios pidieron quitar los destellos
     openOnLoad: false,
     musicSrc: '',                     // vacío = usa el src del <audio>
-    bodaCivil: false,                 // true = el itinerario muestra la ceremonia
-                                      // civil a las 19:30 en lugar de las fotos.
-                                      // Los novios siguen decidiendo.
+    bodaCivil: false,                 // valor de fábrica: true = el itinerario
+                                      // enseña la ceremonia civil de las 18:20.
+                                      // Por invitación se decide en el panel,
+                                      // y eso le gana a esto.
+    detallesFondo: 'beige',           // el lino de «los detalles»: 'beige' | 'verde'
     weddingDate: new Date(2027, 0, 30, 16, 0, 0)
   };
 
@@ -153,6 +155,14 @@
       if (lacre.getAttribute('src') !== src) lacre.setAttribute('src', src);
     }
 
+    /* El tono del lino de «los detalles». El HTML ya trae uno puesto para
+       que la sección se vea bien sin JS; esto sólo lo cambia si CONFIG
+       pide el otro. */
+    var det = $('detalles');
+    if (det && (CONFIG.detallesFondo === 'beige' || CONFIG.detallesFondo === 'verde')) {
+      det.dataset.fondo = CONFIG.detallesFondo;
+    }
+
     var pf = PHOTO_FILTERS[CONFIG.photoTone] || PHOTO_FILTERS['blanco y negro'];
     /* data-tono lleva un filtro propio escrito en el HTML: esa foto se manda sola
        y no obedece a CONFIG.photoTone. Hoy sólo lo usa «donde todo empezó». */
@@ -175,13 +185,18 @@
      invitación: si el link personalizado trae `civil: true`, esa
      persona ve la ceremonia civil. Quien llegue sin link —o sin ese
      campo— ve lo que diga CONFIG.bodaCivil, que es el valor general. */
+  /* La ceremonia civil es la única fila del itinerario que no ve todo el
+     mundo: a las 18:20, entre la iglesia y la llegada al jardín, y sólo
+     para quienes están invitados a ella. Antes compartía renglón con las
+     fotos de las 19:30 —era una o la otra— pero los novios movieron la
+     civil más temprano, así que las fotos ahora las ve cualquiera y esto
+     nada más prende o apaga una fila. */
   function applyItinerario(civilParaEsteInvitado) {
-    var fotos = $('jm-itin-fotos'), civil = $('jm-itin-civil');
-    if (!fotos || !civil) return;
+    var civil = $('jm-itin-civil');
+    if (!civil) return;
     var mostrar = typeof civilParaEsteInvitado === 'boolean'
       ? civilParaEsteInvitado
       : CONFIG.bodaCivil;
-    fotos.style.display = mostrar ? 'none' : 'grid';
     civil.style.display = mostrar ? 'grid' : 'none';
     /* El archivo del calendario va con lo que acaba de decidirse aquí. */
     setupCalendario();
