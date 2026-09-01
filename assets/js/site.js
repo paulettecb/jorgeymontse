@@ -64,6 +64,7 @@
     root: $('jm-root'), drift: $('jm-drift'), stage: $('jm-stage'),
     opening: $('jm-opening'), env: $('jm-env'), envInner: $('jm-env-inner'),
     flap: $('jm-flap'), seal: $('jm-seal'), glow: $('jm-glow'),
+    envFrente: $('jm-env-frente'),
     hero: $('jm-hero'), heroFoto: $('jm-hero-foto'),
     hint: $('jm-hint'), scrollHint: $('jm-scrollhint'),
     stageOrn: $('jm-stage-orn'), nav: $('jm-nav'), navLinks: $('jm-navlinks'),
@@ -116,7 +117,7 @@
     var cardW = 40 * u, cardH = cardW * 1.4;
     var envW = 52 * u, envH = envW / 1.45;
     var L = { W: W, H: H, u: u, portrait: portrait, cardW: cardW, cardH: cardH, envW: envW, envH: envH };
-    if (portrait) { L.cardX = 6.5 * u; L.cardY = 15 * u; L.envX = -6 * u; L.envY = -19 * u; }
+    if (portrait) { L.cardX = 5 * u; L.cardY = -13 * u; L.envX = -5 * u; L.envY = 20 * u; }
     else { L.cardX = 30 * u; L.cardY = 0; L.envX = -30 * u; L.envY = 0; }
     L.fsRest = cardW / 21;
     L.fsFull = Math.max(L.fsRest * 1.85, Math.min(W, H * 1.7) / 38);
@@ -129,6 +130,10 @@
     if (!el.env || !el.hero || !el.seal) return;
     el.env.style.width = L.envW + 'px';
     el.env.style.height = L.envH + 'px';
+    if (el.envFrente) {
+      el.envFrente.style.width = L.envW + 'px';
+      el.envFrente.style.height = L.envH + 'px';
+    }
     var sd = Math.round(L.envW * 0.25);
     el.seal.style.width = sd + 'px';
     el.seal.style.height = sd + 'px';
@@ -492,9 +497,9 @@
     }
 
     var ep = Math.min(1, p / 0.42);
-    el.env.style.transform = 'translate(-50%,-50%) translate(' + (L.envX - 46 * ep * L.u) + 'px,' +
-      (L.envY + 14 * ep * L.u) + 'px) rotate(' + (-4 * ep) + 'deg) scale(' + (1 - 0.08 * ep) + ')';
-    el.env.style.opacity = String(1 - ep);
+    ponSobre('transform', 'translate(-50%,-50%) translate(' + (L.envX - 46 * ep * L.u) + 'px,' +
+      (L.envY + 14 * ep * L.u) + 'px) rotate(' + (-4 * ep) + 'deg) scale(' + (1 - 0.08 * ep) + ')');
+    ponSobre('opacity', String(1 - ep));
 
     if (el.stageOrn) el.stageOrn.style.opacity = String(1 - Math.min(1, p / 0.55));
     if (el.nav) {
@@ -739,6 +744,15 @@
 
     var cuenta = $('jm-car-cuenta');
     if (cuenta) cuenta.textContent = (masCerca + 1) + ' / ' + cells.length;
+    /* En el carrusel los títulos de cada momento están escondidos —serían una
+       diapositiva vacía—, así que el nombre sale aquí y cambia conforme se
+       desliza: se sabe en qué momento va sin partir la tira. */
+    var grupo = $('jm-car-grupo');
+    if (grupo) {
+      var g = cells[masCerca] && cells[masCerca].closest('[data-grupo]');
+      var t = g ? g.getAttribute('data-grupo') : '';
+      if (grupo.textContent !== t) grupo.textContent = t;
+    }
     var avance = $('jm-car-avance');
     if (avance) avance.style.width = ((masCerca + 1) / cells.length * 100).toFixed(2) + '%';
     var prev = $('jm-car-prev'), next = $('jm-car-next');
@@ -984,9 +998,17 @@
       if (el.opening) el.opening.style.height = state.L.openH + 'px';
       place(state.p);
     } else if (el.env && el.hero) {
-      el.env.style.transform = 'translate(-50%,-50%)';
+      ponSobre('transform', 'translate(-50%,-50%)');
       el.hero.style.transform = 'translate(-50%,-50%) scale(.55)';
     }
+  }
+
+  /* El sobre son dos elementos —el fondo y el bolsillo de enfrente— con la
+     tarjeta en medio, así que todo lo que se le hace a uno se le hace a los
+     dos. Si se separan, la tarjeta deja de salir de adentro. */
+  function ponSobre(prop, valor) {
+    if (el.env) el.env.style[prop] = valor;
+    if (el.envFrente) el.envFrente.style[prop] = valor;
   }
 
   /* ---------- abrir el sobre ---------- */
@@ -998,8 +1020,8 @@
     var at = function (ms, fn) { setTimeout(fn, ms * k); };
 
     if (el.envInner) el.envInner.style.animation = 'none';
+    ponSobre('transition', 'transform 1.15s cubic-bezier(.42,.03,.24,1),opacity .8s ease');
     if (el.env) {
-      el.env.style.transition = 'transform 1.3s cubic-bezier(.42,.03,.24,1),opacity .8s ease';
       el.env.removeAttribute('role');
       el.env.removeAttribute('tabindex');
       el.env.style.cursor = 'default';
@@ -1021,33 +1043,42 @@
     // Pasados los 90° la solapa está físicamente detrás del sobre.
     at(560, function () { if (el.flap) el.flap.style.zIndex = '0'; });
 
-    /* La tarjeta sale de un solo trazo. Antes eran dos tiempos —primero
-       subía derecho detrás del sobre y después se hacía a un lado— y eso
-       funcionaba cuando la solapa desaparecía al abrirse. Ahora la solapa se
-       queda parada justo encima del sobre, que es por donde subía la
-       tarjeta: se la tapaba todo el rato y luego aparecía de golpe ya arriba,
-       como si se teletransportara. En un solo movimiento sale por enfrente,
-       crece y se acomoda mientras el sobre se recorre para el otro lado. */
-    at(820, function () {
-      if (el.hero) {
-        el.hero.style.opacity = '1';
-        el.hero.style.transform = 'translate(-50%,-50%) translate(' + L.cardX + 'px,' + L.cardY + 'px)';
-      }
-      if (el.env) el.env.style.transform = 'translate(-50%,-50%) translate(' + L.envX + 'px,' + L.envY + 'px) rotate(-2deg)';
+    /* Dos tiempos que se enciman, no dos pasos separados.
+
+       Primero la tarjeta SUBE, por el hueco entre el fondo del sobre y el
+       bolsillo de enfrente: se le ve la mitad de arriba y la de abajo sigue
+       metida, que es lo que la hace ver salir de adentro y no de atrás ni
+       de abajo. Después, sin esperar a que termine de subir, se va a su
+       lugar. Como el segundo transform pisa al primero a media animación, el
+       navegador interpola desde donde va y el recorrido sale curvo, de un
+       solo trazo: sube y se abre. */
+    at(900, function () {
+      if (!el.hero) return;
+      el.hero.style.transition = 'transform .85s cubic-bezier(.25,.9,.3,1),opacity .5s ease';
+      el.hero.style.opacity = '1';
+      el.hero.style.transform = 'translate(-50%,-50%) translate(0px,' + (-0.42 * L.envH) + 'px)';
     });
 
-    /* La tarjeta empieza DETRÁS del sobre —el sobre está en z 6 y ella en 5—
-       y se adelanta a medio camino. Ese pedacito es todo: si va enfrente desde
-       el primer cuadro parece que aparece al lado en vez de salir de adentro.
-       El momento está medido, no supuesto: a los 1560 la tarjeta ya despejó
-       el sobre en horizontal (en compu lo hace a los 1588) y en celular ya
-       sacó la cabeza por la boca. Antes de eso, cada pedazo que todavía le
-       tapa el sobre es justo lo que hace que se lea como que sale de adentro. */
-    at(1560, function () { if (el.hero) el.hero.style.zIndex = '20'; });
+    at(1380, function () {
+      if (el.hero) {
+        el.hero.style.transition = 'transform 1.15s cubic-bezier(.42,.03,.24,1),opacity .5s ease';
+        el.hero.style.transform = 'translate(-50%,-50%) translate(' + L.cardX + 'px,' + L.cardY + 'px)';
+      }
+      ponSobre('transform', 'translate(-50%,-50%) translate(' + L.envX + 'px,' + L.envY + 'px) rotate(-2deg)');
+    });
 
-    at(2350, function () {
-      if (el.hero) el.hero.style.transition = 'none';
-      if (el.env) el.env.style.transition = 'none';
+    /* Ya afuera del sobre, la tarjeta pasa por encima del bolsillo. Va 200ms
+       después de que arrancó el viaje: el salto de capa queda tapado por el
+       movimiento. */
+    at(1580, function () { if (el.hero) el.hero.style.zIndex = '20'; });
+
+    at(2700, function () {
+      if (el.hero) {
+        el.hero.style.transition = 'none';
+        // ya abierta, la tarjeta vuelve a recibir clics (los links de adentro)
+        el.hero.style.pointerEvents = 'auto';
+      }
+      ponSobre('transition', 'none');
       if (el.opening) el.opening.style.height = state.L.openH + 'px';
       lock('envelope', false);
       if (el.scrollHint) el.scrollHint.style.opacity = '1';
