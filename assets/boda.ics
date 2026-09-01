@@ -1,0 +1,26 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//jorgeymontse.com//boda//ES
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:boda-jorge-montse@jorgeymontse.com
+DTSTAMP:20260901T000000Z
+DTSTART:20270130T220000Z
+DTEND:20270131T080000Z
+SUMMARY:Boda de Jorge y Montse
+LOCATION:Templo del Carmen\, Calle Eduardo Ruiz 350\, Centro Histórico\, M
+ orelia\, Michoacán
+DESCRIPTION:Nos casamos.\n\n16:00  Ceremonia religiosa\n19:00  Cóctel de b
+ ienvenida\n19:30  Fotos con los novios\n20:00  Entrada de los novios\n20:3
+ 0  Cena\n21:30  Fiesta\n\nCeremonia en el Templo del Carmen (Calle Eduardo
+  Ruiz 350\, Centro Histórico) y fiesta en Jardín Los Magueyes (Av. Plan 
+ de Ayala 1300\, Jesús del Monte).\n\nhttps://jorgeymontse.com
+URL:https://jorgeymontse.com
+BEGIN:VALARM
+TRIGGER:-P1D
+ACTION:DISPLAY
+DESCRIPTION:Mañana se casan Jorge y Montse
+END:VALARM
+END:VEVENT
+END:VCALENDAR

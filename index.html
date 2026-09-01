@@ -40,10 +40,16 @@
 <meta name="twitter:title" content="Jorge &amp; Montse · 30 de enero de 2027">
 <meta name="twitter:description" content="Nos casamos en Morelia. Aquí están todos los detalles para celebrar con nosotros.">
 <meta name="twitter:image" content="https://jorgeymontse.com/assets/og-preview.jpg">
-<!-- Iconos: el lacre del sobre. El monograma solo es un trazo demasiado
-     fino para 16px, así que el sello es el que carga el
-     reconocimiento y el monograma aparece conforme crece el tamaño. -->
-<link rel="icon" href="assets/favicon.ico" sizes="32x32 16x16">
+<!-- Iconos: el monograma JM sobre el vino, en las letras de Lumiare —las
+     mismas de «Jorge & Montse» en la portada—, no en el trazo del
+     monograma dibujado. Ese trazo es una línea de un pixel: a 16px se
+     evapora y sólo queda una mancha, que es lo que pasaba con el lacre.
+
+     El SVG va primero: los navegadores modernos lo prefieren y lo dibujan
+     nítido a cualquier tamaño, incluida la pestaña en pantalla retina. Los
+     PNG y el .ico quedan de respaldo para los que no leen SVG. -->
+<link rel="icon" type="image/svg+xml" href="assets/icons/favicon.svg">
+<link rel="icon" href="assets/favicon.ico" sizes="48x48 32x32 16x16">
 <link rel="icon" type="image/png" sizes="48x48" href="assets/icons/favicon-48.png">
 <link rel="icon" type="image/png" sizes="32x32" href="assets/icons/favicon-32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="assets/icons/favicon-16.png">
@@ -277,15 +283,19 @@
 
 <!-- Guardar la fecha en el calendario del teléfono.
      Es lo primero que busca alguien que recibe una invitación digital, y
-     lo que evita el «¿a qué hora era?» de la semana de la boda. El archivo
-     se arma en el navegador leyendo el itinerario de arriba, así que si la
-     invitación trae ceremonia civil, el evento empieza a esa hora y no a
-     la otra — sin tener que acordarse de cambiarlo en dos lados. -->
+     lo que evita el «¿a qué hora era?» de la semana de la boda.
+
+     Es un <a> a un archivo de verdad, no una descarga armada en el
+     navegador: Safari en iPhone le saca a la persona un permiso de
+     descarga («¿quieres permitir descargas de…?») que asusta y que
+     además nombra dominios que no vienen al caso. Servido como
+     text/calendar, el iPhone lo abre directo en Calendario y ya.
+
+     Son dos archivos porque a la ceremonia civil no va todo el mundo;
+     site.js apunta al que toca. Si cambian los horarios del itinerario,
+     hay que actualizar assets/boda.ics y assets/boda-civil.ics. -->
 <div data-reveal="1" style="display:flex;justify-content:center;margin-top:clamp(34px,5vw,56px)">
-<button type="button" id="jm-cal" class="jm-btn is-dark" style="cursor:pointer;padding:15px 30px 13px;border:1px solid rgba(233,229,219,.42);border-radius:999px;background:transparent;color:#F6F4EE;font-family:'NoirEtBlanc',serif;text-transform:uppercase;font-size:0.875rem;letter-spacing:.18em;line-height:1;display:inline-flex;align-items:center;gap:10px">
-<svg viewBox="0 0 24 24" aria-hidden="true" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M8 3v4M16 3v4M3 10h18"/></svg>
-<span>agregar al calendario</span>
-</button>
+<a id="jm-cal" class="jm-btn is-dark" href="assets/boda.ics" style="cursor:pointer;padding:15px 30px 13px;border:1px solid rgba(233,229,219,.42);border-radius:999px;background:transparent;color:#F6F4EE;font-family:'NoirEtBlanc',serif;text-transform:uppercase;font-size:0.875rem;letter-spacing:.18em;line-height:1;display:inline-flex;align-items:center;gap:10px;text-decoration:none"><svg viewBox="0 0 24 24" aria-hidden="true" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M8 3v4M16 3v4M3 10h18"/></svg><span>agregar al calendario</span></a>
 </div>
 </section>
 
