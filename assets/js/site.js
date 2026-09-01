@@ -18,7 +18,7 @@
      Editar aquí es lo mismo que mover los controles del panel.
      -------------------------------------------------------- */
   var CONFIG = {
-    sealColor: 'vino',                // 'dorado' | 'vino' | 'verde'
+    sealColor: 'lacre oro',                // 'lacre oro' | 'lacre vino' (fotos) | 'dorado' | 'vino' | 'verde' (SVG)
     backdrop: 'vino',                 // 'vino' | 'tinta' | 'verde'
     photoTone: 'blanco y negro',      // 'blanco y negro' | 'sepia' | 'color'
     floatingDetails: false,           // los novios pidieron quitar los destellos
@@ -34,7 +34,18 @@
   // Cada lacre es un SVG aparte porque el color va dentro del filtro de luz
   // que le da el relieve (ver assets/sello-*.svg); no es un fondo que se pueda
   // cambiar desde aquí.
-  var SEALS = { dorado: 'assets/sello-dorado.svg', vino: 'assets/sello-vino.svg', verde: 'assets/sello-verde.svg' };
+  // Los tres primeros son SVG: el color vive dentro del filtro de luz que les
+  // da el relieve (ver assets/sello-*.svg y design/sello.py), por eso son un
+  // archivo por color y no un fondo que se cambie desde aquí. Los dos últimos
+  // son los lacres de verdad, fotografiados y recortados: pesan más y no se
+  // pueden recolorear, pero tienen el brillo de la cera auténtica.
+  var SEALS = {
+    dorado: 'assets/sello-dorado.svg',
+    vino:   'assets/sello-vino.svg',
+    verde:  'assets/sello-verde.svg',
+    'lacre oro':  'assets/sello-foto-oro.png',
+    'lacre vino': 'assets/sello-foto-vino.png'
+  };
   var PHOTO_FILTERS = {
     'blanco y negro': 'grayscale(1) contrast(1.04)',
     'sepia': 'sepia(.55) contrast(1.03) saturate(.85)',
