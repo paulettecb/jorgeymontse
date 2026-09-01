@@ -31,12 +31,10 @@
   };
 
   var BACKDROPS = { vino: '#551724', tinta: '#2A1016', verde: '#2F3A28' };
-  var SEALS = {
-    dorado: 'radial-gradient(circle at 34% 30%,#D6B47E 0%,#B8935A 46%,#8E6D3C 100%)',
-    vino:   'radial-gradient(circle at 34% 30%,#8A3243 0%,#631B29 46%,#3A0F16 100%)',
-    verde:  'radial-gradient(circle at 34% 30%,#77855F 0%,#55624A 46%,#333C2C 100%)'
-  };
-  var SEAL_INK = { dorado: '#4A1420', vino: '#C9CFB2', verde: '#EEEBE6' };
+  // Cada lacre es un SVG aparte porque el color va dentro del filtro de luz
+  // que le da el relieve (ver assets/sello-*.svg); no es un fondo que se pueda
+  // cambiar desde aquí.
+  var SEALS = { dorado: 'assets/sello-dorado.svg', vino: 'assets/sello-vino.svg', verde: 'assets/sello-verde.svg' };
   var PHOTO_FILTERS = {
     'blanco y negro': 'grayscale(1) contrast(1.04)',
     'sepia': 'sepia(.55) contrast(1.03) saturate(.85)',
@@ -133,9 +131,16 @@
     if (el.root) el.root.style.background = bg;
     document.body.style.background = bg;
 
-    el.seal.style.background = SEALS[CONFIG.sealColor] || SEALS.dorado;
-    var ink = el.seal.firstElementChild;
-    if (ink) ink.style.background = SEAL_INK[CONFIG.sealColor] || '#4A1420';
+    var lacre = document.getElementById('jm-seal-img');
+    if (lacre) {
+      var src = SEALS[CONFIG.sealColor] || SEALS.dorado;
+      if (lacre.getAttribute('src') !== src) lacre.setAttribute('src', src);
+    }
+
+    // La solapa abierta se para por encima del sobre, así que el conjunto
+    // crece hacia arriba: se baja el sobre para que lo que se ve quede
+    // centrado en la pantalla y no colgando de la orilla de arriba.
+    el.env.style.marginTop = Math.round(L.envH * 0.29) + 'px';
 
     var pf = PHOTO_FILTERS[CONFIG.photoTone] || PHOTO_FILTERS['blanco y negro'];
     Array.prototype.forEach.call(document.querySelectorAll('[data-photo]'), function (n) {
@@ -922,9 +927,10 @@
     }
     if (el.hint) { el.hint.style.animation = 'none'; el.hint.style.opacity = '0'; el.hint.style.pointerEvents = 'none'; }
     if (el.seal) { el.seal.style.opacity = '0'; el.seal.style.transform = 'scale(.82) rotate(-8deg)'; }
-    if (el.flap) el.flap.style.transform = 'rotateX(-168deg)';
+    // La solapa ya venía abierta: al abrir se acuesta del todo hacia atrás
+    // para dejarle el paso libre a la tarjeta.
+    if (el.flap) el.flap.style.transform = 'rotateX(-181deg)';
 
-    at(480, function () { if (el.flap) el.flap.style.zIndex = '0'; });
     at(520, function () {
       if (!el.hero) return;
       el.hero.style.opacity = '1';

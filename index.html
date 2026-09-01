@@ -105,17 +105,24 @@
 <div style="position:absolute;left:6%;right:6%;bottom:-6%;height:14%;background:rgba(0,0,0,.5);filter:blur(26px);border-radius:50%;z-index:0"></div>
 <div style="position:absolute;left:0;top:0;right:0;bottom:0;background:linear-gradient(158deg,#57654A 0%,#3F4B36 100%);border-radius:5px;z-index:1;box-shadow:0 30px 60px rgba(0,0,0,.45)"></div>
 <div style="position:absolute;left:0;top:0;width:100%;height:60%;background:linear-gradient(180deg,#333C2C 0%,#4A5641 60%,#525F47 100%);clip-path:polygon(0 0,100% 0,50% 100%);z-index:2"></div>
-<!-- El forro del sobre: la foto asomando cuando se levanta la solapa,
-     como en los sobres con papel decorado por dentro. Va debajo del
-     bolsillo de enfrente (z-index 3 contra 4), así que sólo se ve en
-     el triángulo que la solapa deja libre al abrirse. -->
-<div aria-hidden="true" style="position:absolute;left:0;top:0;width:100%;height:62%;overflow:hidden;clip-path:polygon(0 0,100% 0,50% 100%);z-index:3;background:#3A0F16"><img src="assets/foto-templo-calle.jpeg" alt="" style="width:100%;height:100%;object-fit:cover;object-position:center 42%;filter:grayscale(1) contrast(1.06) brightness(.82);display:block"><div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(58,15,22,.36),rgba(58,15,22,.6))"></div></div>
+<div aria-hidden="true" style="position:absolute;left:0;top:0;width:100%;height:2px;background:linear-gradient(180deg,rgba(214,222,190,.42),rgba(214,222,190,0));z-index:6"></div>
 <div style="position:absolute;left:0;bottom:0;width:100%;height:66%;background:linear-gradient(172deg,#5A6849 0%,#424E38 100%);clip-path:polygon(0 0,50% 26%,100% 0,100% 100%,0 100%);z-index:4;box-shadow:0 -1px 0 rgba(0,0,0,.16)"></div>
-<div id="jm-flap" style="position:absolute;left:0;top:0;width:100%;height:60%;background:linear-gradient(180deg,#5C6A4B 0%,#44503A 100%);clip-path:polygon(0 0,100% 0,50% 100%);transform-origin:50% 0%;transform:rotateX(0deg);transition:transform .95s cubic-bezier(.62,.02,.2,1);z-index:5;backface-visibility:hidden"></div>
-<div id="jm-seal" style="position:absolute;left:50%;top:56%;width:104px;height:104px;margin:-52px 0 0 -52px;border-radius:50%;background:radial-gradient(circle at 34% 30%,#8A2739 0%,#631B29 46%,#3E0F1A 100%);box-shadow:0 6px 18px rgba(0,0,0,.45),inset 0 0 0 1px rgba(52,12,22,.3),inset 0 -4px 10px rgba(52,12,22,.32);z-index:7;display:flex;align-items:center;justify-content:center;transition:opacity .5s ease,transform .6s cubic-bezier(.62,.02,.2,1)">
-<!-- La tinta crema #EEEBE6 del monograma es intencional: es el grabado
-     del lacre (SEAL_INK.verde en site.js), no un residuo de la paleta vieja. -->
-<div style="width:52%;height:58%;background:#EEEBE6;-webkit-mask:url('assets/monogram-mark.png') center/contain no-repeat;mask:url('assets/monogram-mark.png') center/contain no-repeat"></div>
+<!-- La solapa va abierta, doblada hacia atrás, como los sobres forrados:
+     el triángulo parado que se ve arriba es el forro, y el forro es la foto.
+     La cara de papel oliva queda del otro lado, contra la mesa, y por eso no
+     hace falta dibujarla. Como la solapa gira casi 180° sobre su bisagra, su
+     contenido sale espejeado en vertical: de ahí el scaleY(-1) de la foto,
+     para que la fachada del templo quede derecha. -->
+<div id="jm-flap" style="position:absolute;left:0;top:0;width:100%;height:60%;background:#2C3324;clip-path:polygon(0 0,100% 0,50% 100%);transform-origin:50% 0%;transform:rotateX(-166deg);transition:transform .95s cubic-bezier(.62,.02,.2,1);z-index:0">
+<img src="assets/foto-templo-calle.jpeg" alt="" aria-hidden="true" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 42%;transform:scaleY(-1);filter:grayscale(1) contrast(1.06) brightness(.88);display:block">
+<div aria-hidden="true" style="position:absolute;inset:0;background:linear-gradient(0deg,rgba(38,44,31,.10) 0%,rgba(38,44,31,.42) 58%,rgba(38,44,31,.66) 100%)"></div>
+</div>
+<!-- El sello no es un círculo con el monograma encima: es un SVG donde el
+     relieve se calcula con luz (assets/sello-*.svg). El borde es irregular
+     como el charco de cera de verdad, y el monograma se ve hundido en la cera
+     porque está iluminado, no pintado de otro color. -->
+<div id="jm-seal" style="position:absolute;left:50%;top:56%;width:104px;height:104px;margin:-52px 0 0 -52px;z-index:7;transition:opacity .5s ease,transform .6s cubic-bezier(.62,.02,.2,1)">
+<img id="jm-seal-img" src="assets/sello-vino.svg" alt="" aria-hidden="true" style="width:100%;height:100%;display:block;filter:drop-shadow(5px 7px 10px rgba(0,0,0,.5)) drop-shadow(1px 2px 2px rgba(0,0,0,.4))">
 </div>
 </div>
 </div>
