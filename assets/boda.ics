@@ -1,0 +1,79 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//jorgeymontse.com//boda//ES
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:ceremonia-religiosa@jorgeymontse.com
+DTSTAMP:20260901T000000Z
+DTSTART:20270130T220000Z
+DTEND:20270130T233000Z
+SUMMARY:Ceremonia religiosa · Jorge y Montse
+LOCATION:Templo del Carmen\, Calle Eduardo Ruiz 350\, Centro Histórico\, M
+ orelia\, Michoacán
+DESCRIPTION:Nos casamos. Te pedimos llegar con tiempo: la iglesia no tiene 
+ estacionamiento y es zona centro.\n\nBoda de Jorge y Montse\nhttps://jorge
+ ymontse.com
+URL:https://jorgeymontse.com
+BEGIN:VALARM
+TRIGGER:-P1D
+ACTION:DISPLAY
+DESCRIPTION:Mañana se casan Jorge y Montse
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:cóctel-de-bienvenida@jorgeymontse.com
+DTSTAMP:20260901T000000Z
+DTSTART:20270131T010000Z
+DTEND:20270131T013000Z
+SUMMARY:Cóctel de bienvenida · Jorge y Montse
+LOCATION:Jardín Los Magueyes\, Av. Plan de Ayala 1300\, Jesús del Monte\,
+  Morelia\, Michoacán
+DESCRIPTION:Boda de Jorge y Montse\nhttps://jorgeymontse.com
+URL:https://jorgeymontse.com
+END:VEVENT
+BEGIN:VEVENT
+UID:fotos-con-los-novios@jorgeymontse.com
+DTSTAMP:20260901T000000Z
+DTSTART:20270131T013000Z
+DTEND:20270131T020000Z
+SUMMARY:Fotos con los novios · Jorge y Montse
+LOCATION:Jardín Los Magueyes\, Av. Plan de Ayala 1300\, Jesús del Monte\,
+  Morelia\, Michoacán
+DESCRIPTION:Boda de Jorge y Montse\nhttps://jorgeymontse.com
+URL:https://jorgeymontse.com
+END:VEVENT
+BEGIN:VEVENT
+UID:entrada-de-los-novios@jorgeymontse.com
+DTSTAMP:20260901T000000Z
+DTSTART:20270131T020000Z
+DTEND:20270131T023000Z
+SUMMARY:Entrada de los novios · Jorge y Montse
+LOCATION:Jardín Los Magueyes\, Av. Plan de Ayala 1300\, Jesús del Monte\,
+  Morelia\, Michoacán
+DESCRIPTION:Boda de Jorge y Montse\nhttps://jorgeymontse.com
+URL:https://jorgeymontse.com
+END:VEVENT
+BEGIN:VEVENT
+UID:cena@jorgeymontse.com
+DTSTAMP:20260901T000000Z
+DTSTART:20270131T023000Z
+DTEND:20270131T033000Z
+SUMMARY:Cena · Jorge y Montse
+LOCATION:Jardín Los Magueyes\, Av. Plan de Ayala 1300\, Jesús del Monte\,
+  Morelia\, Michoacán
+DESCRIPTION:Boda de Jorge y Montse\nhttps://jorgeymontse.com
+URL:https://jorgeymontse.com
+END:VEVENT
+BEGIN:VEVENT
+UID:fiesta@jorgeymontse.com
+DTSTAMP:20260901T000000Z
+DTSTART:20270131T033000Z
+DTEND:20270131T080000Z
+SUMMARY:Fiesta · Jorge y Montse
+LOCATION:Jardín Los Magueyes\, Av. Plan de Ayala 1300\, Jesús del Monte\,
+  Morelia\, Michoacán
+DESCRIPTION:Boda de Jorge y Montse\nhttps://jorgeymontse.com
+URL:https://jorgeymontse.com
+END:VEVENT
+END:VCALENDAR

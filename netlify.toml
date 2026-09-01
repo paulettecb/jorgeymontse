@@ -9,6 +9,13 @@
 # El panel de invitados nunca debe indexarse. Los datos igual están
 # detrás de contraseña en la función, pero esto evita que la página
 # siquiera aparezca en buscadores.
+# Sin esto Netlify lo manda como octet-stream y el iPhone, en vez de
+# abrirlo en Calendario, pregunta si quieres descargar un archivo.
+[[headers]]
+  for = "/assets/*.ics"
+  [headers.values]
+    Content-Type = "text/calendar; charset=utf-8"
+
 [[headers]]
   for = "/panel"
   [headers.values]

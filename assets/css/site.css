@@ -243,20 +243,46 @@ img { max-width: 100%; }
   scroll-padding-inline: max(var(--jm-lado), calc(50% + var(--jm-lado) - var(--jm-diapo) / 2));
 }
 .jm-gal.is-carrusel::-webkit-scrollbar { display: none; }
+/* Todas las diapositivas comparten el alto y cada una toma el ancho que le
+   pide su propia proporción. Antes iban todas forzadas a 3/4 y `cover`
+   recortaba: eso tiraba el encuadre con el que se escogió cada foto. El
+   ancho de referencia para centrar es el de la más ancha (la horizontal,
+   3:2), porque el padding tiene que alcanzar para la peor. */
+.jm-gal.is-carrusel {
+  --jm-alto: min(58vh, 460px);
+  /* El padding de los lados sale de aquí, y tiene que alcanzar para
+     centrar la diapositiva MÁS ANGOSTA, no la más ancha: con el ancho de
+     la más ancha, la primera foto se quedaba 192 px a la izquierda porque
+     ya no había scroll hacia atrás para acabar de centrarla. La más
+     angosta es la vertical de 3:5 (el anillo). */
+  --jm-diapo: calc(var(--jm-alto) * 0.6);
+}
 .jm-gal.is-carrusel .jm-gitem {
-  --jm-diapo: min(76vw, 400px);
-  flex: 0 0 var(--jm-diapo);
-  width: var(--jm-diapo);
+  flex: 0 0 auto;
+  height: var(--jm-alto);
   scroll-snap-align: center;
 }
-.jm-gal.is-carrusel { --jm-diapo: min(76vw, 400px); }
-/* En el carrusel todas las fotos van con la misma proporción: es lo que
-   hace que el ojo siga a la que está al centro y no a la que es más
-   grande. object-fit:cover se encarga del recorte. */
-.jm-gal.is-carrusel .jm-gcell { aspect-ratio: 3 / 4; }
-@media (min-width: 901px) {
-  .jm-gal.is-carrusel { --jm-diapo: min(46vw, 470px); }
-  .jm-gal.is-carrusel .jm-gitem { --jm-diapo: min(46vw, 470px); }
+.jm-gal.is-carrusel .jm-gcell {
+  height: 100%;
+  width: auto;
+  aspect-ratio: var(--jm-prop, 2 / 3);
+}
+
+/* Mientras se arrastra, la escala y el corrimiento de la foto los va
+   escribiendo el scroll cuadro a cuadro. Una transición encima haría que
+   cada cuadro arrancara una animación nueva de casi un segundo: el efecto
+   persigue al dedo sin alcanzarlo nunca, y eso es lo que se siente como
+   temblor. Aquí el scroll ES la animación. */
+.jm-gal.is-carrusel .jm-gcell,
+.jm-gal.is-carrusel .jm-gcell img,
+.jm-gal.is-carrusel .jm-gcell .jm-veil,
+.jm-gal.is-carrusel .jm-gcell .jm-gframe { transition: none; }
+.jm-gal.is-carrusel .jm-gcell { will-change: transform; }
+/* El blanco y negro sí conserva la suya: es un cambio de golpe. */
+.jm-gal.is-carrusel .jm-gcell .jm-photo { transition: filter .5s ease; }
+
+@media (max-width: 900px) {
+  .jm-gal.is-carrusel { --jm-alto: min(62vh, 520px); }
 }
 
 /* --- Pie del carrusel --- */
