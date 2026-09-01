@@ -20,7 +20,7 @@ pantalla y a partir de ahí el sitio es un scroll normal:
 
 bienvenidos · cuenta regresiva · la boda · itinerario · vestimenta ·
 solo adultos · hospedaje · galería · mesa de regalos · RSVP ·
-libro de recuerdos
+mensaje para los novios · libro de recuerdos
 
 «La boda» son dos tarjetas de papel sobre un lino, una por sede, como las
 invitaciones impresas que pasaron los novios. El lino es CSS —dos tramas de
@@ -161,40 +161,67 @@ contenido durante todo el scroll y los novios pidieron quitarlo: abajo de
   sólo las que ya confirmaron: los que faltan aparecen con su fondo rayado
   y sus pases reservados, para poder armar las mesas desde ahora. Los que
   dijeron que no, no aparecen.
-- **Libro de recuerdos** — los recados que dejó la gente al confirmar, para
-  escoger cuáles se ven en el sitio. Ver abajo.
+- **Libro de recuerdos** — los recados que le dejaron a los novios, para
+  escoger cuáles se ven en el sitio. Ver abajo. Aquí también se ve quién
+  contestó dos veces: la respuesta vieja se queda a la vista, tachada y
+  marcada «reemplazada», y fuera de la cuenta de personas.
+
+## El recado
+
+El mensaje que cada invitación le deja a los novios. Tiene su propia
+sección y su propia función, `POST /api/recado`, y **no pasa por Netlify
+Forms**. Eso es a propósito: cuando era un campo más del formulario de
+confirmar,
+
+1. sólo se podía escribir al confirmar —quien ya había confirmado no volvía
+   a ver el campo nunca—, y
+2. volver a mandarlo creaba **otra confirmación**. Escribir un mensaje
+   dejaba dos respuestas de la misma persona y el panel tenía que adivinar
+   cuál valía.
+
+Ahora hay un recado por invitación, en el store `recados` bajo
+`porInvitacion/<id>`, y se pisa. Se puede escribir sin haber confirmado,
+volver a entrar y editarlo, y guardar dos veces deja un recado, no dos.
+`/api/invitacion` lo devuelve para que el sitio lo pinte en la caja.
+
+Quién puede escribir: cualquiera que tenga el link de esa invitación, que
+es el mismo nivel de confianza que ya tenía confirmar. El link es el
+secreto; no hay uno más fuerte que inventar.
+
+**Editar un recado tumba su aprobación** para el libro. Si no, alguien
+podría cambiar el texto de un recado ya escogido y salir publicado sin que
+los novios lo vean.
 
 ## El libro de recuerdos
 
-Los recados que la gente deja al confirmar, para publicarlos en el sitio
-después de la boda.
+Los recados de arriba, publicados en el sitio después de la boda.
 
 **Un recado se publica sólo si se cumplen las tres.** La regla vive en
 `netlify/functions/libro.mts` y está repetida en `panel.mts`, porque la
 pantalla del panel se puede editar desde el navegador y el servidor no:
 
 1. el libro está prendido — el interruptor del panel (`ajustes/libroPublico`)
-2. quien lo escribió dio permiso — `privado === false` en el envío
-3. Jorge y Montse lo escogieron — uno por uno (`ajustes/libro`)
+2. quien lo escribió dio permiso — `privado !== true` en el recado
+3. Jorge y Montse lo escogieron — uno por uno (`ajustes/libro`, por invitación)
 
-El permiso es la parte delicada. El campo del recado decía «Sólo lo leen
-Jorge y Montse», y con esa frase encima no se puede publicar nada: sería
-romperle la promesa a quien escribió confiando en ella. Ahora el formulario
-dice a dónde va el mensaje **antes** de que lo escriban, y ofrece la salida
-en la casilla «Mejor que sea sólo para ustedes».
+El permiso es la parte delicada. Antes el campo prometía «Sólo lo leen Jorge
+y Montse», y con esa frase encima no se puede publicar nada: sería romperle
+la promesa a quien escribió confiando en ella. Ahora la sección dice a dónde
+va el mensaje **antes** de que lo escriban, y ofrece la salida en la casilla
+«Mejor que sea sólo para ustedes».
 
-Por eso la condición 2 se compara contra `false` y no con un `!privado`.
-Los envíos que llegaron antes de que existiera la casilla no traen el campo:
-se quedan indefinidos, el panel los muestra con la razón escrita y no se
-pueden escoger. **No cambiar eso por un `|| false`**: convertiría una
-promesa vieja en un permiso.
+Los mensajes que llegaron dentro de una confirmación, cuando esa promesa
+seguía en pie, **no se pueden publicar y `libro.mts` ni los mira**: viven en
+el store `rsvp` y esa función sólo abre `recados`. El panel los enseña
+aparte, en recuadro punteado, para que los novios los lean. Si alguno les
+encanta, esa persona puede volver a su link y escribirlo en la sección
+nueva, que ya dice a dónde va.
 
 Con el libro apagado, `/api/libro` contesta vacío sin siquiera leer los
-mensajes, la sección no aparece y no se baja ninguna foto: antes de la boda
+recados, la sección no aparece y no se baja ninguna foto: antes de la boda
 no le cuesta nada al sitio.
 
-La firma de cada recado es el saludo de la invitación («Fer y Óscar»), no el
-nombre tecleado, salvo que hayan confirmado sin su link.
+La firma de cada recado es el saludo de la invitación («Fer y Óscar»).
 
 ## Configurar
 

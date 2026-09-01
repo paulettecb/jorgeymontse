@@ -62,12 +62,31 @@ export default async (req: Request, _context: Context) => {
     // abrir la invitación.
   }
 
+  /* El recado que esta invitación ya dejó, para que el sitio lo pinte en
+     la caja y se pueda editar en vez de escribir uno encima. Va sólo el
+     texto y si lo pidieron privado: quién lo aprobó para el libro es cosa
+     de los novios y no tiene por qué salir de aquí. */
+  let recado: { texto: string; privado: boolean; actualizado: string } | null = null;
+  try {
+    const r: any = await getStore({ name: 'recados', consistency: 'strong' })
+      .get(`porInvitacion/${inv.id}`, { type: 'json' });
+    if (r && r.texto) {
+      recado = {
+        texto: String(r.texto),
+        privado: r.privado === true,
+        actualizado: String(r.actualizado || '')
+      };
+    }
+  } catch {
+    // sin blobs se abre la caja vacía, que es lo mismo que no haber escrito
+  }
+
   /* Sin caché: antes eran 5 minutos, pero ahora la respuesta trae si ya
-     confirmaste, y ver «todavía no contestas» justo después de confirmar
-     es peor que pedir el dato cada vez. */
+     confirmaste y lo que escribiste, y ver «todavía no contestas» justo
+     después de confirmar es peor que pedir el dato cada vez. */
   return json(
     { id: inv.id, saludo: inv.saludo, pases: inv.pases, invitados: inv.invitados,
-      civil: civil, respuesta },
+      civil: civil, respuesta, recado },
     200,
     'private, no-store'
   );

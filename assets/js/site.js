@@ -83,7 +83,8 @@
     lbOpen: false, lbIndex: 0, lbReturnFocus: null,
     lunaOpen: false, lunaReturnFocus: null,
     locks: {}, timer: null, jumpT: [],
-    galMode: null, galModeFijo: false, carRaf: 0, carIndex: 0, obsCentro: null
+    galMode: null, galModeFijo: false, carRaf: 0, carIndex: 0, obsCentro: null,
+    invitacion: null      // el id del link, cuando lo hay; lo usa el recado
   };
 
   /* ---------- bloqueo de scroll con varios dueños ---------- */
@@ -393,6 +394,11 @@
       if (idInput) idInput.value = inv.id;
 
       if (inv.respuesta) yaContesto(inv.respuesta, pases);
+
+      /* El recado también necesita saber de quién es: se guarda por
+         invitación, así que su sección sólo tiene sentido con link. */
+      state.invitacion = inv.id;
+      pintaRecado(inv.recado);
 
       caja.hidden = false;
       seccion.hidden = false;
@@ -1290,6 +1296,90 @@
     setupReveal();
   }
 
+  /* ---------- el recado ----------
+     El mensaje que cada invitación le deja a los novios.
+
+     Vive fuera del formulario de confirmar y no pasa por Netlify Forms:
+     va a /api/recado, que guarda uno por invitación y lo pisa. Por eso se
+     puede volver a entrar, ver lo que se escribió y cambiarlo, sin que
+     cada guardado deje otra confirmación en la lista de los novios.
+
+     La sección la enciende `personalizar()` cuando resuelve el link, que
+     es también quien pinta aquí lo que ya estaba escrito. */
+  function setupRecado() {
+    var form = $('jm-recado-form');
+    if (!form) return;
+    var txt = $('jm-recado-txt'), priv = $('jm-recado-privado'),
+        btn = $('jm-recado-cta'), estado = $('jm-recado-estado');
+
+    /* La casilla de privacidad aparece cuando hay algo escrito: ofrecerle
+       privacidad a una caja vacía no significa nada. Nunca se esconde ya
+       palomeada, que sería borrar una decisión que la persona ya tomó. */
+    var caja = $('jm-privado');
+    function syncPrivado() {
+      if (!caja) return;
+      if (priv && priv.checked) { caja.hidden = false; return; }
+      caja.hidden = !txt.value.trim();
+    }
+    if (txt) txt.addEventListener('input', function () {
+      syncPrivado();
+      if (estado) { estado.textContent = ''; estado.className = 'jm-recado-estado'; }
+    });
+    syncPrivado();
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var id = state.invitacion;
+      if (!id) return;
+      if (btn) btn.disabled = true;
+      if (estado) { estado.className = 'jm-recado-estado'; estado.textContent = 'Guardando…'; }
+
+      fetch('/api/recado', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({
+          invitacion: id,
+          texto: txt ? txt.value : '',
+          privado: !!(priv && priv.checked)
+        })
+      }).then(function (r) {
+        if (!r.ok) throw new Error(r.status);
+        return r.json();
+      }).then(function (d) {
+        if (btn) btn.disabled = false;
+        if (!estado) return;
+        estado.className = 'jm-recado-estado';
+        estado.textContent = d && d.recado
+          ? 'Guardado. Puedes volver cuando quieras y cambiarlo.'
+          : 'Listo, se borró tu mensaje.';
+      }).catch(function () {
+        if (btn) btn.disabled = false;
+        if (estado) {
+          estado.className = 'jm-recado-estado mal';
+          estado.textContent = 'No se pudo guardar. Revisa tu conexión e inténtalo otra vez.';
+        }
+      });
+    });
+  }
+
+  /* Pinta en la caja el recado que esta invitación ya había dejado, para
+     que se edite en vez de escribirse encima. Lo llama `personalizar()`
+     con lo que contestó /api/invitacion. */
+  function pintaRecado(recado) {
+    var sec = $('recado'), link = $('jm-nav-recado');
+    var txt = $('jm-recado-txt'), priv = $('jm-recado-privado'),
+        estado = $('jm-recado-estado'), caja = $('jm-privado');
+    if (!sec) return;
+    if (recado && txt) {
+      txt.value = recado.texto || '';
+      if (priv) priv.checked = recado.privado === true;
+      if (estado) estado.textContent = 'Ya nos dejaste uno. Cámbialo cuando quieras.';
+    }
+    if (caja) caja.hidden = !((txt && txt.value.trim()) || (priv && priv.checked));
+    sec.hidden = false;
+    if (link) link.hidden = false;
+  }
+
   function setupForm() {
     var form = $('jm-rsvp-form');
     if (!form) return;
@@ -1319,25 +1409,6 @@
       r.addEventListener('change', syncQuienes);
     });
     syncQuienes();
-
-    /* La casilla de «que sea sólo para ustedes» aparece cuando hay algo
-       escrito: ofrecerle privacidad a un campo vacío no significa nada, y
-       en blanco nomás es una línea más de formulario.
-
-       El HTML la trae visible y aquí se esconde, no al revés: si el script
-       no corre, la casilla sigue en la página y se puede palomear. Nunca
-       se esconde ya palomeada —eso sí borraría una decisión que la persona
-       ya tomó—, así que una vez marcada se queda. */
-    var recado = $('jm-mensaje'), privado = $('jm-privado');
-    if (recado && privado) {
-      var casilla = privado.querySelector('input');
-      var syncPrivado = function () {
-        if (casilla && casilla.checked) { privado.hidden = false; return; }
-        privado.hidden = !recado.value.trim();
-      };
-      recado.addEventListener('input', syncPrivado);
-      syncPrivado();
-    }
 
     form.addEventListener('submit', function (e) {
       e.preventDefault();
@@ -1396,6 +1467,7 @@
     setupModos();          /* decide el modo y, si toca mosaico, monta el color al centrar */
     setupForm();
     setupClabe();
+    setupRecado();
     setupLibro();
 
     if (el.env) {

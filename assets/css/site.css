@@ -974,10 +974,13 @@ footer > div { white-space: normal !important; max-width: 100%; }
 }
 .jm-viste-bloque { display: flex; flex-direction: column; gap: 12px; }
 
-/* Apilados: rayita corta arriba de cada bloque menos el primero. */
+/* Apilados: raya arriba de cada bloque menos el primero. Va casi de lado
+   a lado —no un guioncito— porque apilada tiene que separar dos bloques
+   que ocupan todo el ancho, y una rayita de 54 px ahí se veía perdida. La
+   que sí es corta es la vertical de abajo, que separa columnas angostas. */
 .jm-viste-bloque + .jm-viste-bloque::before {
-  content: ""; display: block; width: 54px; height: 1px;
-  background: rgba(246, 244, 238, .42); margin-bottom: 6px;
+  content: ""; display: block; width: min(100%, 340px); height: 1px;
+  background: rgba(246, 244, 238, .3); margin-bottom: 10px;
 }
 
 /* En tres columnas la misma raya se pone de pie, en el hueco. 900px es
@@ -996,3 +999,30 @@ footer > div { white-space: normal !important; max-width: 100%; }
     border-left: 1px solid rgba(246, 244, 238, .28);
   }
 }
+
+/* ============================================================
+   EL RECADO
+   El mensaje que cada quien le deja a los novios, en su propia
+   sección y fuera del formulario de confirmar.
+   ============================================================ */
+/* Sólo para lectores de pantalla: el <h2> de la sección ya dice qué es
+   esto, así que la etiqueta del campo sobra a la vista pero no en el
+   árbol de accesibilidad, donde un textarea sin nombre no se anuncia. */
+.jm-vh {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
+.jm-recado-form { align-items: stretch; }
+#recado[hidden] { display: none !important; }
+.jm-recado-pie {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 14px;
+  margin-top: 4px;
+}
+.jm-recado-estado {
+  margin: 0; min-height: 1.4em; flex: 1 1 12ch;
+  font-family: 'NoirEtBlanc', serif; font-size: 1rem;
+  color: var(--oliva-pale); text-align: left;
+}
+.jm-recado-estado.mal { color: #E0A0A0; }
+/* Mientras se guarda, el botón se apaga sin cambiar de tamaño. */
+#jm-recado-cta[disabled] { opacity: .6; cursor: default; }

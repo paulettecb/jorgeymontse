@@ -100,6 +100,10 @@ tr.no td{ opacity:.5 }
 .est.viene{ background:rgba(85,98,74,.14); color:#3F4A36 }
 .est.pendiente{ background:rgba(99,27,41,.07); color:#7A5860 }
 .est.no{ background:rgba(99,27,41,.10); color:var(--vino) }
+/* La respuesta que alguien ya reemplazó al contestar otra vez. Se deja
+   a la vista —el historial sirve— pero apagada, y fuera de la cuenta. */
+tr.vieja{ opacity:.5 }
+tr.vieja strong{ text-decoration:line-through }
 .inv-tabla td{ vertical-align:middle }
 
 /* En celular la tabla se vuelve tarjetas.
@@ -191,6 +195,9 @@ section.blk{ margin-top:52px }
 .recado{ display:flex; flex-direction:column; gap:12px; padding:18px 20px;
   border:1px solid rgba(99,27,41,.16); background:var(--hueso) }
 .recado.va{ border-color:rgba(85,98,74,.55); background:rgba(85,98,74,.05) }
+/* Los mensajes que llegaron dentro de una confirmación: se leen, pero no se
+   pueden publicar. Se apagan para que se note de un vistazo cuáles sí. */
+.recado.viejo{ border-style:dashed; background:transparent; opacity:.75 }
 .recado-txt{ margin:0; font-size:16px; line-height:1.62; white-space:pre-line }
 .recado-pie{ display:flex; align-items:center; gap:10px; flex-wrap:wrap;
   padding-top:11px; border-top:1px solid rgba(99,27,41,.12) }
@@ -311,7 +318,7 @@ section.blk{ margin-top:52px }
   <section class="blk" id="libro-blk">
     <div class="eyebrow">después de la boda</div>
     <h2 style="font-size:clamp(24px,3vw,34px);margin:6px 0 4px">Libro de recuerdos</h2>
-    <p class="hint" style="margin:0">Los recados que les dejaron al confirmar. Escojan cuáles se ven en el sitio; los que no escojan se quedan aquí, sólo para ustedes. Nada se publica hasta que prendan el interruptor.</p>
+    <p class="hint" style="margin:0">Los recados que les dejaron. Escojan cuáles se ven en el sitio; los que no escojan se quedan aquí, sólo para ustedes. Nada se publica hasta que prendan el interruptor. Los de recuadro punteado llegaron dentro de una confirmación, cuando el formulario prometía que sólo los leían ustedes: ésos se pueden leer pero no publicar.</p>
     <div class="libro-barra">
       <label><input type="checkbox" id="libro-publico"><span>Publicar el libro en el sitio</span></label>
       <span class="hint" id="libro-cuenta" style="margin:0"></span>
@@ -324,7 +331,7 @@ section.blk{ margin-top:52px }
 (function () {
   'use strict';
   var CLAVE = null, DATOS = { rsvps: [], mesas: { mesas: [], asignaciones: {} }, envios: {}, plantilla: '', civil: {},
-                             libro: {}, libroPublico: false },
+                             libro: {}, libroPublico: false, recados: [] },
       SEL = null, tSave = null;
   /* Quién está mandando. Vive en el navegador de cada quien: se elige una
      vez y ya. Sirve para que Jorge y Montse no se dupliquen. */
@@ -383,6 +390,7 @@ section.blk{ margin-top:52px }
     if (!DATOS.envios) DATOS.envios = {};
     $('plantilla').value = DATOS.plantilla || '';
     if (!DATOS.libro) DATOS.libro = {};
+    if (!DATOS.recados) DATOS.recados = [];
     stats(); filas(); alergias(); invStats(); invFilas(); mesas(); libroPanel();
   }
 
@@ -395,54 +403,134 @@ section.blk{ margin-top:52px }
      en lugar de una casilla apagada sin explicación, pero la regla de
      verdad la aplica el servidor —esta pantalla se puede editar desde el
      navegador y esa no. */
-  function quienEscribio(r) {
-    var inv = (DATOS.invitaciones || []).filter(function (i) { return i.id === r.invitacion; })[0];
-    return (inv && inv.saludo) || r.nombre || 'alguien';
+  /* El saludo de una invitación («Fer y Óscar»), o null si ese id ya no
+     está en la lista. Null y no el id: quien lo llama sabe con qué
+     rellenar —el nombre que tecleó esa persona— y un id en pantalla no le
+     dice nada a nadie. */
+  function saludoDe(id) {
+    if (!id) return null;
+    var inv = (DATOS.invitaciones || []).filter(function (i) { return i.id === id; })[0];
+    return (inv && inv.saludo) || null;
   }
 
+  /* Dos listas en una.
+
+     Arriba, los recados de verdad: los que la gente escribe en su propia
+     sección del sitio, uno por invitación, editables por quien tiene el
+     link. Ésos son los que se pueden escoger para el libro.
+
+     Abajo, los mensajes viejos: los que llegaron dentro de una confirmación
+     cuando el formulario prometía «Sólo lo leen Jorge y Montse». Se ven,
+     porque son para ustedes, pero no se pueden publicar: se les prometió lo
+     contrario. Si alguno les encanta, esa persona puede volver a entrar a
+     su link y escribirlo en la sección nueva, que ya dice a dónde va. */
   function libroPanel() {
     var caja = $('libro-lista'), cuenta = $('libro-cuenta'), sw = $('libro-publico');
     if (!caja) return;
     if (sw) sw.checked = DATOS.libroPublico === true;
 
-    var con = (DATOS.rsvps || []).filter(function (r) { return String(r.mensaje || '').trim(); });
+    var recados = (DATOS.recados || []).filter(function (r) { return String(r.texto || '').trim(); });
+    recados.sort(function (a, b) { return String(a.creado).localeCompare(String(b.creado)); });
 
-    if (!con.length) {
+    /* Los viejos: sólo de invitaciones que todavía no han escrito el nuevo,
+       para no enseñar dos veces a la misma persona. */
+    var conNuevo = {};
+    recados.forEach(function (r) { conNuevo[r.invitacion] = true; });
+    var viejos = (DATOS.rsvps || []).filter(function (r) {
+      return String(r.mensaje || '').trim() && !r.reemplazada
+             && !conNuevo[invitacionDe(r) || ''];
+    });
+
+    if (!recados.length && !viejos.length) {
       caja.innerHTML = '<p class="hint" style="margin:0">Todavía no les han dejado ningún recado.</p>';
       if (cuenta) cuenta.textContent = '';
       return;
     }
 
-    var elegidos = con.filter(function (r) { return DATOS.libro[r.id] === true; }).length;
+    var elegidos = recados.filter(function (r) { return DATOS.libro[r.invitacion] === true; }).length;
     if (cuenta) {
-      cuenta.textContent = elegidos + ' de ' + con.length
-        + (con.length === 1 ? ' recado escogido' : ' recados escogidos');
+      cuenta.textContent = recados.length
+        ? elegidos + ' de ' + recados.length
+          + (recados.length === 1 ? ' recado escogido' : ' recados escogidos')
+        : 'todavía nadie escribe en la sección nueva';
     }
 
-    caja.innerHTML = con.map(function (r) {
-      var va = DATOS.libro[r.id] === true;
-      var puede = r.privado === false;
-      var pie = puede
-        ? '<label><input type="checkbox" data-libro="' + esc(r.id) + '"' + (va ? ' checked' : '')
-          + '>va en el libro</label>'
-        : '<span class="recado-privado">' + (r.privado === true
-            ? 'pidió que fuera sólo para ustedes'
-            : 'llegó antes de que se pidiera permiso') + '</span>';
+    var html = recados.map(function (r) {
+      var va = DATOS.libro[r.invitacion] === true;
+      var pie = r.privado === true
+        ? '<span class="recado-privado">pidió que fuera sólo para ustedes</span>'
+        : '<label><input type="checkbox" data-libro="' + esc(r.invitacion) + '"' + (va ? ' checked' : '')
+          + '>va en el libro</label>';
       return '<article class="recado' + (va ? ' va' : '') + '">'
-        + '<p class="recado-txt">' + esc(r.mensaje) + '</p>'
+        + '<p class="recado-txt">' + esc(r.texto) + '</p>'
         + '<div class="recado-pie">'
-        + '<span class="recado-de">' + esc(quienEscribio(r)) + '</span>'
-        + '<span class="recado-cuando">' + fecha(r.creado) + '</span>'
+        + '<span class="recado-de">' + esc(saludoDe(r.invitacion) || r.invitacion) + '</span>'
+        + '<span class="recado-cuando">' + fecha(r.actualizado || r.creado) + '</span>'
         + pie
         + '</div></article>';
     }).join('');
+
+    html += viejos.map(function (r) {
+      return '<article class="recado viejo">'
+        + '<p class="recado-txt">' + esc(r.mensaje) + '</p>'
+        + '<div class="recado-pie">'
+        + '<span class="recado-de">' + esc(saludoDe(invitacionDe(r)) || r.nombre || 'alguien') + '</span>'
+        + '<span class="recado-cuando">' + fecha(r.creado) + '</span>'
+        + '<span class="recado-privado">llegó en su confirmación, antes de que se pidiera permiso</span>'
+        + '</div></article>';
+    }).join('');
+
+    caja.innerHTML = html;
+  }
+
+  /* De qué invitación es una respuesta.
+     Casi siempre lo dice ella misma. Las que llegaron antes de que el campo
+     del id se registrara bien en el HTML no lo traen, y ésas hay que
+     emparejarlas por nombre —la misma regla que usa la función del panel al
+     repararlas—, porque si no la misma persona sale dos veces: una en su
+     invitación y otra como respuesta suelta. */
+  var _porNombre = null;
+  function invitacionDe(r) {
+    if (r.invitacion) return r.invitacion;
+    if (!_porNombre) {
+      _porNombre = {};
+      (DATOS.invitaciones || []).forEach(function (i) {
+        _porNombre[(i.invitados || []).join(', ').trim().toLowerCase()] = i.id;
+        _porNombre[String(i.saludo || '').trim().toLowerCase()] = i.id;
+      });
+    }
+    return _porNombre[String(r.nombre || '').trim().toLowerCase()] || null;
+  }
+
+  /* Quién contestó dos veces.
+     Si alguien confirma, cambia de opinión y vuelve a confirmar, llegan dos
+     envíos y los dos se guardan: el historial sirve. Lo que NO puede pasar
+     es contarlos dos veces, que es lo que hacía el «confirmados · personas».
+
+     La lista viene de más nueva a más vieja, así que la primera vez que se
+     ve una invitación es la respuesta que vale y las siguientes están
+     reemplazadas. */
+  function marcaReemplazadas() {
+    var vistas = {};
+    _porNombre = null;                       // por si cambió la lista
+    (DATOS.rsvps || []).forEach(function (r) {
+      var id = invitacionDe(r);
+      var llave = id || ('nombre:' + String(r.nombre || '').trim().toLowerCase());
+      if (llave === 'nombre:') { r.reemplazada = false; return; }
+      r.reemplazada = vistas[llave] === true;
+      vistas[llave] = true;
+    });
   }
 
   function stats() {
-    var r = DATOS.rsvps, si = r.filter(function (x) { return x.asiste; });
+    marcaReemplazadas();
+    var r = DATOS.rsvps.filter(function (x) { return !x.reemplazada; });
+    var si = r.filter(function (x) { return x.asiste; });
     var personas = si.reduce(function (a, x) { return a + (x.personas || 1); }, 0);
-    var s = [['Confirmados', personas, 'personas'], ['Respuestas', r.length, 'envíos'],
+    var repetidas = DATOS.rsvps.length - r.length;
+    var s = [['Confirmados', personas, 'personas'], ['Respuestas', r.length, 'invitaciones'],
              ['No asisten', r.length - si.length, 'respuestas']];
+    if (repetidas) s.push(['Contestaron otra vez', repetidas, repetidas === 1 ? 'reemplazada' : 'reemplazadas']);
     $('stats').innerHTML = s.map(function (x) {
       return '<div class="stat"><b>' + x[1] + '</b><span>' + x[0] + ' · ' + x[2] + '</span></div>';
     }).join('');
@@ -460,8 +548,10 @@ section.blk{ margin-top:52px }
   function filas() {
     var f = filtradas();
     $('filas').innerHTML = f.length ? f.map(function (x) {
-      return '<tr class="' + (x.asiste ? '' : 'no') + '">'
-        + '<td><strong>' + esc(x.nombre) + '</strong>' + (x.mensaje ? '<br><em style="opacity:.65;font-size:13px">' + esc(x.mensaje) + '</em>' : '') + '</td>'
+      return '<tr class="' + (x.asiste ? '' : 'no') + (x.reemplazada ? ' vieja' : '') + '">'
+        + '<td><strong>' + esc(x.nombre) + '</strong>'
+        + (x.reemplazada ? '<span class="est pendiente" style="margin-left:8px">reemplazada</span>' : '')
+        + (x.mensaje ? '<br><em style="opacity:.65;font-size:13px">' + esc(x.mensaje) + '</em>' : '') + '</td>'
         + '<td><span class="tag ' + (x.asiste ? 'si">sí' : 'no">no') + '</span></td>'
         + '<td>' + (x.asiste ? (x.personas || 1) : '—') + '</td>'
         + '<td>' + esc(x.acompanantes) + '</td>'
@@ -474,7 +564,7 @@ section.blk{ margin-top:52px }
   }
 
   function alergias() {
-    var con = DATOS.rsvps.filter(function (x) { return x.asiste && x.alergias; });
+    var con = DATOS.rsvps.filter(function (x) { return x.asiste && x.alergias && !x.reemplazada; });
     $('alergias-blk').hidden = !con.length;
     $('alergias').innerHTML = con.map(function (x) {
       return '<li><strong>' + esc(x.nombre) + '</strong> — ' + esc(x.alergias) + '</li>';
@@ -492,8 +582,9 @@ section.blk{ margin-top:52px }
        de más nueva a más vieja, así que sólo se guarda la primera que se ve
        de cada invitación. */
     (DATOS.rsvps || []).forEach(function (r) {
-      if (!r.invitacion) { sueltas.push(r); return; }
-      if (!porInv[r.invitacion]) porInv[r.invitacion] = r;
+      var id = invitacionDe(r);
+      if (!id) { sueltas.push(r); return; }
+      if (!porInv[id]) porInv[id] = r;
     });
     var lista = (DATOS.invitaciones || []).map(function (inv) {
       var r = porInv[inv.id];
