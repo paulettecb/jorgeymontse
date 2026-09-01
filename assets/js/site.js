@@ -914,16 +914,23 @@
     var src = (CONFIG.musicSrc || '').trim() || a.getAttribute('src') || '';
     if (!src) return;
     if (a.getAttribute('src') !== src) a.setAttribute('src', src);
+    /* En iOS el volumen de un <audio> es de sólo lectura: lo manda el switch
+       de silencio y los botones del teléfono, y asignarle un número no hace
+       nada. Se comprueba en vez de suponerlo: si el navegador no aceptó el 0,
+       no hay fundido que hacer y arranca directo. */
     a.volume = 0;
+    var hayFundido = a.volume === 0;
     var p = a.play();
     if (p && p.catch) p.catch(function () { syncMusicUI(); });
-    var t0 = Date.now();
-    (function sube() {
-      if (a.paused) return;
-      var k = Math.min(1, (Date.now() - t0) / 2000);
-      a.volume = VOLUMEN * k;
-      if (k < 1) requestAnimationFrame(sube);
-    })();
+    if (hayFundido) {
+      var t0 = Date.now();
+      (function sube() {
+        if (a.paused) return;
+        var k = Math.min(1, (Date.now() - t0) / 2000);
+        a.volume = VOLUMEN * k;
+        if (k < 1) requestAnimationFrame(sube);
+      })();
+    }
     syncMusicUI();
   }
 

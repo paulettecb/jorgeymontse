@@ -53,6 +53,13 @@ Todas ✅. Las que usa el sitio hoy:
 | `foto-de-la-mano.jpeg` | Separador «contando los días» |
 | 33 `foto-*.jpeg` más | Galería (ver abajo) |
 
+### La canción
+
+`cancion.mp3` va a 64 kbps mono. Venía a 192 y pesaba 2.9 MB, que en el
+celular era lo más pesado de todo el sitio y se descargaba de golpe justo al
+abrir el sobre, que es cuando arranca. A 64 pesa 1.4 MB y para música de
+fondo al 35% de volumen no se nota la diferencia.
+
 ### La galería
 
 Treinta y cinco fotos: las trece de la sesión en el centro de Morelia que
