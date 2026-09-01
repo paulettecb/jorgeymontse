@@ -48,7 +48,7 @@ Todas ✅. Las que usa el sitio hoy:
 | `orn-heart-dk.png` | Estado post-boda de la cuenta regresiva y "gracias" del RSVP |
 | `foto-playa.jpeg` | Separador «donde todo empezó» — no se cambia, decisión de los novios |
 | `foto-templo-calle.jpeg` | Separador «tú y yo, siempre» |
-| `foto-los-tres.jpeg` | Forro del sobre de la portada (rombo) y galería |
+| `foto-raava-cerca.jpeg` | Forro del sobre de la portada (el rombo de la solapa y el fondo) |
 | `foto-de-la-mano.jpeg` | Separador «contando los días» |
 | 12 `foto-*.jpeg` más | Galería (ver abajo) |
 
