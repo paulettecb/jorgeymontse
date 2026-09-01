@@ -19,10 +19,12 @@ sale y se acomoda al lado; al bajar, la invitación crece hasta llenar la
 pantalla y a partir de ahí el sitio es un scroll normal:
 
 bienvenidos · cuenta regresiva · la boda · itinerario · vestimenta ·
-solo adultos · hospedaje · galería · mesa de regalos · RSVP
+solo adultos · hospedaje · galería · mesa de regalos · RSVP ·
+libro de recuerdos
 
 La cuenta regresiva se cambia sola por un mensaje de agradecimiento cuando
-pasa la fecha de la boda.
+pasa la fecha de la boda. El libro de recuerdos, en cambio, no se enciende
+solo: lo prenden los novios desde el panel cuando quieran (ver más abajo).
 
 Cuando la invitación termina de crecer y ocupa toda la pantalla, el fondo
 blanco se cambia por una foto del save the date (los novios desenfocados con
@@ -120,7 +122,7 @@ Netlify Forms lo detecta leyendo el archivo, no la página pintada.
 
 ## El panel
 
-`/panel`, con la contraseña de `PANEL_PASSWORD`. Tres cosas:
+`/panel`, con la contraseña de `PANEL_PASSWORD`. Cuatro cosas:
 
 - **Invitaciones** — las 105, hayan contestado o no, con su estado
   (confirmada / sin contestar / no asiste) y un botón para copiar el link
@@ -131,6 +133,40 @@ Netlify Forms lo detecta leyendo el archivo, no la página pintada.
   sólo las que ya confirmaron: los que faltan aparecen con su fondo rayado
   y sus pases reservados, para poder armar las mesas desde ahora. Los que
   dijeron que no, no aparecen.
+- **Libro de recuerdos** — los recados que dejó la gente al confirmar, para
+  escoger cuáles se ven en el sitio. Ver abajo.
+
+## El libro de recuerdos
+
+Los recados que la gente deja al confirmar, para publicarlos en el sitio
+después de la boda.
+
+**Un recado se publica sólo si se cumplen las tres.** La regla vive en
+`netlify/functions/libro.mts` y está repetida en `panel.mts`, porque la
+pantalla del panel se puede editar desde el navegador y el servidor no:
+
+1. el libro está prendido — el interruptor del panel (`ajustes/libroPublico`)
+2. quien lo escribió dio permiso — `privado === false` en el envío
+3. Jorge y Montse lo escogieron — uno por uno (`ajustes/libro`)
+
+El permiso es la parte delicada. El campo del recado decía «Sólo lo leen
+Jorge y Montse», y con esa frase encima no se puede publicar nada: sería
+romperle la promesa a quien escribió confiando en ella. Ahora el formulario
+dice a dónde va el mensaje **antes** de que lo escriban, y ofrece la salida
+en la casilla «Mejor que sea sólo para ustedes».
+
+Por eso la condición 2 se compara contra `false` y no con un `!privado`.
+Los envíos que llegaron antes de que existiera la casilla no traen el campo:
+se quedan indefinidos, el panel los muestra con la razón escrita y no se
+pueden escoger. **No cambiar eso por un `|| false`**: convertiría una
+promesa vieja en un permiso.
+
+Con el libro apagado, `/api/libro` contesta vacío sin siquiera leer los
+mensajes, la sección no aparece y no se baja ninguna foto: antes de la boda
+no le cuesta nada al sitio.
+
+La firma de cada recado es el saludo de la invitación («Fer y Óscar»), no el
+nombre tecleado, salvo que hayan confirmado sin su link.
 
 ## Configurar
 
@@ -151,16 +187,17 @@ weddingDate: new Date(2027, 0, 30, 16, 0, 0)
 
 ## Apagado a la espera de datos
 
-Dos cosas están **ocultas, no borradas**, para poder mandar las invitaciones
-sin esperarlas. Se encienden quitando el `hidden`; búscalas por el
+Una cosa está **oculta, no borrada**, para poder mandar las invitaciones
+sin esperarla. Se enciende quitando el `hidden`; búscala por el
 comentario `PENDIENTE`.
 
 | Qué | Dónde | Qué falta |
 |---|---|---|
 | Sección de hospedaje (y su link en la nav) | `index.html` | Nombre, zona, tarifa y link de los dos hoteles |
-| Botón de Amazon en mesa de regalos | `index.html` | El link de la mesa |
 
-El botón de Liverpool sí está encendido: su link funciona.
+El botón de Liverpool sí está encendido: su link funciona. No hay mesa de
+Amazon y no va a haberla, así que ese botón se borró: no está oculto
+esperando un link.
 
 ## Falta llenar
 
@@ -171,12 +208,8 @@ Los datos que faltan están entre corchetes en `index.html`, así que
   versión más cursi antes de publicar.
 - **Hospedaje** — nombre, zona, tarifa y link de los dos hoteles; y el
   bloque del aeropuerto.
-- **Mesa de regalos** — `liverpool` y `amazon` todavía no tienen `href`,
-  y el modal del fondo para la luna de miel espera los datos de la cuenta.
-- **Música** — los novios quieren una canción de Elvis Presley; falta que
-  manden el archivo para reemplazar `assets/musica.m4a`.
-- **Boda civil** — sigue en el aire si la ceremonia civil va en el
-  itinerario; se decide con `CONFIG.bodaCivil`.
+- **Boda civil** — ya no es un pendiente de código: se prende por invitación
+  desde el panel y `CONFIG.bodaCivil` es sólo el valor de fábrica.
 
 Las sedes y horarios ya son los reales: Templo del Carmen a las 16:00 y
 Jardín Los Magueyes a las 19:00.

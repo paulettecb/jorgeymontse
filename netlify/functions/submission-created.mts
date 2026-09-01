@@ -11,7 +11,8 @@ import type { Context } from '@netlify/functions';
 const CAMPOS = [
   'nombre', 'asiste', 'personas', 'acompanantes',
   'alergias', 'telefono', 'cancion', 'mensaje',
-  'invitacion'   // el id del link personalizado, vacío si confirmaron sin él
+  'invitacion',  // el id del link personalizado, vacío si confirmaron sin él
+  'privado'      // palomeada = «este mensaje no va al libro de recuerdos»
 ] as const;
 
 export default async (req: Request, _context: Context) => {
@@ -38,6 +39,19 @@ export default async (req: Request, _context: Context) => {
   const n = parseInt(String(registro.personas), 10);
   registro.personas = Number.isFinite(n) && n > 0 ? Math.min(n, 20) : 1;
   registro.asiste = String(registro.asiste).toLowerCase().startsWith('s');
+
+  /* El permiso para el libro de recuerdos, guardado como sí/no y no como
+     el texto que mandó el navegador. Una casilla sin palomear no viaja en
+     el POST, así que aquí llega vacía: eso es «sí puede ir al libro».
+
+     Ojo con los envíos viejos: los que llegaron antes de que existiera
+     esta casilla no traen el campo, y en esos `privado` se queda sin
+     definir, ni true ni false. Es a propósito. A esa gente el formulario
+     le prometía «Sólo lo leen Jorge y Montse», así que quien lee para el
+     libro sólo publica los que traen `privado === false` —permiso dado a
+     mano— y deja fuera los indefinidos. No cambiar esto por un
+     `|| false`: convertiría una promesa vieja en un permiso. */
+  registro.privado = String(registro.privado || '').trim() !== '';
 
   const store = getStore({ name: 'rsvp', consistency: 'strong' });
   await store.setJSON(`envio/${registro.id}`, registro);

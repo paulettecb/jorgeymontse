@@ -51,6 +51,7 @@ Todas ✅. Las que usa el sitio hoy:
 | `foto-templo-calle.jpeg` | Separador «tú y yo, siempre» |
 | `foto-forro-sobre.jpeg` | Forro del sobre de la portada (el rombo: solapa y fondo). Es la M&J-PRE-120 (Raava con el pañuelo del Save the Date) llevada a la proporción del rombo. Una foto vertical metida en el rombo sale enorme y recortada, así que se acomoda sobre un lienzo de la proporción correcta antes de subirla |
 | `foto-de-la-mano.jpeg` | Separador «contando los días» |
+| `ill-banca.png` | Libro de recuerdos: los dos sentados en la banca. Va en vino porque el fondo de esa sección es claro |
 | 33 `foto-*.jpeg` más | Galería (ver abajo) |
 
 ### La canción
@@ -223,8 +224,9 @@ contra su fondo real está en el mensaje del commit que la añadió.
 
 | Archivo | Dónde se usa | Estado |
 |---|---|---|
-| `musica.m4a` | Botón de música (abajo a la derecha) | ✅ · pendiente cambiarla por la canción de Elvis que elijan los novios |
+| `cancion.mp3` | Botón de música (abajo a la derecha) y arranque al abrir el sobre | ✅ · es la canción de Elvis que eligieron los novios, reencodeada a 64 kbps |
+| `musica.m4a` | Nada. Es la canción de relleno que estuvo mientras llegaba la de Elvis | se quedó en el repo, sin usar |
 
 El botón sólo aparece si el `<audio>` tiene `src`; hoy apunta a
-`assets/musica.m4a`. Si prefieres no poner música, borra el atributo `src`
+`assets/cancion.mp3`. Si prefieres no poner música, borra el atributo `src`
 del `<audio id="jm-audio">` en `index.html` y el botón desaparece solo.
