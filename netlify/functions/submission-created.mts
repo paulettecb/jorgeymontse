@@ -42,5 +42,15 @@ export default async (req: Request, _context: Context) => {
   const store = getStore({ name: 'rsvp', consistency: 'strong' });
   await store.setJSON(`envio/${registro.id}`, registro);
 
+  /* Además del envío, un índice por invitación. Sirve para que el sitio
+     pueda decirle a alguien «ya confirmaste» cuando vuelve a abrir su link,
+     sin tener que listar y recorrer todos los envíos en cada visita. Si
+     contestan otra vez, esta llave se pisa y queda la última respuesta,
+     que es la que vale. */
+  const idInv = String(registro.invitacion || '');
+  if (/^[a-z0-9-]{1,60}$/.test(idInv)) {
+    await store.setJSON(`porInvitacion/${idInv}`, registro);
+  }
+
   return new Response('ok', { status: 200 });
 };

@@ -34,7 +34,7 @@ const MESAS_POR_DEFECTO = {
   asignaciones: {} as Record<string, string>
 };
 
-/** Quién mandó cada invitación y cuándo. Una sola llave con todo: son 107
+/** Quién mandó cada invitación y cuándo. Una sola llave con todo: son 108
  *  entradas, no vale la pena un blob por invitación. */
 type Envio = { por: string; cuando: string };
 
@@ -68,6 +68,10 @@ export default async (req: Request, _context: Context) => {
   const rsvps = getStore({ name: 'rsvp', consistency: 'strong' });
   const mesas = getStore({ name: 'mesas', consistency: 'strong' });
   const envios = getStore({ name: 'envios', consistency: 'strong' });
+  /* Quién va a la ceremonia civil. El valor de fábrica vive en
+     invitados-datos.mts; esto lo pisa por invitación para que se pueda
+     cambiar desde el panel sin tocar código ni volver a publicar. */
+  const ajustes = getStore({ name: 'ajustes', consistency: 'strong' });
 
   switch (cuerpo.accion) {
     case 'listar': {
@@ -81,11 +85,12 @@ export default async (req: Request, _context: Context) => {
       const plano = (await mesas.get('config', { type: 'json' })) || MESAS_POR_DEFECTO;
       const mandadas = (await envios.get('registro', { type: 'json' })) || {};
       const plantilla = (await envios.get('plantilla', { type: 'text' })) || PLANTILLA_POR_DEFECTO;
+      const civil = (await ajustes.get('civil', { type: 'json' })) || {};
       // La lista completa va también: el panel necesita ver a los que NO han
       // contestado para poder sentarlos, y para poder reenviar su link.
       return json({
         rsvps: limpia, mesas: plano, invitaciones: INVITACIONES,
-        envios: mandadas, plantilla
+        envios: mandadas, plantilla, civil
       });
     }
 
@@ -127,6 +132,19 @@ export default async (req: Request, _context: Context) => {
       }
       await envios.setJSON('registro', registro);
       return json({ ok: true, envios: registro });
+    }
+
+    /* Marcar si una invitación va a la ceremonia civil. Se guarda aparte de
+       invitados-datos.mts, que es código: así Jorge y Montse lo cambian desde
+       el panel y se ve en el itinerario de esa persona en cuanto recargue. */
+    case 'marcarCivil': {
+      const id = String(cuerpo.id || '');
+      if (!/^[a-z0-9-]{1,60}$/.test(id)) return json({ error: 'id inválido' }, 400);
+      const mapa = ((await ajustes.get('civil', { type: 'json' })) || {}) as Record<string, boolean>;
+      if (cuerpo.civil === null) delete mapa[id];        // volver al valor del código
+      else mapa[id] = cuerpo.civil === true;
+      await ajustes.setJSON('civil', mapa);
+      return json({ ok: true, civil: mapa });
     }
 
     case 'guardarPlantilla': {

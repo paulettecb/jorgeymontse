@@ -651,6 +651,7 @@ footer > div { white-space: normal !important; max-width: 100%; }
   /* "confirmar asistencia" con letter-spacing ancho desborda en nowrap. */
   #jm-rsvp-cta { white-space: normal !important; font-size: 0.875rem !important; padding: 16px 28px 14px !important; }
   #jm-hint { font-size: 0.8125rem !important; letter-spacing: .16em !important; }
+  .jm-farolitos { display: none; }
   #cuenta [style*="letter-spacing:.22em"] { letter-spacing: .1em !important; }
 }
 
