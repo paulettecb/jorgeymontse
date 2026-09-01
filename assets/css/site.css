@@ -130,9 +130,12 @@ img { max-width: 100%; }
    dejar respirar la foto. */
 .jm-hero-velo {
   position: absolute; inset: 0;
-  background: radial-gradient(ellipse 52% 46% at 50% 50%,
-    rgba(255,255,255,.89) 0%, rgba(255,255,255,.88) 52%,
-    rgba(255,255,255,.62) 76%, rgba(255,255,255,.38) 100%);
+  /* La elipse llega más alto que antes porque «nos casamos» vive arriba del
+     centro y con la portada nueva le tocaba encima la camisa oscura de Jorge:
+     ahí el olivo se quedaba en 2.9:1, debajo del 3:1 que pide texto grande. */
+  background: radial-gradient(ellipse 54% 55% at 50% 50%,
+    rgba(255,255,255,.90) 0%, rgba(255,255,255,.89) 54%,
+    rgba(255,255,255,.68) 78%, rgba(255,255,255,.38) 100%);
 }
 @media (max-width: 900px) {
   /* En móvil la invitación pinta el texto a ~20px en vez de ~36px, así que
