@@ -22,6 +22,13 @@ bienvenidos · cuenta regresiva · la boda · itinerario · vestimenta ·
 solo adultos · hospedaje · galería · mesa de regalos · RSVP ·
 libro de recuerdos
 
+«La boda» son dos tarjetas de papel sobre un lino, una por sede, como las
+invitaciones impresas que pasaron los novios. El lino es CSS —dos tramas de
+rayas cruzadas y una mancha de `feTurbulence`— y no una foto: pesa unos
+cientos de bytes en vez de cientos de kilobytes en una sección que va arriba
+del todo. Viene en beige y en verde; se cambia con `CONFIG.detallesFondo` o
+con el atributo `data-fondo` de la sección.
+
 La cuenta regresiva se cambia sola por un mensaje de agradecimiento cuando
 pasa la fecha de la boda. El libro de recuerdos, en cambio, no se enciende
 solo: lo prenden los novios desde el panel cuando quieran (ver más abajo).
@@ -65,8 +72,22 @@ assets/js/site.js          toda la lógica: sobre, scroll, cuenta, galería, mú
 assets/fonts/              las tipografías de marca
 assets/icons/              favicons + icono de app
 assets/*.png / *.jpeg      ilustraciones, ornamentos y fotos
-design/                    el .dc.html original, sin modificar
+assets/boda*.ics           el itinerario para el calendario, generado
+design/                    el .dc.html original, los generadores de assets
 ```
+
+Dos cosas de `assets/` no se editan a mano, se generan:
+
+| Qué | Con qué |
+|---|---|
+| Los lacres SVG | `python3 design/sello.py assets` |
+| `boda.ics` y `boda-civil.ics` | `python3 design/calendario.py assets` |
+
+El del calendario existe porque los horarios ya se movieron dos veces y
+editar a mano dos archivos con el plegado de RFC 5545 —75 **octetos** por
+renglón, CRLF, horas en UTC— es justo donde se cuelan los errores. Los
+horarios se escriben una vez, en hora de Morelia, y los dos archivos salen
+solos.
 
 ## Iconos
 
@@ -100,6 +121,10 @@ sección entera se oculta, junto con el botón «confirmar» de la nav, que si
 no apuntaría a la nada. El formulario se queda en el HTML aunque no se vea:
 Netlify Forms lo detecta leyendo el archivo, no la página pintada.
 
+Ese botón de la nav vive sólo en compu. En el teléfono flotaba encima del
+contenido durante todo el scroll y los novios pidieron quitarlo: abajo de
+900 px la nav se queda nada más con el monograma, que regresa arriba.
+
 - La lista vive en [`netlify/functions/invitados-datos.mts`](netlify/functions/invitados-datos.mts),
   del lado del servidor. **No se publica**: son nombres de gente real, y el
   sitio nunca descarga la lista completa — le pregunta a `/api/invitacion`
@@ -113,9 +138,12 @@ Netlify Forms lo detecta leyendo el archivo, no la página pintada.
 - Para cambiar la lista se edita el `.mts` y se regenera el `.md`.
 - **La ceremonia civil se elige invitación por invitación.** A la civil no va
   todo el mundo, así que cada invitación trae un campo `civil`: si es `true`,
-  esa persona ve la ceremonia civil de las 19:30 en su itinerario; si no, ve
-  las fotos con los novios. Quien entre sin link personalizado ve lo que diga
-  `CONFIG.bodaCivil`.
+  esa persona ve la ceremonia civil de las 18:20 en su itinerario, entre la
+  iglesia y la llegada al jardín; si no, esa fila no aparece. Quien entre sin
+  link personalizado ve lo que diga `CONFIG.bodaCivil`, y el panel puede pisar
+  el valor por invitación. Las fotos con los novios de las 19:30 las ve todo
+  el mundo: antes eran la alternativa de la civil, hasta que los novios la
+  movieron más temprano.
 - Hay dos invitaciones de prueba, `jane-doe` (civil sí) y `joe-doe` (civil no),
   para enseñarles a los novios las dos versiones. **Borrarlas antes de
   publicar de verdad.**
@@ -180,8 +208,9 @@ photoTone: 'blanco y negro',   // 'blanco y negro' | 'sepia' | 'color'
 floatingDetails: false,        // los destellos (los novios los quitaron)
 openOnLoad: false,             // saltarse el sobre
 musicSrc: '',                  // vacío = usa el src del <audio>
-bodaCivil: false,              // true = ceremonia civil a las 19:30 en el
-                               // itinerario, en lugar de las fotos
+bodaCivil: false,              // valor de fábrica; el panel lo pisa por
+                               // invitación. true = sale la civil de las 18:20
+detallesFondo: 'beige',        // el lino de «los detalles»: 'beige' | 'verde'
 weddingDate: new Date(2027, 0, 30, 16, 0, 0)
 ```
 
@@ -212,7 +241,9 @@ Los datos que faltan están entre corchetes en `index.html`, así que
   desde el panel y `CONFIG.bodaCivil` es sólo el valor de fábrica.
 
 Las sedes y horarios ya son los reales: Templo del Carmen a las 16:00 y
-Jardín Los Magueyes a las 19:00.
+Jardín Los Magueyes a las 19:00. El itinerario completo va 16:00 iglesia ·
+18:20 civil (sólo para quien va) · 19:00 cóctel · 19:30 fotos · 20:00 entrada
+· 20:30 cena · 21:30 fiesta.
 
 ## Assets
 

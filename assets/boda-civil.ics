@@ -22,6 +22,17 @@ DESCRIPTION:Mañana se casan Jorge y Montse
 END:VALARM
 END:VEVENT
 BEGIN:VEVENT
+UID:ceremonia-civil-civil@jorgeymontse.com
+DTSTAMP:20260901T000000Z
+DTSTART:20270131T002000Z
+DTEND:20270131T010000Z
+SUMMARY:Ceremonia civil · Jorge y Montse
+LOCATION:Jardín Los Magueyes\, Av. Plan de Ayala 1300\, Jesús del Monte\,
+  Morelia\, Michoacán
+DESCRIPTION:Boda de Jorge y Montse\nhttps://jorgeymontse.com
+URL:https://jorgeymontse.com
+END:VEVENT
+BEGIN:VEVENT
 UID:cóctel-de-bienvenida-civil@jorgeymontse.com
 DTSTAMP:20260901T000000Z
 DTSTART:20270131T010000Z
@@ -33,11 +44,11 @@ DESCRIPTION:Boda de Jorge y Montse\nhttps://jorgeymontse.com
 URL:https://jorgeymontse.com
 END:VEVENT
 BEGIN:VEVENT
-UID:ceremonia-civil-civil@jorgeymontse.com
+UID:fotos-con-los-novios-civil@jorgeymontse.com
 DTSTAMP:20260901T000000Z
 DTSTART:20270131T013000Z
 DTEND:20270131T020000Z
-SUMMARY:Ceremonia civil · Jorge y Montse
+SUMMARY:Fotos con los novios · Jorge y Montse
 LOCATION:Jardín Los Magueyes\, Av. Plan de Ayala 1300\, Jesús del Monte\,
   Morelia\, Michoacán
 DESCRIPTION:Boda de Jorge y Montse\nhttps://jorgeymontse.com
