@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """Genera assets/sello-{vino,dorado,verde}.svg, el lacre de la portada.
 
-    python3 design/sello.py assets
+    python3 design/sello.py assets [firma|lumiare]
 
 Nada de esto está dibujado a mano: el borde irregular sale de un círculo
 al que se le mueve el radio con dos ondas y un poco de azar (charco()), y el
@@ -14,7 +14,7 @@ encima, que era el problema del sello anterior.
 El color va dentro del filtro (feFlood), así que no se puede recolorear desde
 CSS: por eso son tres archivos y no uno. site.js elige cuál según CONFIG.sealColor.
 """
-import math, random, io, os, sys
+import math, random, io, os, sys, base64
 
 def catmull(pts):
     n = len(pts)
@@ -46,11 +46,40 @@ CHARCO = charco(23, 46, 86, 5.2, 11, 1.6, 2.4)
 ANILLO = charco(5, 30, 72, 0.7, 9, 0.8, 0.9)
 CAMPO  = charco(5, 30, 65, 0.6, 9, 0.7, 0.8)
 
-MONO = ('<g transform="translate(100.6,99.3) scale(.0372)">'
-        '<g transform="translate(-1120,737) scale(1,-1)">'
-        '<path d="M539 503C539 118 300 0 10 0V105C143 105 171 269 171 503V1381C171 1409 132 1428 132 1428V1434H577V1428C577 1428 539 1409 539 1381Z"/>'
-        '<path d="M791 718 1135 1434H1542V1428C1542 1428 1503 1409 1503 1381V53C1503 25 1542 6 1542 6V0H1096V6C1096 6 1135 25 1135 53C1135 53 1135 1215 1135 1215L660 225L185 1213C185 411 447 43 447 43V0H40V6C40 6 79 25 79 53V1381C79 1409 40 1428 40 1428V1434H447Z" transform="translate(658,0)"/>'
-        '</g></g>')
+# Dos monogramas posibles. El de firma es el del sitio (assets/monogram-mark.png):
+# como el SVG se carga dentro de un <img>, no puede pedir archivos de fuera, así
+# que su alfa va incrustado en base64 —blanco sobre transparente, que es justo lo
+# que el mapa de alturas necesita— reducido a 256px, de sobra para 104 en pantalla.
+# El otro es el «JM» de Lumiare, el mismo del favicon, en trazos.
+def mono_firma(alto=88.0):
+    from PIL import Image
+    ruta = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+                        'assets', 'monogram-mark.png')
+    im = Image.open(ruta).convert('RGBA')
+    a = im.split()[3]
+    a = a.crop(a.getbbox())
+    w, h = a.size
+    e = 256.0 / max(w, h)
+    a = a.resize((int(round(w*e)), int(round(h*e))), Image.LANCZOS)
+    # los trazos de la firma son finísimos: sin engordarlos un pelo, el
+    # relieve se pierde bajo el desenfoque del mapa de alturas
+    from PIL import ImageFilter
+    a = a.filter(ImageFilter.MaxFilter(3))
+    marca = Image.new('RGBA', a.size, (255, 255, 255, 0))
+    marca.putalpha(a)
+    buf = io.BytesIO(); marca.save(buf, 'PNG', optimize=True)
+    b64 = base64.b64encode(buf.getvalue()).decode()
+    ancho = alto * a.size[0] / float(a.size[1])
+    return ('<image href="data:image/png;base64,%s" x="%.2f" y="%.2f" width="%.2f" height="%.2f"/>'
+            % (b64, 100 - ancho/2, 100 - alto/2, ancho, alto))
+
+def mono_lumiare():
+    return ('<g fill="{alto}" stroke="{alto}" stroke-width="30" stroke-linejoin="round"'
+            ' transform="translate(100.6,99.3) scale(.0372)">'
+            '<g transform="translate(-1120,737) scale(1,-1)">'
+            '<path d="M539 503C539 118 300 0 10 0V105C143 105 171 269 171 503V1381C171 1409 132 1428 132 1428V1434H577V1428C577 1428 539 1409 539 1381Z"/>'
+            '<path d="M791 718 1135 1434H1542V1428C1542 1428 1503 1409 1503 1381V53C1503 25 1542 6 1542 6V0H1096V6C1096 6 1135 25 1135 53C1135 53 1135 1215 1135 1215L660 225L185 1213C185 411 447 43 447 43V0H40V6C40 6 79 25 79 53V1381C79 1409 40 1428 40 1428V1434H447Z" transform="translate(658,0)"/>'
+            '</g></g>').format(alto=NIV['mono'])
 
 # niveles del mapa de alturas (gris = altura)
 NIV = dict(charco='#5E5E5E', anillo='#DCDCDC', campo='#8F8F8F', mono='#F4F4F4')
@@ -95,20 +124,22 @@ TPL = '''<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="20
 </svg>
 '''
 
-def build(cera):
+def build(cera, mono):
     el = 42.0
     return TPL.format(
-        blur=1.15, grano='0.62 0.58', granoK=0.085, escala=6.2,
+        blur=0.95, grano='0.62 0.58', granoK=0.085, escala=6.2,
         kd=round(1.0/math.sin(math.radians(el)), 3), az=232, el=el,
         ks=0.46, exp=24, cera=cera,
         charco=CHARCO, anillo=ANILLO, campo=CAMPO,
         n_charco=NIV['charco'], n_anillo=NIV['anillo'], n_campo=NIV['campo'],
-        mono_h=MONO.replace('<g transform="translate(100.8', '<g fill="%s" transform="translate(100.8' % NIV['mono'], 1),
+        mono_h=mono,
     )
 
 dest = sys.argv[1] if len(sys.argv) > 1 else '.'
+cual = sys.argv[2] if len(sys.argv) > 2 else 'firma'
+marca = mono_firma() if cual == 'firma' else mono_lumiare()
 for nombre, color in CERAS.items():
-    p = os.path.join(dest, 'sello-%s.svg' % nombre)
-    with io.open(p, 'w', encoding='utf-8') as f:
-        f.write(build(color))
-    print(p, os.path.getsize(p))
+    ruta = os.path.join(dest, 'sello-%s.svg' % nombre)
+    with io.open(ruta, 'w', encoding='utf-8') as f:
+        f.write(build(color, marca))
+    print(ruta, os.path.getsize(ruta))
