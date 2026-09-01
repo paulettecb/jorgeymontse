@@ -378,10 +378,15 @@
 <section id="vestimenta" data-dark="1" style="background:#551724;color:#F6F4EE;padding:clamp(90px,12vw,160px) clamp(24px,7vw,110px)">
 <div data-reveal="1" style="font-family:'NoirEtBlanc',serif;text-transform:uppercase;font-size:0.9375rem;letter-spacing:.3em;color:#C9CFB2;margin-bottom:20px">código de vestimenta</div>
 <h2 data-reveal="1" style="margin:0 0 clamp(40px,5vw,70px);font-family:'Lumiare',sans-serif;font-weight:400;font-size:clamp(1.875rem,4.4vw,3.625rem);line-height:1.08;letter-spacing:-.015em">Etiqueta de noche</h2>
-<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:clamp(24px,4vw,64px);border-top:1px solid rgba(246,244,238,.28);padding-top:clamp(28px,4vw,52px)">
-<div data-reveal="1" style="display:flex;flex-direction:column;gap:12px"><div style="font-family:'NoirEtBlanc',serif;text-transform:uppercase;font-size:0.9375rem;letter-spacing:.26em;color:#C9CFB2">ellas</div><div style="font-family:'NoirEtBlanc',serif;text-transform:uppercase;letter-spacing:.06em;font-size:clamp(1.3125rem,2.1vw,1.8125rem);line-height:1.3">Vestido largo</div></div>
-<div data-reveal="1" style="display:flex;flex-direction:column;gap:12px"><div style="font-family:'NoirEtBlanc',serif;text-transform:uppercase;font-size:0.9375rem;letter-spacing:.26em;color:#C9CFB2">ellos</div><div style="font-family:'NoirEtBlanc',serif;text-transform:uppercase;letter-spacing:.06em;font-size:clamp(1.3125rem,2.1vw,1.8125rem);line-height:1.3">Esmoquin o traje formal</div><div style="font-family:'NoirEtBlanc',serif;font-size:1.0625rem;line-height:1.65;opacity:.86">La noche en Morelia enfría, considera un abrigo.</div></div>
-<div data-reveal="1" style="display:flex;flex-direction:column;gap:12px"><div style="font-family:'NoirEtBlanc',serif;text-transform:uppercase;font-size:0.9375rem;letter-spacing:.26em;color:#C9CFB2">por favor</div><div style="font-family:'NoirEtBlanc',serif;text-transform:uppercase;letter-spacing:.06em;font-size:clamp(1.3125rem,2.1vw,1.8125rem);line-height:1.3">Evita el blanco y el vino</div><div style="font-family:'NoirEtBlanc',serif;font-size:1.0625rem;line-height:1.65;opacity:.86">Esos dos los reservamos para la novia y para la paleta de la boda.</div></div>
+<!-- Los tres bloques llevan una rayita entre ellos, como pidieron los
+     novios. Apilados sale horizontal y corta; en tres columnas se pone
+     de pie en el hueco. Por eso el grid dejó de ser `auto-fit`: con
+     `auto-fit` no hay manera de saber en qué ancho pasa de una columna
+     a dos, y la rayita necesita saberlo. -->
+<div class="jm-viste" data-reveal="1">
+<div class="jm-viste-bloque"><div style="font-family:'NoirEtBlanc',serif;text-transform:uppercase;font-size:0.9375rem;letter-spacing:.26em;color:#C9CFB2">ellas</div><div style="font-family:'NoirEtBlanc',serif;text-transform:uppercase;letter-spacing:.06em;font-size:clamp(1.3125rem,2.1vw,1.8125rem);line-height:1.3">Vestido largo</div></div>
+<div class="jm-viste-bloque"><div style="font-family:'NoirEtBlanc',serif;text-transform:uppercase;font-size:0.9375rem;letter-spacing:.26em;color:#C9CFB2">ellos</div><div style="font-family:'NoirEtBlanc',serif;text-transform:uppercase;letter-spacing:.06em;font-size:clamp(1.3125rem,2.1vw,1.8125rem);line-height:1.3">Esmoquin o traje formal</div><div style="font-family:'NoirEtBlanc',serif;font-size:1.0625rem;line-height:1.65;opacity:.86">La noche en Morelia enfría, considera un abrigo.</div></div>
+<div class="jm-viste-bloque"><div style="font-family:'NoirEtBlanc',serif;text-transform:uppercase;font-size:0.9375rem;letter-spacing:.26em;color:#C9CFB2">por favor</div><div style="font-family:'NoirEtBlanc',serif;text-transform:uppercase;letter-spacing:.06em;font-size:clamp(1.3125rem,2.1vw,1.8125rem);line-height:1.3">Evita el blanco y el vino</div><div style="font-family:'NoirEtBlanc',serif;font-size:1.0625rem;line-height:1.65;opacity:.86">Esos dos los reservamos para la novia y para la paleta de la boda.</div></div>
 </div>
 </section>
 
@@ -599,10 +604,12 @@
 <input type="hidden" name="personas" id="jm-personas" value="1">
 <input type="hidden" name="acompanantes" id="jm-acompanantes" value="">
 
-<!-- Todo lo opcional, plegado. Va en <details> y no en un div con JS
-     para que también se pueda abrir sin JS. -->
-<details class="jm-mas" id="jm-mas">
-<summary><span>Alergias, canción, teléfono</span></summary>
+<!-- Antes esto iba plegado en un <details>: había que picarle para
+     abrirlo y la mayoría ni lo veía. Los novios pidieron que estuviera
+     abierto de entrada y con otro nombre, así que ya no hay nada que
+     abrir y el <details> sobra. -->
+<div class="jm-mas" id="jm-mas">
+<div class="jm-mas-tit">Tu opinión nos importa</div>
 <div class="jm-mas-campos">
 
 <label class="jm-field">
@@ -621,15 +628,15 @@
 </label>
 
 </div>
-</details>
+</div>
 
-<!-- El recado va fuera del plegable, y aparte de la logística. Ahí adentro
+<!-- El recado va fuera de ese bloque, y aparte de la logística. Ahí adentro
      estaba revuelto con las alergias y el teléfono, que son trámite: la
      gente lo leía como un campo más del formulario y lo saltaba. Aquí, con
      su propio espacio y sin «opcional» en el placeholder, se lee como lo
      que es. Estos son los que después arman el libro de recuerdos. -->
 <label class="jm-field jm-recado">
-<span>Déjales un mensaje</span>
+<span>Mensaje especial para los novios</span>
 <textarea name="mensaje" id="jm-mensaje" rows="4" placeholder="Lo que quieras decirles. Ellos lo van a leer."></textarea>
 <small>Lo leen Jorge y Montse. Después de la boda arman con estos mensajes un libro de recuerdos, aquí mismo, firmado con tu nombre.</small>
 </label>

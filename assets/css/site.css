@@ -475,10 +475,12 @@ section[hidden], a[hidden], #jm-rsvp-aviso[hidden] { display: none !important; }
   font-family: 'NoirEtBlanc', serif; text-transform: uppercase;
   font-size: 0.9375rem; letter-spacing: .2em; color: var(--oliva-pale);
 }
-.jm-quienes-lista { display: flex; flex-direction: column; gap: 8px; }
+/* 8px los dejaba pegados y las tres tarjetas se leían como un solo
+   bloque; los novios pidieron separarlos. */
+.jm-quienes-lista { display: flex; flex-direction: column; gap: 14px; }
 .jm-persona {
   display: flex; align-items: center; gap: 13px;
-  padding: 13px 16px; cursor: pointer;
+  padding: 15px 16px; cursor: pointer;
   border: 1px solid rgba(246,244,238,.2); border-radius: 4px;
   background: rgba(246,244,238,.03);
   transition: border-color .3s ease, background .3s ease, opacity .3s ease;
@@ -525,22 +527,18 @@ section[hidden], a[hidden], #jm-rsvp-aviso[hidden] { display: none !important; }
 
 /* --- Lo opcional, plegado ---
    <details> y no un div con JS: así también se abre sin JS. */
-.jm-mas { width: 100%; margin-top: 4px; }
-.jm-mas summary {
-  list-style: none; cursor: pointer; padding: 14px 0;
+.jm-mas { width: 100%; margin-top: clamp(14px, 2vw, 24px); }
+/* Antes esto era el `summary` de un <details> y había que picarle. Ahora
+   es un título y ya: los novios pidieron que se viera de entrada. Va en
+   crema y no en el verde pálido de las etiquetas, que es justo la
+   diferencia entre un rótulo y un título. */
+.jm-mas-tit {
+  padding: 14px 0;
   border-top: 1px solid rgba(246,244,238,.18);
   border-bottom: 1px solid rgba(246,244,238,.18);
-  display: flex; align-items: center; gap: 10px;
   font-family: 'NoirEtBlanc', serif; text-transform: uppercase;
-  font-size: 0.9375rem; letter-spacing: .18em; color: var(--oliva-pale);
+  font-size: 1rem; letter-spacing: .2em; color: #F6F4EE;
 }
-.jm-mas summary::-webkit-details-marker { display: none; }
-.jm-mas summary::before {
-  content: '+'; flex: 0 0 auto;
-  font-size: 1.0625rem; line-height: 1; transition: transform .3s ease;
-}
-.jm-mas[open] summary::before { content: '−'; }
-.jm-mas summary:focus-visible { outline: 2px solid var(--oliva-pale); outline-offset: 3px; }
 .jm-mas-campos {
   display: flex; flex-direction: column; gap: 22px;
   padding-top: 26px;
@@ -955,4 +953,46 @@ footer > div { white-space: normal !important; max-width: 100%; }
   font-family: 'NoirEtBlanc', serif; text-transform: uppercase;
   font-size: 0.875rem; letter-spacing: .18em; line-height: 1.3;
   color: var(--vino); text-decoration: none;
+}
+
+/* ============================================================
+   CÓDIGO DE VESTIMENTA
+   Los tres bloques —ellas, ellos, por favor— con una rayita
+   entre ellos, como pidieron los novios.
+
+   El grid dejó de ser `auto-fit` a propósito: con `auto-fit` el
+   navegador decide solo cuándo pasa de una columna a dos y no
+   hay forma de saberlo desde el CSS, y la rayita necesita
+   saberlo para ponerse horizontal o de pie. Con un punto de
+   corte fijo sí se sabe.
+   ============================================================ */
+.jm-viste {
+  display: grid; grid-template-columns: 1fr;
+  gap: clamp(24px, 4vw, 40px);
+  border-top: 1px solid rgba(246, 244, 238, .28);
+  padding-top: clamp(28px, 4vw, 52px);
+}
+.jm-viste-bloque { display: flex; flex-direction: column; gap: 12px; }
+
+/* Apilados: rayita corta arriba de cada bloque menos el primero. */
+.jm-viste-bloque + .jm-viste-bloque::before {
+  content: ""; display: block; width: 54px; height: 1px;
+  background: rgba(246, 244, 238, .42); margin-bottom: 6px;
+}
+
+/* En tres columnas la misma raya se pone de pie, en el hueco. 900px es
+   donde las tres caben sin que «Esmoquin o traje formal» se parta feo.
+
+   El hueco lo hace el padding de los bloques y no `column-gap`, para que
+   la raya quede a la mitad: con las dos cosas el aire de la izquierda
+   sería el doble que el de la derecha. */
+@media (min-width: 900px) {
+  .jm-viste { grid-template-columns: repeat(3, 1fr); column-gap: 0; }
+  .jm-viste-bloque { padding: 0 clamp(18px, 2.2vw, 34px); }
+  .jm-viste-bloque:first-child { padding-left: 0; }
+  .jm-viste-bloque:last-child { padding-right: 0; }
+  .jm-viste-bloque + .jm-viste-bloque::before { display: none; }
+  .jm-viste-bloque + .jm-viste-bloque {
+    border-left: 1px solid rgba(246, 244, 238, .28);
+  }
 }
