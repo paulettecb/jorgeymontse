@@ -22,11 +22,11 @@ DESCRIPTION:Mañana se casan Jorge y Montse
 END:VALARM
 END:VEVENT
 BEGIN:VEVENT
-UID:cóctel-de-bienvenida@jorgeymontse.com
+UID:recepción@jorgeymontse.com
 DTSTAMP:20260901T000000Z
 DTSTART:20270131T010000Z
 DTEND:20270131T013000Z
-SUMMARY:Cóctel de bienvenida · Jorge y Montse
+SUMMARY:Recepción · Jorge y Montse
 LOCATION:Jardín Los Magueyes\, Av. Plan de Ayala 1300\, Jesús del Monte\,
   Morelia\, Michoacán
 DESCRIPTION:Boda de Jorge y Montse\nhttps://jorgeymontse.com

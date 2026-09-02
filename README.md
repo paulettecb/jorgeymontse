@@ -249,7 +249,7 @@ Los datos que faltan están entre corchetes en `index.html`, así que
 
 Las sedes y horarios ya son los reales: Templo del Carmen a las 16:00 y
 Jardín Los Magueyes a las 19:00. El itinerario completo va 16:00 iglesia ·
-18:20 civil (sólo para quien va) · 19:00 cóctel · 19:30 fotos · 20:00 entrada
+18:20 civil (sólo para quien va) · 19:00 recepción · 19:30 fotos · 20:00 entrada
 · 20:30 cena · 21:30 fiesta.
 
 ## Assets

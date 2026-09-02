@@ -1250,7 +1250,7 @@
         if (!estado) return;
         estado.className = 'jm-recado-estado';
         estado.textContent = d && d.recado
-          ? 'Guardado. Puedes volver cuando quieras y cambiarlo.'
+          ? 'Guardado. Puedes cambiarlo cuando quieras.'
           : 'Listo, se borró tu mensaje.';
       }).catch(function () {
         if (btn) btn.disabled = false;

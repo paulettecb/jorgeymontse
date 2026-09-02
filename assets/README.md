@@ -44,7 +44,7 @@ Todas ✅. Las que usa el sitio hoy:
 | `ill-arco-raava-dk.png` | Itinerario · 19:30 ceremonia civil |
 | `ill-bici-raava.png` | Mesa de regalos |
 | `ill-brindis-raava-dk.png` | RSVP |
-| `ill-dog-martini-dk.png` | Itinerario · 19:00 cóctel (Raava recostada en la copa) |
+| `ill-dog-martini-dk.png` | Itinerario · 19:00 recepción (Raava recostada en la copa) |
 | `ill-dog-sunglasses-dk.png` | Itinerario · 21:30 fiesta (Raava se queda de fiesta) |
 | `orn-heart-dk.png` | Estado post-boda de la cuenta regresiva y "gracias" del RSVP |
 | `foto-propuesta.jpeg` | Separador «donde todo empezó». Es la foto de la propuesta en la playa (la versión editada por Paulette, `assets/savethedatepics/WhatsApp Image 2026-09-01 at 11.06.01.jpg`), recortada a mano a la franja del separador —franja `y = 710..1443` del vertical de 1290×2292—: el original es un vertical de teléfono y con `cover` sólo se veía arena. **Es la única foto del sitio que no va en blanco y negro**, ver abajo |
