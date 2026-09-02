@@ -20,7 +20,7 @@ pantalla y a partir de ahí el sitio es un scroll normal:
 
 bienvenidos · cuenta regresiva · la boda · itinerario · vestimenta ·
 solo adultos · hospedaje · galería · mesa de regalos · RSVP ·
-mensaje para los novios · libro de recuerdos
+mensaje para los novios
 
 «La boda» son dos tarjetas de papel sobre un lino, una por sede, como las
 invitaciones impresas que pasaron los novios. El lino es CSS —dos tramas de
@@ -30,8 +30,7 @@ del todo. Viene en beige y en verde; se cambia con `CONFIG.detallesFondo` o
 con el atributo `data-fondo` de la sección.
 
 La cuenta regresiva se cambia sola por un mensaje de agradecimiento cuando
-pasa la fecha de la boda. El libro de recuerdos, en cambio, no se enciende
-solo: lo prenden los novios desde el panel cuando quieran (ver más abajo).
+pasa la fecha de la boda.
 
 Cuando la invitación termina de crecer y ocupa toda la pantalla, el fondo
 blanco se cambia por una foto del save the date (los novios desenfocados con
@@ -161,10 +160,14 @@ contenido durante todo el scroll y los novios pidieron quitarlo: abajo de
   sólo las que ya confirmaron: los que faltan aparecen con su fondo rayado
   y sus pases reservados, para poder armar las mesas desde ahora. Los que
   dijeron que no, no aparecen.
-- **Libro de recuerdos** — los recados que le dejaron a los novios, para
-  escoger cuáles se ven en el sitio. Ver abajo. Aquí también se ve quién
-  contestó dos veces: la respuesta vieja se queda a la vista, tachada y
-  marcada «reemplazada», y fuera de la cuenta de personas.
+- **Libro de recuerdos** — todo lo que le escribieron a los novios, para
+  leerlo. No hay nada que escoger: es una vista de lectura. Arriba los
+  recados de la sección nueva; abajo, en recuadro punteado, los mensajes que
+  en su momento llegaron dentro de una confirmación.
+
+En la tabla de confirmaciones también se ve quién contestó dos veces: la
+respuesta vieja se queda a la vista, tachada y marcada «reemplazada», y
+fuera de la cuenta de personas.
 
 ## El recado
 
@@ -188,40 +191,17 @@ Quién puede escribir: cualquiera que tenga el link de esa invitación, que
 es el mismo nivel de confianza que ya tenía confirmar. El link es el
 secreto; no hay uno más fuerte que inventar.
 
-**Editar un recado tumba su aprobación** para el libro. Si no, alguien
-podría cambiar el texto de un recado ya escogido y salir publicado sin que
-los novios lo vean.
+**Estos recados no se publican en ningún lado.** Son para Jorge y Montse,
+que los van a leer todos juntos al final, de sorpresa. El panel es el único
+sitio donde salen, y va detrás de contraseña. Por eso el campo del sitio
+puede prometer «Sólo lo leen Jorge y Montse» sin letra chiquita: es verdad,
+y no hace falta ni casilla de privacidad ni curaduría que administrar.
 
-## El libro de recuerdos
-
-Los recados de arriba, publicados en el sitio después de la boda.
-
-**Un recado se publica sólo si se cumplen las tres.** La regla vive en
-`netlify/functions/libro.mts` y está repetida en `panel.mts`, porque la
-pantalla del panel se puede editar desde el navegador y el servidor no:
-
-1. el libro está prendido — el interruptor del panel (`ajustes/libroPublico`)
-2. quien lo escribió dio permiso — `privado !== true` en el recado
-3. Jorge y Montse lo escogieron — uno por uno (`ajustes/libro`, por invitación)
-
-El permiso es la parte delicada. Antes el campo prometía «Sólo lo leen Jorge
-y Montse», y con esa frase encima no se puede publicar nada: sería romperle
-la promesa a quien escribió confiando en ella. Ahora la sección dice a dónde
-va el mensaje **antes** de que lo escriban, y ofrece la salida en la casilla
-«Mejor que sea sólo para ustedes».
-
-Los mensajes que llegaron dentro de una confirmación, cuando esa promesa
-seguía en pie, **no se pueden publicar y `libro.mts` ni los mira**: viven en
-el store `rsvp` y esa función sólo abre `recados`. El panel los enseña
-aparte, en recuadro punteado, para que los novios los lean. Si alguno les
-encanta, esa persona puede volver a su link y escribirlo en la sección
-nueva, que ya dice a dónde va.
-
-Con el libro apagado, `/api/libro` contesta vacío sin siquiera leer los
-recados, la sección no aparece y no se baja ninguna foto: antes de la boda
-no le cuesta nada al sitio.
-
-La firma de cada recado es el saludo de la invitación («Fer y Óscar»).
+Hubo una versión con libro público, casilla de «mejor que sea sólo para
+ustedes» y aprobación uno por uno en el panel. Se quitó entera cuando los
+novios dijeron que no iban a escoger nada. Si algún día quieren publicarlos,
+está en el historial de git — pero entonces hay que volver a pedir permiso,
+porque el texto de arriba promete lo contrario.
 
 ## Configurar
 

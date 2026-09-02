@@ -74,7 +74,10 @@ export default async (req: Request, _context: Context) => {
   const ajustes = getStore({ name: 'ajustes', consistency: 'strong' });
   /* Los recados que la gente le deja a los novios. Uno por invitación y
      editable por quien tiene el link, así que viven aparte de las
-     confirmaciones: escribir un recado ya no deja una respuesta duplicada. */
+     confirmaciones: escribir un recado ya no deja una respuesta duplicada.
+
+     No se publican en ningún lado: son para Jorge y Montse y este panel,
+     que va detrás de contraseña, es el único sitio donde se leen. */
   const recados = getStore({ name: 'recados', consistency: 'strong' });
 
   switch (cuerpo.accion) {
@@ -116,8 +119,6 @@ export default async (req: Request, _context: Context) => {
       const civil = (await ajustes.get('civil', { type: 'json' })) || {};
       /* El libro de recuerdos: cuáles mensajes escogieron y si ya está
          publicado. Los mensajes en sí ya van dentro de `limpia`. */
-      const libro = (await ajustes.get('libro', { type: 'json' })) || {};
-      const libroPublico = (await ajustes.get('libroPublico', { type: 'json' })) === true;
       const { blobs: llavesRecado } = await recados.list({ prefix: 'porInvitacion/' });
       const recadosLista = (await Promise.all(
         llavesRecado.map(b => recados.get(b.key, { type: 'json' }).catch(() => null))
@@ -126,7 +127,7 @@ export default async (req: Request, _context: Context) => {
       // contestado para poder sentarlos, y para poder reenviar su link.
       return json({
         rsvps: limpia, mesas: plano, invitaciones: INVITACIONES,
-        envios: mandadas, plantilla, civil, libro, libroPublico,
+        envios: mandadas, plantilla, civil,
         recados: recadosLista
       });
     }
@@ -182,43 +183,6 @@ export default async (req: Request, _context: Context) => {
       else mapa[id] = cuerpo.civil === true;
       await ajustes.setJSON('civil', mapa);
       return json({ ok: true, civil: mapa });
-    }
-
-    /* Escoger un recado para el libro de recuerdos. El id es el de la
-       invitación, no el de un envío: hay un recado por invitación y se pisa
-       al editarlo, así que la aprobación sigue apuntando al mismo sitio.
-
-       El permiso del invitado se revisa AQUÍ y no sólo en la pantalla: la
-       casilla del panel se puede desactivar con las herramientas del
-       navegador, pero esto no. */
-    case 'marcarLibro': {
-      const id = String(cuerpo.id || '');
-      if (!/^[a-z0-9-]{1,60}$/.test(id)) return json({ error: 'id inválido' }, 400);
-      const mapa = ((await ajustes.get('libro', { type: 'json' })) || {}) as Record<string, boolean>;
-
-      if (cuerpo.enLibro === true) {
-        const r: any = await recados.get(`porInvitacion/${id}`, { type: 'json' }).catch(() => null);
-        if (!r || !String(r.texto || '').trim()) {
-          return json({ error: 'ese recado ya no existe' }, 404);
-        }
-        if (r.privado === true) {
-          return json({ error: 'Quien lo escribió pidió que fuera sólo para ustedes.' }, 403);
-        }
-        mapa[id] = true;
-      } else {
-        delete mapa[id];
-      }
-
-      await ajustes.setJSON('libro', mapa);
-      return json({ ok: true, libro: mapa });
-    }
-
-    /* El interruptor del libro entero. Apagado, /api/libro contesta vacío
-       y la sección del sitio ni aparece. */
-    case 'publicarLibro': {
-      const publico = cuerpo.publico === true;
-      await ajustes.setJSON('libroPublico', publico);
-      return json({ ok: true, libroPublico: publico });
     }
 
     case 'guardarPlantilla': {

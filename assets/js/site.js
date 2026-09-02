@@ -1209,93 +1209,6 @@
      Sin JS el <form> hace POST normal y Netlify enseña su propia
      página de gracias; con JS lo mandamos por fetch para no sacar a
      nadie del sitio y responder ahí mismo. */
-  /* ---------- el libro de recuerdos ----------
-     Los recados que la gente dejó al confirmar, ya pasada la boda.
-
-     La sección arranca apagada y sólo se prende si /api/libro contesta que
-     el libro está publicado y trae algo que mostrar. Toda la decisión de
-     qué se publica vive en esa función y en el panel; aquí no se filtra
-     nada, se pinta lo que llega. Si la función falla o el libro está
-     apagado, la sección se queda oculta y no pasa nada más: es lo mismo
-     que ver el sitio antes de la boda. */
-  function setupLibro() {
-    var caja = $('jm-libro');
-    if (!caja || !window.fetch) return;
-
-    fetch('/api/libro', { headers: { accept: 'application/json' } })
-      .then(function (r) { return r.ok ? r.json() : null; })
-      .then(function (d) {
-        if (!d || d.publico !== true) return;
-        var msjs = Array.isArray(d.mensajes) ? d.mensajes : [];
-        if (!msjs.length) return;
-        pintaLibro(caja, msjs);
-      })
-      .catch(function () {
-        /* Sin conexión o sin función: la sección se queda como estaba.
-           Es un extra al final de la página, no vale un mensaje de error. */
-      });
-  }
-
-  function pintaLibro(caja, msjs) {
-    /* Las fotos que se intercalan vienen del HTML, no de aquí, para que
-       cambiarlas no obligue a tocar el JS. Formato: archivo|texto alterno,
-       separadas por punto y coma. */
-    var fotos = (caja.getAttribute('data-fotos') || '').split(';')
-      .map(function (par) {
-        var p = par.split('|');
-        return p[0] ? { src: 'assets/' + p[0].trim(), alt: (p[1] || '').trim() } : null;
-      })
-      .filter(Boolean);
-
-    /* Una foto cada tantos recados, repartidas parejo: con pocos mensajes
-       no queremos la sección llena de fotos, y con muchos no queremos tres
-       fotos al principio y nada después. El +1 evita que la primera tarjeta
-       del libro sea una foto en vez de un recado. */
-    var cada = fotos.length ? Math.max(3, Math.ceil(msjs.length / fotos.length)) : 0;
-
-    var frag = document.createDocumentFragment();
-    var sig = 0;
-    msjs.forEach(function (m, i) {
-      var art = document.createElement('article');
-      art.className = 'jm-recuerdo';
-
-      var txt = document.createElement('p');
-      txt.className = 'jm-recuerdo-txt';
-      /* textContent y no innerHTML: esto lo escribió alguien más y va a
-         verlo todo el mundo. Aquí se pinta como texto, punto. */
-      txt.textContent = m.texto;
-
-      var de = document.createElement('div');
-      de.className = 'jm-recuerdo-de';
-      de.textContent = m.de;
-
-      art.appendChild(txt);
-      art.appendChild(de);
-      frag.appendChild(art);
-
-      if (cada && sig < fotos.length && (i + 1) % cada === 0) {
-        var f = fotos[sig++];
-        var fig = document.createElement('figure');
-        fig.className = 'jm-recuerdo-foto';
-        var img = document.createElement('img');
-        img.loading = 'lazy'; img.decoding = 'async';
-        img.src = f.src; img.alt = f.alt;
-        fig.appendChild(img);
-        frag.appendChild(fig);
-      }
-    });
-
-    caja.appendChild(frag);
-
-    var sec = $('libro'), link = $('jm-nav-libro');
-    if (sec) sec.hidden = false;
-    if (link) link.hidden = false;
-    /* La sección acaba de nacer, así que sus [data-reveal] todavía no
-       existían cuando corrió setupReveal. Volver a llamarlo los recoge;
-       los que ya estaban traen data-reveal-init y no se tocan. */
-    setupReveal();
-  }
-
   /* ---------- el recado ----------
      El mensaje que cada invitación le deja a los novios.
 
@@ -1309,23 +1222,14 @@
   function setupRecado() {
     var form = $('jm-recado-form');
     if (!form) return;
-    var txt = $('jm-recado-txt'), priv = $('jm-recado-privado'),
-        btn = $('jm-recado-cta'), estado = $('jm-recado-estado');
+    var txt = $('jm-recado-txt'), btn = $('jm-recado-cta'),
+        estado = $('jm-recado-estado');
 
-    /* La casilla de privacidad aparece cuando hay algo escrito: ofrecerle
-       privacidad a una caja vacía no significa nada. Nunca se esconde ya
-       palomeada, que sería borrar una decisión que la persona ya tomó. */
-    var caja = $('jm-privado');
-    function syncPrivado() {
-      if (!caja) return;
-      if (priv && priv.checked) { caja.hidden = false; return; }
-      caja.hidden = !txt.value.trim();
-    }
+    /* Al escribir se borra el «guardado» de la vez pasada: si no, queda
+       diciendo que está guardado un texto que ya no es el que se ve. */
     if (txt) txt.addEventListener('input', function () {
-      syncPrivado();
       if (estado) { estado.textContent = ''; estado.className = 'jm-recado-estado'; }
     });
-    syncPrivado();
 
     form.addEventListener('submit', function (e) {
       e.preventDefault();
@@ -1337,11 +1241,7 @@
       fetch('/api/recado', {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
-        body: JSON.stringify({
-          invitacion: id,
-          texto: txt ? txt.value : '',
-          privado: !!(priv && priv.checked)
-        })
+        body: JSON.stringify({ invitacion: id, texto: txt ? txt.value : '' })
       }).then(function (r) {
         if (!r.ok) throw new Error(r.status);
         return r.json();
@@ -1367,15 +1267,12 @@
      con lo que contestó /api/invitacion. */
   function pintaRecado(recado) {
     var sec = $('recado'), link = $('jm-nav-recado');
-    var txt = $('jm-recado-txt'), priv = $('jm-recado-privado'),
-        estado = $('jm-recado-estado'), caja = $('jm-privado');
+    var txt = $('jm-recado-txt'), estado = $('jm-recado-estado');
     if (!sec) return;
     if (recado && txt) {
       txt.value = recado.texto || '';
-      if (priv) priv.checked = recado.privado === true;
       if (estado) estado.textContent = 'Ya nos dejaste uno. Cámbialo cuando quieras.';
     }
-    if (caja) caja.hidden = !((txt && txt.value.trim()) || (priv && priv.checked));
     sec.hidden = false;
     if (link) link.hidden = false;
   }
@@ -1468,7 +1365,6 @@
     setupForm();
     setupClabe();
     setupRecado();
-    setupLibro();
 
     if (el.env) {
       el.env.addEventListener('click', openIt);

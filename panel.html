@@ -187,14 +187,10 @@ section.blk{ margin-top:52px }
 .libro-barra{ display:flex; align-items:center; gap:14px; flex-wrap:wrap;
   padding:14px 16px; margin:14px 0 18px; background:var(--hueso2);
   border:1px solid rgba(99,27,41,.14) }
-.libro-barra label{ display:inline-flex; align-items:center; gap:9px; cursor:pointer;
-  font-size:15px }
-.libro-barra input{ width:19px; height:19px; accent-color:var(--vino); cursor:pointer }
 .libro-lista{ display:grid; gap:14px;
   grid-template-columns:repeat(auto-fill,minmax(300px,1fr)) }
 .recado{ display:flex; flex-direction:column; gap:12px; padding:18px 20px;
   border:1px solid rgba(99,27,41,.16); background:var(--hueso) }
-.recado.va{ border-color:rgba(85,98,74,.55); background:rgba(85,98,74,.05) }
 /* Los mensajes que llegaron dentro de una confirmación: se leen, pero no se
    pueden publicar. Se apagan para que se note de un vistazo cuáles sí. */
 .recado.viejo{ border-style:dashed; background:transparent; opacity:.75 }
@@ -208,15 +204,10 @@ section.blk{ margin-top:52px }
    escoger, que además sube a 13px: 12 quedaba por debajo del mínimo que
    se respeta en todo el proyecto. */
 .recado-cuando{ font-size:13px; opacity:.72 }
-.recado-pie label{ display:inline-flex; align-items:center; gap:8px; margin-left:auto;
-  cursor:pointer; font-size:13px; letter-spacing:.1em; text-transform:uppercase;
-  padding:8px 0 }
-.recado-pie input{ width:18px; height:18px; accent-color:var(--vino); cursor:pointer }
 .recado-privado{ margin-left:auto; font-size:13px; letter-spacing:.1em;
   text-transform:uppercase; opacity:.72; text-align:right; max-width:22ch; line-height:1.5 }
 @media (max-width:720px){
   .libro-lista{ grid-template-columns:1fr }
-  .recado-pie label{ margin-left:0; width:100% }
   .recado-privado{ margin-left:0; max-width:none; text-align:left }
 }
 
@@ -318,9 +309,8 @@ section.blk{ margin-top:52px }
   <section class="blk" id="libro-blk">
     <div class="eyebrow">después de la boda</div>
     <h2 style="font-size:clamp(24px,3vw,34px);margin:6px 0 4px">Libro de recuerdos</h2>
-    <p class="hint" style="margin:0">Los recados que les dejaron. Escojan cuáles se ven en el sitio; los que no escojan se quedan aquí, sólo para ustedes. Nada se publica hasta que prendan el interruptor. Los de recuadro punteado llegaron dentro de una confirmación, cuando el formulario prometía que sólo los leían ustedes: ésos se pueden leer pero no publicar.</p>
+    <p class="hint" style="margin:0">Todo lo que les escribieron. No se publican en ningún lado: son sólo para ustedes. Los de recuadro punteado llegaron dentro de una confirmación, antes de que el mensaje tuviera su propia sección.</p>
     <div class="libro-barra">
-      <label><input type="checkbox" id="libro-publico"><span>Publicar el libro en el sitio</span></label>
       <span class="hint" id="libro-cuenta" style="margin:0"></span>
     </div>
     <div class="libro-lista" id="libro-lista"></div>
@@ -331,7 +321,7 @@ section.blk{ margin-top:52px }
 (function () {
   'use strict';
   var CLAVE = null, DATOS = { rsvps: [], mesas: { mesas: [], asignaciones: {} }, envios: {}, plantilla: '', civil: {},
-                             libro: {}, libroPublico: false, recados: [] },
+                             recados: [] },
       SEL = null, tSave = null;
   /* Quién está mandando. Vive en el navegador de cada quien: se elige una
      vez y ya. Sirve para que Jorge y Montse no se dupliquen. */
@@ -389,7 +379,6 @@ section.blk{ margin-top:52px }
     if (!DATOS.mesas || !Array.isArray(DATOS.mesas.mesas)) DATOS.mesas = { mesas: [], asignaciones: {} };
     if (!DATOS.envios) DATOS.envios = {};
     $('plantilla').value = DATOS.plantilla || '';
-    if (!DATOS.libro) DATOS.libro = {};
     if (!DATOS.recados) DATOS.recados = [];
     stats(); filas(); alergias(); invStats(); invFilas(); mesas(); libroPanel();
   }
@@ -413,21 +402,16 @@ section.blk{ margin-top:52px }
     return (inv && inv.saludo) || null;
   }
 
-  /* Dos listas en una.
+  /* Los recados, para leerlos.
 
-     Arriba, los recados de verdad: los que la gente escribe en su propia
-     sección del sitio, uno por invitación, editables por quien tiene el
-     link. Ésos son los que se pueden escoger para el libro.
-
-     Abajo, los mensajes viejos: los que llegaron dentro de una confirmación
-     cuando el formulario prometía «Sólo lo leen Jorge y Montse». Se ven,
-     porque son para ustedes, pero no se pueden publicar: se les prometió lo
-     contrario. Si alguno les encanta, esa persona puede volver a entrar a
-     su link y escribirlo en la sección nueva, que ya dice a dónde va. */
+     No hay nada que escoger: los novios los ven todos al final y es
+     sorpresa, así que esto es una vista de lectura y punto. Arriba los
+     recados de la sección nueva del sitio, uno por invitación y editables
+     por quien tiene el link; abajo, en recuadro punteado, los mensajes que
+     en su momento llegaron dentro de una confirmación. */
   function libroPanel() {
-    var caja = $('libro-lista'), cuenta = $('libro-cuenta'), sw = $('libro-publico');
+    var caja = $('libro-lista'), cuenta = $('libro-cuenta');
     if (!caja) return;
-    if (sw) sw.checked = DATOS.libroPublico === true;
 
     var recados = (DATOS.recados || []).filter(function (r) { return String(r.texto || '').trim(); });
     recados.sort(function (a, b) { return String(a.creado).localeCompare(String(b.creado)); });
@@ -441,46 +425,30 @@ section.blk{ margin-top:52px }
              && !conNuevo[invitacionDe(r) || ''];
     });
 
-    if (!recados.length && !viejos.length) {
+    var total = recados.length + viejos.length;
+    if (!total) {
       caja.innerHTML = '<p class="hint" style="margin:0">Todavía no les han dejado ningún recado.</p>';
       if (cuenta) cuenta.textContent = '';
       return;
     }
+    if (cuenta) cuenta.textContent = total + (total === 1 ? ' recado' : ' recados');
 
-    var elegidos = recados.filter(function (r) { return DATOS.libro[r.invitacion] === true; }).length;
-    if (cuenta) {
-      cuenta.textContent = recados.length
-        ? elegidos + ' de ' + recados.length
-          + (recados.length === 1 ? ' recado escogido' : ' recados escogidos')
-        : 'todavía nadie escribe en la sección nueva';
-    }
-
-    var html = recados.map(function (r) {
-      var va = DATOS.libro[r.invitacion] === true;
-      var pie = r.privado === true
-        ? '<span class="recado-privado">pidió que fuera sólo para ustedes</span>'
-        : '<label><input type="checkbox" data-libro="' + esc(r.invitacion) + '"' + (va ? ' checked' : '')
-          + '>va en el libro</label>';
-      return '<article class="recado' + (va ? ' va' : '') + '">'
+    caja.innerHTML = recados.map(function (r) {
+      return '<article class="recado">'
         + '<p class="recado-txt">' + esc(r.texto) + '</p>'
         + '<div class="recado-pie">'
         + '<span class="recado-de">' + esc(saludoDe(r.invitacion) || r.invitacion) + '</span>'
         + '<span class="recado-cuando">' + fecha(r.actualizado || r.creado) + '</span>'
-        + pie
         + '</div></article>';
-    }).join('');
-
-    html += viejos.map(function (r) {
+    }).join('') + viejos.map(function (r) {
       return '<article class="recado viejo">'
         + '<p class="recado-txt">' + esc(r.mensaje) + '</p>'
         + '<div class="recado-pie">'
         + '<span class="recado-de">' + esc(saludoDe(invitacionDe(r)) || r.nombre || 'alguien') + '</span>'
         + '<span class="recado-cuando">' + fecha(r.creado) + '</span>'
-        + '<span class="recado-privado">llegó en su confirmación, antes de que se pidiera permiso</span>'
+        + '<span class="recado-privado">llegó dentro de su confirmación</span>'
         + '</div></article>';
     }).join('');
-
-    caja.innerHTML = html;
   }
 
   /* De qué invitación es una respuesta.
@@ -863,35 +831,6 @@ section.blk{ margin-top:52px }
     if (!Number.isFinite(cap) || cap < 1) return;
     DATOS.mesas.mesas.push({ id: 'm' + Date.now().toString(36), nombre: 'Mesa ' + n, capacidad: Math.min(cap, 30) });
     mesas(); guardarMesas();
-  });
-
-  /* Escoger un recado. Se guarda solo, como la casilla de la boda civil.
-     Si el servidor dice que no —porque esa persona pidió privacidad—, la
-     casilla se regresa y se dice por qué. */
-  $('libro-lista').addEventListener('change', function (e) {
-    var c = e.target.closest('[data-libro]');
-    if (!c) return;
-    var id = c.dataset.libro, valor = c.checked;
-    c.disabled = true;
-    api('marcarLibro', { id: id, enLibro: valor }).then(function (r) {
-      DATOS.libro = r.libro || {};
-      libroPanel();
-    }).catch(function (err) {
-      c.checked = !valor; c.disabled = false; alert(err.message);
-    });
-  });
-
-  /* El interruptor del libro entero. Apagado, la sección ni sale en el
-     sitio; prendido, salen los recados escogidos y nada más. */
-  $('libro-publico').addEventListener('change', function (e) {
-    var sw = e.target, valor = sw.checked;
-    sw.disabled = true;
-    api('publicarLibro', { publico: valor }).then(function (r) {
-      DATOS.libroPublico = r.libroPublico === true;
-      sw.disabled = false;
-    }).catch(function (err) {
-      sw.checked = !valor; sw.disabled = false; alert(err.message);
-    });
   });
 
   $('buscar').addEventListener('input', filas);

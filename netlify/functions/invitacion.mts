@@ -63,19 +63,13 @@ export default async (req: Request, _context: Context) => {
   }
 
   /* El recado que esta invitación ya dejó, para que el sitio lo pinte en
-     la caja y se pueda editar en vez de escribir uno encima. Va sólo el
-     texto y si lo pidieron privado: quién lo aprobó para el libro es cosa
-     de los novios y no tiene por qué salir de aquí. */
-  let recado: { texto: string; privado: boolean; actualizado: string } | null = null;
+     la caja y se pueda editar en vez de escribir uno encima. */
+  let recado: { texto: string; actualizado: string } | null = null;
   try {
     const r: any = await getStore({ name: 'recados', consistency: 'strong' })
       .get(`porInvitacion/${inv.id}`, { type: 'json' });
     if (r && r.texto) {
-      recado = {
-        texto: String(r.texto),
-        privado: r.privado === true,
-        actualizado: String(r.actualizado || '')
-      };
+      recado = { texto: String(r.texto), actualizado: String(r.actualizado || '') };
     }
   } catch {
     // sin blobs se abre la caja vacía, que es lo mismo que no haber escrito

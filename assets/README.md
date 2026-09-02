@@ -51,7 +51,7 @@ Todas ✅. Las que usa el sitio hoy:
 | `foto-templo-calle.jpeg` | Separador «tú y yo, siempre» |
 | `foto-forro-sobre.jpeg` | Forro del sobre de la portada (el rombo: solapa y fondo). Es la M&J-PRE-120 (Raava con el pañuelo del Save the Date) llevada a la proporción del rombo. Una foto vertical metida en el rombo sale enorme y recortada, así que se acomoda sobre un lienzo de la proporción correcta antes de subirla |
 | `foto-de-la-mano.jpeg` | Separador «contando los días» |
-| `ill-banca.png` | Libro de recuerdos: los dos sentados en la banca. Va en vino porque el fondo de esa sección es claro |
+| `ill-manos-dk.png` | Sección del mensaje para los novios. Va en crema («-dk») porque el fondo de esa sección es vino profundo |
 | 33 `foto-*.jpeg` más | Galería (ver abajo) |
 
 ### La canción

@@ -86,10 +86,7 @@
 <!-- PENDIENTE · HOSPEDAJE: se enciende junto con la sección -->
 <a class="jm-navlink is-secondary" href="#hospedaje" hidden>hospedaje</a>
 <a class="jm-navlink is-secondary" href="#galeria">galería</a>
-<!-- Se enciende solo, junto con la sección, cuando los novios prenden
-     el libro desde el panel. Ver #libro. -->
 <a class="jm-navlink is-secondary" id="jm-nav-recado" href="#recado" hidden>mensaje</a>
-<a class="jm-navlink is-secondary" id="jm-nav-libro" href="#libro" hidden>el libro</a>
 <a class="jm-pill" id="jm-pill" href="#rsvp" style="padding:9px 22px 8px;border:1px solid rgba(99,27,41,.35);border-radius:999px">confirmar</a>
 </div>
 </nav>
@@ -657,29 +654,21 @@
 
      Arranca oculta y la enciende el link personalizado, igual que la
      sección de confirmar: sin saber de quién es el recado no hay dónde
-     guardarlo. -->
+     guardarlo.
+
+     Estos mensajes NO se publican en ningún lado. Son para Jorge y Montse
+     y los van a leer todos juntos al final, de sorpresa; el sitio sólo los
+     recoge y el panel es donde se leen. Por eso el campo puede prometer
+     «Sólo lo leen Jorge y Montse» sin letra chiquita: es verdad. -->
 <section id="recado" hidden data-dark="1" style="background:#3A0F16;color:#F6F4EE;padding:clamp(80px,10vw,130px) clamp(24px,7vw,110px);display:flex;flex-direction:column;align-items:center;text-align:center;gap:20px">
 <img loading="lazy" decoding="async" data-reveal="1" src="assets/ill-manos-dk.png" alt="" style="width:clamp(120px,13vw,168px);height:auto;display:block;margin-bottom:2px">
 <div data-reveal="1" style="font-family:'NoirEtBlanc',serif;text-transform:uppercase;font-size:0.9375rem;letter-spacing:.3em;color:#C9CFB2">para Jorge y Montse</div>
 <h2 data-reveal="1" style="margin:0;font-family:'Lumiare',sans-serif;font-weight:400;font-size:clamp(1.75rem,3.8vw,3.125rem);line-height:1.08;letter-spacing:-.015em;max-width:20ch;text-wrap:pretty">Mensaje especial para los novios</h2>
-<p data-reveal="1" style="margin:0;max-width:50ch;font-family:'NoirEtBlanc',serif;font-size:1.1875rem;line-height:1.7;opacity:.88;text-wrap:pretty">Escríbeles lo que quieras. Puedes volver cuando quieras y cambiarlo: se guarda uno solo, el último.</p>
-
 <form class="jm-form jm-recado-form" id="jm-recado-form" data-reveal="1">
 <label class="jm-field jm-recado">
 <span class="jm-vh">Tu mensaje</span>
 <textarea id="jm-recado-txt" rows="5" maxlength="1200" placeholder="Lo que quieras decirles. Ellos lo van a leer."></textarea>
-<small>Lo leen Jorge y Montse. Después de la boda arman con estos mensajes un libro de recuerdos, aquí mismo, firmado con tu nombre.</small>
-</label>
-
-<!-- El permiso para el libro.
-     Se pregunta ANTES de que escriban y no después: publicar un mensaje
-     que se pidió en privado sería romperle la promesa a quien lo escribió.
-     Y aun con permiso nada sale solo — en el panel los novios escogen uno
-     por uno. Esto es el permiso del invitado, no la publicación. -->
-<label class="jm-privado" id="jm-privado">
-<input type="checkbox" id="jm-recado-privado">
-<span class="jm-privado-marca"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5 9.5 18 20 6.5"/></svg></span>
-<span class="jm-privado-txt">Mejor que sea sólo para ustedes</span>
+<small>Sólo lo leen Jorge y Montse. Puedes volver cuando quieras y cambiarlo.</small>
 </label>
 
 <div class="jm-recado-pie">
@@ -687,26 +676,6 @@
 <p class="jm-recado-estado" id="jm-recado-estado" role="status" aria-live="polite"></p>
 </div>
 </form>
-</section>
-
-<!-- ============================ LIBRO DE RECUERDOS ============================
-     Los recados que la gente dejó al confirmar, ya pasada la boda.
-
-     Arranca `hidden` y se enciende sola cuando /api/libro contesta que sí:
-     el interruptor está en el panel, no aquí. Mientras esté apagada no se
-     baja ni una foto ni se pide un mensaje, así que no le cuesta nada al
-     sitio antes del 30 de enero.
-
-     Nada de esto se publica por su cuenta. Un mensaje llega hasta aquí
-     sólo si su autor dio permiso en el formulario Y Jorge y Montse lo
-     escogieron uno por uno en el panel. La regla completa está escrita en
-     netlify/functions/libro.mts. -->
-<section id="libro" hidden style="background:#F6F4EE;padding:clamp(90px,12vw,160px) clamp(24px,7vw,110px);display:flex;flex-direction:column;align-items:center;text-align:center;gap:22px">
-<img loading="lazy" decoding="async" data-reveal="1" src="assets/ill-banca.png" alt="" style="width:clamp(170px,19vw,240px);height:auto;display:block;margin-bottom:2px">
-<div data-reveal="1" style="font-family:'NoirEtBlanc',serif;text-transform:uppercase;font-size:0.9375rem;letter-spacing:.3em;color:#55624A">el libro de recuerdos</div>
-<h2 data-reveal="1" style="margin:0;font-family:'Lumiare',sans-serif;font-weight:400;font-size:clamp(1.75rem,3.8vw,3.125rem);line-height:1.08;letter-spacing:-.015em;max-width:20ch;text-wrap:pretty">Lo que nos escribieron</h2>
-<p data-reveal="1" style="margin:0;max-width:52ch;font-family:'NoirEtBlanc',serif;font-size:1.1875rem;line-height:1.7;opacity:.88;text-wrap:pretty">Cada quien nos dejó unas palabras al confirmar. Aquí están, con su nombre, para volver a leerlas cuando queramos.</p>
-<div class="jm-libro" id="jm-libro" data-fotos="foto-risa.jpeg|Los dos riéndose;foto-los-tres.jpeg|Los tres juntos: Jorge, Montse y Raava;foto-narices.jpeg|Frente con frente, nariz con nariz;foto-sentados.jpeg|Sentados, platicando;foto-anillo.jpeg|El anillo de compromiso"></div>
 </section>
 
 <footer style="background:#FFFFFF;padding:clamp(56px,7vw,90px) clamp(24px,7vw,110px);display:flex;flex-direction:column;align-items:center;gap:18px">

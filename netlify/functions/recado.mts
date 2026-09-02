@@ -17,6 +17,12 @@
  * Quién puede escribir: cualquiera que tenga el link de esa invitación, que
  * es el mismo nivel de confianza que ya tenía confirmar. El link es el
  * secreto; aquí no hay uno más fuerte que inventar.
+ *
+ * Estos recados NO se publican en ningún lado. Son para Jorge y Montse, que
+ * los leen todos juntos al final, de sorpresa. El panel es el único sitio
+ * donde salen, y va detrás de contraseña. Por eso el campo del sitio puede
+ * prometer «Sólo lo leen Jorge y Montse» sin letra chiquita, y por eso aquí
+ * no hay ni casilla de privacidad ni aprobación que administrar.
  */
 import { POR_ID } from './invitados-datos.mts';
 import { getStore } from '@netlify/blobs';
@@ -46,7 +52,6 @@ export default async (req: Request, _context: Context) => {
   }
 
   const texto = String(cuerpo?.texto ?? '').trim().slice(0, LARGO_MAX);
-  const privado = cuerpo?.privado === true;
 
   let store;
   try {
@@ -70,29 +75,10 @@ export default async (req: Request, _context: Context) => {
   const recado = {
     invitacion: id,
     texto,
-    privado,
     creado: antes?.creado || ahora,
     actualizado: ahora
   };
   await store.setJSON(llave, recado);
-
-  /* Si el recado cambia, la aprobación de los novios ya no vale para el
-     texto nuevo: lo que escogieron no es lo que se publicaría. Se cae sola
-     y la vuelven a palomear si les sigue gustando. Es lo contrario de
-     cómodo, y es a propósito: nadie debería poder cambiar el texto de un
-     recado que ya está aprobado y que salga publicado sin que lo vean. */
-  if (antes && antes.texto !== texto) {
-    try {
-      const ajustes = getStore({ name: 'ajustes', consistency: 'strong' });
-      const mapa = ((await ajustes.get('libro', { type: 'json' })) || {}) as Record<string, boolean>;
-      if (mapa[id]) {
-        delete mapa[id];
-        await ajustes.setJSON('libro', mapa);
-      }
-    } catch {
-      // si los ajustes no contestan, el recado igual se guardó
-    }
-  }
 
   return json({ ok: true, recado });
 };
