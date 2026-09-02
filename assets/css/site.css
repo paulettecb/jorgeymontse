@@ -767,10 +767,16 @@ footer > div { white-space: normal !important; max-width: 100%; }
 /* Apilados: raya arriba de cada bloque menos el primero. Va casi de lado
    a lado —no un guioncito— porque apilada tiene que separar dos bloques
    que ocupan todo el ancho, y una rayita de 54 px ahí se veía perdida. La
-   que sí es corta es la vertical de abajo, que separa columnas angostas. */
+   que sí es corta es la vertical de abajo, que separa columnas angostas.
+
+   El .45 no es capricho. A .28, que es lo que lleva la raya larga de
+   arriba, la vertical daba 2.2:1 contra el vino: existía en el DOM y no se
+   veía en la pantalla. Una raya larga aguanta ser tenue; una corta no. A
+   .45 da 3.6:1 y las dos se leen igual de presentes aunque el número sea
+   distinto. */
 .jm-viste-bloque + .jm-viste-bloque::before {
   content: ""; display: block; width: min(100%, 340px); height: 1px;
-  background: rgba(246, 244, 238, .3); margin-bottom: 10px;
+  background: rgba(246, 244, 238, .45); margin-bottom: 10px;
 }
 
 /* En tres columnas la misma raya se pone de pie, en el hueco. 900px es
@@ -786,7 +792,7 @@ footer > div { white-space: normal !important; max-width: 100%; }
   .jm-viste-bloque:last-child { padding-right: 0; }
   .jm-viste-bloque + .jm-viste-bloque::before { display: none; }
   .jm-viste-bloque + .jm-viste-bloque {
-    border-left: 1px solid rgba(246, 244, 238, .28);
+    border-left: 1px solid rgba(246, 244, 238, .45);
   }
 }
 
