@@ -44,14 +44,14 @@ Todas ✅. Las que usa el sitio hoy:
 | `ill-arco-raava-dk.png` | Itinerario · 19:30 ceremonia civil |
 | `ill-bici-raava.png` | Mesa de regalos |
 | `ill-brindis-raava-dk.png` | RSVP |
-| `ill-dog-martini-dk.png` | Itinerario · 19:00 cóctel (Raava recostada en la copa) |
+| `ill-dog-martini-dk.png` | Itinerario · 19:00 recepción (Raava recostada en la copa) |
 | `ill-dog-sunglasses-dk.png` | Itinerario · 21:30 fiesta (Raava se queda de fiesta) |
 | `orn-heart-dk.png` | Estado post-boda de la cuenta regresiva y "gracias" del RSVP |
 | `foto-propuesta.jpeg` | Separador «donde todo empezó». Es la foto de la propuesta en la playa (la versión editada por Paulette, `assets/savethedatepics/WhatsApp Image 2026-09-01 at 11.06.01.jpg`), recortada a mano a la franja del separador —franja `y = 710..1443` del vertical de 1290×2292—: el original es un vertical de teléfono y con `cover` sólo se veía arena. **Es la única foto del sitio que no va en blanco y negro**, ver abajo |
 | `foto-templo-calle.jpeg` | Separador «tú y yo, siempre» |
 | `foto-forro-sobre.jpeg` | Forro del sobre de la portada (el rombo: solapa y fondo). Es la M&J-PRE-120 (Raava con el pañuelo del Save the Date) llevada a la proporción del rombo. Una foto vertical metida en el rombo sale enorme y recortada, así que se acomoda sobre un lienzo de la proporción correcta antes de subirla |
 | `foto-de-la-mano.jpeg` | Separador «contando los días» |
-| `ill-banca.png` | Libro de recuerdos: los dos sentados en la banca. Va en vino porque el fondo de esa sección es claro |
+| `ill-manos-dk.png` | Sección del mensaje para los novios. Va en crema («-dk») porque el fondo de esa sección es vino profundo |
 | 33 `foto-*.jpeg` más | Galería (ver abajo) |
 
 ### La canción

@@ -397,8 +397,8 @@ img { max-width: 100%; }
 }
 .jm-quien[hidden], .jm-field[hidden] { display: none; }
 
-/* Secciones y links apagados: hospedaje, que espera datos, y el libro de
-   recuerdos, que se enciende desde el panel después de la boda.
+/* Secciones y links apagados: hospedaje, que espera datos, y el recado,
+   que sólo se enciende con link personalizado.
    Los `style` inline del template traen su propio display, y eso le gana
    al [hidden] del navegador — el mismo caso que .jm-form y .jm-field. */
 section[hidden], a[hidden], #jm-rsvp-aviso[hidden] { display: none !important; }
@@ -475,10 +475,12 @@ section[hidden], a[hidden], #jm-rsvp-aviso[hidden] { display: none !important; }
   font-family: 'NoirEtBlanc', serif; text-transform: uppercase;
   font-size: 0.9375rem; letter-spacing: .2em; color: var(--oliva-pale);
 }
-.jm-quienes-lista { display: flex; flex-direction: column; gap: 8px; }
+/* 8px los dejaba pegados y las tres tarjetas se leían como un solo
+   bloque; los novios pidieron separarlos. */
+.jm-quienes-lista { display: flex; flex-direction: column; gap: 14px; }
 .jm-persona {
   display: flex; align-items: center; gap: 13px;
-  padding: 13px 16px; cursor: pointer;
+  padding: 15px 16px; cursor: pointer;
   border: 1px solid rgba(246,244,238,.2); border-radius: 4px;
   background: rgba(246,244,238,.03);
   transition: border-color .3s ease, background .3s ease, opacity .3s ease;
@@ -525,22 +527,18 @@ section[hidden], a[hidden], #jm-rsvp-aviso[hidden] { display: none !important; }
 
 /* --- Lo opcional, plegado ---
    <details> y no un div con JS: así también se abre sin JS. */
-.jm-mas { width: 100%; margin-top: 4px; }
-.jm-mas summary {
-  list-style: none; cursor: pointer; padding: 14px 0;
+.jm-mas { width: 100%; margin-top: clamp(14px, 2vw, 24px); }
+/* Antes esto era el `summary` de un <details> y había que picarle. Ahora
+   es un título y ya: los novios pidieron que se viera de entrada. Va en
+   crema y no en el verde pálido de las etiquetas, que es justo la
+   diferencia entre un rótulo y un título. */
+.jm-mas-tit {
+  padding: 14px 0;
   border-top: 1px solid rgba(246,244,238,.18);
   border-bottom: 1px solid rgba(246,244,238,.18);
-  display: flex; align-items: center; gap: 10px;
   font-family: 'NoirEtBlanc', serif; text-transform: uppercase;
-  font-size: 0.9375rem; letter-spacing: .18em; color: var(--oliva-pale);
+  font-size: 1rem; letter-spacing: .2em; color: #F6F4EE;
 }
-.jm-mas summary::-webkit-details-marker { display: none; }
-.jm-mas summary::before {
-  content: '+'; flex: 0 0 auto;
-  font-size: 1.0625rem; line-height: 1; transition: transform .3s ease;
-}
-.jm-mas[open] summary::before { content: '−'; }
-.jm-mas summary:focus-visible { outline: 2px solid var(--oliva-pale); outline-offset: 3px; }
 .jm-mas-campos {
   display: flex; flex-direction: column; gap: 22px;
   padding-top: 26px;
@@ -741,45 +739,6 @@ footer > div { white-space: normal !important; max-width: 100%; }
    saltaba. De estos sale el libro de recuerdos. */
 .jm-recado { margin-top: clamp(18px, 2.4vw, 28px); }
 
-/* --- El permiso para el libro de recuerdos ---
-   Va debajo del recado y usa la misma palomita que la lista de «quiénes
-   vienen», en chico: es la misma idea —palomear algo— y no vale la pena
-   estrenar un control distinto.
-
-   Sin JS se ve siempre. Con JS aparece cuando la persona escribe algo,
-   porque ofrecerle privacidad a un campo vacío no significa nada. Por eso
-   el estado de arranque es «visible» y el JS es el que esconde: si el
-   script no corre, la casilla sigue ahí y se puede palomear. */
-.jm-privado {
-  display: flex; align-items: flex-start; gap: 11px;
-  /* El renglón completo es el área que se toca, y con el puro texto medía
-     23 px de alto: por debajo de los 24 que pide WCAG 2.2. El padding lo
-     sube a 35 sin mover nada de lo que se ve. */
-  width: 100%; margin-top: 8px; padding: 6px 0; cursor: pointer;
-}
-.jm-privado[hidden] { display: none; }
-.jm-privado input {
-  position: absolute; width: 1px; height: 1px; opacity: 0; pointer-events: none;
-}
-.jm-privado-marca {
-  flex: 0 0 auto; display: grid; place-items: center;
-  width: 19px; height: 19px; margin-top: 1px;
-  border: 1px solid rgba(246,244,238,.5); border-radius: 3px;
-  transition: background .25s ease, border-color .25s ease;
-}
-.jm-privado-marca svg { width: 12px; height: 12px; opacity: 0; transition: opacity .25s ease; }
-.jm-privado input:checked ~ .jm-privado-marca {
-  background: var(--oliva-pale); border-color: var(--oliva-pale);
-}
-.jm-privado input:checked ~ .jm-privado-marca svg { opacity: 1; color: #3A0F16; }
-.jm-privado input:focus-visible ~ .jm-privado-marca {
-  outline: 2px solid var(--oliva-pale); outline-offset: 2px;
-}
-.jm-privado-txt {
-  font-family: 'NoirEtBlanc', serif; font-size: 0.9375rem; line-height: 1.5;
-  color: #F6F4EE; opacity: .78; text-align: left;
-}
-.jm-privado input:checked ~ .jm-privado-txt { opacity: 1; }
 .jm-recado small {
   display: block; margin-top: 8px;
   font-family: 'NoirEtBlanc', serif; font-size: 0.8125rem;
@@ -787,172 +746,73 @@ footer > div { white-space: normal !important; max-width: 100%; }
 }
 
 /* ============================================================
-   EL LIBRO DE RECUERDOS
-   Los recados de la gente, ya pasada la boda.
+   CÓDIGO DE VESTIMENTA
+   Los tres bloques —ellas, ellos, por favor— con una rayita
+   entre ellos, como pidieron los novios.
 
-   Mosaico de columnas, como la galería: los recados no miden lo
-   mismo —hay quien escribe una línea y quien escribe un párrafo—
-   y una retícula los obligaría a todos a la altura del más largo.
-   Con `column-count` cada tarjeta ocupa lo que ocupa.
-
-   La firma va en NoirEtBlanc en versalitas, no en un script de
-   caligrafía. Blastine, la letra manuscrita del sitio, está
-   recortada a números y símbolos para que pese 9 KB: escribir
-   nombres con ella significaría volver a meter la fuente
-   completa, unos 190 KB, y el sitio ya se atoraba en el celular
-   de los novios. Las versalitas son las mismas que firman el
-   resto del sitio, así que tampoco desentona.
+   El grid dejó de ser `auto-fit` a propósito: con `auto-fit` el
+   navegador decide solo cuándo pasa de una columna a dos y no
+   hay forma de saberlo desde el CSS, y la rayita necesita
+   saberlo para ponerse horizontal o de pie. Con un punto de
+   corte fijo sí se sabe.
    ============================================================ */
-.jm-libro {
-  width: 100%; max-width: 1180px; margin-top: clamp(18px, 3vw, 36px);
-  column-count: 3; column-gap: clamp(14px, 1.8vw, 26px);
-  text-align: left;
+.jm-viste {
+  display: grid; grid-template-columns: 1fr;
+  gap: clamp(24px, 4vw, 40px);
+  border-top: 1px solid rgba(246, 244, 238, .28);
+  padding-top: clamp(28px, 4vw, 52px);
 }
-@media (max-width: 980px) { .jm-libro { column-count: 2; } }
-@media (max-width: 620px) { .jm-libro { column-count: 1; } }
+.jm-viste-bloque { display: flex; flex-direction: column; gap: 12px; }
 
-.jm-recuerdo, .jm-recuerdo-foto {
-  break-inside: avoid; -webkit-column-break-inside: avoid;
-  margin: 0 0 clamp(14px, 1.8vw, 26px);
-}
-
-.jm-recuerdo {
-  background: #FFFFFF; border-radius: 3px;
-  padding: clamp(22px, 2.6vw, 32px);
-  box-shadow: 0 1px 2px rgba(74,20,32,.06), 0 12px 30px rgba(74,20,32,.05);
-}
-.jm-recuerdo-txt {
-  margin: 0; font-family: 'NoirEtBlanc', serif;
-  font-size: 1.0625rem; line-height: 1.72; color: var(--vino-ink);
-  white-space: pre-line;      /* respeta los renglones que escribió la persona */
-  text-wrap: pretty;
-}
-.jm-recuerdo-de {
-  margin-top: 16px; padding-top: 13px;
-  border-top: 1px solid rgba(99,27,41,.16);
-  font-family: 'NoirEtBlanc', serif; text-transform: uppercase;
-  font-size: 0.8125rem; letter-spacing: .22em; color: var(--oliva);
+/* Apilados: raya arriba de cada bloque menos el primero. Va casi de lado
+   a lado —no un guioncito— porque apilada tiene que separar dos bloques
+   que ocupan todo el ancho, y una rayita de 54 px ahí se veía perdida. La
+   que sí es corta es la vertical de abajo, que separa columnas angostas. */
+.jm-viste-bloque + .jm-viste-bloque::before {
+  content: ""; display: block; width: min(100%, 340px); height: 1px;
+  background: rgba(246, 244, 238, .3); margin-bottom: 10px;
 }
 
-.jm-recuerdo-foto { position: relative; overflow: hidden; border-radius: 3px; }
-.jm-recuerdo-foto img {
-  display: block; width: 100%; height: auto;
-  filter: grayscale(1) contrast(1.04);
-}
+/* En tres columnas la misma raya se pone de pie, en el hueco. 900px es
+   donde las tres caben sin que «Esmoquin o traje formal» se parta feo.
 
-/* El `hidden` de arranque lo apaga la regla `section[hidden]` de más
-   arriba, que ya lleva el !important que hace falta para ganarle al
-   `display:flex` inline de la sección. Aquí no hay que repetirlo. */
+   El hueco lo hace el padding de los bloques y no `column-gap`, para que
+   la raya quede a la mitad: con las dos cosas el aire de la izquierda
+   sería el doble que el de la derecha. */
+@media (min-width: 900px) {
+  .jm-viste { grid-template-columns: repeat(3, 1fr); column-gap: 0; }
+  .jm-viste-bloque { padding: 0 clamp(18px, 2.2vw, 34px); }
+  .jm-viste-bloque:first-child { padding-left: 0; }
+  .jm-viste-bloque:last-child { padding-right: 0; }
+  .jm-viste-bloque + .jm-viste-bloque::before { display: none; }
+  .jm-viste-bloque + .jm-viste-bloque {
+    border-left: 1px solid rgba(246, 244, 238, .28);
+  }
+}
 
 /* ============================================================
-   LOS DETALLES
-   Dos tarjetas de papel sobre un lino, como las invitaciones
-   impresas que pasaron los novios.
-
-   El lino es CSS, no una foto: dos tramas de rayas cruzadas
-   para el tejido y una mancha de `feTurbulence` para el grano.
-   Pesa unos cientos de bytes; una textura fotográfica costaría
-   cientos de kilobytes en una sección que además va arriba.
-
-   Dos tonos, beige y verde, para que los novios escojan. Se
-   cambia con `data-fondo` en el HTML o con CONFIG.detallesFondo.
+   EL RECADO
+   El mensaje que cada quien le deja a los novios, en su propia
+   sección y fuera del formulario de confirmar.
    ============================================================ */
-#detalles {
-  --det-fondo: #E8DFD1;
-  --det-hilo: rgba(99, 27, 41, .05);
-  --det-papel: #FDFCF8;
-  --det-marco: rgba(99, 27, 41, .22);
-  --det-marco-fino: rgba(99, 27, 41, .14);
-  color: var(--vino-ink);
-  background-color: var(--det-fondo);
-  background-image:
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23g)' opacity='.055'/%3E%3C/svg%3E"),
-    repeating-linear-gradient(90deg, var(--det-hilo) 0 1px, transparent 1px 4px),
-    repeating-linear-gradient(0deg,  var(--det-hilo) 0 1px, transparent 1px 4px);
+/* Sólo para lectores de pantalla: el <h2> de la sección ya dice qué es
+   esto, así que la etiqueta del campo sobra a la vista pero no en el
+   árbol de accesibilidad, donde un textarea sin nombre no se anuncia. */
+.jm-vh {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
 }
-#detalles[data-fondo="verde"] {
-  --det-fondo: #CDD3BD;
-  --det-hilo: rgba(51, 60, 44, .06);
+.jm-recado-form { align-items: stretch; }
+#recado[hidden] { display: none !important; }
+.jm-recado-pie {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 14px;
+  margin-top: 4px;
 }
-
-.jm-det-eyebrow {
-  font-family: 'NoirEtBlanc', serif; text-transform: uppercase;
-  font-size: 0.9375rem; letter-spacing: .3em; color: var(--oliva-ink);
-  margin-bottom: 20px;
+.jm-recado-estado {
+  margin: 0; min-height: 1.4em; flex: 1 1 12ch;
+  font-family: 'NoirEtBlanc', serif; font-size: 1rem;
+  color: var(--oliva-pale); text-align: left;
 }
-/* En vino, como pidieron los novios: sobre el lino claro es el color que
-   manda, y de paso amarra con el lacre y con el resto del sitio. */
-.jm-det-tit {
-  margin: 0 0 clamp(40px, 5.4vw, 72px);
-  font-family: 'Lumiare', sans-serif; font-weight: 400;
-  font-size: clamp(1.875rem, 4.4vw, 3.625rem); line-height: 1.08;
-  letter-spacing: -.015em; max-width: 15ch; text-wrap: pretty;
-  color: var(--vino);
-}
-
-.jm-sedes {
-  display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: clamp(22px, 3vw, 44px);
-}
-
-/* La tarjeta: papel con doble filo, como las impresas. El de adentro es
-   un ::before y no un segundo borde para no meter otro nodo por tarjeta. */
-.jm-sede {
-  position: relative; background: var(--det-papel);
-  border: 1px solid var(--det-marco);
-  padding: clamp(30px, 3.6vw, 52px) clamp(24px, 3vw, 44px);
-  display: flex; flex-direction: column; align-items: center;
-  text-align: center; gap: 12px;
-  box-shadow: 0 1px 2px rgba(74, 20, 32, .05), 0 18px 40px rgba(74, 20, 32, .07);
-}
-.jm-sede::before {
-  content: ""; position: absolute; inset: 9px;
-  border: 1px solid var(--det-marco-fino); pointer-events: none;
-}
-
-.jm-sede-tit {
-  font-family: 'NoirEtBlanc', serif; text-transform: uppercase;
-  font-size: 0.9375rem; letter-spacing: .28em; color: var(--vino);
-}
-.jm-sede-dibujo {
-  width: clamp(96px, 11vw, 138px); height: clamp(96px, 11vw, 138px);
-  margin: 6px 0 2px; color: rgba(99, 27, 41, .48);
-}
-.jm-sede-dibujo svg { width: 100%; height: 100%; display: block; }
-/* La hora en Blastine necesita aire de verdad. Los números de esa letra
-   miden 3.3 veces el font-size de alto —tienen unos rabos larguísimos— y
-   la caja de la línea sólo mide uno: la tinta se sale 1.15em por arriba y
-   por abajo y se encimaba con el dibujo y con el nombre de la sede. En el
-   itinerario no pasa porque ahí la hora va en su propia columna.
-
-   Se arregla con `line-height:1` y el margen en em, para que el aire
-   crezca junto con el número en vez de quedarse fijo en píxeles. */
-.jm-sede-hora {
-  font-family: 'Blastine', cursive; font-size: clamp(1.75rem, 3.2vw, 2.75rem);
-  line-height: 1; margin: 1.15em 0 1.28em; color: var(--vino);
-}
-.jm-sede-nombre {
-  font-family: 'NoirEtBlanc', serif; text-transform: uppercase;
-  letter-spacing: .06em; font-size: clamp(1.25rem, 2vw, 1.75rem);
-  line-height: 1.22; color: var(--vino-ink);
-}
-.jm-sede-dir {
-  font-style: normal; font-family: 'NoirEtBlanc', serif;
-  font-size: 1.0625rem; line-height: 1.6; color: var(--vino-ink); opacity: .82;
-}
-.jm-sede-nota {
-  margin: 4px 0 0; padding-top: 14px; max-width: 42ch;
-  border-top: 1px solid var(--det-marco-fino);
-  font-family: 'NoirEtBlanc', serif; font-size: 0.9375rem;
-  line-height: 1.6; color: var(--vino-ink); opacity: .78;
-}
-/* Empuja el botón al pie para que las dos tarjetas lo tengan a la misma
-   altura aunque una nota sea de cuatro renglones y la otra de uno. */
-.jm-sede-nota { flex: 1 0 auto; }
-.jm-sede-btn {
-  margin-top: 6px; padding: 15px 32px 13px;
-  border: 1px solid var(--det-marco); border-radius: 999px;
-  font-family: 'NoirEtBlanc', serif; text-transform: uppercase;
-  font-size: 0.875rem; letter-spacing: .18em; line-height: 1.3;
-  color: var(--vino); text-decoration: none;
-}
+.jm-recado-estado.mal { color: #E0A0A0; }
+/* Mientras se guarda, el botón se apaga sin cambiar de tamaño. */
+#jm-recado-cta[disabled] { opacity: .6; cursor: default; }

@@ -20,7 +20,7 @@ pantalla y a partir de ahí el sitio es un scroll normal:
 
 bienvenidos · cuenta regresiva · la boda · itinerario · vestimenta ·
 solo adultos · hospedaje · galería · mesa de regalos · RSVP ·
-libro de recuerdos
+mensaje para los novios
 
 «La boda» son dos tarjetas de papel sobre un lino, una por sede, como las
 invitaciones impresas que pasaron los novios. El lino es CSS —dos tramas de
@@ -30,8 +30,7 @@ del todo. Viene en beige y en verde; se cambia con `CONFIG.detallesFondo` o
 con el atributo `data-fondo` de la sección.
 
 La cuenta regresiva se cambia sola por un mensaje de agradecimiento cuando
-pasa la fecha de la boda. El libro de recuerdos, en cambio, no se enciende
-solo: lo prenden los novios desde el panel cuando quieran (ver más abajo).
+pasa la fecha de la boda.
 
 Cuando la invitación termina de crecer y ocupa toda la pantalla, el fondo
 blanco se cambia por una foto del save the date (los novios desenfocados con
@@ -161,40 +160,48 @@ contenido durante todo el scroll y los novios pidieron quitarlo: abajo de
   sólo las que ya confirmaron: los que faltan aparecen con su fondo rayado
   y sus pases reservados, para poder armar las mesas desde ahora. Los que
   dijeron que no, no aparecen.
-- **Libro de recuerdos** — los recados que dejó la gente al confirmar, para
-  escoger cuáles se ven en el sitio. Ver abajo.
+- **Libro de recuerdos** — todo lo que le escribieron a los novios, para
+  leerlo. No hay nada que escoger: es una vista de lectura. Arriba los
+  recados de la sección nueva; abajo, en recuadro punteado, los mensajes que
+  en su momento llegaron dentro de una confirmación.
 
-## El libro de recuerdos
+En la tabla de confirmaciones también se ve quién contestó dos veces: la
+respuesta vieja se queda a la vista, tachada y marcada «reemplazada», y
+fuera de la cuenta de personas.
 
-Los recados que la gente deja al confirmar, para publicarlos en el sitio
-después de la boda.
+## El recado
 
-**Un recado se publica sólo si se cumplen las tres.** La regla vive en
-`netlify/functions/libro.mts` y está repetida en `panel.mts`, porque la
-pantalla del panel se puede editar desde el navegador y el servidor no:
+El mensaje que cada invitación le deja a los novios. Tiene su propia
+sección y su propia función, `POST /api/recado`, y **no pasa por Netlify
+Forms**. Eso es a propósito: cuando era un campo más del formulario de
+confirmar,
 
-1. el libro está prendido — el interruptor del panel (`ajustes/libroPublico`)
-2. quien lo escribió dio permiso — `privado === false` en el envío
-3. Jorge y Montse lo escogieron — uno por uno (`ajustes/libro`)
+1. sólo se podía escribir al confirmar —quien ya había confirmado no volvía
+   a ver el campo nunca—, y
+2. volver a mandarlo creaba **otra confirmación**. Escribir un mensaje
+   dejaba dos respuestas de la misma persona y el panel tenía que adivinar
+   cuál valía.
 
-El permiso es la parte delicada. El campo del recado decía «Sólo lo leen
-Jorge y Montse», y con esa frase encima no se puede publicar nada: sería
-romperle la promesa a quien escribió confiando en ella. Ahora el formulario
-dice a dónde va el mensaje **antes** de que lo escriban, y ofrece la salida
-en la casilla «Mejor que sea sólo para ustedes».
+Ahora hay un recado por invitación, en el store `recados` bajo
+`porInvitacion/<id>`, y se pisa. Se puede escribir sin haber confirmado,
+volver a entrar y editarlo, y guardar dos veces deja un recado, no dos.
+`/api/invitacion` lo devuelve para que el sitio lo pinte en la caja.
 
-Por eso la condición 2 se compara contra `false` y no con un `!privado`.
-Los envíos que llegaron antes de que existiera la casilla no traen el campo:
-se quedan indefinidos, el panel los muestra con la razón escrita y no se
-pueden escoger. **No cambiar eso por un `|| false`**: convertiría una
-promesa vieja en un permiso.
+Quién puede escribir: cualquiera que tenga el link de esa invitación, que
+es el mismo nivel de confianza que ya tenía confirmar. El link es el
+secreto; no hay uno más fuerte que inventar.
 
-Con el libro apagado, `/api/libro` contesta vacío sin siquiera leer los
-mensajes, la sección no aparece y no se baja ninguna foto: antes de la boda
-no le cuesta nada al sitio.
+**Estos recados no se publican en ningún lado.** Son para Jorge y Montse,
+que los van a leer todos juntos al final, de sorpresa. El panel es el único
+sitio donde salen, y va detrás de contraseña. Por eso el campo del sitio
+puede prometer «Sólo lo leen Jorge y Montse» sin letra chiquita: es verdad,
+y no hace falta ni casilla de privacidad ni curaduría que administrar.
 
-La firma de cada recado es el saludo de la invitación («Fer y Óscar»), no el
-nombre tecleado, salvo que hayan confirmado sin su link.
+Hubo una versión con libro público, casilla de «mejor que sea sólo para
+ustedes» y aprobación uno por uno en el panel. Se quitó entera cuando los
+novios dijeron que no iban a escoger nada. Si algún día quieren publicarlos,
+está en el historial de git — pero entonces hay que volver a pedir permiso,
+porque el texto de arriba promete lo contrario.
 
 ## Configurar
 
@@ -242,7 +249,7 @@ Los datos que faltan están entre corchetes en `index.html`, así que
 
 Las sedes y horarios ya son los reales: Templo del Carmen a las 16:00 y
 Jardín Los Magueyes a las 19:00. El itinerario completo va 16:00 iglesia ·
-18:20 civil (sólo para quien va) · 19:00 cóctel · 19:30 fotos · 20:00 entrada
+18:20 civil (sólo para quien va) · 19:00 recepción · 19:30 fotos · 20:00 entrada
 · 20:30 cena · 21:30 fiesta.
 
 ## Assets

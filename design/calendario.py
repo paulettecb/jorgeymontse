@@ -36,14 +36,14 @@ AVISO_IGLESIA = ('Nos casamos. Te pedimos llegar con tiempo: la iglesia no '
 # Morelia; las que pasan de medianoche llevan el día siguiente.
 BASE = [
     ((30, 16, 0), (30, 17, 30), 'Ceremonia religiosa',   TEMPLO, AVISO_IGLESIA),
-    ((30, 19, 0), (30, 19, 30), 'Cóctel de bienvenida',  JARDIN, PIE),
+    ((30, 19, 0), (30, 19, 30), 'Recepción',             JARDIN, PIE),
     ((30, 19, 30), (30, 20, 0), 'Fotos con los novios',  JARDIN, PIE),
     ((30, 20, 0), (30, 20, 30), 'Entrada de los novios', JARDIN, PIE),
     ((30, 20, 30), (30, 21, 30), 'Cena',                 JARDIN, PIE),
     ((30, 21, 30), (31, 2, 0),  'Fiesta',                JARDIN, PIE),
 ]
 
-# La civil va antes del cóctel, entre la iglesia y la llegada al jardín.
+# La civil va antes de la recepción, entre la iglesia y la llegada al jardín.
 CIVIL = ((30, 18, 20), (30, 19, 0), 'Ceremonia civil', JARDIN, PIE)
 
 
