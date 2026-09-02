@@ -132,6 +132,62 @@ export default async (req: Request, _context: Context) => {
       });
     }
 
+    /* El libro de recuerdos: lo que necesita la página /libro y nada más.
+       Podría salir de `listar`, que ya trae los recados, pero `listar`
+       trae también teléfonos, alergias y a quién le falta su link. La
+       página del libro se abre delante de Jorge y Montse, con gente
+       alrededor, y en una pantalla que se va a proyectar o a pasar de
+       mano en mano: mejor que ni siquiera baje lo que no va a enseñar.
+
+       Aquí se resuelve el nombre y se quita el duplicado, para que la
+       página sea sólo maquetación. Misma regla que el panel: si una
+       invitación ya escribió su recado, no se enseña además el mensaje
+       viejo que había dejado dentro de la confirmación. */
+    case 'libro': {
+      const saludos = new Map(INVITACIONES.map(i => [i.id, i.saludo]));
+
+      const { blobs: llaves } = await recados.list({ prefix: 'porInvitacion/' });
+      const crudos = (await Promise.all(
+        llaves.map(b => recados.get(b.key, { type: 'json' }).catch(() => null))
+      )).filter(Boolean) as any[];
+
+      const nuevos = crudos
+        .filter(r => String(r.texto || '').trim())
+        .map(r => ({
+          de: saludos.get(r.invitacion) || r.invitacion,
+          texto: String(r.texto),
+          cuando: r.creado,
+          editado: r.actualizado !== r.creado ? r.actualizado : null
+        }));
+
+      const yaEscribieron = new Set(crudos.map(r => r.invitacion));
+
+      /* Los mensajes que llegaron dentro de una confirmación, de cuando el
+         campo vivía ahí. Se firman con el saludo de la invitación —«Jorge
+         y Elsa»— y no con el nombre que tecleó esa persona, que suele ser
+         la lista de nombres completos con apellidos: en una tabla está
+         bien, en un libro se lee como un acta. Si la respuesta llegó
+         huérfana y no hay invitación que la reclame, queda el nombre. */
+      const { blobs: envs } = await rsvps.list({ prefix: 'envio/' });
+      const respuestas = (await Promise.all(
+        envs.map(b => rsvps.get(b.key, { type: 'json' }).catch(() => null))
+      )).filter(Boolean) as any[];
+
+      const viejos = respuestas
+        .filter(r => String(r.mensaje || '').trim() && !yaEscribieron.has(r.invitacion))
+        .map(r => ({
+          de: String(saludos.get(r.invitacion) || r.nombre || '').trim(),
+          texto: String(r.mensaje),
+          cuando: r.creado,
+          editado: null
+        }));
+
+      const todos = [...nuevos, ...viejos].sort(
+        (a, b) => String(a.cuando).localeCompare(String(b.cuando))
+      );
+      return json({ recados: todos });
+    }
+
     case 'guardarMesas': {
       const p = cuerpo.mesas;
       if (!p || !Array.isArray(p.mesas) || typeof p.asignaciones !== 'object') {

@@ -19,8 +19,8 @@ sale y se acomoda al lado; al bajar, la invitación crece hasta llenar la
 pantalla y a partir de ahí el sitio es un scroll normal:
 
 bienvenidos · cuenta regresiva · la boda · itinerario · vestimenta ·
-solo adultos · hospedaje · galería · mesa de regalos · RSVP ·
-mensaje para los novios
+solo adultos · hospedaje · galería · álbum compartido · mesa de regalos ·
+RSVP · mensaje para los novios
 
 «La boda» son dos tarjetas de papel sobre un lino, una por sede, como las
 invitaciones impresas que pasaron los novios. El lino es CSS —dos tramas de
@@ -34,6 +34,12 @@ de la sección de confirmar: ese bloque era vino sobre vino y se perdía. Ahí
 el lino no lleva tarjeta encima, es la superficie misma, y todo lo de
 adentro se repinta —los campos del formulario están escritos para el vino y
 ese fondo es claro.
+
+«Las fotos de todos» es el único bloque verde de la página. Va entre la
+galería y los regalos a propósito, o sea rodeado de dos secciones claras: el
+verde pegado al vino se leía navideño —por eso el itinerario acabó siendo un
+vino más profundo en vez de verde—, pero entre claras es el tercer color de
+la paleta de los novios y hace que la sección no se pierda.
 
 La cuenta regresiva se cambia sola por un mensaje de agradecimiento cuando
 pasa la fecha de la boda.
@@ -78,7 +84,10 @@ assets/fonts/              las tipografías de marca
 assets/icons/              favicons + icono de app
 assets/*.png / *.jpeg      ilustraciones, ornamentos y fotos
 assets/boda*.ics           el itinerario para el calendario, generado
+panel.html                 /panel: invitaciones, confirmaciones, mesas, recados
+libro.html                 /libro: los recados maquetados para leerlos
 design/                    el .dc.html original, los generadores de assets
+impresos/                  lo que va en papel: hoy, las tarjetas del álbum
 pruebas/                   servidor local y repaso de lo que pidieron los novios
 ```
 
@@ -87,6 +96,7 @@ pruebas/                   servidor local y repaso de lo que pidieron los novios
 ```
 python3 pruebas/servidor.py     # http://127.0.0.1:8766, contraseña «prueba»
 node    pruebas/regresion.mjs   # repasa punto por punto lo que pidieron
+python3 pruebas/qr.py           # el QR del álbum, fijado por huella
 ```
 
 El servidor imita lo que en producción hacen Netlify y sus funciones: las
@@ -108,6 +118,7 @@ Dos cosas de `assets/` no se editan a mano, se generan:
 |---|---|
 | Los lacres SVG | `python3 design/sello.py assets` |
 | `boda.ics` y `boda-civil.ics` | `python3 design/calendario.py assets` |
+| Las tarjetas del álbum | `python3 design/mesas.py` y luego `node design/imprimir.mjs` |
 
 El del calendario existe porque los horarios ya se movieron dos veces y
 editar a mano dos archivos con el plegado de RFC 5545 —75 **octetos** por
@@ -190,7 +201,8 @@ contenido durante todo el scroll y los novios pidieron quitarlo: abajo de
 - **Libro de recuerdos** — todo lo que le escribieron a los novios, para
   leerlo. No hay nada que escoger: es una vista de lectura. Arriba los
   recados de la sección nueva; abajo, en recuadro punteado, los mensajes que
-  en su momento llegaron dentro de una confirmación.
+  en su momento llegaron dentro de una confirmación. De aquí sale el botón
+  a `/libro`, que es lo mismo pero maquetado para leerse (ver abajo).
 
 En la tabla de confirmaciones también se ve quién contestó dos veces: la
 respuesta vieja se queda a la vista, tachada y marcada «reemplazada», y
@@ -219,16 +231,55 @@ es el mismo nivel de confianza que ya tenía confirmar. El link es el
 secreto; no hay uno más fuerte que inventar.
 
 **Estos recados no se publican en ningún lado.** Son para Jorge y Montse,
-que los van a leer todos juntos al final, de sorpresa. El panel es el único
-sitio donde salen, y va detrás de contraseña. Por eso el campo del sitio
-puede prometer «Sólo lo leen Jorge y Montse» sin letra chiquita: es verdad,
-y no hace falta ni casilla de privacidad ni curaduría que administrar.
+que los van a leer todos juntos al final, de sorpresa. El panel y `/libro`
+son los únicos sitios donde salen, y los dos van detrás de la misma
+contraseña. Por eso el campo del sitio puede prometer «Sólo lo leen Jorge y
+Montse» sin letra chiquita: es verdad, y no hace falta ni casilla de
+privacidad ni curaduría que administrar.
 
 Hubo una versión con libro público, casilla de «mejor que sea sólo para
 ustedes» y aprobación uno por uno en el panel. Se quitó entera cuando los
 novios dijeron que no iban a escoger nada. Si algún día quieren publicarlos,
 está en el historial de git — pero entonces hay que volver a pedir permiso,
 porque el texto de arriba promete lo contrario.
+
+## El libro de recuerdos
+
+`/libro`, con la misma contraseña del panel (y la misma sesión: quien ya
+entró a uno no la vuelve a teclear en el otro). Son los mismos recados que
+en el panel, pero maquetados para leerse de corrido, cada uno con su firma
+y con fotos entre unos y otros. En el panel están para revisarlos; aquí
+para leerlos los dos juntos, que es como se prometió que iba a pasar.
+
+Baja de `POST /api/panel` con `accion: 'libro'`, que devuelve **sólo** los
+recados con su firma —no la lista de invitados, ni teléfonos, ni alergias—.
+Es una página que se abre delante de gente y a lo mejor se pasa de mano en
+mano: mejor que ni siquiera descargue lo que no va a enseñar.
+
+Las fotos son las del save the date, de relleno hasta que existan las de la
+boda. Se cambian en un solo lugar: la lista `FOTOS`, arriba del script de
+`libro.html`. Y hay hoja de estilo de impresión, por si lo quieren en papel.
+
+## El álbum compartido
+
+La sección «Las fotos de todos» del sitio y las tarjetas que van en las
+mesas apuntan al mismo álbum de iCloud. La dirección vive **una sola vez**,
+en `ALBUM` arriba de `design/qr.py`; `pruebas/qr.py` y el punto 10 del
+repaso comprueban desde los dos lados que no se separen, porque si alguien
+cambia una y olvida la otra, la mesa manda a un sitio y la página a otro.
+
+Las tarjetas están en [`impresos/`](impresos/), con su propio README: qué
+imprimir, a qué tamaño y cómo volver a generarlas. El código QR lo arma
+`design/qr.py`, un codificador escrito con pura librería estándar como los
+demás generadores del proyecto. Se verificó módulo por módulo contra la
+librería `qrcode` de PyPI y escaneando con OpenCV la hoja a 300 puntos por
+pulgada; lo que queda en el repo es la huella, en `pruebas/qr.py`.
+
+Un detalle que hay que saber: los álbumes compartidos de iCloud **se ven**
+desde cualquier teléfono con el link, pero para **subir** fotos hace falta
+un aparato de Apple. Por eso el sitio lo dice en vez de prometer que
+cualquiera puede. Si se prefiere que todo el mundo suba, el cambio es de
+álbum (uno de Google Fotos), no de sitio: está anotado en `index.html`.
 
 ## Configurar
 
@@ -273,6 +324,9 @@ Los datos que faltan están entre corchetes en `index.html`, así que
   bloque del aeropuerto.
 - **Boda civil** — ya no es un pendiente de código: se prende por invitación
   desde el panel y `CONFIG.bodaCivil` es sólo el valor de fábrica.
+- **Fotos del libro de recuerdos** — hoy son las del save the date, de
+  relleno; en enero se cambian por las de la boda en la lista `FOTOS` de
+  `libro.html`. No es un pendiente que impida usarlo: el libro funciona.
 
 Las sedes y horarios ya son los reales: Templo del Carmen a las 16:00 y
 Jardín Los Magueyes a las 19:00. El itinerario completo va 16:00 iglesia ·

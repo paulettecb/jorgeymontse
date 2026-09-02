@@ -126,6 +126,20 @@ class H(SimpleHTTPRequestHandler):
                         if cuerpo.get('civil') is None: CIVIL.pop(i,None)
                         else: CIVIL[i]=bool(cuerpo.get('civil'))
                         b=json.dumps({'ok':True,'civil':CIVIL}).encode(); code=200
+                elif acc=='libro':
+                    # mismo armado que el `case 'libro'` de panel.mts
+                    saludos={i['id']:i['saludo'] for i in invs}
+                    nuevos=[{'de':saludos.get(r['invitacion'],r['invitacion']),'texto':r['texto'],
+                             'cuando':r['creado'],
+                             'editado':r['actualizado'] if r['actualizado']!=r['creado'] else None}
+                            for r in RECADOS.values() if str(r.get('texto','')).strip()]
+                    ya={r['invitacion'] for r in RECADOS.values()}
+                    viejos=[{'de':str(saludos.get(r.get('invitacion',''),'') or r.get('nombre','')).strip(),
+                             'texto':r['mensaje'],'cuando':r['creado'],'editado':None}
+                            for r in rs if str(r.get('mensaje','')).strip()
+                            and r.get('invitacion') not in ya]
+                    todos=sorted(nuevos+viejos, key=lambda r: str(r['cuando']))
+                    b=json.dumps({'recados':todos}).encode(); code=200
                 elif acc=='guardarPlantilla':
                     t=str(cuerpo.get('plantilla',''))
                     if not t.strip(): b=json.dumps({'error':'la plantilla no puede ir vacía'}).encode(); code=400
@@ -207,6 +221,7 @@ class H(SimpleHTTPRequestHandler):
         if u.path=='/': self.path='/index.html'
         # imita las reescrituras de netlify.toml
         elif u.path=='/panel': self.path='/panel.html'
+        elif u.path=='/libro': self.path='/libro.html'
         elif re.fullmatch(r'/(netlify|assets/savethedatepics)/.*', u.path):
             self.send_error(404); return
         elif re.fullmatch(r'/[^/.]+', u.path) and not os.path.exists(self.translate_path(u.path)):

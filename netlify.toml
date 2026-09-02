@@ -26,6 +26,19 @@
   [headers.values]
     X-Robots-Tag = "noindex, nofollow"
 
+# El libro de recuerdos, igual: los invitados escriben ahí creyendo —con
+# razón— que sólo lo leen Jorge y Montse. Va detrás de la misma contraseña
+# y además fuera de los buscadores.
+[[headers]]
+  for = "/libro"
+  [headers.values]
+    X-Robots-Tag = "noindex, nofollow"
+
+[[headers]]
+  for = "/libro.html"
+  [headers.values]
+    X-Robots-Tag = "noindex, nofollow"
+
 # El `publish` es la raíz del repo, así que sin esto el código de las
 # funciones —y con él la lista de invitados— quedaría descargable como
 # archivo estático. Las funciones de verdad se sirven desde /api/*.
@@ -45,6 +58,11 @@
 [[redirects]]
   from = "/panel"
   to = "/panel.html"
+  status = 200
+
+[[redirects]]
+  from = "/libro"
+  to = "/libro.html"
   status = 200
 
 # Links bonitos: /paloma-cambron en vez de /?i=paloma-cambron.
