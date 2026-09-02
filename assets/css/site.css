@@ -527,22 +527,46 @@ section[hidden], a[hidden], #jm-rsvp-aviso[hidden] { display: none !important; }
 
 /* --- Lo opcional, plegado ---
    <details> y no un div con JS: así también se abre sin JS. */
-.jm-mas { width: 100%; margin-top: clamp(14px, 2vw, 24px); }
-/* Antes esto era el `summary` de un <details> y había que picarle. Ahora
-   es un título y ya: los novios pidieron que se viera de entrada. Va en
-   crema y no en el verde pálido de las etiquetas, que es justo la
-   diferencia entre un rótulo y un título. */
+/* --- «Tu opinión nos importa» ---
+   Vino sobre vino: dentro de la sección de confirmar, este bloque de
+   campos opcionales se perdía. Los novios pidieron cambiarle el color
+   «para que no se pierda», así que se saca en el mismo lino de «los
+   detalles» —la misma textura, los mismos tokens— y queda como una hoja
+   de papel puesta encima.
+
+   Lo de adentro se repinta entero: los campos del formulario están
+   escritos para el vino (texto crema, filos claros) y aquí el fondo es
+   claro, así que todo eso se invierte. Los !important son contra los
+   `.jm-form input` de arriba, que son igual de específicos y van antes. */
+.jm-mas {
+  width: 100%; margin-top: clamp(20px, 3vw, 34px);
+  padding: clamp(24px, 3vw, 38px) clamp(20px, 2.6vw, 34px) clamp(26px, 3.2vw, 40px);
+  border: 1px solid rgba(99, 27, 41, .18);
+  color: var(--vino-ink);
+  background-color: var(--det-fondo, #E8DFD1);
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23g)' opacity='.055'/%3E%3C/svg%3E"),
+    repeating-linear-gradient(90deg, rgba(99,27,41,.05) 0 1px, transparent 1px 4px),
+    repeating-linear-gradient(0deg,  rgba(99,27,41,.05) 0 1px, transparent 1px 4px);
+}
 .jm-mas-tit {
-  padding: 14px 0;
-  border-top: 1px solid rgba(246,244,238,.18);
-  border-bottom: 1px solid rgba(246,244,238,.18);
+  padding-bottom: 16px;
+  border-bottom: 1px solid rgba(99, 27, 41, .18);
   font-family: 'NoirEtBlanc', serif; text-transform: uppercase;
-  font-size: 1rem; letter-spacing: .2em; color: #F6F4EE;
+  font-size: 1rem; letter-spacing: .2em; color: var(--vino);
 }
 .jm-mas-campos {
   display: flex; flex-direction: column; gap: 22px;
   padding-top: 26px;
 }
+.jm-mas .jm-field > span { color: var(--oliva-ink); }
+.jm-form .jm-mas input[type="text"],
+.jm-form .jm-mas input[type="tel"] {
+  color: var(--vino-ink) !important;
+  border-bottom-color: rgba(99, 27, 41, .3) !important;
+}
+.jm-form .jm-mas ::placeholder { color: rgba(74, 20, 32, .62); }
+.jm-form .jm-mas input:focus { border-bottom-color: var(--oliva) !important; }
 
 .jm-form-estado {
   margin: 4px 0 0; min-height: 1.4em;

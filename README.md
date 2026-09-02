@@ -27,7 +27,13 @@ invitaciones impresas que pasaron los novios. El lino es CSS —dos tramas de
 rayas cruzadas y una mancha de `feTurbulence`— y no una foto: pesa unos
 cientos de bytes en vez de cientos de kilobytes en una sección que va arriba
 del todo. Viene en beige y en verde; se cambia con `CONFIG.detallesFondo` o
-con el atributo `data-fondo` de la sección.
+con el atributo `data-fondo` de la sección. Los novios escogieron beige.
+
+El mismo lino aparece una segunda vez, en «tu opinión nos importa», dentro
+de la sección de confirmar: ese bloque era vino sobre vino y se perdía. Ahí
+el lino no lleva tarjeta encima, es la superficie misma, y todo lo de
+adentro se repinta —los campos del formulario están escritos para el vino y
+ese fondo es claro.
 
 La cuenta regresiva se cambia sola por un mensaje de agradecimiento cuando
 pasa la fecha de la boda.
