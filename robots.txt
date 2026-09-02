@@ -11,38 +11,52 @@ Disallow: /
 # <meta name="robots" content="noindex"> de index.html sigue en pie, así
 # que esto no mete el sitio a ningún buscador: sólo destapa la tarjeta.
 #
-# El panel se queda fuera en todos los bloques.
+# El panel y el libro de recuerdos se quedan fuera en todos los bloques.
 User-agent: facebookexternalhit
 Disallow: /panel
 Disallow: /panel.html
+Disallow: /libro
+Disallow: /libro.html
 Allow: /
 
 User-agent: WhatsApp
 Disallow: /panel
 Disallow: /panel.html
+Disallow: /libro
+Disallow: /libro.html
 Allow: /
 
 User-agent: Twitterbot
 Disallow: /panel
 Disallow: /panel.html
+Disallow: /libro
+Disallow: /libro.html
 Allow: /
 
 User-agent: Slackbot-LinkExpanding
 Disallow: /panel
 Disallow: /panel.html
+Disallow: /libro
+Disallow: /libro.html
 Allow: /
 
 User-agent: TelegramBot
 Disallow: /panel
 Disallow: /panel.html
+Disallow: /libro
+Disallow: /libro.html
 Allow: /
 
 User-agent: Discordbot
 Disallow: /panel
 Disallow: /panel.html
+Disallow: /libro
+Disallow: /libro.html
 Allow: /
 
 User-agent: LinkedInBot
 Disallow: /panel
 Disallow: /panel.html
+Disallow: /libro
+Disallow: /libro.html
 Allow: /

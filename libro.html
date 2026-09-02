@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Libro de recuerdos · Jorge &amp; Montse</title>
+<meta name="theme-color" content="#551724">
+<!--
+  EL LIBRO DE RECUERDOS · /libro
+  ==============================
+  Lo que los invitados les escribieron a Jorge y Montse, maquetado para
+  leerse de corrido en vez de en una tabla. La misma contraseña del panel.
+
+  Por qué es una página aparte y no una sección del sitio: el formulario
+  donde se escriben promete «Sólo lo leen Jorge y Montse», y eso hay que
+  cumplirlo tal cual. Los mensajes no se publican en ningún lado. Esta
+  página se abre una vez, con los dos enfrente, y ésa es toda la
+  ceremonia. Por eso tampoco hay curaduría: los ven todos, de sorpresa,
+  y nadie escoge cuáles sí.
+
+  Los mismos recados salen en el panel, en la sección «Libro de
+  recuerdos», pero ahí están para revisarlos; aquí para leerlos.
+
+  Las fotos son las del save the date. Son un relleno a propósito hasta
+  que existan las de la boda: cambiar `FOTOS`, abajo, y ya. El texto no
+  depende de ellas.
+-->
+<link rel="icon" type="image/svg+xml" href="assets/icons/panel.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/icons/panel-favicon-32.png">
+<link rel="apple-touch-icon" sizes="180x180" href="assets/icons/panel-apple-touch-icon.png">
+<meta name="apple-mobile-web-app-title" content="Libro">
+<meta name="mobile-web-app-capable" content="yes">
+<style>
+@font-face { font-family:'Lumiare';     src:url('assets/fonts/Lumiare.otf') format('opentype'); font-display:swap }
+@font-face { font-family:'NoirEtBlanc'; src:url('assets/fonts/noiretblanc.otf') format('opentype'); font-display:swap }
+@font-face { font-family:'Blastine';    src:url('assets/fonts/Blastine Personal Use Only.ttf') format('truetype'); font-display:swap }
+
+:root{ --crema:#F6F4EE; --vino:#631B29; --vinod:#551724; --tinta:#4A1420; --oliva:#55624A }
+*{ box-sizing:border-box }
+body{ margin:0; background:var(--crema); color:var(--tinta);
+      font-family:'NoirEtBlanc',Georgia,serif; -webkit-font-smoothing:antialiased }
+h1,h2{ font-family:'Lumiare',sans-serif; font-weight:400; letter-spacing:-.015em; margin:0 }
+button{ font:inherit; cursor:pointer }
+.eyebrow{ font-family:'NoirEtBlanc',serif; text-transform:uppercase;
+          font-size:14px; letter-spacing:.28em; color:var(--oliva) }
+
+/* ---- la puerta ---- */
+#gate{ min-height:100vh; display:flex; flex-direction:column; align-items:center;
+       justify-content:center; gap:20px; background:var(--vinod); color:var(--crema);
+       text-align:center; padding:24px }
+#gate .mono{ width:52px; height:60px; background:var(--crema);
+  -webkit-mask:url('assets/monogram-mark.png') center/contain no-repeat;
+  mask:url('assets/monogram-mark.png') center/contain no-repeat }
+#gate input{ font:inherit; font-size:17px; padding:13px 16px; width:min(300px,86vw);
+  border:1px solid rgba(246,244,238,.42); border-radius:2px; background:transparent;
+  color:var(--crema); text-align:center }
+#gate input::placeholder{ color:rgba(246,244,238,.6) }
+#gate button{ padding:14px 34px 12px; border:1px solid rgba(246,244,238,.5);
+  border-radius:999px; background:transparent; color:var(--crema);
+  text-transform:uppercase; font-size:14px; letter-spacing:.2em }
+#gate button:hover{ background:var(--crema); color:var(--vinod) }
+.err{ min-height:1.4em; color:#F0C8CE; font-size:15px; margin:0 }
+
+/* ---- portada ---- */
+.portada{ min-height:88vh; display:flex; flex-direction:column; align-items:center;
+  justify-content:center; text-align:center; gap:22px; padding:clamp(60px,10vw,120px) 24px }
+.portada .mono{ width:46px; height:53px; background:var(--vino);
+  -webkit-mask:url('assets/monogram-mark.png') center/contain no-repeat;
+  mask:url('assets/monogram-mark.png') center/contain no-repeat }
+.portada h1{ font-size:clamp(34px,7vw,68px); line-height:1.04 }
+/* Blastine dibuja los números como caligrafía: la tinta mide cerca de
+   tres veces y media el font-size, así que la caja de renglón se queda
+   corta y el número se le encima al titular de arriba y al párrafo de
+   abajo. `line-height:1` más márgenes en `em` le abren el hueco que
+   necesita, y así siguen creciendo juntos si cambia el tamaño. */
+.portada .cuantos{ font-family:'Blastine',cursive; font-size:clamp(40px,7.5vw,72px);
+  line-height:1; color:var(--vino); margin:1.2em 0 1.3em }
+.portada .pie{ font-family:'NoirEtBlanc',serif; font-size:16px; line-height:1.7;
+  max-width:34ch; opacity:.82; text-wrap:pretty }
+
+/* ---- los recados ---- */
+.hojas{ max-width:660px; margin:0 auto; padding:0 clamp(20px,5vw,40px) 120px }
+
+.recado{ padding:clamp(34px,6vw,58px) 0; text-align:center }
+/* Sólo entre recado y recado: después de una foto no hace falta raya,
+   y el selector ya lo resuelve solo (ahí el hermano anterior es la foto). */
+.recado + .recado{ border-top:1px solid rgba(99,27,41,.16) }
+
+.recado p{ margin:0; font-size:clamp(19px,2.4vw,23px); line-height:1.72;
+  text-wrap:pretty; white-space:pre-wrap }
+.recado .de{ display:block; margin-top:22px; font-family:'NoirEtBlanc',serif;
+  text-transform:uppercase; font-size:13px; letter-spacing:.24em; color:var(--vino) }
+/* La fecha es dato de archivo, no parte del recado: se lee si se busca. */
+.recado .cuando{ display:block; margin-top:7px; font-size:12.5px;
+  letter-spacing:.06em; color:var(--oliva) }
+
+/* ---- las fotos entre recado y recado ---- */
+/* La foto entera, no una franja. La primera versión iba a sangre y de
+   alto fijo, y se veía muy bien con las horizontales; el problema son las
+   verticales, que son casi todas: recortadas a una banda ancha les cortaba
+   la cabeza a los dos. En un libro la foto es una lámina, no un fondo.
+   Van con `width`/`height` en el HTML para que el hueco esté reservado
+   antes de que baje la imagen y el texto no dé un brinco. */
+.foto{ margin:clamp(30px,6vw,56px) 0; display:flex; justify-content:center }
+.foto img{ max-width:100%; max-height:min(64vh,560px); width:auto; height:auto;
+  display:block; filter:grayscale(1) contrast(1.04) }
+
+.vacio{ text-align:center; padding:80px 20px; font-size:19px; line-height:1.7; opacity:.8 }
+
+/* ---- el pie ---- */
+.cierre{ text-align:center; padding:0 24px 90px }
+.cierre .raya{ width:64px; height:1px; background:rgba(99,27,41,.3); margin:0 auto 26px }
+.cierre p{ margin:0 auto; max-width:38ch; font-size:16px; line-height:1.7; opacity:.8 }
+.cierre button{ margin-top:26px; padding:14px 30px 12px; border:1px solid rgba(99,27,41,.35);
+  border-radius:999px; background:transparent; color:var(--vino);
+  text-transform:uppercase; font-size:13px; letter-spacing:.2em }
+.cierre button:hover{ background:var(--vino); color:var(--crema) }
+
+/* ---- impreso ----
+   Por si lo quieren en papel de verdad. Cada recado evita partirse entre
+   dos hojas, y las fotos se limitan en centímetros porque `vh` no
+   significa nada cuando la «pantalla» es una hoja de papel. */
+@media print{
+  body{ background:#fff }
+  .portada{ min-height:auto; padding:0 0 40px; break-after:page }
+  /* En papel el ancho lo pone la hoja, no la pantalla. Sin tope, un
+     recado largo cruzaba los 17 cm de la caja de texto: demasiados
+     caracteres por renglón para leer sin perder el hilo. */
+  .hojas{ max-width:14cm; margin:0 auto; padding:0 }
+  .recado{ break-inside:avoid; padding:26px 0 }
+  .recado p{ font-size:15pt; line-height:1.6 }
+  .foto{ margin:18px 0 }
+  .foto img{ max-height:11cm }
+  .cierre button{ display:none }
+}
+
+[hidden]{ display:none !important }
+</style>
+</head>
+<body>
+
+<div id="gate">
+  <div class="mono" aria-hidden="true"></div>
+  <div class="eyebrow" style="color:#C9CFB2">libro de recuerdos</div>
+  <h1 style="font-size:clamp(28px,4vw,42px)">Jorge &amp; Montse</h1>
+  <form id="gate-form" style="display:flex;flex-direction:column;gap:16px;align-items:center;margin-top:10px">
+    <input type="password" id="clave" placeholder="contraseña" autocomplete="current-password" required>
+    <button type="submit">abrir el libro</button>
+  </form>
+  <p class="err" id="gate-err"></p>
+</div>
+
+<div id="app" hidden>
+  <header class="portada">
+    <div class="mono" aria-hidden="true"></div>
+    <div class="eyebrow">libro de recuerdos</div>
+    <h1>Lo que les escribieron</h1>
+    <div class="cuantos" id="cuantos"></div>
+    <p class="pie" id="portada-pie"></p>
+  </header>
+
+  <main class="hojas" id="hojas"></main>
+
+  <footer class="cierre">
+    <div class="raya" aria-hidden="true"></div>
+    <p>Nadie más los ha leído. No están publicados en ninguna parte del
+       sitio: se escribieron para ustedes dos.</p>
+    <button type="button" id="imprimir">imprimir el libro</button>
+  </footer>
+</div>
+
+<script>
+(function () {
+  'use strict';
+  var $ = function (id) { return document.getElementById(id); };
+  var CLAVE = null;
+
+  /* Las fotos que van entre recado y recado. Hoy son las del save the
+     date, de relleno; en enero se cambian por las de la boda y no hay que
+     tocar nada más. Se van repitiendo si hay más recados que fotos.
+     [archivo, texto alternativo, ancho, alto]; el ancho y el alto son los
+     de verdad, para reservar el hueco antes de que baje la imagen. */
+  var FOTOS = [
+    ['assets/foto-de-la-mano.jpeg',          'Jorge y Montse de la mano',                  1400, 1084],
+    ['assets/foto-frente-a-frente.jpeg',     'Los dos de frente, muy juntos',              1200, 1800],
+    ['assets/foto-risa.jpeg',                'Los dos riéndose',                           1400,  933],
+    ['assets/foto-abrazo-cantera.jpeg',      'Abrazados junto al muro de cantera',         1067, 1600],
+    ['assets/foto-vuelta.jpeg',              'Montse dando una vuelta de la mano de Jorge', 1200, 1500],
+    ['assets/foto-los-tres.jpeg',            'Los tres juntos: Jorge, Montse y Raava',     1200, 1800],
+    ['assets/foto-narices.jpeg',             'Frente con frente, nariz con nariz',         1200, 1800],
+    ['assets/foto-caminando-empedrado.jpeg', 'Caminando por el empedrado',                 1280, 1600],
+    ['assets/foto-beso-alzada.jpeg',         'Un beso con ella de puntitas',               1200, 1801],
+    ['assets/foto-atrio.jpeg',               'En el atrio',                                1120, 1400]
+  ];
+  var CADA = 4;          // una foto cada cuántos recados
+
+  var esc = function (t) {
+    return String(t == null ? '' : t)
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  };
+
+  function fecha(iso) {
+    var d = new Date(iso);
+    if (isNaN(d)) return '';
+    return d.toLocaleDateString('es-MX', { day: 'numeric', month: 'long', year: 'numeric' });
+  }
+
+  function api(accion) {
+    return fetch('/api/panel', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ clave: CLAVE, accion: accion })
+    }).then(function (r) {
+      return r.json().then(function (j) {
+        if (!r.ok) throw new Error(j.error || ('error ' + r.status));
+        return j;
+      });
+    });
+  }
+
+  /* ---- entrar ---- */
+  $('gate-form').addEventListener('submit', function (e) {
+    e.preventDefault();
+    CLAVE = $('clave').value;
+    $('gate-err').textContent = 'Abriendo…';
+    api('libro').then(entrar).catch(function (err) {
+      $('gate-err').textContent = err.message; CLAVE = null;
+    });
+  });
+
+  /* La misma llave del panel: quien ya entró ahí en esta sesión no
+     vuelve a teclearla, y al revés. */
+  try {
+    var g = sessionStorage.getItem('jm-clave');
+    if (g) { CLAVE = g; api('libro').then(entrar).catch(function () { CLAVE = null; }); }
+  } catch (_) {}
+
+  function entrar(d) {
+    try { sessionStorage.setItem('jm-clave', CLAVE); } catch (_) {}
+    $('gate').hidden = true;
+    $('app').hidden = false;
+    pintar(d.recados || []);
+  }
+
+  function pintar(recados) {
+    var n = recados.length;
+    $('cuantos').textContent = n || '';
+    $('portada-pie').textContent = !n
+      ? 'Todavía no les han escrito.'
+      : (n === 1 ? 'Un recado, de la gente que fue a su boda.'
+                 : 'Recados de la gente que fue a su boda. Nadie los ha leído antes que ustedes.');
+
+    if (!n) {
+      $('hojas').innerHTML = '<p class="vacio">Cuando alguien les deje un mensaje desde su '
+        + 'invitación, aparece aquí.</p>';
+      return;
+    }
+
+    var trozos = [];
+    recados.forEach(function (r, i) {
+      trozos.push(
+        '<article class="recado">'
+        + '<p>' + esc(r.texto) + '</p>'
+        + '<span class="de">' + esc(r.de || '—') + '</span>'
+        + (r.cuando ? '<span class="cuando">' + esc(fecha(r.cuando)) + '</span>' : '')
+        + '</article>'
+      );
+      // Una foto cada CADA recados, pero nunca al final: cerraría el
+      // libro con una foto en vez de con lo último que le escribieron.
+      var toca = (i + 1) % CADA === 0 && i + 1 < recados.length;
+      if (toca) {
+        var f = FOTOS[Math.floor(i / CADA) % FOTOS.length];
+        trozos.push('<figure class="foto"><img loading="lazy" decoding="async" src="'
+          + f[0] + '" alt="' + esc(f[1]) + '" width="' + f[2] + '" height="' + f[3]
+          + '"></figure>');
+      }
+    });
+    $('hojas').innerHTML = trozos.join('');
+  }
+
+  $('imprimir').addEventListener('click', function () { window.print(); });
+})();
+</script>
+</body>
+</html>

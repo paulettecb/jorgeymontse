@@ -243,6 +243,59 @@ console.log('\n── 10. el álbum compartido y su QR ──');
   ok(/fotos/i.test(r.titulo), 'y su título', JSON.stringify(r.titulo));
 }
 
+/* ---- 11. el libro de recuerdos, en /libro ---- */
+console.log('\n── 11. el libro de recuerdos ──');
+{
+  const l = await b.newPage({ viewport: { width: 1280, height: 900 } });
+  l.on('pageerror', e => errores.push(e.message));
+  l.on('console', m => m.type() === 'error' && errores.push(m.text()));
+  await l.goto(base + '/libro', { waitUntil: 'networkidle' });
+
+  const cerrado = await l.evaluate(() => ({
+    puerta: !document.getElementById('gate').hidden,
+    libro: !document.getElementById('app').hidden,
+    recados: document.querySelectorAll('.recado').length
+  }));
+  ok(cerrado.puerta && !cerrado.libro && cerrado.recados === 0,
+     'sin contraseña no se ve ni un recado', JSON.stringify(cerrado));
+
+  await l.fill('#clave', 'prueba');
+  await l.click('#gate-form button');
+  await l.waitForSelector('#app:not([hidden])', { timeout: 8000 });
+  await l.waitForTimeout(500);
+
+  const r = await l.evaluate(() => {
+    const recs = [...document.querySelectorAll('.recado')];
+    const hojas = [...document.querySelector('.hojas').children];
+    const num = document.getElementById('cuantos');
+    const caja = num.getBoundingClientRect();
+    const tit = document.querySelector('.portada h1').getBoundingClientRect();
+    return {
+      cuantos: recs.length,
+      dice: num.textContent,
+      firmados: recs.every(a => a.querySelector('.de').textContent.trim()),
+      /* El número va en Blastine, que dibuja la tinta muy por encima y por
+         debajo de su caja de renglón —cerca de tres veces y media el
+         font-size—, así que el hueco no lo puede dar el `line-height`.
+         Se pide que arriba del número quede al menos casi un font-size de
+         aire: con los márgenes en em sobra, y sin ellos no alcanza. */
+      hueco: Math.round(caja.top - tit.bottom),
+      cuerpo: Math.round(parseFloat(getComputedStyle(num).fontSize)),
+      ultimoEsRecado: hojas[hojas.length - 1].classList.contains('recado'),
+      fotosEnteras: [...document.querySelectorAll('.foto img')]
+        .every(i => getComputedStyle(i).objectFit !== 'cover')
+    };
+  });
+  ok(r.cuantos > 0, 'los recados se leen de corrido', r.cuantos);
+  ok(r.dice === String(r.cuantos), 'la portada dice cuántos son', r.dice);
+  ok(r.firmados, 'cada uno con su firma');
+  ok(r.hueco >= r.cuerpo * 0.9, 'el número de la portada tiene aire para su tinta',
+     r.hueco + 'px sobre un cuerpo de ' + r.cuerpo + 'px');
+  ok(r.ultimoEsRecado, 'el libro cierra con un recado, no con una foto');
+  ok(r.fotosEnteras, 'las fotos van enteras, sin recortar cabezas');
+  await l.close();
+}
+
 await p.close();
 await b.close();
 console.log('\n' + (errores.length ? '❌ errores de consola: ' + [...new Set(errores)].join(' | ')
