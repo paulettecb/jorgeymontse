@@ -5,3 +5,8 @@ node_modules/
 
 # capturas que dejan las pruebas de Playwright al correrlas desde la raíz
 rsvp-personalizado.png
+
+# la hoja de las mesas en imagen: se regenera con design/imprimir.mjs
+impresos/mesas-album.png
+
+__pycache__/

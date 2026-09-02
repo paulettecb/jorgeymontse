@@ -211,6 +211,38 @@ console.log('\n── 9. «mensaje especial para los novios» ──');
   ok(r.nota === 'Sólo lo leen Jorge y Montse.', 'y sin repetirse', JSON.stringify(r.nota));
 }
 
+/* ---------- 10. el álbum compartido ---------- */
+console.log('\n── 10. el álbum compartido y su QR ──');
+{
+  const r = await p.evaluate(() => {
+    const sec = document.getElementById('album');
+    const a = sec.querySelector('a[href*="icloud"]');
+    const cs = getComputedStyle(sec);
+    return {
+      hay: !!sec, alto: Math.round(sec.getBoundingClientRect().height),
+      fondo: cs.backgroundColor, tinta: cs.color,
+      link: a && a.href, blank: a && a.target === 'blank' || a.target === '_blank',
+      titulo: sec.querySelector('h2').textContent.trim(),
+      dibujo: !!sec.querySelector('svg path'),
+      /* La nav se pinta clara encima de las secciones oscuras: si esta se
+         queda sin data-dark, el menú sale en vino sobre verde. */
+      oscura: sec.dataset.dark === '1'
+    };
+  });
+  // Tiene que decir EXACTAMENTE lo que dice el QR de las tarjetas. Si se
+  // cambia el álbum y sólo se cambia un lado, la mesa manda a un sitio y
+  // el sitio a otro. `pruebas/qr.py` revisa el mismo enlace del otro lado.
+  const ALBUM = readFileSync(join(RAIZ, 'design/qr.py'), 'utf8')
+    .match(/^ALBUM = '([^']+)'/m)[1];
+  ok(r.hay && r.alto > 400, 'la sección existe y ocupa su lugar', r.alto + 'px');
+  ok(r.link === ALBUM, 'el link es el mismo que lleva el QR de las mesas', r.link);
+  ok(r.blank, 'se abre en otra pestaña');
+  ok(r.fondo === 'rgb(47, 58, 40)', 'en verde, para que no se pierda', r.fondo);
+  ok(r.oscura, 'marcada como oscura, para que la nav se invierta');
+  ok(r.dibujo, 'con la cámara del itinerario');
+  ok(/fotos/i.test(r.titulo), 'y su título', JSON.stringify(r.titulo));
+}
+
 await p.close();
 await b.close();
 console.log('\n' + (errores.length ? '❌ errores de consola: ' + [...new Set(errores)].join(' | ')
