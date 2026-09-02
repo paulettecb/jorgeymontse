@@ -73,7 +73,28 @@ assets/icons/              favicons + icono de app
 assets/*.png / *.jpeg      ilustraciones, ornamentos y fotos
 assets/boda*.ics           el itinerario para el calendario, generado
 design/                    el .dc.html original, los generadores de assets
+pruebas/                   servidor local y repaso de lo que pidieron los novios
 ```
+
+## Probarlo sin desplegar
+
+```
+python3 pruebas/servidor.py     # http://127.0.0.1:8766, contraseña «prueba»
+node    pruebas/regresion.mjs   # repasa punto por punto lo que pidieron
+```
+
+El servidor imita lo que en producción hacen Netlify y sus funciones: las
+reescrituras de `netlify.toml`, los links bonitos, las tres APIs con datos
+de mentiras, la vista previa con el nombre del invitado, y —esto es lo que
+más ha servido— el filtro de Netlify Forms, que sólo se queda con los
+campos escritos en `index.html`. Un campo que estrene su `name` desde
+JavaScript se cae aquí igual que se caería allá.
+
+El repaso comprueba sobre la página **pintada**, no sobre el HTML. Empieza
+revisando que cada clase que usa el HTML tenga al menos una regla en el
+CSS, porque una vez se borró sin querer todo el CSS de «los detalles» y la
+sección siguió estando en el DOM, completa y con sus clases, pero saliendo
+en blanco y con el dibujo de la iglesia del tamaño de la pantalla.
 
 Dos cosas de `assets/` no se editan a mano, se generan:
 
