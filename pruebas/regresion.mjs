@@ -163,24 +163,32 @@ console.log('\n── 7. confirmación: separar los invitados ──');
 }
 
 /* ---------- 8. «tu opinión nos importa», sin picarle ---------- */
-console.log('\n── 8. «tu opinión nos importa», abierto y de otro color ──');
+console.log('\n── 8. «tu opinión nos importa», abierto y sobre lino ──');
 {
   const r = await p.evaluate(() => {
     const t = document.querySelector('.jm-mas-tit');
+    const caja = document.getElementById('jm-mas');
     const campos = document.querySelector('.jm-mas-campos');
     const alergias = document.querySelector('[name=alergias]');
+    const cs = getComputedStyle(caja);
     return {
       texto: t && t.textContent.trim(),
       color: t && getComputedStyle(t).color,
       hayDetails: !!document.querySelector('.jm-mas summary'),
       abierto: campos && getComputedStyle(campos).display !== 'none'
-               && alergias.getBoundingClientRect().height > 0
+               && alergias.getBoundingClientRect().height > 0,
+      fondo: cs.backgroundColor,
+      textura: cs.backgroundImage.includes('svg') && cs.backgroundImage.includes('gradient'),
+      tintaCampo: getComputedStyle(alergias).color
     };
   });
   ok(r.texto === 'Tu opinión nos importa', 'se llama así', JSON.stringify(r.texto));
   ok(!r.hayDetails, 'ya no hay que picarle');
   ok(r.abierto, 'los campos se ven de entrada');
-  ok(r.color === 'rgb(246, 244, 238)', 'en crema, no en el verde de las etiquetas', r.color);
+  ok(r.fondo === 'rgb(232, 223, 209)', 'sobre lino, no sobre el vino', r.fondo);
+  ok(r.textura, 'con la misma textura que los detalles');
+  ok(r.color === 'rgb(99, 27, 41)', 'título en vino', r.color);
+  ok(r.tintaCampo === 'rgb(74, 20, 32)', 'y lo de adentro repintado para fondo claro', r.tintaCampo);
 }
 
 /* ---------- 9. el mensaje para los novios ---------- */
