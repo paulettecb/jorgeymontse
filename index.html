@@ -83,8 +83,7 @@
 <div id="jm-navlinks" style="display:flex;align-items:center;gap:clamp(14px,2.2vw,32px);font-family:'NoirEtBlanc',serif;text-transform:uppercase;font-size:0.875rem;letter-spacing:.18em;color:#631B29;transition:color .35s ease">
 <a class="jm-navlink is-secondary" href="#detalles">la boda</a>
 <a class="jm-navlink is-secondary" href="#itinerario">itinerario</a>
-<!-- PENDIENTE · HOSPEDAJE: se enciende junto con la sección -->
-<a class="jm-navlink is-secondary" href="#hospedaje" hidden>hospedaje</a>
+<a class="jm-navlink is-secondary" href="#hospedaje">hospedaje</a>
 <a class="jm-navlink is-secondary" href="#galeria">galería</a>
 <a class="jm-navlink is-secondary" id="jm-nav-recado" href="#recado" hidden>mensaje</a>
 <a class="jm-pill" id="jm-pill" href="#rsvp" style="padding:9px 22px 8px;border:1px solid rgba(99,27,41,.35);border-radius:999px">confirmar</a>
@@ -396,25 +395,40 @@
 </section>
 
 <!-- ============================ HOSPEDAJE ============================ -->
-<!-- PENDIENTE · HOSPEDAJE ================================================
-     Oculta a propósito, NO borrada. Los novios querían mandar las
-     invitaciones sin esperar a los hoteles, y la sección sólo tenía
-     «Hotel [nombre]» y «Tarifa especial [$X]».
+<!-- Los dos hoteles que escogieron los novios. Encendida desde que
+     llegaron los nombres.
 
-     Para volver a encenderla: quitar el `hidden` de aquí y el de su link
-     en la nav (busca «PENDIENTE · HOSPEDAJE» arriba), y llenar los
-     corchetes. Todo el contenido sigue intacto abajo.
-     ====================================================================== -->
-<section id="hospedaje" hidden style="padding:clamp(90px,12vw,160px) clamp(24px,7vw,110px)">
+     Ojo con lo que NO lleva:
+
+       * Nada de «tarifa especial con el código JORGEYMONTSE». No hay
+         convenio con ninguno de los dos —quedaron de avisar si sale— y
+         publicar un descuento que no existe le haría perder el viaje a
+         alguien en el mostrador. En su lugar va el párrafo de arriba,
+         que dice la verdad. Si un día sale convenio, va en la tarjeta
+         del hotel que lo dé, no en el párrafo, que dice lo contrario.
+       * Nada de botón «reservar»: no tenemos link de reserva de ninguno,
+         y el que había de relleno ni siquiera traía href.
+
+     Los links son de dirección (`maps.google.com/?q=`), igual que los de
+     las dos sedes en «los detalles», y no los links cortos de Maps que
+     mandaron: un `maps.app.goo.gl/xxxx` no dice a qué lugar apunta, así
+     que si alguien reordena las tarjetas nadie nota que el botón quedó
+     mandando al otro hotel. Con la dirección escrita, el link se lee. -->
+<section id="hospedaje" style="padding:clamp(90px,12vw,160px) clamp(24px,7vw,110px)">
 <div data-reveal="1" style="font-family:'NoirEtBlanc',serif;text-transform:uppercase;font-size:0.9375rem;letter-spacing:.3em;color:#55624A;margin-bottom:20px">hospedaje</div>
-<h2 data-reveal="1" style="margin:0 0 clamp(46px,6vw,80px);font-family:'Lumiare',sans-serif;font-weight:400;font-size:clamp(1.875rem,4.4vw,3.625rem);line-height:1.08;letter-spacing:-.015em;max-width:17ch;text-wrap:pretty">Si vienes de fuera, aquí te quedas</h2>
-<!-- Hoteles: los novios siguen cerrando convenios. Los corchetes son
-     datos pendientes a propósito. -->
+<h2 data-reveal="1" style="margin:0 0 clamp(26px,3.4vw,40px);font-family:'Lumiare',sans-serif;font-weight:400;font-size:clamp(1.875rem,4.4vw,3.625rem);line-height:1.08;letter-spacing:-.015em;max-width:17ch;text-wrap:pretty">Si vienes de fuera, aquí te quedas</h2>
+<!-- El aviso del convenio. Va arriba de las tarjetas a propósito: explica
+     qué son antes de que alguien las lea como una lista de recomendados
+     con descuento. -->
+<p data-reveal="1" style="margin:0 0 clamp(40px,5vw,62px);max-width:56ch;font-family:'NoirEtBlanc',serif;font-size:1.1875rem;line-height:1.7;opacity:.88;text-wrap:pretty">Todavía no cerramos convenio con ningún hotel, pero seguimos en eso. Mientras tanto, éstas son las opciones que están cerca, por si te ayudan a decidir. Si conseguimos alguna tarifa especial la publicamos aquí, así que vale la pena que te des una vuelta por esta página antes de reservar.</p>
 <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:clamp(22px,3vw,40px);margin-bottom:clamp(40px,5vw,64px)">
-<div data-reveal="1" style="border:1px solid rgba(99,27,41,.16);padding:clamp(28px,3.4vw,44px);display:flex;flex-direction:column;gap:12px"><div style="font-family:'NoirEtBlanc',serif;text-transform:uppercase;letter-spacing:.06em;font-size:clamp(1.25rem,2vw,1.75rem);line-height:1.25">Hotel [nombre]</div><div style="font-family:'NoirEtBlanc',serif;font-size:1.0625rem;line-height:1.65;opacity:.84">[Zona · a X min del templo]</div><div style="font-family:'NoirEtBlanc',serif;font-size:1.0625rem;line-height:1.65;color:#631B29">Tarifa especial [$X] con el código <span style="letter-spacing:.16em">JORGEYMONTSE</span></div><a class="jm-btn" style="margin-top:12px;align-self:flex-start;padding:14px 28px 12px;border:1px solid rgba(99,27,41,.35);border-radius:999px;font-family:'NoirEtBlanc',serif;text-transform:uppercase;font-size:0.875rem;letter-spacing:.18em;line-height:1;white-space:nowrap">reservar</a></div>
-<div data-reveal="1" style="border:1px solid rgba(99,27,41,.16);padding:clamp(28px,3.4vw,44px);display:flex;flex-direction:column;gap:12px"><div style="font-family:'NoirEtBlanc',serif;text-transform:uppercase;letter-spacing:.06em;font-size:clamp(1.25rem,2vw,1.75rem);line-height:1.25">Hotel [nombre]</div><div style="font-family:'NoirEtBlanc',serif;font-size:1.0625rem;line-height:1.65;opacity:.84">[Zona · a X min del jardín]</div><div style="font-family:'NoirEtBlanc',serif;font-size:1.0625rem;line-height:1.65;color:#631B29">Tarifa especial [$X] con el código <span style="letter-spacing:.16em">JORGEYMONTSE</span></div><a class="jm-btn" style="margin-top:12px;align-self:flex-start;padding:14px 28px 12px;border:1px solid rgba(99,27,41,.35);border-radius:999px;font-family:'NoirEtBlanc',serif;text-transform:uppercase;font-size:0.875rem;letter-spacing:.18em;line-height:1;white-space:nowrap">reservar</a></div>
+<div data-reveal="1" style="border:1px solid rgba(99,27,41,.16);padding:clamp(28px,3.4vw,44px);display:flex;flex-direction:column;gap:12px"><div style="font-family:'NoirEtBlanc',serif;text-transform:uppercase;letter-spacing:.06em;font-size:clamp(1.25rem,2vw,1.75rem);line-height:1.25">Gamma Morelia Vista Bella</div><address style="font-style:normal;font-family:'NoirEtBlanc',serif;font-size:1.0625rem;line-height:1.65;opacity:.84">Patzimba 171<br>Col. Vista Bella, Morelia</address><div style="font-family:'NoirEtBlanc',serif;font-size:1.0625rem;line-height:1.65;opacity:.84">Una casona con jardines, a unos cinco kilómetros del Centro Histórico.</div><a class="jm-btn" href="https://maps.google.com/?q=Gamma+Morelia+Vista+Bella,+Patzimba+171,+Vista+Bella,+Morelia" target="_blank" rel="noopener" style="margin-top:12px;align-self:flex-start;padding:14px 28px 12px;border:1px solid rgba(99,27,41,.35);border-radius:999px;font-family:'NoirEtBlanc',serif;text-transform:uppercase;font-size:0.875rem;letter-spacing:.18em;line-height:1;white-space:nowrap">ubicación</a></div>
+<div data-reveal="1" style="border:1px solid rgba(99,27,41,.16);padding:clamp(28px,3.4vw,44px);display:flex;flex-direction:column;gap:12px"><div style="font-family:'NoirEtBlanc',serif;text-transform:uppercase;letter-spacing:.06em;font-size:clamp(1.25rem,2vw,1.75rem);line-height:1.25">Fiesta Inn Morelia Altozano</div><address style="font-style:normal;font-family:'NoirEtBlanc',serif;font-size:1.0625rem;line-height:1.65;opacity:.84">Av. Montaña Monarca 1000<br>Altozano, Morelia</address><div style="font-family:'NoirEtBlanc',serif;font-size:1.0625rem;line-height:1.65;opacity:.84">En Jesús del Monte, la misma zona del salón. Al Centro Histórico son unos 15 minutos.</div><a class="jm-btn" href="https://maps.google.com/?q=Fiesta+Inn+Morelia+Altozano,+Av+Monta%C3%B1a+Monarca+1000,+Altozano,+Morelia" target="_blank" rel="noopener" style="margin-top:12px;align-self:flex-start;padding:14px 28px 12px;border:1px solid rgba(99,27,41,.35);border-radius:999px;font-family:'NoirEtBlanc',serif;text-transform:uppercase;font-size:0.875rem;letter-spacing:.18em;line-height:1;white-space:nowrap">ubicación</a></div>
 </div>
-<div data-reveal="1" style="border-top:1px solid rgba(99,27,41,.16);padding-top:clamp(32px,4vw,48px);display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:clamp(24px,3vw,44px)"><div style="display:flex;flex-direction:column;gap:12px"><div style="font-family:'NoirEtBlanc',serif;text-transform:uppercase;font-size:0.9375rem;letter-spacing:.26em;color:#55624A">estacionamiento</div><div style="font-family:'NoirEtBlanc',serif;font-size:1.0625rem;line-height:1.7;opacity:.84">En la recepción, justo enfrente del salón. Para la ceremonia toma en cuenta que la iglesia no tiene estacionamiento propio.</div></div><div style="display:flex;flex-direction:column;gap:12px"><div style="font-family:'NoirEtBlanc',serif;text-transform:uppercase;font-size:0.9375rem;letter-spacing:.26em;color:#55624A">aeropuerto</div><div style="font-family:'NoirEtBlanc',serif;font-size:1.0625rem;line-height:1.7;opacity:.84">[Morelia (MLM) está a X min. Vuelos directos desde CDMX, Tijuana y Houston.]</div></div></div>
+<div data-reveal="1" style="border-top:1px solid rgba(99,27,41,.16);padding-top:clamp(32px,4vw,48px);display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:clamp(24px,3vw,44px)"><div style="display:flex;flex-direction:column;gap:12px"><div style="font-family:'NoirEtBlanc',serif;text-transform:uppercase;font-size:0.9375rem;letter-spacing:.26em;color:#55624A">estacionamiento</div><div style="font-family:'NoirEtBlanc',serif;font-size:1.0625rem;line-height:1.7;opacity:.84">En la recepción, justo enfrente del salón. Para la ceremonia toma en cuenta que la iglesia no tiene estacionamiento propio.</div></div><div style="display:flex;flex-direction:column;gap:12px"><div style="font-family:'NoirEtBlanc',serif;text-transform:uppercase;font-size:0.9375rem;letter-spacing:.26em;color:#55624A">aeropuerto</div><!-- Sin lista de vuelos directos: las rutas de Morelia cambian de
+     temporada en temporada y una lista vieja en la página manda a
+     alguien a buscar un vuelo que ya no existe. La distancia sí es
+     estable: unos 30 km, media hora larga con tráfico normal. --><div style="font-family:'NoirEtBlanc',serif;font-size:1.0625rem;line-height:1.7;opacity:.84">El aeropuerto de Morelia (MLM) está a unos 30 km del centro: entre 30 y 45 minutos en coche, según el tráfico.</div></div></div>
 </section>
 
 <!-- ============================ SEPARADOR 3 ============================ -->
