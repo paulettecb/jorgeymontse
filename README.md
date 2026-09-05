@@ -307,7 +307,7 @@ comentario `PENDIENTE`.
 
 | Qué | Dónde | Qué falta |
 |---|---|---|
-| Sección de hospedaje (y su link en la nav) | `index.html` | Nombre, zona, tarifa y link de los dos hoteles |
+| Sección de hospedaje (y su link en la nav) | `index.html` | El nombre y la zona de los dos hoteles: cuatro corchetes. Los links de Google Maps ya están puestos |
 
 El botón de Liverpool sí está encendido: su link funciona. No hay mesa de
 Amazon y no va a haberla, así que ese botón se borró: no está oculto
@@ -320,8 +320,17 @@ Los datos que faltan están entre corchetes en `index.html`, así que
 
 - **Frase de bienvenida** — está la frase base de los novios; quieren una
   versión más cursi antes de publicar.
-- **Hospedaje** — nombre, zona, tarifa y link de los dos hoteles; y el
-  bloque del aeropuerto.
+- **Hospedaje** — el nombre y la zona de los dos hoteles. Nada más: los
+  links de Maps ya están, y el bloque del aeropuerto ya está escrito.
+
+  No hay convenio con ningún hotel y puede que no lo haya: los novios
+  siguen negociando y quedaron de avisar. Por eso la sección **no** trae
+  el renglón de «tarifa especial con el código JORGEYMONTSE» que tenía de
+  relleno, sino un párrafo que dice la verdad —que son las opciones que
+  están cerca, y que si sale una tarifa se publica ahí—. Tampoco hay botón
+  de «reservar»: no tenemos link de reserva de nadie, y el que había ni
+  siquiera traía `href`. Si un hotel acaba dando convenio, va en su
+  tarjeta, no en el párrafo, que dice justo lo contrario.
 - **Boda civil** — ya no es un pendiente de código: se prende por invitación
   desde el panel y `CONFIG.bodaCivil` es sólo el valor de fábrica.
 - **Fotos del libro de recuerdos** — hoy son las del save the date, de
