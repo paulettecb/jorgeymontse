@@ -320,11 +320,10 @@ Los datos que faltan están entre corchetes en `index.html`, así que
 - **Hospedaje** — nada pendiente para publicar: están el Gamma Morelia
   Vista Bella y el Fiesta Inn Morelia Altozano.
 
-  Lo que sí puede cambiar es el convenio. No hay con ninguno de los dos
-  —los novios quedaron de avisar si sale—, y por eso la sección **no**
-  trae el renglón de «tarifa especial con el código JORGEYMONTSE» que
-  tenía de relleno, sino un párrafo que dice la verdad: que son las
-  opciones que están cerca, y que si sale una tarifa se publica ahí.
+  No hubo códigos de descuento de ninguno de los dos, así que la sección
+  **no** trae el renglón de «tarifa especial con el código JORGEYMONTSE»
+  que tenía de relleno. En su lugar, el párrafo dice lo que sí funciona:
+  mencionar la boda al reservar, que con el nombre de los novios basta.
   Tampoco hay botón de «reservar»: no tenemos link de reserva de ninguno,
   y el que había ni siquiera traía `href`. **Si un hotel acaba dando
   convenio, va en su tarjeta, no en el párrafo**, que dice lo contrario.
