@@ -297,6 +297,33 @@ console.log('\n── 11. el libro de recuerdos ──');
 }
 
 await p.close();
+
+/* ---- 12. una respuesta previa conserva la corrección de pases ---- */
+console.log('\n── 12. Abraham conserva sus dos pases al abrir el panel ──');
+{
+  const panel = await b.newPage({ viewport: { width: 1280, height: 900 } });
+  panel.on('pageerror', e => errores.push(e.message));
+  panel.on('console', m => m.type() === 'error' && errores.push(m.text()));
+  await panel.goto(base + '/panel', { waitUntil: 'networkidle' });
+  await panel.fill('#clave', 'prueba');
+  await panel.click('#gate-form button');
+  await panel.waitForSelector('#app:not([hidden])', { timeout: 8000 });
+  const r = await panel.evaluate(() => {
+    const fila = [...document.querySelectorAll('#inv-filas tr')].find(f =>
+      f.textContent.includes('Abraham Espino'));
+    const respuesta = [...document.querySelectorAll('#filas tr')].find(f =>
+      f.textContent.includes('Abraham Espino'));
+    return {
+      pases: fila && fila.textContent.replace(/\s+/g, ' ').trim(),
+      respuesta: respuesta && respuesta.textContent.replace(/\s+/g, ' ').trim()
+    };
+  });
+  ok(/2 pases/.test(r.pases || ''), 'la invitación de Abraham tiene dos pases', r.pases);
+  ok(/sí 2 Abraham Espino, Acompañante/.test(r.respuesta || ''),
+     'su confirmación previa quedó corregida a dos personas', r.respuesta);
+  await panel.close();
+}
+
 await b.close();
 console.log('\n' + (errores.length ? '❌ errores de consola: ' + [...new Set(errores)].join(' | ')
                                    : '✅ consola limpia'));

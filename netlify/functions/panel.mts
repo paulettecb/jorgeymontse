@@ -34,6 +34,11 @@ const MESAS_POR_DEFECTO = {
   asignaciones: {} as Record<string, string>
 };
 
+/* Migración única para una confirmación que llegó antes de cambiar sus
+   pases. La marca queda en Blobs después de aplicarse: no es una regla que
+   se ejecute sobre las siguientes respuestas de Abraham. */
+const MIGRACION_ABRAHAM_DOS_PASES = 'migraciones/abraham-espino-dos-pases';
+
 /** Quién mandó cada invitación y cuándo. Una sola llave con todo: son 108
  *  entradas, no vale la pena un blob por invitación. */
 type Envio = { por: string; cuando: string };
@@ -111,6 +116,27 @@ export default async (req: Request, _context: Context) => {
         yaAtendidas.add(id);
         await rsvps.setJSON(`envio/${r.id}`, r);
         await rsvps.setJSON(`porInvitacion/${id}`, r);
+      }
+
+      /* Una invitación puede ganar pases después de que alguien confirmó.
+         En ese caso la respuesta histórica sigue diciendo cuántas personas
+         había confirmado antes del cambio. Ésta es una migración de una sola
+         vez: una confirmación nueva o editada por Abraham después de esto
+         conserva exactamente lo que él elija. */
+      const yaSeMigroAbraham = await ajustes.get(MIGRACION_ABRAHAM_DOS_PASES, { type: 'json' });
+      if (!yaSeMigroAbraham) {
+        // `limpia` viene de más nueva a más vieja, por lo que éste es el RSVP
+        // vigente y el mismo que debe quedar en el índice por invitación.
+        const abraham = (limpia as any[]).find(r =>
+          r.invitacion === 'abraham-espino' && r.asiste === true
+        );
+        if (abraham) {
+          abraham.personas = 2;
+          abraham.acompanantes = 'Abraham Espino, Acompañante';
+          await rsvps.setJSON(`envio/${abraham.id}`, abraham);
+          await rsvps.setJSON('porInvitacion/abraham-espino', abraham);
+          await ajustes.setJSON(MIGRACION_ABRAHAM_DOS_PASES, { aplicada: new Date().toISOString() });
+        }
       }
 
       const plano = (await mesas.get('config', { type: 'json' })) || MESAS_POR_DEFECTO;
