@@ -45,7 +45,7 @@ Dos invitaciones de mentiras para ver las dos versiones del itinerario.
 
 ## Las de verdad
 
-**106 invitaciones · 178 pases**
+**106 invitaciones · 180 pases**
 
 | # | Link | Se le saluda | Pases | Civil | Quiénes |
 |---|---|---|---|---|---|
@@ -114,12 +114,12 @@ Dos invitaciones de mentiras para ver las dos versiones del itinerario.
 | 63 | `/dante-leal` | Dante | 2 | No | Dante Leal, invitado |
 | 64 | `/tamara-leal` | Tamara | 2 | No | Tamara Leal, invitado |
 | 65 | `/elva-leal` | Elva | 1 | No | Elva Leal |
-| 66 | `/yesira-arizmendi` | Yesira | 1 | No | Yesira Arizmendi |
+| 66 | `/yesira-arizmendi` | Yesira | 2 | No | Yesira Arizmendi, Invitado |
 | 67 | `/yashim-arizmendi` | Yashim y Carla | 2 | No | Yashim Arizmendi, Carla |
 | 68 | `/jesian-arizmendi` | Jesian | 2 | No | Jesian Arizmendi, Invitado |
 | 69 | `/juanita-leal` | Juanita | 1 | No | Juanita Leal |
 | 70 | `/maria-guzman` | María y Ricardo | 2 | No | María de los Ángeles Guzmán, Ricardo Espino |
-| 71 | `/abraham-espino` | Abraham | 1 | No | Abraham Espino |
+| 71 | `/abraham-espino` | Abraham | 2 | No | Abraham Espino, Invitado |
 | 72 | `/maria-espino` | María | 1 | No | María de los Ángeles Espino |
 | 73 | `/maria-mora` | María | 1 | No | María de los Ángeles Mora |
 | 74 | `/vanessa-castillo` | Vanessa y Gabriel | 2 | No | Vanessa Castillo, Gabriel Hernández |
