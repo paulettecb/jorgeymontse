@@ -103,7 +103,7 @@ export const INVITACIONES: Invitacion[] = [
   { id: "dante-leal", saludo: "Dante", pases: 2, invitados: ["Dante Leal", "invitado"] },
   { id: "tamara-leal", saludo: "Tamara", pases: 2, invitados: ["Tamara Leal", "invitado"] },
   { id: "elva-leal", saludo: "Elva", pases: 1, invitados: ["Elva Leal"] },
-  { id: "yesira-arizmendi", saludo: "Yesira", pases: 1, invitados: ["Yesira Arizmendi"] },
+  { id: "yesira-arizmendi", saludo: "Yesira", pases: 2, invitados: ["Yesira Arizmendi", "Invitado"] },
   { id: "yashim-arizmendi", saludo: "Yashim y Carla", pases: 2, invitados: ["Yashim Arizmendi", "Carla"] },
   { id: "jesian-arizmendi", saludo: "Jesian", pases: 2, invitados: ["Jesian Arizmendi", "Invitado"] },
   { id: "juanita-leal", saludo: "Juanita", pases: 1, invitados: ["Juanita Leal"] },

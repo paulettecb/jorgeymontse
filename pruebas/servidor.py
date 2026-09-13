@@ -75,6 +75,9 @@ RSVPS.insert(0, {'id':'r0','creado':'2026-09-05','nombre':'Paulette Cambrón','a
 RSVPS.insert(0, {'id':'r-abraham','creado':'2026-09-06','nombre':'Abraham Espino','asiste':True,
                  'personas':1,'acompanantes':'Abraham Espino','alergias':'','telefono':'','cancion':'',
                  'mensaje':'','invitacion':'abraham-espino','privado':False})
+RSVPS.insert(0, {'id':'r-yesira','creado':'2026-09-06','nombre':'Yesira Arizmendi','asiste':True,
+                 'personas':1,'acompanantes':'Yesira Arizmendi','alergias':'','telefono':'','cancion':'',
+                 'mensaje':'','invitacion':'yesira-arizmendi','privado':False})
 for _n,(_t,_i) in enumerate(_MAS, start=6):
     RSVPS.append({'id':'r%d'%_n,'creado':'2026-09-%02d'%(3+_n),'nombre':_i.replace('-',' ').title(),
                   'asiste':True,'personas':1,'acompanantes':'','alergias':'','telefono':'','cancion':'',
@@ -167,6 +170,14 @@ class H(SimpleHTTPRequestHandler):
                             abraham['acompanantes']='Abraham Espino, Acompañante'
                             RESPUESTAS['abraham-espino']={'asiste':True,'personas':2,'cuando':abraham['creado']}
                             MIGRACIONES.add('abraham-espino-dos-pases')
+                    if 'yesira-arizmendi-dos-pases' not in MIGRACIONES:
+                        yesira=next((r for r in rs if r.get('invitacion') == 'yesira-arizmendi'
+                                     and r.get('asiste')), None)
+                        if yesira:
+                            yesira['personas']=2
+                            yesira['acompanantes']='Yesira Arizmendi, Acompañante'
+                            RESPUESTAS['yesira-arizmendi']={'asiste':True,'personas':2,'cuando':yesira['creado']}
+                            MIGRACIONES.add('yesira-arizmendi-dos-pases')
                     b=json.dumps({'rsvps':rs,'mesas':{'mesas':[{'id':'m1','nombre':'Mesa 1','capacidad':10}],'asignaciones':{}},
                                   'invitaciones':invs,'envios':ENVIOS,'plantilla':PLANTILLA[0],'civil':CIVIL,
                                   'recados':list(RECADOS.values())}).encode(); code=200

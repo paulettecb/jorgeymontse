@@ -38,6 +38,7 @@ const MESAS_POR_DEFECTO = {
    pases. La marca queda en Blobs después de aplicarse: no es una regla que
    se ejecute sobre las siguientes respuestas de Abraham. */
 const MIGRACION_ABRAHAM_DOS_PASES = 'migraciones/abraham-espino-dos-pases';
+const MIGRACION_YESIRA_DOS_PASES = 'migraciones/yesira-arizmendi-dos-pases';
 
 /** Quién mandó cada invitación y cuándo. Una sola llave con todo: son 108
  *  entradas, no vale la pena un blob por invitación. */
@@ -136,6 +137,23 @@ export default async (req: Request, _context: Context) => {
           await rsvps.setJSON(`envio/${abraham.id}`, abraham);
           await rsvps.setJSON('porInvitacion/abraham-espino', abraham);
           await ajustes.setJSON(MIGRACION_ABRAHAM_DOS_PASES, { aplicada: new Date().toISOString() });
+        }
+      }
+
+      /* Yesira confirmó antes de que se le agregara un segundo pase. Igual
+         que la de Abraham, esta migración se marca al terminar para que una
+         respuesta futura de Yesira nunca se cambie automáticamente. */
+      const yaSeMigroYesira = await ajustes.get(MIGRACION_YESIRA_DOS_PASES, { type: 'json' });
+      if (!yaSeMigroYesira) {
+        const yesira = (limpia as any[]).find(r =>
+          r.invitacion === 'yesira-arizmendi' && r.asiste === true
+        );
+        if (yesira) {
+          yesira.personas = 2;
+          yesira.acompanantes = 'Yesira Arizmendi, Acompañante';
+          await rsvps.setJSON(`envio/${yesira.id}`, yesira);
+          await rsvps.setJSON('porInvitacion/yesira-arizmendi', yesira);
+          await ajustes.setJSON(MIGRACION_YESIRA_DOS_PASES, { aplicada: new Date().toISOString() });
         }
       }
 
