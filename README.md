@@ -194,6 +194,17 @@ contenido durante todo el scroll y los novios pidieron quitarlo: abajo de
   de cada una. Sirve para ver quién falta y para reenviarle su link a quien
   lo pierda.
 - **Confirmaciones** — lo que llega del formulario, con buscador.
+- **Quiénes vienen** — para el banquete: una línea por invitación
+  confirmada con los nombres completos tal como los palomearon y
+  escribieron al confirmar (no el saludo de la invitación), su alergia si
+  dijo una de verdad («No» y «Ninguna» no cuentan) y su mesa si ya la
+  tiene. Botones para copiar los nombres y las alergias como texto. Quien
+  confirmó sin escribir el nombre de su acompañante sale marcado, y la
+  lista de invitaciones tiene el filtro «Falta nombre del acompañante»
+  para saber a quién preguntarle.
+- **Lista de reproducción** — para el DJ: las canciones que pidieron al
+  confirmar, juntas y contadas, con quién las pidió. Se arma sola con cada
+  confirmación; el botón «copiar lista» saca puro texto para pegarlo.
 - **Mesas** — el acomodo. Se pueden sentar **todas** las invitaciones, no
   sólo las que ya confirmaron: los que faltan aparecen con su fondo rayado
   y sus pases reservados, para poder armar las mesas desde ahora. Los que

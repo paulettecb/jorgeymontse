@@ -162,6 +162,35 @@ console.log('\n── 7. confirmación: separar los invitados ──');
   ok(r.hueco >= 12, 'separados', r.hueco + 'px entre uno y otro');
 }
 
+/* ---------- 7b. el campo del acompañante se ve y se puede escribir ----------
+   Una regla de CSS para esconder la casilla le pegaba también a este
+   campo de texto: nunca se vio y ocho familias confirmaron con
+   «Acompañante». Se prueba con una invitación que trae un pase suelto. */
+console.log('\n── 7b. el nombre del acompañante se puede escribir ──');
+{
+  const a = await b.newPage({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true });
+  a.on('pageerror', e => errores.push(e.message));
+  await a.goto(base + '/abraham-espino', { waitUntil: 'networkidle' });
+  await a.waitForSelector('.jm-persona-input', { state: 'attached' });
+  await a.evaluate(() => {
+    const ya = document.getElementById('jm-ya-cambiar');
+    if (ya && !document.getElementById('jm-rsvp-ya').hidden) ya.click();
+    document.querySelector('input[name="asiste"][value="sí"]').click();
+  });
+  await a.waitForTimeout(300);
+  const antes = await a.evaluate(() => {
+    const i = document.querySelector('.jm-persona-input'), cs = getComputedStyle(i);
+    return { opacidad: cs.opacity, toque: cs.pointerEvents, ancho: Math.round(i.getBoundingClientRect().width),
+             pagina: document.documentElement.scrollWidth, ventana: window.innerWidth };
+  });
+  ok(antes.opacidad === '1' && antes.toque !== 'none' && antes.ancho > 80, 'el campo se ve y recibe toques', JSON.stringify(antes));
+  ok(antes.pagina === antes.ventana, 'la página no se ensancha', antes.pagina + ' vs ' + antes.ventana);
+  await a.fill('.jm-persona-input', 'Pedro Prueba');
+  const acomp = await a.evaluate(() => document.getElementById('jm-acompanantes').value);
+  ok(/Pedro Prueba/.test(acomp), 'el nombre escrito viaja en «acompanantes»', acomp);
+  await a.close();
+}
+
 /* ---------- 8. «tu opinión nos importa», sin picarle ---------- */
 console.log('\n── 8. «tu opinión nos importa», abierto y sobre lino ──');
 {

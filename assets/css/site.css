@@ -486,7 +486,10 @@ section[hidden], a[hidden], #jm-rsvp-aviso[hidden] { display: none !important; }
   transition: border-color .3s ease, background .3s ease, opacity .3s ease;
 }
 .jm-persona:hover { border-color: rgba(246,244,238,.42); }
-.jm-persona input { position: absolute; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
+/* Sólo la casilla: la regla le pegaba también al campo de texto del
+   acompañante (`.jm-persona-input`) y le ganaba por especificidad, así que
+   ese campo nunca se veía y ocho familias confirmaron con «Acompañante». */
+.jm-persona input[type="checkbox"] { position: absolute; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
 .jm-persona-marca {
   flex: 0 0 auto; display: grid; place-items: center;
   width: 21px; height: 21px;

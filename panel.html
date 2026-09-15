@@ -243,10 +243,31 @@ section.blk{ margin-top:52px }
     <th>Alergias</th><th>Teléfono</th><th>Canción</th><th>Fecha</th><th></th>
   </tr></thead><tbody id="filas"></tbody></table></div>
 
-  <section class="blk" id="alergias-blk" hidden>
+  <!-- Quiénes vienen, con nombre y apellido. Los nombres salen de lo que
+       cada quien palomeó y escribió al confirmar, no del saludo de la
+       invitación: aquí «Alexa» es «Alexa Carrillo» y su acompañante es como
+       ella lo escribió. Si lo dejó vacío, se marca para preguntárselo. Las
+       alergias van con quien las dijo, y la mesa si ya la tiene. -->
+  <section class="blk" id="banquete-blk" hidden>
     <div class="eyebrow">para el banquete</div>
-    <h2 style="font-size:clamp(24px,3vw,34px);margin:6px 0 14px">Alergias y restricciones</h2>
-    <ul id="alergias" style="margin:0;padding-left:1.1em;line-height:1.8"></ul>
+    <h2 style="font-size:clamp(24px,3vw,34px);margin:6px 0 4px">Quiénes vienen</h2>
+    <p class="hint" id="banquete-cuenta" style="margin:0 0 14px"></p>
+    <div class="bar" style="margin-bottom:14px">
+      <button type="button" class="btn sm" id="copiar-nombres">copiar nombres</button>
+      <button type="button" class="btn sm" id="copiar-alergias">copiar alergias</button>
+    </div>
+    <ul id="quienes" style="margin:0;padding-left:1.1em;line-height:1.7"></ul>
+  </section>
+  <!-- La lista de reproducción: lo que la gente pidió al confirmar, junto y
+       contado, para pasárselo al DJ. Se arma sola con cada confirmación. -->
+  <section class="blk" id="dj-blk" hidden>
+    <div class="eyebrow">para el dj</div>
+    <h2 style="font-size:clamp(24px,3vw,34px);margin:6px 0 4px">Lista de reproducción</h2>
+    <p class="hint" id="dj-cuenta" style="margin:0 0 14px"></p>
+    <div class="bar" style="margin-bottom:14px">
+      <button type="button" class="btn sm" id="copiar-canciones">copiar lista</button>
+    </div>
+    <ul id="canciones" style="margin:0;padding-left:1.1em;line-height:1.7"></ul>
   </section>
 
   <section class="blk">
@@ -262,6 +283,7 @@ section.blk{ margin-top:52px }
         <option value="pendiente">Sin contestar</option>
         <option value="viene">Confirmadas</option>
         <option value="no">No asisten</option>
+        <option value="faltanombre">Falta nombre del acompañante</option>
       </select>
     </div>
 
@@ -384,7 +406,7 @@ section.blk{ margin-top:52px }
     if (!DATOS.envios) DATOS.envios = {};
     $('plantilla').value = DATOS.plantilla || '';
     if (!DATOS.recados) DATOS.recados = [];
-    stats(); filas(); alergias(); invStats(); invFilas(); mesas(); libroPanel();
+    stats(); filas(); banquete(); dj(); invStats(); invFilas(); mesas(); libroPanel();
   }
 
   /* ---- libro de recuerdos ----
@@ -535,13 +557,113 @@ section.blk{ margin-top:52px }
     }).join('') : '<tr><td colspan="9" style="opacity:.6;padding:30px 10px">Todavía no llega ninguna confirmación.</td></tr>';
   }
 
-  function alergias() {
-    var con = DATOS.rsvps.filter(function (x) { return x.asiste && x.alergias && !x.reemplazada; });
-    $('alergias-blk').hidden = !con.length;
-    $('alergias').innerHTML = con.map(function (x) {
-      return '<li><strong>' + esc(x.nombre) + '</strong> — ' + esc(x.alergias) + '</li>';
+  /* ---- quiénes vienen, para el banquete ----
+     Una línea por invitación confirmada, con los nombres tal como los
+     palomearon y escribieron (no el saludo), su alergia si dijo una de
+     verdad, y su mesa si ya la tiene. */
+  var SIN_NOMBRE = /^(acompañante|invitad[oa]s?)$/i;
+  var NEGATIVO = /^(no|nada|ningun[ao]s?|n\/a|-+|\.)[.\s!]*$/i;
+  /* «No», «Ninguna », «nada»: contestaron la pregunta, no dijeron una alergia. */
+  function alergiaReal(t) {
+    t = String(t || '').trim();
+    return t && !NEGATIVO.test(t) ? t : '';
+  }
+  /* Los nombres de quienes vienen en una invitación: lo que confirmaron si
+     ya contestaron que sí, y si no, los de la lista. */
+  function nombresDe(inv, r) {
+    var lista = r && r.asiste && String(r.acompanantes || '').trim()
+      ? String(r.acompanantes).split(',') : (inv && inv.invitados) || [];
+    return lista.map(function (n) { return n.trim(); }).filter(Boolean);
+  }
+  function faltaNombre(nombres) {
+    return nombres.some(function (n) { return SIN_NOMBRE.test(n); });
+  }
+  function mesaDe(id) {
+    var mid = (DATOS.mesas.asignaciones || {})[id];
+    var m = mid && DATOS.mesas.mesas.find(function (x) { return x.id === mid; });
+    return m ? m.nombre : '';
+  }
+  function copiaTexto(btn, txt) {
+    var antes = btn.textContent;
+    var listo = function () {
+      btn.textContent = 'copiado'; btn.classList.add('ok');
+      setTimeout(function () { btn.textContent = antes; btn.classList.remove('ok'); }, 1600);
+    };
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(txt).then(listo, function () { prompt('Copia:', txt); });
+    } else { prompt('Copia:', txt); }
+  }
+  function banquete() {
+    var vienen = personas().filter(function (x) { return x.estado === 'viene'; });
+    vienen.sort(function (a, b) { return a.nombres.join(' ').localeCompare(b.nombres.join(' '), 'es'); });
+    $('banquete-blk').hidden = !vienen.length;
+    if (!vienen.length) return;
+    var total = vienen.reduce(function (a, x) { return a + x.personas; }, 0);
+    var sinNombre = vienen.filter(function (x) { return x.faltaNombre; }).length;
+    var conAlergia = vienen.filter(function (x) { return x.alergia; }).length;
+    $('banquete-cuenta').textContent = total + ' personas en ' + vienen.length + ' invitaciones · '
+      + conAlergia + ' con alergia o restricción'
+      + (sinNombre ? ' · ' + sinNombre + ' con acompañante sin nombre' : '');
+    $('quienes').innerHTML = vienen.map(function (x) {
+      var nombres = x.nombres.map(function (n) {
+        return SIN_NOMBRE.test(n) ? '<em style="opacity:.6">acompañante sin nombre</em>' : esc(n);
+      }).join(', ');
+      return '<li><strong>' + nombres + '</strong>'
+        + (x.alergia ? ' — ' + esc(x.alergia) : '')
+        + (x.mesa ? ' <span class="est viene" style="margin-left:6px">' + esc(x.mesa) + '</span>' : '')
+        + '</li>';
     }).join('');
   }
+  $('copiar-nombres').addEventListener('click', function () {
+    var vienen = personas().filter(function (x) { return x.estado === 'viene'; });
+    var lineas = [];
+    vienen.forEach(function (x) {
+      x.nombres.forEach(function (n) {
+        lineas.push((SIN_NOMBRE.test(n) ? 'Acompañante de ' + x.nombres[0] : n) + (x.mesa ? ' · ' + x.mesa : ''));
+      });
+    });
+    lineas.sort(function (a, b) { return a.localeCompare(b, 'es'); });
+    copiaTexto(this, lineas.join('\n'));
+  });
+  $('copiar-alergias').addEventListener('click', function () {
+    var con = personas().filter(function (x) { return x.estado === 'viene' && x.alergia; });
+    copiaTexto(this, con.map(function (x) {
+      return x.nombres.join(', ') + ' — ' + x.alergia + (x.mesa ? ' · ' + x.mesa : '');
+    }).join('\n') || 'Sin alergias ni restricciones hasta ahora.');
+  });
+  /* ---- la lista de reproducción, para el DJ ----
+     Las canciones que pidieron al confirmar, juntas y contadas. Una
+     respuesta puede traer dos («Sean Paul / Mr Brightside»); se dejan
+     como las escribieron y se agrupan las que son la misma. */
+  function canciones() {
+    var grupos = {};
+    DATOS.rsvps.forEach(function (r) {
+      var c = String(r.cancion || '').trim();
+      if (!c || r.reemplazada || !r.asiste) return;
+      var llave = c.toLowerCase().replace(/[^a-z0-9áéíóúñü ]/g, '').replace(/\s+/g, ' ');
+      if (!grupos[llave]) grupos[llave] = { cancion: c, quienes: [] };
+      grupos[llave].quienes.push(saludoDe(invitacionDe(r)) || r.nombre || 'alguien');
+    });
+    return Object.keys(grupos).map(function (k) { return grupos[k]; })
+      .sort(function (a, b) { return b.quienes.length - a.quienes.length || a.cancion.localeCompare(b.cancion, 'es'); });
+  }
+  function dj() {
+    var lista = canciones();
+    $('dj-blk').hidden = !lista.length;
+    if (!lista.length) return;
+    var pedidas = lista.reduce(function (a, x) { return a + x.quienes.length; }, 0);
+    $('dj-cuenta').textContent = lista.length + ' canciones distintas, ' + pedidas + ' pedidas. Se va armando sola con cada confirmación.';
+    $('canciones').innerHTML = lista.map(function (x) {
+      return '<li><strong>' + esc(x.cancion) + '</strong>'
+        + (x.quienes.length > 1 ? ' <span class="est viene" style="margin-left:6px">×' + x.quienes.length + '</span>' : '')
+        + '<br><span style="opacity:.6;font-size:13px">' + esc(x.quienes.join(', ')) + '</span></li>';
+    }).join('');
+  }
+  $('copiar-canciones').addEventListener('click', function () {
+    copiaTexto(this, canciones().map(function (x) {
+      return x.cancion + (x.quienes.length > 1 ? ' (×' + x.quienes.length + ')' : '');
+    }).join('\n'));
+  });
 
   /* ---- invitaciones ----
      Una entrada por invitación, tenga confirmación o no. Es lo que permite
@@ -560,10 +682,16 @@ section.blk{ margin-top:52px }
     });
     var lista = (DATOS.invitaciones || []).map(function (inv) {
       var r = porInv[inv.id];
+      var nombres = nombresDe(inv, r);
       return {
         id: inv.id,
         nombre: inv.saludo,
-        quienes: (inv.invitados || []).join(', '),
+        /* Con nombre y apellido: lo que confirmaron si ya contestaron. */
+        quienes: nombres.join(', '),
+        nombres: nombres,
+        faltaNombre: !!(r && r.asiste) && faltaNombre(nombres),
+        alergia: r && r.asiste ? alergiaReal(r.alergias) : '',
+        mesa: mesaDe(inv.id),
         pases: inv.pases,
         estado: !r ? 'pendiente' : (r.asiste ? 'viene' : 'no'),
         /* Sin respuesta se cuentan sus pases: para armar mesas conviene
@@ -577,8 +705,12 @@ section.blk{ margin-top:52px }
       };
     });
     sueltas.forEach(function (r) {
+      var nombres = nombresDe(null, r);
       lista.push({ id: 'suelto:' + r.id, nombre: r.nombre || '(sin nombre)',
-        quienes: r.acompanantes || '', pases: r.personas || 1,
+        quienes: nombres.join(', '), nombres: nombres,
+        faltaNombre: !!r.asiste && faltaNombre(nombres),
+        alergia: r.asiste ? alergiaReal(r.alergias) : '', mesa: '',
+        pases: r.personas || 1,
         estado: r.asiste ? 'viene' : 'no',
         personas: r.asiste ? (r.personas || 1) : 0, rsvp: r });
     });
@@ -593,13 +725,15 @@ section.blk{ margin-top:52px }
 
   function invStats() {
     var l = personas(), c = { viene: 0, pendiente: 0, no: 0 };
-    var conLink = 0, mandadas = 0;
+    var conLink = 0, mandadas = 0, sinNombre = 0;
     l.forEach(function (x) {
       c[x.estado]++;
+      if (x.faltaNombre) sinNombre++;
       if (linkDe(x.id)) { conLink++; if (x.envio) mandadas++; }
     });
     var html = [['viene','confirmadas'],['pendiente','sin contestar'],['no','no asisten']]
       .map(function (e) { return '<span class="est ' + e[0] + '">' + c[e[0]] + ' ' + e[1] + '</span>'; }).join('');
+    if (sinNombre) html += '<span class="est pendiente">' + sinNombre + ' con acompañante sin nombre</span>';
     html += '<span class="est ' + (mandadas === conLink ? 'viene' : 'pendiente') + '">'
           + mandadas + ' de ' + conLink + ' mandadas</span>';
     $('inv-stats').innerHTML = html;
@@ -613,6 +747,7 @@ section.blk{ margin-top:52px }
     var l = personas().filter(function (x) {
       if (f === 'sinmandar') { if (x.envio || !linkDe(x.id)) return false; }
       else if (f === 'mandada') { if (!x.envio) return false; }
+      else if (f === 'faltanombre') { if (!x.faltaNombre) return false; }
       else if (f && x.estado !== f) return false;
       if (!q) return true;
       return (x.nombre + ' ' + x.quienes + ' ' + x.id).toLowerCase().indexOf(q) !== -1;
@@ -621,7 +756,8 @@ section.blk{ margin-top:52px }
       var link = linkDe(x.id);
       return '<tr>'
         + '<td><strong>' + esc(x.nombre) + '</strong>'
-        + (x.quienes ? '<br><span style="opacity:.6;font-size:13px">' + esc(x.quienes) + '</span>' : '') + '</td>'
+        + (x.quienes ? '<br><span style="opacity:.6;font-size:13px">' + esc(x.quienes) + '</span>' : '')
+        + (x.faltaNombre ? '<br><span class="est pendiente">falta nombre</span>' : '') + '</td>'
         + '<td><span class="est ' + x.estado + '">' + ETIQUETA[x.estado] + '</span></td>'
         + '<td style="text-align:right;white-space:nowrap">' + x.pases + (x.pases === 1 ? ' pase' : ' pases') + '</td>'
         + '<td style="white-space:nowrap"><label style="display:inline-flex;align-items:center;gap:7px;cursor:pointer;padding:6px 0;font-size:13px">'
@@ -812,13 +948,13 @@ section.blk{ margin-top:52px }
     var destino = t.closest ? t.closest('[data-mesa]') : null;
     if (destino && SEL) {
       DATOS.mesas.asignaciones[SEL] = destino.dataset.mesa;
-      SEL = null; mesas(); guardarMesas(); return;
+      SEL = null; mesas(); banquete(); guardarMesas(); return;
     }
   });
 
   $('pool').addEventListener('click', function (e) {
     if (e.target.closest('[data-inv]')) return;
-    if (SEL) { delete DATOS.mesas.asignaciones[SEL]; SEL = null; mesas(); guardarMesas(); }
+    if (SEL) { delete DATOS.mesas.asignaciones[SEL]; SEL = null; mesas(); banquete(); guardarMesas(); }
   });
 
   document.addEventListener('blur', function (e) {
