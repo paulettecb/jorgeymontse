@@ -918,14 +918,16 @@
 
   /* Copiar la CLABE. Dieciocho dígitos escritos a mano en la app del banco es
      donde la gente se equivoca, y un dígito mal en una transferencia no
-     rebota: se va a otra cuenta. */
+     rebota: se va a otra cuenta. El mismo botón sirve para el código del
+     hotel; `data-listo` es la palabra que sale al copiar («copiado» en vez
+     de «copiada»). */
   function setupClabe() {
     Array.prototype.forEach.call(document.querySelectorAll('.jm-copiar-clabe'), function (b) {
       b.addEventListener('click', function () {
         var n = b.getAttribute('data-clabe') || '';
         var listo = function () {
           var antes = b.textContent;
-          b.textContent = 'copiada';
+          b.textContent = b.getAttribute('data-listo') || 'copiada';
           setTimeout(function () { b.textContent = antes; }, 1800);
         };
         if (navigator.clipboard && navigator.clipboard.writeText) {
