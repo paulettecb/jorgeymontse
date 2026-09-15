@@ -320,13 +320,12 @@ Los datos que faltan están entre corchetes en `index.html`, así que
 - **Hospedaje** — nada pendiente para publicar: están el Gamma Morelia
   Vista Bella y el Fiesta Inn Morelia Altozano.
 
-  No hubo códigos de descuento de ninguno de los dos, así que la sección
-  **no** trae el renglón de «tarifa especial con el código JORGEYMONTSE»
-  que tenía de relleno. En su lugar, el párrafo dice lo que sí funciona:
-  mencionar la boda al reservar, que con el nombre de los novios basta.
-  Tampoco hay botón de «reservar»: no tenemos link de reserva de ninguno,
-  y el que había ni siquiera traía `href`. **Si un hotel acaba dando
-  convenio, va en su tarjeta, no en el párrafo**, que dice lo contrario.
+  El Gamma dio convenio el 14 de septiembre: código `G1XMNU@GVB`, tarifa
+  de boda del 29 al 31 de enero, reservaciones al 800 504 5000. Va en su
+  tarjeta, con botón de copiar (el mismo de la CLABE). El Fiesta Inn no
+  dio código, así que su tarjeta sigue diciendo lo que sí funciona:
+  mencionar la boda al reservar. Nunca publicar un código que no exista.
+  Tampoco hay botón de «reservar»: no tenemos link de reserva de ninguno.
 - **Boda civil** — ya no es un pendiente de código: se prende por invitación
   desde el panel y `CONFIG.bodaCivil` es sólo el valor de fábrica.
 - **Fotos del libro de recuerdos** — hoy son las del save the date, de
