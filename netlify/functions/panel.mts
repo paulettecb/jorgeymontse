@@ -40,7 +40,7 @@ const MESAS_POR_DEFECTO = {
 const MIGRACION_ABRAHAM_DOS_PASES = 'migraciones/abraham-espino-dos-pases';
 const MIGRACION_YESIRA_DOS_PASES = 'migraciones/yesira-arizmendi-dos-pases';
 
-/** Quién mandó cada invitación y cuándo. Una sola llave con todo: son 108
+/** Quién mandó cada invitación y cuándo. Una sola llave con todo: son 111
  *  entradas, no vale la pena un blob por invitación. */
 type Envio = { por: string; cuando: string };
 
