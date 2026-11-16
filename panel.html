@@ -170,6 +170,22 @@ tr.vieja strong{ text-decoration:line-through }
 .plantilla-blk{ margin-bottom:16px; padding:16px 18px; background:rgba(99,27,41,.04);
   border:1px solid rgba(99,27,41,.12) }
 .plantilla-blk[hidden]{ display:none }
+/* Agregar una invitación desde aquí, sin tocar código. */
+.nueva-blk{ margin-bottom:16px; padding:16px 18px; background:rgba(99,27,41,.04);
+  border:1px solid rgba(99,27,41,.14) }
+.nueva-blk[hidden]{ display:none }
+.nueva-blk label{ display:block; font-size:13px; color:#7A5860; margin:0 0 6px }
+.nueva-blk input, .nueva-blk textarea{ width:100%; box-sizing:border-box; font-family:inherit; font-size:16px;
+  padding:10px 12px; border:1px solid rgba(99,27,41,.22); background:#fff; color:var(--vino) }
+.nueva-blk input:focus, .nueva-blk textarea:focus{ outline:0; border-color:var(--oro) }
+.nueva-campos{ display:grid; grid-template-columns:1fr 1fr 90px; gap:14px; margin-bottom:14px }
+@media (max-width:640px){ .nueva-campos{ grid-template-columns:1fr } }
+.nueva-blk canvas{ display:block; width:100%; max-width:600px; height:auto; aspect-ratio:1200/630;
+  background:#3a1a20; margin:0 0 12px }
+.nueva-pie{ display:flex; gap:12px; align-items:center; flex-wrap:wrap }
+.nueva-lista{ margin-top:12px; font-size:14px }
+.borrar-inv{ font:inherit; font-size:11px; letter-spacing:.08em; text-transform:uppercase; background:none;
+  border:0; color:#9a6b74; text-decoration:underline; cursor:pointer; padding:6px 0 0; display:block }
 .plantilla-blk label{ display:block; font-size:13px; color:#7A5860; margin-bottom:8px }
 .plantilla-blk textarea{ width:100%; box-sizing:border-box; font-family:inherit; font-size:15px;
   line-height:1.5; padding:10px 12px; border:1px solid rgba(99,27,41,.22); background:#fff;
@@ -276,7 +292,35 @@ section.blk{ margin-top:52px }
       <button type="button" class="yo" data-yo="Montse">Montse</button>
       <button type="button" class="yo" data-yo="otro">otro…</button>
       <button type="button" id="ver-plantilla" class="copiar" style="margin-left:auto">el mensaje</button>
+      <button type="button" id="ver-nueva" class="copiar">+ agregar invitación</button>
     </div>
+
+    <!-- Agregar una invitación sin pasar por código ni por un deploy. El
+         link funciona en cuanto se guarda, y la tarjeta de WhatsApp se
+         dibuja aquí mismo con los fondos y la letra de las demás. -->
+    <form id="nueva-blk" hidden class="nueva-blk" autocomplete="off">
+      <div class="nueva-campos">
+        <div>
+          <label for="nueva-nombres">Nombres completos, uno por renglón</label>
+          <textarea id="nueva-nombres" rows="3" placeholder="Ana López&#10;Luis Pérez" required></textarea>
+        </div>
+        <div>
+          <label for="nueva-saludo">Cómo se le saluda (sale grande en la tarjeta)</label>
+          <input id="nueva-saludo" maxlength="80" placeholder="Ana y Luis" required>
+        </div>
+        <div>
+          <label for="nueva-pases">Pases</label>
+          <input id="nueva-pases" type="number" min="1" max="12" value="1" required>
+        </div>
+      </div>
+      <label>Así se va a ver en WhatsApp</label>
+      <canvas id="nueva-tarjeta" width="1200" height="630"></canvas>
+      <div class="nueva-pie">
+        <button type="submit" class="copiar" id="nueva-crear">crear invitación</button>
+        <span id="nueva-estado" class="hint"></span>
+      </div>
+      <div id="nueva-lista" class="nueva-lista"></div>
+    </form>
 
     <div id="plantilla-blk" hidden class="plantilla-blk">
       <label for="plantilla">El mensaje que se manda. <code>{nombre}</code> y <code>{link}</code> se cambian solos por los de cada quien.</label>
@@ -573,7 +617,8 @@ section.blk{ margin-top:52px }
         /* Lo que diga el panel manda sobre lo que traiga el código. */
         civil: typeof (DATOS.civil || {})[inv.id] === 'boolean'
           ? DATOS.civil[inv.id] : inv.civil === true,
-        rsvp: r || null
+        rsvp: r || null,
+        extra: inv.extra === true
       };
     });
     sueltas.forEach(function (r) {
@@ -621,7 +666,9 @@ section.blk{ margin-top:52px }
       var link = linkDe(x.id);
       return '<tr>'
         + '<td><strong>' + esc(x.nombre) + '</strong>'
-        + (x.quienes ? '<br><span style="opacity:.6;font-size:13px">' + esc(x.quienes) + '</span>' : '') + '</td>'
+        + (x.quienes ? '<br><span style="opacity:.6;font-size:13px">' + esc(x.quienes) + '</span>' : '')
+        + (x.extra ? '<button type="button" class="borrar-inv" data-borrar-inv="' + esc(x.id) + '">borrar invitación</button>' : '')
+        + '</td>'
         + '<td><span class="est ' + x.estado + '">' + ETIQUETA[x.estado] + '</span></td>'
         + '<td style="text-align:right;white-space:nowrap">' + x.pases + (x.pases === 1 ? ' pase' : ' pases') + '</td>'
         + '<td style="white-space:nowrap"><label style="display:inline-flex;align-items:center;gap:7px;cursor:pointer;padding:6px 0;font-size:13px">'
@@ -643,6 +690,113 @@ section.blk{ margin-top:52px }
 
   $('buscar-inv').addEventListener('input', invFilas);
   $('filtro-inv').addEventListener('change', invFilas);
+  /* ---- agregar una invitación ----
+     La tarjeta se dibuja aquí, en un canvas, con el fondo de las demás ya
+     sin nombre (uno dice «¿nos acompañas?» y otro «¿nos acompañan?») y la
+     misma Lumiare en el mismo lugar. Se manda como JPEG junto con los
+     datos; el servidor no tiene que saber dibujar. */
+  var FONDOS = {}, tDibujo = null;
+  function fondo(varios) {
+    var k = varios ? 'varios' : 'uno';
+    if (!FONDOS[k]) FONDOS[k] = new Promise(function (ok, mal) {
+      var im = new Image();
+      im.onload = function () { ok(im); };
+      im.onerror = function () { mal(new Error('No cargó el fondo de la tarjeta.')); };
+      im.src = 'assets/og-fondo-' + k + '.jpg';
+    });
+    return FONDOS[k];
+  }
+  function dibujar() {
+    var saludo = $('nueva-saludo').value.trim();
+    var pases = parseInt($('nueva-pases').value, 10) || 1;
+    var cv = $('nueva-tarjeta'), cx = cv.getContext('2d');
+    return Promise.all([fondo(pases > 1), document.fonts.load('75px Lumiare')]).then(function (r) {
+      cx.drawImage(r[0], 0, 0, 1200, 630);
+      if (!saludo) return;
+      var t = 75;
+      cx.font = t + 'px Lumiare';
+      // Los nombres muy largos se achican en vez de salirse de la tarjeta.
+      while (cx.measureText(saludo).width > 1080 && t > 30) { t -= 2; cx.font = t + 'px Lumiare'; }
+      cx.fillStyle = 'rgb(255,255,250)';
+      cx.textAlign = 'center';
+      cx.textBaseline = 'alphabetic';
+      cx.fillText(saludo, 600, 318);
+    });
+  }
+  function redibujar() { clearTimeout(tDibujo); tDibujo = setTimeout(dibujar, 120); }
+
+  function nombres() {
+    return $('nueva-nombres').value.split('\n').map(function (n) { return n.trim(); }).filter(Boolean);
+  }
+  /* Mientras no lo toquen, el saludo y los pases se proponen solos a partir
+     de los nombres: «Ana López, Luis Pérez» → «Ana y Luis», 2 pases. */
+  var saludoTocado = false, pasesTocados = false;
+  $('nueva-nombres').addEventListener('input', function () {
+    var l = nombres();
+    if (!saludoTocado) {
+      var p = l.map(function (n) { return n.split(/\s+/)[0]; });
+      $('nueva-saludo').value = p.length > 1 ? p.slice(0, -1).join(', ') + ' y ' + p[p.length - 1] : (p[0] || '');
+    }
+    if (!pasesTocados) $('nueva-pases').value = Math.max(1, l.length);
+    redibujar();
+  });
+  $('nueva-saludo').addEventListener('input', function () { saludoTocado = true; redibujar(); });
+  $('nueva-pases').addEventListener('input', function () { pasesTocados = true; redibujar(); });
+
+  $('ver-nueva').addEventListener('click', function () {
+    $('nueva-blk').hidden = !$('nueva-blk').hidden;
+    if (!$('nueva-blk').hidden) { dibujar(); $('nueva-nombres').focus(); }
+  });
+
+  $('nueva-blk').addEventListener('submit', function (e) {
+    e.preventDefault();
+    var boton = $('nueva-crear');
+    boton.disabled = true;
+    $('nueva-estado').textContent = 'Creando…';
+    dibujar().then(function () {
+      return api('agregarInvitacion', {
+        saludo: $('nueva-saludo').value.trim(),
+        invitados: nombres(),
+        pases: parseInt($('nueva-pases').value, 10),
+        por: YO || '',
+        imagen: $('nueva-tarjeta').toDataURL('image/jpeg', 0.85)
+      });
+    }).then(function (r) {
+      var link = linkDe(r.invitacion.id);
+      $('nueva-estado').textContent = '';
+      $('nueva-lista').insertAdjacentHTML('afterbegin',
+        '<p style="margin:0 0 6px">✓ <strong>' + esc(r.invitacion.saludo) + '</strong>: '
+        + '<a href="' + esc(link) + '" target="_blank" rel="noopener">' + esc(link) + '</a> '
+        + '<button type="button" class="copiar" data-link="' + esc(link) + '">copiar</button></p>');
+      $('nueva-nombres').value = ''; $('nueva-saludo').value = ''; $('nueva-pases').value = 1;
+      saludoTocado = pasesTocados = false;
+      dibujar();
+      return api('listar').then(pintar);
+    }).catch(function (err) {
+      $('nueva-estado').textContent = err.message;
+    }).then(function () { boton.disabled = false; });
+  });
+
+  /* El copiar de las recién creadas: mismo comportamiento que en la tabla. */
+  $('nueva-lista').addEventListener('click', function (e) {
+    var b = e.target.closest('[data-link]');
+    if (!b) return;
+    var txt = b.dataset.link;
+    navigator.clipboard.writeText(txt).then(function () {
+      b.textContent = '✓'; setTimeout(function () { b.textContent = 'copiar'; }, 1600);
+    }, function () { prompt('Copia el link:', txt); });
+  });
+
+  $('inv-filas').addEventListener('click', function (e) {
+    var b = e.target.closest('[data-borrar-inv]');
+    if (!b) return;
+    var id = b.dataset.borrarInv;
+    if (!confirm('¿Borrar esta invitación? Su link deja de funcionar.')) return;
+    api('borrarInvitacion', { id: id }).then(function () {
+      return api('listar').then(pintar);
+    }).catch(function (err) { alert(err.message); });
+  });
+
   /* ---- quién está mandando ---- */
   function pintaYo() {
     Array.prototype.forEach.call(document.querySelectorAll('.yo'), function (b) {

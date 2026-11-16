@@ -9,7 +9,7 @@
  * mano, que es como funcionaba antes. Así un link mal copiado —o
  * compartido sin el `?i=`— no deja a nadie sin poder confirmar.
  */
-import { POR_ID } from './invitados-datos.mts';
+import { buscarInvitacion } from './invitaciones-extra.mts';
 import { getStore } from '@netlify/blobs';
 import type { Context, Config } from '@netlify/functions';
 
@@ -26,7 +26,7 @@ export default async (req: Request, _context: Context) => {
   // para no dar pistas de qué ids son válidos por el tipo de respuesta.
   if (!id || id.length > 60 || !/^[a-z0-9-]+$/.test(id)) return json({ error: 'no encontrada' }, 404);
 
-  const inv = POR_ID.get(id);
+  const inv = await buscarInvitacion(id);
   if (!inv) return json({ error: 'no encontrada' }, 404);
 
   /* Quién va a la ceremonia civil: el valor de fábrica está en

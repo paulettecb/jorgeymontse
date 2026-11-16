@@ -24,7 +24,7 @@
  * prometer «Sólo lo leen Jorge y Montse» sin letra chiquita, y por eso aquí
  * no hay ni casilla de privacidad ni aprobación que administrar.
  */
-import { POR_ID } from './invitados-datos.mts';
+import { buscarInvitacion } from './invitaciones-extra.mts';
 import { getStore } from '@netlify/blobs';
 import type { Context, Config } from '@netlify/functions';
 
@@ -47,7 +47,7 @@ export default async (req: Request, _context: Context) => {
   }
 
   const id = String(cuerpo?.invitacion || '').trim().toLowerCase();
-  if (!/^[a-z0-9-]{1,60}$/.test(id) || !POR_ID.has(id)) {
+  if (!/^[a-z0-9-]{1,60}$/.test(id) || !(await buscarInvitacion(id))) {
     return json({ error: 'no encontrada' }, 404);
   }
 

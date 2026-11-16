@@ -319,9 +319,77 @@ console.log('\n── 12. Abraham y Yesira conservan sus dos pases al abrir el p
   }));
   r.forEach(function (x) {
     ok(/2 pases/.test(x.pases || ''), 'la invitación de ' + x.nombre + ' tiene dos pases', x.pases);
-    ok(new RegExp('sí 2 ' + x.nombre + ', Acompañante').test(x.respuesta || ''),
+    ok(new RegExp('sí\\s*2\\s*' + x.nombre + ', Acompañante').test(x.respuesta || ''),
        'su confirmación previa quedó corregida a dos personas', x.respuesta);
   });
+  await panel.close();
+}
+
+/* ---- 13. agregar una invitación desde el panel ---- */
+console.log('\n── 13. una invitación nueva desde el panel, con link y tarjeta ──');
+{
+  const panel = await b.newPage({ viewport: { width: 1280, height: 900 } });
+  panel.on('pageerror', e => errores.push(e.message));
+  panel.on('console', m => m.type() === 'error' && errores.push(m.text()));
+  await panel.goto(base + '/panel', { waitUntil: 'networkidle' });
+  await panel.fill('#clave', 'prueba');
+  await panel.click('#gate-form button');
+  await panel.waitForSelector('#app:not([hidden])', { timeout: 8000 });
+  const antes = await panel.evaluate(() => document.querySelectorAll('#inv-filas tr').length);
+
+  await panel.click('#ver-nueva');
+  await panel.fill('#nueva-nombres', 'Ana Prueba López\nLuis Ejemplo');
+  await panel.waitForTimeout(400);
+  const propuesto = await panel.evaluate(() => ({
+    saludo: document.getElementById('nueva-saludo').value,
+    pases: document.getElementById('nueva-pases').value
+  }));
+  ok(propuesto.saludo === 'Ana y Luis' && propuesto.pases === '2',
+     'el saludo y los pases se proponen solos', JSON.stringify(propuesto));
+
+  await panel.click('#nueva-crear');
+  await panel.waitForSelector('#nueva-lista a', { timeout: 8000 });
+  const link = await panel.$eval('#nueva-lista a', a => a.getAttribute('href'));
+  ok(/\/ana-lopez$/.test(link), 'el link sale con nombre y último apellido', link);
+  const despues = await panel.evaluate(() => document.querySelectorAll('#inv-filas tr').length);
+  ok(despues === antes + 1, 'aparece en la lista de invitaciones', `${antes} → ${despues}`);
+
+  const id = link.split('/').pop();
+  const api = await (await fetch(`${base}/api/invitacion?i=${id}`)).json();
+  ok(api.saludo === 'Ana y Luis' && api.pases === 2, 'el sitio la reconoce', JSON.stringify(api));
+  const html = await (await fetch(`${base}/${id}`)).text();
+  ok(html.includes('Ana y Luis, ¿nos acompañan?'), 'la vista previa lleva su nombre');
+  const img = await fetch(`${base}/assets/og/${id}.jpg`, { redirect: 'manual' });
+  const bytes = img.status === 200 ? (await img.arrayBuffer()).byteLength : 0;
+  ok(img.status === 200 && img.headers.get('content-type') === 'image/jpeg' && bytes > 20000,
+     'su tarjeta existe y es una imagen de verdad', `${img.status} · ${bytes} bytes`);
+  const fija = await fetch(`${base}/assets/og/paloma-cambron.jpg`, { redirect: 'manual' });
+  await fija.arrayBuffer();
+  ok(fija.status === 200, 'las tarjetas de siempre siguen saliendo del archivo');
+
+  /* Que la tarjeta tenga el nombre escrito: comparada con el fondo vacío,
+     la franja del nombre tiene que traer pixeles claros nuevos. */
+  const diferencia = await panel.evaluate(async (id) => {
+    const carga = src => new Promise(r => { const i = new Image(); i.onload = () => r(i); i.src = src; });
+    const [a, f] = await Promise.all([carga('/assets/og/' + id + '.jpg'), carga('/assets/og-fondo-varios.jpg')]);
+    const px = im => { const c = document.createElement('canvas'); c.width = 1200; c.height = 630;
+      const x = c.getContext('2d'); x.drawImage(im, 0, 0); return x.getImageData(0, 250, 1200, 90).data; };
+    const da = px(a), df = px(f); let n = 0;
+    for (let k = 0; k < da.length; k += 4) if (da[k] - df[k] > 80) n++;
+    return n;
+  }, id);
+  ok(diferencia > 2000, 'la tarjeta trae el nombre escrito', diferencia + ' pixeles');
+
+  panel.once('dialog', d => d.accept());
+  await panel.click(`[data-borrar-inv="${id}"]`);
+  await panel.waitForTimeout(800);
+  const final = await panel.evaluate(() => document.querySelectorAll('#inv-filas tr').length);
+  ok(final === antes, 'se puede borrar', `${final}`);
+  const fuera = await fetch(`${base}/api/invitacion?i=${id}`);
+  await fuera.text();
+  ok(fuera.status === 404, 'y su link deja de existir');
+  const fijas = await panel.$$('[data-borrar-inv="paloma-cambron"]');
+  ok(fijas.length === 0, 'las del código no tienen botón de borrar');
   await panel.close();
 }
 

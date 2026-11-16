@@ -8,7 +8,9 @@ Netlify y sus funciones:
   * las reescrituras de netlify.toml (/panel, los links bonitos /paloma-cambron,
     y el 404 de /netlify/* y de las fotos originales),
   * /api/invitacion, /api/recado y /api/panel, con datos de mentiras en
-    memoria —se reinician al reiniciar el servidor—,
+    memoria —se reinician al reiniciar el servidor—, incluidas las
+    invitaciones que se agregan desde el panel y su tarjeta (/assets/og/*
+    cae en la que guardó el panel cuando no hay archivo),
   * la Edge Function de la vista previa, que mete el nombre del invitado en
     las etiquetas Open Graph,
   * y, lo más importante para no repetir errores viejos: Netlify Forms sólo
@@ -36,7 +38,17 @@ ENVIOS={}
 CIVIL={}
 RESPUESTAS={}
 RECADOS={}          # un recado por invitación, como el store `recados`
-MIGRACIONES=set()   # marcas persistentes de migraciones de datos, como `ajustes`
+MIGRACIONES=set()
+EXTRAS={}           # invitaciones agregadas desde el panel, como el store `invitaciones`
+TARJETAS={}         # su tarjeta de vista previa, como el store `tarjetas`
+def buscar(i):
+    return DATOS.get(i) or EXTRAS.get(i)
+def id_de(nombre):
+    import unicodedata
+    t=unicodedata.normalize('NFD',nombre); t=''.join(c for c in t if unicodedata.category(c)!='Mn')
+    p=re.sub(r'[^a-z0-9\s-]',' ',t.lower()).split()
+    if not p: return ''
+    return (p[0]+'-'+p[-1] if len(p)>1 else p[0])[:50]   # marcas persistentes de migraciones de datos, como `ajustes`
 PLANTILLA=['\u00a1Nos casamos! \U0001f90d\n\n{nombre}, esta es tu invitaci\u00f3n:\n{link}\n\n'
            'Ah\u00ed viene todo: la iglesia, el sal\u00f3n, el itinerario y d\u00f3nde confirmarnos. '
            'El link es tuyo y ya trae apartados tus lugares.']
@@ -94,7 +106,7 @@ class H(SimpleHTTPRequestHandler):
         if u.path=='/api/recado':
             n=int(self.headers.get('content-length',0)); c=json.loads(self.rfile.read(n) or b'{}')
             i=str(c.get('invitacion','')).strip().lower()
-            if not re.fullmatch(r'[a-z0-9-]{1,60}', i or '') or i not in DATOS:
+            if not re.fullmatch(r'[a-z0-9-]{1,60}', i or '') or not buscar(i):
                 b=json.dumps({'error':'no encontrada'}).encode(); code=404
             else:
                 t=str(c.get('texto','')).strip()[:1200]
@@ -114,7 +126,7 @@ class H(SimpleHTTPRequestHandler):
             if cuerpo.get('clave')!='prueba':
                 b=json.dumps({'error':'Contraseña incorrecta.'}).encode(); code=401
             else:
-                invs=list(DATOS.values())
+                invs=list(DATOS.values())+sorted(EXTRAS.values(), key=lambda x: x['creada'])
                 # confirmaciones de mentiras: dos que vienen, una que no
                 rs=list(RSVPS)
                 acc=cuerpo.get('accion')
@@ -149,6 +161,30 @@ class H(SimpleHTTPRequestHandler):
                             and r.get('invitacion') not in ya]
                     todos=sorted(nuevos+viejos, key=lambda r: str(r['cuando']))
                     b=json.dumps({'recados':todos}).encode(); code=200
+                elif acc=='agregarInvitacion':
+                    import base64
+                    lim=lambda t,n: re.sub(r'\s+',' ',str(t or '')).strip()[:n]
+                    saludo=lim(cuerpo.get('saludo'),80)
+                    invitados=[lim(x,80) for x in (cuerpo.get('invitados') or []) if lim(x,80)][:12]
+                    try: pases=int(cuerpo.get('pases'))
+                    except Exception: pases=0
+                    m=re.fullmatch(r'data:image/jpeg;base64,([A-Za-z0-9+/=]+)', str(cuerpo.get('imagen','')))
+                    if not saludo or not invitados or not (1<=pases<=12) or not m:
+                        b=json.dumps({'error':'datos incompletos'}).encode(); code=400
+                    else:
+                        base=id_de(invitados[0]) or id_de(saludo); i=base; n=2
+                        while buscar(i): i='%s-%d'%(base,n); n+=1
+                        EXTRAS[i]={'id':i,'saludo':saludo,'pases':pases,'invitados':invitados,
+                                   'extra':True,'creada':'2026-11-16T00:00:%02d.000Z'%len(EXTRAS)}
+                        TARJETAS[i]=base64.b64decode(m.group(1))
+                        b=json.dumps({'ok':True,'invitacion':EXTRAS[i]}).encode(); code=200
+                elif acc=='borrarInvitacion':
+                    i=str(cuerpo.get('id',''))
+                    if i not in EXTRAS:
+                        b=json.dumps({'error':'Esa invitación no se agregó desde el panel.'}).encode(); code=400
+                    else:
+                        EXTRAS.pop(i); TARJETAS.pop(i,None)
+                        b=json.dumps({'ok':True}).encode(); code=200
                 elif acc=='guardarPlantilla':
                     t=str(cuerpo.get('plantilla',''))
                     if not t.strip(): b=json.dumps({'error':'la plantilla no puede ir vacía'}).encode(); code=400
@@ -205,7 +241,7 @@ class H(SimpleHTTPRequestHandler):
         u=urlparse(self.path)
         if u.path=='/api/invitacion':
             i=(parse_qs(u.query).get('i',[''])[0]).strip().lower()
-            inv=DATOS.get(i) if re.fullmatch(r'[a-z0-9-]{1,60}', i or '') else None
+            inv=buscar(i) if re.fullmatch(r'[a-z0-9-]{1,60}', i or '') else None
             if inv:
                 inv=dict(inv)
                 if i in CIVIL: inv['civil']=CIVIL[i]
@@ -219,8 +255,8 @@ class H(SimpleHTTPRequestHandler):
             return
         # imita la Edge Function de la vista previa personalizada
         m = re.fullmatch(r'/([a-z0-9-]{1,60})', u.path)
-        if m and m.group(1) in DATOS:
-            inv = DATOS[m.group(1)]
+        if m and buscar(m.group(1)):
+            inv = buscar(m.group(1))
             html = open(os.path.join(RAIZ,'index.html'), encoding='utf-8').read()
             def esc(t): return (t.replace('&','&amp;').replace('<','&lt;')
                                  .replace('>','&gt;').replace('"','&quot;'))
@@ -242,6 +278,16 @@ class H(SimpleHTTPRequestHandler):
             b = html.encode('utf-8')
             self.send_response(200); self.send_header('content-type','text/html; charset=utf-8')
             self.send_header('content-length',str(len(b))); self.end_headers(); self.wfile.write(b)
+            return
+        # imita /api/og: la tarjeta guardada por el panel cuando no hay archivo
+        mo = re.fullmatch(r'/assets/og/([a-z0-9-]{1,60})\.jpg', u.path)
+        if mo and not os.path.exists(self.translate_path(u.path)):
+            img = TARJETAS.get(mo.group(1))
+            if not img:
+                self.send_response(302); self.send_header('location','/assets/og-preview.jpg')
+                self.end_headers(); return
+            self.send_response(200); self.send_header('content-type','image/jpeg')
+            self.send_header('content-length',str(len(img))); self.end_headers(); self.wfile.write(img)
             return
         if u.path=='/': self.path='/index.html'
         # imita las reescrituras de netlify.toml

@@ -23,6 +23,22 @@ La forma vieja, `…/?i=paloma-cambron`, sigue funcionando igual.
 Un link mal copiado **no se rompe**: el formulario vuelve a pedir el nombre
 a mano, como antes.
 
+## Agregar una desde el panel
+
+En `/panel`, sección Invitaciones, **+ agregar invitación**: los nombres
+(uno por renglón), cómo se le saluda y los pases. El saludo y los pases se
+proponen solos a partir de los nombres. Ahí mismo se ve la tarjeta de
+WhatsApp tal como va a salir.
+
+Al crearla, el link funciona en ese momento, sin commit ni deploy. Su
+tarjeta la dibuja el navegador con los mismos fondos (`assets/og-fondo-uno.jpg`
+y `assets/og-fondo-varios.jpg`) y la misma letra que las demás, y se guarda
+en blobs junto con la invitación. Las que se agregan así tienen un botón
+de «borrar invitación»; las de esta tabla no, esas se quitan en el código.
+
+Las de esta tabla siguen viviendo en `netlify/functions/invitados-datos.mts`.
+Las del panel **no aparecen aquí**: la lista completa está en el panel.
+
 ## Cómo leer la columna «civil»
 
 A la ceremonia civil no va todo el mundo, así que se elige invitación por

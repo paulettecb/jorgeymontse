@@ -32,7 +32,18 @@ export default async (request: Request, context: Context) => {
   const id = url.pathname.replace(/^\/+|\/+$/g, '').toLowerCase();
   if (!/^[a-z0-9-]{1,60}$/.test(id)) return;
 
-  const inv = POR_ID.get(id);
+  /* Las del código se resuelven aquí mismo. Las que se agregaron desde el
+     panel viven en blobs, y se le preguntan a /api/invitacion, que ya sabe
+     buscarlas: así hay un solo lugar que decide qué ids existen. */
+  let inv: { saludo: string; pases?: number } | undefined = POR_ID.get(id);
+  if (!inv) {
+    try {
+      const r = await fetch(`${url.origin}/api/invitacion?i=${encodeURIComponent(id)}`);
+      if (r.ok) inv = await r.json();
+    } catch {
+      // sin respuesta, camino normal: la página abre igual con la tarjeta general
+    }
+  }
   if (!inv) return;                      // no es una invitación: camino normal
 
   const res = await context.next();
@@ -67,5 +78,5 @@ export default async (request: Request, context: Context) => {
 
 export const config: Config = {
   path: '/:invitacion',
-  excludedPath: ['/assets/*', '/api/*', '/netlify/*', '/panel*', '/*.*']
+  excludedPath: ['/assets/*', '/api/*', '/netlify/*', '/panel*', '/libro*', '/*.*']
 };

@@ -6,7 +6,10 @@
  * Contraseña en la variable de entorno PANEL_PASSWORD del proyecto.
  */
 import { getStore } from '@netlify/blobs';
-import { INVITACIONES } from './invitados-datos.mts';
+import {
+  todasLasInvitaciones, idDe, idLibre, guardarExtra, borrarExtra,
+  storeExtras, storeTarjetas, type Extra
+} from './invitaciones-extra.mts';
 import { timingSafeEqual } from 'node:crypto';
 import type { Context, Config } from '@netlify/functions';
 
@@ -40,8 +43,8 @@ const MESAS_POR_DEFECTO = {
 const MIGRACION_ABRAHAM_DOS_PASES = 'migraciones/abraham-espino-dos-pases';
 const MIGRACION_YESIRA_DOS_PASES = 'migraciones/yesira-arizmendi-dos-pases';
 
-/** Quién mandó cada invitación y cuándo. Una sola llave con todo: son 113
- *  entradas, no vale la pena un blob por invitación. */
+/** Quién mandó cada invitación y cuándo. Una sola llave con todo: son poco
+ *  más de cien entradas, no vale la pena un blob por invitación. */
 type Envio = { por: string; cuando: string };
 
 /* El mensaje que se manda por WhatsApp. Se guarda para que Jorge y Montse
@@ -85,6 +88,9 @@ export default async (req: Request, _context: Context) => {
      No se publican en ningún lado: son para Jorge y Montse y este panel,
      que va detrás de contraseña, es el único sitio donde se leen. */
   const recados = getStore({ name: 'recados', consistency: 'strong' });
+
+  /* Las del código más las que agregaron desde el panel. */
+  const INVITACIONES = await todasLasInvitaciones();
 
   switch (cuerpo.accion) {
     case 'listar': {
@@ -289,6 +295,52 @@ export default async (req: Request, _context: Context) => {
       const t = String(cuerpo.plantilla ?? '');
       if (!t.trim()) return json({ error: 'la plantilla no puede ir vacía' }, 400);
       await envios.set('plantilla', t.slice(0, 2000));
+      return json({ ok: true });
+    }
+
+    /* Una invitación nueva, sin tocar código. El navegador del panel ya
+       dibujó su tarjeta de vista previa (con los mismos fondos y la misma
+       letra que las demás) y la manda aquí como JPEG. */
+    case 'agregarInvitacion': {
+      const limpiar = (t: unknown, n: number) => String(t ?? '').replace(/\s+/g, ' ').trim().slice(0, n);
+      const saludo = limpiar(cuerpo.saludo, 80);
+      const invitados = (Array.isArray(cuerpo.invitados) ? cuerpo.invitados : [])
+        .map((x: unknown) => limpiar(x, 80)).filter(Boolean).slice(0, 12);
+      const pases = parseInt(cuerpo.pases, 10);
+      if (!saludo) return json({ error: 'Falta a quién se saluda.' }, 400);
+      if (!invitados.length) return json({ error: 'Falta al menos un nombre.' }, 400);
+      if (!(pases >= 1 && pases <= 12)) return json({ error: 'Los pases van de 1 a 12.' }, 400);
+
+      const imagen = String(cuerpo.imagen || '');
+      const m = /^data:image\/jpeg;base64,([A-Za-z0-9+/=]+)$/.exec(imagen);
+      if (!m) return json({ error: 'Falta la tarjeta de vista previa.' }, 400);
+      const bytes = Buffer.from(m[1], 'base64');
+      if (bytes.length > 1_500_000) return json({ error: 'La tarjeta pesa demasiado.' }, 400);
+
+      const base = idDe(invitados[0]) || idDe(saludo);
+      if (!base) return json({ error: 'No se pudo armar el link con ese nombre.' }, 400);
+      const id = await idLibre(base);
+
+      const nueva: Extra = {
+        id, saludo, pases, invitados, extra: true,
+        creada: new Date().toISOString(),
+        por: limpiar(cuerpo.por, 40) || undefined
+      };
+      // La tarjeta primero: si el link sale antes que su imagen, la primera
+      // vista previa de WhatsApp se queda con la general.
+      await storeTarjetas().set(id, bytes.buffer.slice(bytes.byteOffset, bytes.byteOffset + bytes.length));
+      await guardarExtra(nueva);
+      return json({ ok: true, invitacion: nueva });
+    }
+
+    /* Sólo las del panel: las del código se quitan en el código. */
+    case 'borrarInvitacion': {
+      const id = String(cuerpo.id || '');
+      if (!/^[a-z0-9-]{1,60}$/.test(id)) return json({ error: 'id inválido' }, 400);
+      const e = await storeExtras().get(`extra/${id}`, { type: 'json' });
+      if (!e) return json({ error: 'Esa invitación no se agregó desde el panel.' }, 400);
+      await borrarExtra(id);
+      await storeTarjetas().delete(id);
       return json({ ok: true });
     }
 
