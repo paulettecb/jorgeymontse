@@ -55,7 +55,14 @@ export default async (request: Request, context: Context) => {
   const titulo = `${saludo}, ¿nos acompañ${uno ? 'as' : 'an'}?`;
   const desc = 'Jorge y Montse se casan el 30 de enero de 2027 en Morelia. '
              + 'Aquí está todo lo que necesitas saber, y tu confirmación.';
-  const img = `${url.origin}/assets/og/${id}.jpg`;
+  /* WhatsApp guarda en caché cada imagen por su URL, aparte de la página.
+     Si la pidió una vez cuando todavía no existía (y recibió la tarjeta
+     general), se queda con ésa aunque después se publique la buena, y
+     cambiar el link de la página no la renueva. Con el id del deploy en la
+     URL, cada deploy es una imagen nueva para WhatsApp. Netlify ignora el
+     query al servir el archivo. */
+  const version = context.deploy?.id || '1';
+  const img = `${url.origin}/assets/og/${id}.jpg?v=${version}`;
 
   let html = await res.text();
   html = pon(html, 'og:title', titulo);

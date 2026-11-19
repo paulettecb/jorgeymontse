@@ -268,7 +268,7 @@ class H(SimpleHTTPRequestHandler):
             desc = ('Jorge y Montse se casan el 30 de enero de 2027 en Morelia. '
                     'Aquí está todo lo que necesitas saber, y tu confirmación.')
             origen = 'http://127.0.0.1:8766'
-            img = f"{origen}/assets/og/{m.group(1)}.jpg"
+            img = f"{origen}/assets/og/{m.group(1)}.jpg?v=prueba"   # el id del deploy, como la Edge Function
             for k, v in (('og:title',titulo),('twitter:title',titulo),
                          ('og:description',desc),('twitter:description',desc),
                          ('og:image',img),('og:image:secure_url',img),('twitter:image',img),
