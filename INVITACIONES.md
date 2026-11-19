@@ -61,7 +61,7 @@ Dos invitaciones de mentiras para ver las dos versiones del itinerario.
 
 ## Las de verdad
 
-**111 invitaciones · 187 pases**
+**112 invitaciones · 189 pases**
 
 | # | Link | Se le saluda | Pases | Civil | Quiénes |
 |---|---|---|---|---|---|
@@ -176,6 +176,7 @@ Dos invitaciones de mentiras para ver las dos versiones del itinerario.
 | 109 | `/iori-chavez` | Iori | 1 | No | Iori Chávez |
 | 110 | `/thom-diana` | Thom y Diana | 2 | No | Thom, Diana |
 | 111 | `/luisa-fer-george` | Luisa Fer y George | 2 | No | Luisa Fer, George |
+| 112 | `/daniela-ariel` | Daniela y Ariel | 2 | No | Daniela, Ariel |
 
 ## Notas
 
