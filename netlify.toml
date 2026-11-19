@@ -65,14 +65,6 @@
   to = "/libro.html"
   status = 200
 
-# Las tarjetas de vista previa de las invitaciones agregadas desde el panel
-# no son archivos: viven en blobs. Sin `force`, Netlify sirve primero el
-# archivo si existe —las de invitados-datos.mts— y sólo cae aquí cuando no.
-[[redirects]]
-  from = "/assets/og/*"
-  to = "/api/og/:splat"
-  status = 200
-
 # Links bonitos: /paloma-cambron en vez de /?i=paloma-cambron.
 #
 # Va al final a propósito: Netlify aplica las reglas en orden y sirve los

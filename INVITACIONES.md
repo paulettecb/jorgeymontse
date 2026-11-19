@@ -33,7 +33,7 @@ WhatsApp tal como va a salir.
 Al crearla, el link funciona en ese momento, sin commit ni deploy. Su
 tarjeta la dibuja el navegador con los mismos fondos (`assets/og-fondo-uno.jpg`
 y `assets/og-fondo-varios.jpg`) y la misma letra que las demás, y se guarda
-en blobs junto con la invitación. Las que se agregan así tienen un botón
+en blobs junto con la invitación (la sirve `/api/og/<id>.jpg`). Las que se agregan así tienen un botón
 de «borrar invitación»; las de esta tabla no, esas se quitan en el código.
 
 Las de esta tabla siguen viviendo en `netlify/functions/invitados-datos.mts`.

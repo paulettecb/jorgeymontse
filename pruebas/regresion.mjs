@@ -359,11 +359,16 @@ console.log('\n── 13. una invitación nueva desde el panel, con link y tarje
   ok(api.saludo === 'Ana y Luis' && api.pases === 2, 'el sitio la reconoce', JSON.stringify(api));
   const html = await (await fetch(`${base}/${id}`)).text();
   ok(html.includes('Ana y Luis, ¿nos acompañan?'), 'la vista previa lleva su nombre');
-  const img = await fetch(`${base}/assets/og/${id}.jpg`, { redirect: 'manual' });
+  const urlImg = (html.match(/<meta property="og:image" content="([^"]+)"/) || [])[1] || '';
+  ok(urlImg.includes(`/api/og/${id}.jpg?v=`), 'su vista previa apunta a la tarjeta del panel', urlImg);
+  const img = await fetch(urlImg, { redirect: 'manual' });
   const bytes = img.status === 200 ? (await img.arrayBuffer()).byteLength : 0;
   ok(img.status === 200 && img.headers.get('content-type') === 'image/jpeg' && bytes > 20000,
      'su tarjeta existe y es una imagen de verdad', `${img.status} · ${bytes} bytes`);
-  const fija = await fetch(`${base}/assets/og/paloma-cambron.jpg`, { redirect: 'manual' });
+  const htmlFija = await (await fetch(`${base}/paloma-cambron`)).text();
+  const urlFija = (htmlFija.match(/<meta property="og:image" content="([^"]+)"/) || [])[1] || '';
+  ok(urlFija.includes('/assets/og/paloma-cambron.jpg?v='), 'las de siempre apuntan a su archivo', urlFija);
+  const fija = await fetch(urlFija, { redirect: 'manual' });
   await fija.arrayBuffer();
   ok(fija.status === 200, 'las tarjetas de siempre siguen saliendo del archivo');
 
@@ -371,7 +376,7 @@ console.log('\n── 13. una invitación nueva desde el panel, con link y tarje
      la franja del nombre tiene que traer pixeles claros nuevos. */
   const diferencia = await panel.evaluate(async (id) => {
     const carga = src => new Promise(r => { const i = new Image(); i.onload = () => r(i); i.src = src; });
-    const [a, f] = await Promise.all([carga('/assets/og/' + id + '.jpg'), carga('/assets/og-fondo-varios.jpg')]);
+    const [a, f] = await Promise.all([carga('/api/og/' + id + '.jpg'), carga('/assets/og-fondo-varios.jpg')]);
     const px = im => { const c = document.createElement('canvas'); c.width = 1200; c.height = 630;
       const x = c.getContext('2d'); x.drawImage(im, 0, 0); return x.getImageData(0, 250, 1200, 90).data; };
     const da = px(a), df = px(f); let n = 0;

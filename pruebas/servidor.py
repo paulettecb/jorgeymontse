@@ -9,8 +9,7 @@ Netlify y sus funciones:
     y el 404 de /netlify/* y de las fotos originales),
   * /api/invitacion, /api/recado y /api/panel, con datos de mentiras en
     memoria —se reinician al reiniciar el servidor—, incluidas las
-    invitaciones que se agregan desde el panel y su tarjeta (/assets/og/*
-    cae en la que guardó el panel cuando no hay archivo),
+    invitaciones que se agregan desde el panel y su tarjeta (/api/og),
   * la Edge Function de la vista previa, que mete el nombre del invitado en
     las etiquetas Open Graph,
   * y, lo más importante para no repetir errores viejos: Netlify Forms sólo
@@ -268,7 +267,8 @@ class H(SimpleHTTPRequestHandler):
             desc = ('Jorge y Montse se casan el 30 de enero de 2027 en Morelia. '
                     'Aquí está todo lo que necesitas saber, y tu confirmación.')
             origen = 'http://127.0.0.1:8766'
-            img = f"{origen}/assets/og/{m.group(1)}.jpg?v=prueba"   # el id del deploy, como la Edge Function
+            carpeta = 'api/og' if m.group(1) in EXTRAS else 'assets/og'   # las del panel, a /api/og
+            img = f"{origen}/{carpeta}/{m.group(1)}.jpg?v=prueba"   # el id del deploy, como la Edge Function
             for k, v in (('og:title',titulo),('twitter:title',titulo),
                          ('og:description',desc),('twitter:description',desc),
                          ('og:image',img),('og:image:secure_url',img),('twitter:image',img),
@@ -279,9 +279,9 @@ class H(SimpleHTTPRequestHandler):
             self.send_response(200); self.send_header('content-type','text/html; charset=utf-8')
             self.send_header('content-length',str(len(b))); self.end_headers(); self.wfile.write(b)
             return
-        # imita /api/og: la tarjeta guardada por el panel cuando no hay archivo
-        mo = re.fullmatch(r'/assets/og/([a-z0-9-]{1,60})\.jpg', u.path)
-        if mo and not os.path.exists(self.translate_path(u.path)):
+        # imita /api/og: la tarjeta que guardó el panel
+        mo = re.fullmatch(r'/api/og/([a-z0-9-]{1,60})\.jpg', u.path)
+        if mo:
             img = TARJETAS.get(mo.group(1))
             if not img:
                 self.send_response(302); self.send_header('location','/assets/og-preview.jpg')

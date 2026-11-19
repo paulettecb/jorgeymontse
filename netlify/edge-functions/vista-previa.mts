@@ -36,6 +36,7 @@ export default async (request: Request, context: Context) => {
      panel viven en blobs, y se le preguntan a /api/invitacion, que ya sabe
      buscarlas: así hay un solo lugar que decide qué ids existen. */
   let inv: { saludo: string; pases?: number } | undefined = POR_ID.get(id);
+  const delPanel = !inv;
   if (!inv) {
     try {
       const r = await fetch(`${url.origin}/api/invitacion?i=${encodeURIComponent(id)}`);
@@ -62,7 +63,13 @@ export default async (request: Request, context: Context) => {
      URL, cada deploy es una imagen nueva para WhatsApp. Netlify ignora el
      query al servir el archivo. */
   const version = context.deploy?.id || '1';
-  const img = `${url.origin}/assets/og/${id}.jpg?v=${version}`;
+  /* Las del código tienen su archivo en assets/og/; las del panel viven en
+     blobs y las sirve /api/og. Se apunta directo a cada una: una regla que
+     mandaba /assets/og/* a la función terminó tapando los archivos en el
+     dominio propio, y todas salían con la tarjeta general. */
+  const img = delPanel
+    ? `${url.origin}/api/og/${id}.jpg?v=${version}`
+    : `${url.origin}/assets/og/${id}.jpg?v=${version}`;
 
   let html = await res.text();
   html = pon(html, 'og:title', titulo);
